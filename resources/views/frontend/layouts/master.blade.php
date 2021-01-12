@@ -29,12 +29,12 @@
      @yield('styling')
   </head>
   <body>
-    @if(Request::path() != 'login' && Request::path() != 'register')
+    @if(Request::path() != 'login' && Request::path() != 'register' && Request::path() != 'forgot-password')
     @include('frontend.includes.navbar')
     @endif
 
     @yield('content')
-    @if(Request::path() != 'login' && Request::path() != 'register')
+    @if(Request::path() != 'login' && Request::path() != 'register' && Request::path() != 'forgot-password')
     @include('frontend.includes.footer')
     @endif
     <!-- Bootstrap core JavaScript -->

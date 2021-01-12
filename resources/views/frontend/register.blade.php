@@ -11,7 +11,7 @@
       </div>
       <div class="col-lg-8 mx-auto bg-white">
         <div class="row justify-content-center align-items-center vh-100 d-flex">
-          <div class="col-12 text-right"><a href="">Create Account As a Buyer</a></div>
+          <div class="col-12 text-right pr-5"><a href="">Create Account As a Buyer</a></div>
           <div class="col-lg-5 mx-auto">
             <div class="osahan-login py-4">
               <!-- <div class="text-center mb-4">
