@@ -1725,17 +1725,17 @@ Version: 1.0
  .inner-slider .seller-image {
      width: 48px;
      height: 48px;
-     position: absolute;
+     /*position: absolute;
      display: inline-flex;
      right: 15px;
-     top: -24px;
+     top: -24px;*/
 }
  .inner-slider .seller-image img {
      border-radius: 50%;
      width: 48px;
      height: 48px;
      object-fit: cover;
-     border: 5px solid #fff;
+     border: 0px solid #fff;
 }
  .inner-slider .seller-image figure {
      margin: 0;
@@ -1744,7 +1744,7 @@ Version: 1.0
  .recommended .inner-slider .inner-wrapper .seller-name {
      display: flex;
      flex-flow: column;
-     margin-left: 0px;
+     margin-left: 10px;
      line-height: 20px;
 }
  .recommended .inner-slider .inner-wrapper .seller-name a {
@@ -2453,13 +2453,13 @@ Version: 1.0
      background: none;
 }
  .dropdown-filters .dropdown-menu.show {
-     min-width: 450px;
+     min-width: 400px;
      background: #fff;
      padding: 20px;
 }
  .dropdown-filters .dropdown button {
-     background: none;
-     border-color: #dadbdd;
+     background: #fff;
+     border-color: #ced4da;
      color: #222325;
      min-width: 50px;
      padding: 6px 12px;
@@ -2532,7 +2532,7 @@ Version: 1.0
  .custom-checkbox .checkmark {
      position: absolute;
      top: 2px;
-     left: 0;
+     right: 0;
      height: 18px;
      border-radius: 3px;
      width: 18px;
@@ -2669,7 +2669,7 @@ Version: 1.0
      margin-left: 0;
      border: none;
      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-     border-radius: 50px;
+     border-radius: 4px;
 }
  ul.pagination li a:hover {
      background: #2cdd9b;

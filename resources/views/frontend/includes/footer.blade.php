@@ -1,5 +1,5 @@
 <!-- footer -->
-<footer class="bg-white">
+<footer class="bg-white border-top">
   <div class="container">
     <div class="copyright">
       <div class="logo">

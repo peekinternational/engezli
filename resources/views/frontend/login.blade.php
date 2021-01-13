@@ -39,14 +39,14 @@
               <label class="mb-1">User name or Email</label>
               <div class="position-relative icon-form-control">
                 <i class="mdi mdi-account position-absolute"></i>
-                <input type="email" class="form-control">
+                <input type="text" class="form-control" name="username">
               </div>
             </div>
             <div class="form-group">
               <label class="mb-1">Password</label>
               <div class="position-relative icon-form-control">
                 <i class="mdi mdi-key-variant position-absolute"></i>
-                <input type="password" class="form-control">
+                <input type="password" class="form-control" name="password">
               </div>
             </div>
             <!-- <div class="custom-control custom-checkbox mb-3">

@@ -237,5 +237,30 @@ $(document).ready(function () {
 		]
 	});
 
+	$('.minus-btn').click(function () {
+	  var $input = $(this).parent().find('input');
+	  var count = parseInt($input.val()) - 1;
+	  count = count < 1 ? 1 : count;
+	  $input.val(count);
+	  $input.change();
+	  return false;
+	});
+	$('.plus-btn').click(function () {
+	  var $input = $(this).parent().find('input');
+	  $input.val(parseInt($input.val()) + 1);
+	  $input.change();
+	  return false;
+	});
+
+	$('.show-password').click(function(){
+		$('#password').attr("type", "text");
+		$('show-password').hide();
+		$('.hide-password').removeClass('d-none');
+	});
+	$('.hide-password').click(function(){
+		$('#password').attr("type", "password");
+		$('show-password').show();
+		$('.hide-password').addClass('d-none');
+	});
 
 });

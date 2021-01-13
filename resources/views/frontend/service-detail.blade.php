@@ -1,5 +1,5 @@
 @extends('frontend.layouts.master')
-@section('title', 'GiG Detail ')
+@section('title', 'Service Detail ')
 @section('styling')
 @endsection
 @section('content')

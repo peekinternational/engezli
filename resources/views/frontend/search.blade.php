@@ -741,12 +741,12 @@
                 </div>
               </div>
               <div class="footer">
-                <i class="fa fa-heart" aria-hidden="true"></i>
                 <div class="price">
                   <a href="#">
                     Starting At <span> $1,205</span>
                   </a>
                 </div>
+                <i class="fa fa-heart" aria-hidden="true"></i>
               </div>
             </div>
           </div>

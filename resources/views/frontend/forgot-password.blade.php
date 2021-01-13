@@ -1,5 +1,5 @@
 @extends('frontend.layouts.master')
-@section('title', 'Forgot Password  ')
+@section('title', 'Forgot Password')
 @section('styling')
 @endsection
 @section('content')
@@ -9,7 +9,7 @@
       <div class="col-lg-4 mx-auto ">
       </div>
       <div class="col-lg-8 mx-auto bg-white">
-        <div class="row justify-content-center align-items-center vh-100 d-flex">\
+        <div class="row justify-content-center align-items-center vh-100 d-flex">
           <div class="col-lg-5 mx-auto">
             <div class="osahan-login py-4">
               <div class="text-center mb-4">
@@ -22,7 +22,7 @@
                   <label class="mb-1">Email or Phone</label>
                   <div class="position-relative icon-form-control">
                     <i class="mdi mdi-account position-absolute"></i>
-                    <input type="email" class="form-control">
+                    <input type="text" class="form-control" name="email">
                   </div>
                 </div>
                 <button class="btn btn-success btn-block text-uppercase pb-2 pt-2" type="submit"> Find account </button>

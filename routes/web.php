@@ -49,12 +49,18 @@ Route::get('/register', function () {
 Route::get('/messages', function () {
     return view('frontend.messages');
 });
-Route::get('/gig-detail', function () {
-    return view('frontend.gig-detail');
+Route::get('/service-detail', function () {
+    return view('frontend.service-detail');
 });
-Route::get('/gigs', function () {
-    return view('frontend.gigs');
+Route::get('/services', function () {
+    return view('frontend.services');
 });
 Route::get('/profile', function () {
     return view('frontend.profile');
+});
+Route::get('/order', function () {
+    return view('frontend.order');
+});
+Route::get('/manage-orders', function () {
+    return view('frontend.manage-orders');
 });

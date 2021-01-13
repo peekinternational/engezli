@@ -11,7 +11,7 @@
       </div>
       <div class="col-lg-8 mx-auto bg-white">
         <div class="row justify-content-center align-items-center vh-100 d-flex">
-          <div class="col-12 text-right pr-5"><a href="">Create Account As a Buyer</a></div>
+          <!-- <div class="col-12 text-right pr-5"><a href="">Create Account As a Buyer</a></div> -->
           <div class="col-lg-5 mx-auto">
             <div class="osahan-login py-4">
               <!-- <div class="text-center mb-4">
@@ -44,7 +44,7 @@
                       <label class="mb-1">First name</label>
                       <div class="position-relative icon-form-control">
                         <i class="mdi mdi-account position-absolute"></i>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" name="first_name">
                       </div>
                     </div>
                   </div>
@@ -52,30 +52,56 @@
                     <div class="form-group">
                       <label class="mb-1">Last name</label>
                       <div class="position-relative">
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" name="last_name">
                       </div>
                     </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="mb-1">Username</label>
+                  <div class="position-relative icon-form-control">
+                    <i class="mdi mdi-account position-absolute"></i>
+                    <input type="text" class="form-control" name="username">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="mb-1">Email</label>
                   <div class="position-relative icon-form-control">
                     <i class="mdi mdi-email-outline position-absolute"></i>
-                    <input type="email" class="form-control">
+                    <input type="email" class="form-control" name="email">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="mb-1">Mobile Number</label>
                   <div class="position-relative icon-form-control">
                     <i class="fa fa-phone position-absolute"></i>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" name="mobile_number">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="mb-1">Password (6 or more characters)</label>
                   <div class="position-relative icon-form-control">
                     <i class="mdi mdi-key-variant position-absolute"></i>
-                    <input type="password" class="form-control">
+                    <input type="password" class="form-control" name="password" id="password">
+                    <i class="fa fa-eye position-absolute show-password"></i>
+                    <i class="fa fa-eye-slash position-absolute hide-password d-none"></i>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>User Type</label>
+                  <div class="row">
+                    <div class="col">
+                      <label class="border p-2 d-flex align-items-center rounded">
+                        <input type="radio" name="account_type" value="Buyer">
+                        <label class="pl-2 mb-0">Buyer</label>
+                      </label>
+                    </div>
+                    <div class="col">
+                      <label class="border p-2 d-flex align-items-center rounded">
+                        <input type="radio" name="account_type" value="Seller">
+                        <label class="pl-2 mb-0">Seller</label>
+                      </label>
+                    </div>
                   </div>
                 </div>
                 
