@@ -1,0 +1,71 @@
+$white: #ffffff;
+$black: #000000;
+$dark: #152A49;
+$dark_gray: #989898;
+$gray: #F5F5F5;
+$light_blue: #0099FF;
+$yellow: #FFC107;
+$gray_bg:#f0f2f5;
+
+
+$facebook: #144C9E;
+$linkedin: #087187;
+$twitter: #0986D9;
+
+$success: #08A141;
+$warning: #FA952A;
+$danger: #c70039;
+
+
+
+@mixin success_opacity($op) {
+  background: rgba($color: #08A141, $alpha: $op);
+}
+
+@mixin warning_opacity($op) {
+  background: rgba($color: #FA952A, $alpha: $op);
+}
+
+@mixin danger_opacity($op) {
+  background: rgba($color: #c70039, $alpha: $op);
+}
+
+@mixin blue_bg($op) {
+  background: rgba($color: #0099FF, $alpha: $op);
+}
+
+@mixin boxShadow {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+@mixin border {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+///////////////////////////////////
+.text-success {
+  color: $success;
+}
+
+.text-warning {
+  color: $warning;
+}
+
+.text-danger {
+  color: $danger;
+}
+
+///////////////////////////////////
+.bg-success {
+  background: $success;
+}
+
+.bg-warning {
+  background: $warning;
+}
+
+.bg-danger {
+  background: $danger;
+}
+
+///////////////////////////////////

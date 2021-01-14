@@ -1,0 +1,301 @@
+body.arabic {
+  text-align: right;
+}
+
+body.arabic .navbar .navbar-brand {
+  margin-right: 0;
+}
+
+body.arabic .navbar .search-box {
+  margin-left: 10px !important;
+  margin-right: auto;
+}
+
+body.arabic .navbar .search-box input {
+  padding-right: 10px;
+}
+
+body.arabic .navbar .search-box .search-btn {
+  left: 0;
+  right: unset;
+}
+
+body.arabic .banner .outer-content .image-container {
+  left: 0;
+  right: unset;
+  -webkit-transform: scaleX(-1);
+          transform: scaleX(-1);
+}
+
+body.arabic .banner .outer-content .banner-content {
+  right: 0;
+}
+
+body.arabic .banner .outer-content .banner-content h1.title,
+body.arabic .banner .outer-content .banner-content .search-box,
+body.arabic .banner .outer-content .banner-content .suggestions {
+  margin-left: auto;
+}
+
+body.arabic .banner .outer-content .banner-content .search-box {
+  position: relative;
+}
+
+body.arabic .banner .outer-content .banner-content .search-box input {
+  text-align: right;
+  padding-right: 55px;
+  padding-left: 120px;
+}
+
+body.arabic .banner .outer-content .banner-content .search-box i.fa {
+  right: 20px;
+  margin: 0;
+}
+
+body.arabic .banner .outer-content .banner-content .search-box button {
+  left: 15px;
+  margin-right: auto;
+}
+
+body.arabic .top-rated-services
+.outer-content
+.inner-content
+.card
+.card-body
+.user-container
+.avatar,
+body.arabic .card-box .card-body .outer-card-box a.inner-card-box .avatar {
+  margin-left: 10px;
+  margin-right: 0;
+}
+
+body.arabic .footer .footer-nav .social-icons ul {
+  float: left;
+}
+
+body.arabic .search-container .outer-content .header-title .inner-box:last-child select {
+  margin-left: 0;
+  margin-right: 10px;
+}
+
+body.arabic .search-container .outer-content .result-and-sort .sort {
+  margin: 0;
+  margin-right: auto;
+}
+
+body.arabic .card-box .card-body .outer-card-box .rating .no-of-rating {
+  margin-left: 0;
+  text-align: left;
+}
+
+body.arabic .card-box .price-and-save a {
+  text-align: left;
+}
+
+body.arabic select option {
+  text-align: right !important;
+}
+
+body.arabic .pagination-container .pagination li.page-item {
+  margin-left: 10px;
+  margin-right: 0;
+}
+
+body.arabic .breadcrumb {
+  padding: 0.75rem 1rem;
+  padding-right: 0;
+}
+
+body.arabic .breadcrumb .breadcrumb-item {
+  padding-left: 0;
+  padding-right: 0.5rem;
+}
+
+body.arabic .breadcrumb .breadcrumb-item:first-child {
+  padding-right: 0;
+}
+
+body.arabic .breadcrumb .breadcrumb-item::before {
+  padding-right: 0;
+  padding-left: 0.5rem;
+}
+
+body.arabic .dropdown-menu {
+  right: auto !important;
+  left: 0 !important;
+  text-align: right;
+}
+
+body.arabic ul.main-menu
+li.nav-item
+.notification
+a.dropdown-item
+.contacts-list-item
+.text
+h4
+span {
+  float: left;
+}
+
+body.arabic .seller-profile .outer-content .inner-content .cover-photo {
+  right: unset;
+  left: 0;
+}
+
+body.arabic .seller-profile
+.outer-content
+.inner-content
+.inner-box
+.seller-details
+.contact-btns
+a.btn,
+body.arabic .seller-profile
+.outer-content
+.profile-details
+.tab-content
+.linked-acounts
+ul
+li
+a
+p {
+  margin-right: 0;
+  margin-left: 10px;
+}
+
+body.arabic .seller-profile
+.outer-content
+.inner-content
+.inner-box
+.seller-details
+.name-designation-rating
+.rating
+.no-of-rating,
+body.arabic .review-list-item .comments .review-inner-content .name span {
+  margin-right: 10px;
+  margin-left: 0;
+}
+
+body.arabic .seller-profile .outer-content .profile-details .tab-content .languages ul li,
+body.arabic .seller-profile .outer-content .profile-details .tab-content .skills ul li {
+  margin-right: 0;
+  margin-left: 5px;
+}
+
+body.arabic .seller-profile
+.outer-content
+.inner-content
+.inner-box
+.seller-details
+.seller-image
+.level {
+  right: unset;
+  left: -10px;
+}
+
+body.arabic .seller-profile
+.outer-content
+.profile-details
+.tab-content
+.tab-pane.reviews
+.review-headers
+.inner-box
+.rating
+ul {
+  margin: 0 10px 0 5px;
+}
+
+body.arabic .review-list-item .comments .review-inner-content .name {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+body.arabic .review-list-item .comments {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+body.arabic .review-list-item .comments .review-inner-content .btns-group a {
+  margin-right: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-left: 20px;
+}
+
+body.arabic .review-list-item .comments .sub-comments .review-inner-content {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+body.arabic .achievement .outer-content .outer-box .box:last-child {
+  padding-right: 20px;
+  padding-left: 0;
+}
+
+body.arabic .sing-in-and-up-container {
+  text-align: right;
+}
+
+body.arabic .sing-in-and-up-container
+.outer-box.right-side
+.inner-box
+.form
+.facebook-and-google
+.google-btn
+img {
+  margin-right: 0;
+  margin-left: 10px;
+}
+
+body.arabic ul.main-menu
+li.nav-item
+.notification
+a.dropdown-item
+.contacts-list-item
+.text {
+  padding-right: 10px;
+  padding-left: 0;
+}
+
+@media (min-width: 1024px) {
+  body.arabic ul.main-menu li.nav-item .notification {
+    right: 0 !important;
+    left: unset !important;
+    text-align: right;
+  }
+}
+
+@media (max-width: 1024px) {
+  body.arabic .card-box .card-body .outer-card-box a.inner-card-box {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  body.arabic ul.main-menu .dropdown-menu.show {
+    left: 50% !important;
+  }
+}
+
+@media (max-width: 425px) {
+  body.arabic .search-container
+.outer-content
+.header-title
+.inner-box:last-child
+select {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+/*# sourceMappingURL=arabic_style.css.map */

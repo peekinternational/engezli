@@ -1,17 +1,62 @@
-@extends('frontend.layouts.master')
+@extends('frontend.layouts.app')
 @section('title', 'Sign In ')
 @section('styling')
 @endsection
 @section('content')
 <!-- Login -->
-<div class="bg-white login-block">
+<div class="sing-in-and-up-container">
+  <div class="outer-box left-side">
+    <div class="inner-box">
+      <div class="img-container">
+        <img src="{{asset('images/sign-up-bg.jpg')}}" alt="">
+      </div>
+
+      <div class="logo-and-text">
+        <img src="{{asset('images/logo-white.svg')}}" alt="">
+        <p>Find The Perfect Services
+          with Engezly For Your Business</p>
+      </div>
+    </div>
+  </div>
+  <div class="outer-box right-side">
+    <div class="inner-box">
+      <form action="" class="form">
+        <h4>Welcome back</h4>
+
+        <div class="facebook-and-google">
+          <a href="" class="facebook-btn btn"><i class="fab fa-facebook-f"></i> facebook</a>
+          <a href="" class="google-btn btn"><img src="{{asset('images/google.svg')}}" alt=""> google</a>
+        </div>
+
+        <div class="or">
+          <div class="text">or</div>
+        </div>
+
+        <div class="form-group">
+          <label for="">Username or Email</label>
+          <input type="text" class="form-control" placeholder="">
+        </div>
+
+        <div class="form-group">
+          <label for="">Password</label>
+          <input type="password" class="form-control" placeholder="">
+        </div>
+        <div class="btn-container">
+          <button type="submit" class="btn">Sign in</button>
+          <a href="reset.html" class="forget-password">Forget Password?</a>
+        </div>
+        <p class="account-btn">New to Engezly?<a href="{{url('register')}}">Sing up</a></p>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- <div class="bg-white login-block">
   <div class="container">
     <div class="row justify-content-center align-items-center d-flex vh-100">
       <div class="col-lg-5 mx-auto">
         <div class="text-center">
           <h3>
             <a href="{{url('/')}}">
-            <!-- <img src="{{asset('frontend-assets/images/fav.svg')}}" alt=""> --> PaidPro
             </a>
           </h3>
         </div>
@@ -49,10 +94,6 @@
                 <input type="password" class="form-control" name="password">
               </div>
             </div>
-            <!-- <div class="custom-control custom-checkbox mb-3">
-              <input type="checkbox" class="custom-control-input" id="customCheck1">
-              <label class="custom-control-label" for="customCheck1">Remember password</label>
-            </div> -->
             <button class="btn btn-success btn-block text-uppercase" type="submit"> Sign in </button>
             <p class="text-center"><a href="{{url('forgot-password')}}">Forgot password?</a></p>
             <div class="py-3 align-item-center border-top text-center">
@@ -63,7 +104,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 <!-- End Login -->
 @endsection
 @section('script')

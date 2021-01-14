@@ -34,7 +34,7 @@ Version: 1.0
 /* Body */
  body {
      color: #222325;
-     font-size: 14px;
+     font-size: 13px;
      font-family: 'Muli', sans-serif;
      font-weight: 400;
      background-color: #f0f2f5;
@@ -206,7 +206,6 @@ Version: 1.0
  .osahan-login .form-control {
      background: #f8fafc;
      border-color: #eaebec;
-     height: calc(2.2em + .75rem + 2px);
 }
  .osahan-login a img {
      width: 60px;
@@ -622,12 +621,8 @@ Version: 1.0
      height: 48px;
 }
  .homepage-search-form .btn {
-     /*height: 48px;*/
-     position: absolute;
-     right: 11px;
-     top: 4px;
-     width: 20%;
-     font-size: 14px;
+     height: 48px;
+     font-size: 18px;
 }
 /* search */
 /* popular */
@@ -635,7 +630,7 @@ Version: 1.0
      display: -webkit-box;
      display: -ms-flexbox;
      display: flex;
-     /*padding-top: 20px;*/
+     padding-top: 20px;
      -webkit-box-align: baseline;
      -ms-flex-align: baseline;
      align-items: baseline;
@@ -655,11 +650,11 @@ Version: 1.0
      display: -webkit-box;
      display: -ms-flexbox;
      display: flex;
-     margin-right: 5px;
+     margin-right: 12px;
 }
  .popular ul li a {
      background-color: transparent;
-     padding: 5px 8px;
+     padding: 0 8px;
      border: 1px solid #b5b6ba;
      text-decoration: none;
      border-radius: 3px;
@@ -1725,17 +1720,17 @@ Version: 1.0
  .inner-slider .seller-image {
      width: 48px;
      height: 48px;
-     /*position: absolute;
+     position: absolute;
      display: inline-flex;
      right: 15px;
-     top: -24px;*/
+     top: -24px;
 }
  .inner-slider .seller-image img {
      border-radius: 50%;
      width: 48px;
      height: 48px;
      object-fit: cover;
-     border: 0px solid #fff;
+     border: 5px solid #fff;
 }
  .inner-slider .seller-image figure {
      margin: 0;
@@ -1744,7 +1739,7 @@ Version: 1.0
  .recommended .inner-slider .inner-wrapper .seller-name {
      display: flex;
      flex-flow: column;
-     margin-left: 10px;
+     margin-left: 0px;
      line-height: 20px;
 }
  .recommended .inner-slider .inner-wrapper .seller-name a {
@@ -1995,9 +1990,9 @@ Version: 1.0
 }
  .copyright {
      display: flex;
-     /*border-top: 1px solid #e4e5e7;*/
-     /*margin-top: 30px;*/
-     padding: 0 0 35px;
+     border-top: 1px solid #e4e5e7;
+     margin-top: 30px;
+     padding: 35px 0;
      align-items: center;
 }
  .copyright .logo img {
@@ -2453,13 +2448,13 @@ Version: 1.0
      background: none;
 }
  .dropdown-filters .dropdown-menu.show {
-     min-width: 400px;
+     min-width: 450px;
      background: #fff;
      padding: 20px;
 }
  .dropdown-filters .dropdown button {
-     background: #fff;
-     border-color: #ced4da;
+     background: none;
+     border-color: #dadbdd;
      color: #222325;
      min-width: 50px;
      padding: 6px 12px;
@@ -2532,7 +2527,7 @@ Version: 1.0
  .custom-checkbox .checkmark {
      position: absolute;
      top: 2px;
-     right: 0;
+     left: 0;
      height: 18px;
      border-radius: 3px;
      width: 18px;
@@ -2669,7 +2664,7 @@ Version: 1.0
      margin-left: 0;
      border: none;
      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-     border-radius: 4px;
+     border-radius: 50px;
 }
  ul.pagination li a:hover {
      background: #2cdd9b;
