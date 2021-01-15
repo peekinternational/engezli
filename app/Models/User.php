@@ -25,8 +25,19 @@ class User extends Authenticatable
         'account_type',
         'password',
         'profile_image',
+        'cover_image',
         'verification',
         'user_status',
+        'country',
+        'state',
+        'city',
+        'bio',
+        'description',
+        'recent_delivery',
+        'member_since',
+        'language_id',
+        'skills_id',
+        'occuption',
     ];
 
     /**

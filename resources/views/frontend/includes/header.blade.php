@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg">
 	<div class="container">
-		<a class="navbar-brand" href="/">
+		<a class="navbar-brand" href="{{asset('/')}}">
 			<img src="{{asset('images/logo.png')}}" alt="Logo" />
 		</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -123,14 +123,14 @@
 				<li class="nav-item dropdown user-dropdown ">
 					<a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
 						aria-expanded="false">
-						<img src="images/avatar (1).svg" alt="">
+						<img src="{{asset('images/avatar (1).svg')}}" alt="">
 					</a>
 					<div class="dropdown-menu" aria-labelledبواسطة="navbarDropdown">
 						<a class="dropdown-item" href="profile.html">profile</a>
 						<a class="dropdown-item" href="#">edit profile</a>
 						<a class="dropdown-item" href="settings.html">settings</a>
 						<a class="dropdown-item" href="#">help & support</a>
-						<a class="dropdown-item" href="#">logout</a>
+						<a class="dropdown-item" href="{{url('logout')}}">logout</a>
 					</div>
 				</li>
 			</ul>

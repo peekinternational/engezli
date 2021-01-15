@@ -36,13 +36,22 @@ Route::get('/contact', function () {
 Route::get('/faq', function () {
     return view('frontend.faq');
 });
-Route::get('/forgot-password', function () {
-    return view('frontend.forgot-password');
-});
-Route::get('/login', function () {
-    return view('frontend.login');
-});
+// Route::get('/forgot-password', function () {
+//     return view('frontend.forgot-password');
+// });
+
 Route::match(['get','post'],'/register', [RegisterController::class, 'register']);
+Route::get('/login', [RegisterController::class, 'accountLogin']);
+Route::post('/login', [RegisterController::class, 'checkLogin']);
+Route::get('/verify-account/{username}/{token}', [RegisterController::class, 'VerifyAccount'])->name('verify');
+Route::get('/logout', [RegisterController::class, 'logout'])->name('logout');
+// Forgot Password routes
+Route::get('/forgot-password', [RegisterController::class, 'forgotPasswordRoute'])->name('forgot-password');
+Route::post('/password/email', [RegisterController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('/reset-password/{email}/{token}', [RegisterController::class, 'showPasswordResetForm']);
+Route::post('/reset-password', [RegisterController::class, 'resetPassword']);
+
+
 Route::get('/messages', function () {
     return view('frontend.messages');
 });

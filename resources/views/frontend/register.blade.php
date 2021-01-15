@@ -21,17 +21,18 @@
   </div>
   <div class="outer-box right-side">
     <div class="inner-box">
-      @if ($errors->any())
-       <div class="alert alert-danger">
-          <ul>
-             @foreach ($errors->all() as $error)
-             <li>{{ $error }}</li>
-             @endforeach
-          </ul>
-       </div>
-      @endif
+      
       <form action="{{url('/register')}}" id="register-form" method="post" class="form">
         <h4>Welcome back</h4>
+        @if ($errors->any())
+         <div class="alert alert-danger">
+            <ul>
+               @foreach ($errors->all() as $error)
+               <li>{{ $error }}</li>
+               @endforeach
+            </ul>
+         </div>
+        @endif
         @csrf
         <div class="facebook-and-google">
           <a href="" class="facebook-btn btn"><i class="fab fa-facebook-f"></i> facebook</a>
@@ -44,23 +45,35 @@
 
         <div class="first-and-last-name">
           <div class="form-group">
-            <label for="">Firstname</label>
-            <input type="text" class="form-control" name="first_name" placeholder="">
+            <label for="">First name</label>
+            <input type="text" class="form-control" id="first_name" name="first_name" placeholder="">
+            <div class="invalid-feedback">
+              Please enter first name.
+           </div>
           </div>
           <div class="form-group">
-            <label for="">Lastname</label>
-            <input type="text" class="form-control" name="last_name" placeholder="">
+            <label for="">Last name</label>
+            <input type="text" class="form-control" name="last_name" id="last_name" placeholder="">
+            <div class="invalid-feedback">
+              Please enter last name.
+            </div>
           </div>
         </div>
 
         <div class="form-group">
           <label for="">Username</label>
-          <input type="text" class="form-control" name="username" placeholder="">
+          <input type="text" class="form-control" name="username" placeholder="" id="username">
+          <div class="invalid-feedback">
+            Please enter user name.
+          </div>
         </div>
 
         <div class="form-group">
           <label for="">Email</label>
-          <input type="email" class="form-control" name="email" placeholder="">
+          <input type="email" class="form-control" id="email" name="email" placeholder="">
+          <div class="invalid-feedback">
+              Please enter email.
+          </div>
         </div>
 
         <!-- <div class="form-group">
@@ -80,14 +93,20 @@
           <label for="">Mobile Number</label>
           <div class="input-box">
             <input type="tel" class="form-control" name="mobile_number" placeholder="" id="phone">
+            <div class="invalid-feedback">
+              Please enter mobile.
+            </div>
           </div>
         </div>
 
         <div class="form-group">
           <label for="">Password</label>
-          <input type="password" class="form-control" name="password" placeholder="">
+          <input type="password" class="form-control" id="password" name="password" placeholder="">
+          <div class="invalid-feedback">
+              Please enter password.
+            </div>
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label>User Type</label>
           <div class="row">
             <div class="col">
@@ -103,10 +122,10 @@
               </label>
             </div>
           </div>
-        </div>
+        </div> -->
 
         <div class="btn-container">
-          <button type="submit" class="btn">Sign up</button>
+          <button type="submit" class="btn" id="submit-btn">Sign up</button>
           <p class="terms-condition">By signing up, you agree to our
             <a href="">Terms and Conditions</a> </p>
         </div>
@@ -258,5 +277,48 @@
     separateDialCode: true,
     utilsScript: "js/utils.js",
   });
+
+  $('#submit-btn').click(function(){
+
+    if($('#first_name').val() == ""){
+      $('#first_name').addClass('is-invalid');
+      $('#first_name').attr("required", "true");
+    }else{
+      $('#first_name').addClass('is-valid');
+    }
+    if($('#last_name').val() == ""){
+      $('#last_name').addClass('is-invalid');
+      $('#last_name').attr("required", "true");
+    }else{
+      $('#last_name').addClass('is-valid');
+    }
+    if($('#username').val() == ""){
+      $('#username').addClass('is-invalid');
+      $('#username').attr("required", "true");
+    }else{
+      $('#username').addClass('is-valid');
+    }
+    if($('#email').val() == ""){
+      $('#email').addClass('is-invalid');
+      $('#email').attr("required", "true");
+    }else{
+      $('#email').addClass('is-valid');
+    }
+    if($('#phone').val() == ""){
+      $('#phone').addClass('is-invalid');
+      $('#phone').attr("required", "true");
+    }else{
+      $('#phone').addClass('is-valid');
+    }
+    if($('#password').val() == ""){
+      $('#password').addClass('is-invalid');
+      $('#password').attr("required", "true");
+    }else{
+      $('#password').addClass('is-valid');
+    }
+  });
+
+  var empty = $(".is-invalid").filter(function() { return !this.value; })
+                                  .next(".invalid-feedback").show();
 </script>
 @endsection

@@ -20,9 +20,18 @@
   </div>
   <div class="outer-box right-side">
     <div class="inner-box">
-      <form action="" class="form">
+      <form action="{{url('login')}}" method="post" class="form">
         <h4>Welcome back</h4>
-
+        @if ($errors->any())
+         <div class="alert alert-danger">
+            <ul>
+               @foreach ($errors->all() as $error)
+               <li>{{ $error }}</li>
+               @endforeach
+            </ul>
+         </div>
+        @endif
+        @csrf
         <div class="facebook-and-google">
           <a href="" class="facebook-btn btn"><i class="fab fa-facebook-f"></i> facebook</a>
           <a href="" class="google-btn btn"><img src="{{asset('images/google.svg')}}" alt=""> google</a>
@@ -34,18 +43,18 @@
 
         <div class="form-group">
           <label for="">Username or Email</label>
-          <input type="text" class="form-control" placeholder="">
+          <input type="text" class="form-control" name="username" placeholder="">
         </div>
 
         <div class="form-group">
           <label for="">Password</label>
-          <input type="password" class="form-control" placeholder="">
+          <input type="password" class="form-control" name="password" placeholder="">
         </div>
         <div class="btn-container">
           <button type="submit" class="btn">Sign in</button>
-          <a href="reset.html" class="forget-password">Forget Password?</a>
+          <a href="{{url('forgot-password')}}" class="forget-password">Forget Password?</a>
         </div>
-        <p class="account-btn">New to Engezly?<a href="{{url('register')}}">Sing up</a></p>
+        <p class="account-btn">New to Engezly?<a href="{{url('register')}}">Sign up</a></p>
       </form>
     </div>
   </div>

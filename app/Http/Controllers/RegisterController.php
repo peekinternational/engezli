@@ -23,6 +23,10 @@ class RegisterController extends Controller
         return view('frontend.index');
     }
 
+    // Route
+    public function forgotPasswordRoute(){
+      return view('frontend.forgot-password');
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -103,8 +107,7 @@ class RegisterController extends Controller
           'mobile_number' => 'required|min:2|max:32',
           'email' => 'required|email|unique:users,email',
           'username' => 'required|unique:users,username',
-          'password' => 'required|min:5|max:50',
-          'account_type' => 'required'
+          'password' => 'required|min:5|max:50'
 
         ],[
 
@@ -115,7 +118,6 @@ class RegisterController extends Controller
           'mobile_number.required' => 'Enter Mobile Number',
           'address.required' => 'Enter Address',
           'password.required' => 'Enter password',
-          'account_type.required' => 'Choose Account type',
         ]);
 
         // save User
@@ -125,7 +127,6 @@ class RegisterController extends Controller
         $user->last_name = $request->input('last_name');
         $user->email = $request->input('email');
         $user->mobile_number = $request->input('mobile_number');
-        $user->account_type = $request->input('account_type');
         $user->remember_token = $request->input('_token');
         $user->password = Hash::make(trim($request->input('password')));
         $user->verification = '0';
@@ -138,14 +139,14 @@ class RegisterController extends Controller
         // dd($new_user);
         $toemail =  $new_user->email;
         // dd($toemail);
-        // Mail::send('mail.user_registration_email',['user' =>$new_user],
-        // function ($message) use ($toemail)
-        // {
+        Mail::send('mail.user-registration-email',['user' =>$new_user],
+        function ($message) use ($toemail)
+        {
 
-        //   $message->subject('Paidpro - Verify Account');
-        //   $message->from('peek.zeeshan@gmail.com', 'Engezli');
-        //   $message->to($toemail);
-        // });
+          $message->subject('Paidpro - Verify Account');
+          $message->from('peek.zeeshan@gmail.com', 'Engezli');
+          $message->to($toemail);
+        });
 
 
         $request->session()->flash('registerSuccess',"Account created. Please check your email.");
@@ -153,5 +154,139 @@ class RegisterController extends Controller
         return redirect('login');
       }
       return view('frontend.register');
+    }
+
+    ///////////////////// Account Verify //////////////////////////////
+    public function VerifyAccount(Request $request, $username, $token)
+    {
+      $user = User::where('username',$username)->where('remember_token',$token)->first();
+      // dd($user);
+      $user->verification = '1';
+      $user->save();
+      $request->session()->flash('verify_success',"Account verified.");
+      return redirect('login');
+    }
+
+    // Login Function
+    public function checkLogin(Request $request){
+      $this->validate($request, [
+          'username' => 'required',
+          'password' => 'required',
+      ]);
+      $user_data = array(
+          'username'  => $request->get('username'),
+          'password' => $request->get('password')
+      );
+      
+      if(!Auth::attempt($user_data)){
+        $user_data2 = array(
+            'email'  => $request->get('username'),
+            'password' => $request->get('password')
+        );
+        if(!Auth::attempt($user_data2)){
+          $request->session()->flash('loginAlert', 'Invalid Email & Password');
+          return redirect('login');
+        }
+      }
+
+      if ( Auth::check() ) {
+        $user_id = auth()->user()->id;
+        $update_status = User::where('id', $user_id)->update(array('user_status' => 'online'));
+
+        // if ($next !=null) {
+        //   return redirect($next);
+        // }
+        // if ($request->session()->has('previous_url')) {
+        //   $url =$request->session()->get('previous_url');
+        //   session()->forget('previous_url');
+        //   return redirect($url);
+        // } else {
+        return redirect('profile');
+      }
+    }
+
+    public function accountLogin(Request $request){
+      if ( Auth::check() ) {
+        return redirect('profile');
+      }
+      return view('frontend.login');
+    }
+    // Logout
+    public function logout(Request $request){
+      $user_id = auth()->user()->id;
+      $update_status = User::where('id', $user_id)->update(array('user_status' => 'offline'));
+      Auth::logout();
+      return redirect('login');
+    }
+    // Reset Password
+    public function sendResetLinkEmail(Request $request)
+    {
+      if($request->isMethod('post')){
+
+        $email = $request->input('email');
+        $string = rand(5,999999999);
+        // $remember_token = $request->input('_token');
+
+        $new_user = User::whereemail($email)->first();
+
+        if ($new_user == '' ) {
+
+          $request->session()->flash('resetAlert', "We can't find a user with that e-mail address.");
+          // return redirect()->back()->with("error","Please Enter Correct Email");
+        }else{
+
+          $dataArr['remember_token'] =  $string;
+
+          $dataUser = User::where('email', $email)
+              ->update($dataArr);
+          //dd($dataUser);
+          $userData = User::whereemail($email)->first();
+          //dd($userdata, $remember_token);
+          $toemail =  $userData->email;
+          Mail::send('mail.forgotpassword-email',['user' =>$userData],
+          function ($message) use ($toemail)
+          {
+
+            $message->subject('paidpro.com - Forgot Password');
+            $message->from('peek.zeeshan@gmail.com', 'PaidPro');
+            $message->to($toemail);
+          });
+
+          $request->session()->flash('resetSuccess', 'Check your Email to change your password.');
+        }
+
+
+        return redirect('/forgot-password');
+
+      }
+    }
+
+    public function showPasswordResetForm(Request $request, $email, $token)
+    {
+      // dd($email, $token);
+      
+      $usersData = User::where('email', $email)->where('remember_token', $token)->first();
+      // dd($usersData);
+
+      if ($usersData == "") {
+        $request->session()->flash('resetAlert', "Your secret code don't match please contact to Admin.");
+        return redirect('/forgot-password');
+      }else {
+        return view('frontend.change-password', compact('usersData'));
+      }
+    }
+
+    public function resetPassword(Request $request)
+    {
+      $this->validate($request, [
+        'password' => 'required|min:5|max:50|required_with:confirm_password|same:confirm_password',
+        'confirm_password' => 'min:5'
+      ]);
+      $user_id= $request->input('user_id');
+      $pass=Hash::make(trim($request->input('password')));
+      $user = User::whereid($user_id)->update(array('password'=>$pass));
+      $request->session()->flash('passwordSuccess', 'Password changed successfully');
+      Auth::logout();
+      return redirect('/login');
     }
 }
