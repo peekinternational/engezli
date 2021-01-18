@@ -23,7 +23,7 @@
     <div class="inner-box">
       
       <form action="{{url('/register')}}" id="register-form" method="post" class="form">
-        <h4>Welcome back</h4>
+        <h4>{{ __('home.Welcome back')}}</h4>
         @if ($errors->any())
          <div class="alert alert-danger">
             <ul>
@@ -35,24 +35,24 @@
         @endif
         @csrf
         <div class="facebook-and-google">
-          <a href="" class="facebook-btn btn"><i class="fab fa-facebook-f"></i> facebook</a>
-          <a href="" class="google-btn btn"><img src="{{asset('images/google.svg')}}" alt=""> google</a>
+          <a href="{{url('login/facebook')}}" class="facebook-btn btn"><i class="fab fa-facebook-f"></i> {{ __('home.facebook')}}</a>
+          <a href="{{url('login/google')}}" class="google-btn btn"><img src="{{asset('images/google.svg')}}" alt=""> {{ __('home.google')}}</a>
         </div>
 
         <div class="or">
-          <div class="text">or</div>
+          <div class="text">{{ __('home.or')}}</div>
         </div>
 
         <div class="first-and-last-name">
           <div class="form-group">
-            <label for="">First name</label>
+            <label for="">{{ __('home.First name')}}</label>
             <input type="text" class="form-control" id="first_name" name="first_name" placeholder="">
             <div class="invalid-feedback">
               Please enter first name.
            </div>
           </div>
           <div class="form-group">
-            <label for="">Last name</label>
+            <label for="">{{ __('home.Last name')}}</label>
             <input type="text" class="form-control" name="last_name" id="last_name" placeholder="">
             <div class="invalid-feedback">
               Please enter last name.
@@ -61,7 +61,7 @@
         </div>
 
         <div class="form-group">
-          <label for="">Username</label>
+          <label for="">{{ __('home.Username')}}</label>
           <input type="text" class="form-control" name="username" placeholder="" id="username">
           <div class="invalid-feedback">
             Please enter user name.
@@ -69,7 +69,7 @@
         </div>
 
         <div class="form-group">
-          <label for="">Email</label>
+          <label for="">{{ __('home.Email')}}</label>
           <input type="email" class="form-control" id="email" name="email" placeholder="">
           <div class="invalid-feedback">
               Please enter email.
@@ -90,7 +90,7 @@
         </div> -->
 
         <div class="form-group">
-          <label for="">Mobile Number</label>
+          <label for="">{{ __('home.Mobile Number')}}</label>
           <div class="input-box">
             <input type="tel" class="form-control" name="mobile_number" placeholder="" id="phone">
             <div class="invalid-feedback">
@@ -100,7 +100,7 @@
         </div>
 
         <div class="form-group">
-          <label for="">Password</label>
+          <label for="">{{ __('home.Password')}}</label>
           <input type="password" class="form-control" id="password" name="password" placeholder="">
           <div class="invalid-feedback">
               Please enter password.
@@ -125,11 +125,11 @@
         </div> -->
 
         <div class="btn-container">
-          <button type="submit" class="btn" id="submit-btn">Sign up</button>
-          <p class="terms-condition">By signing up, you agree to our
-            <a href="">Terms and Conditions</a> </p>
+          <button type="submit" class="btn" id="submit-btn">{{ __('home.Sign up')}}</button>
+          <p class="terms-condition">{{ __('home.By signing')}}
+            <a href="">{{ __('home.Terms and Conditions')}}</a> </p>
         </div>
-        <p class="account-btn">Already have an account on Engezly? <a href="{{url('login')}}">Sing in</a></p>
+        <p class="account-btn">{{ __('home.Already have an account')}} <a href="{{url('login')}}">{{ __('home.Sign in')}}</a></p>
 
         <!-- <p class="account-btn buyer-account">Looking to buy a service? <a href="sign_in.html">Create a Buyer
             Account</a></p> -->

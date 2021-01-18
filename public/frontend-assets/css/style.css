@@ -351,7 +351,7 @@ Version: 1.0
      width: 100%;
 }
  .osahan-nav-top a.navbar-brand img {
-     height: 38px;
+     height: 50px;
 }
  .osahan-nav-mid {
      padding-top: 0px;
@@ -621,8 +621,13 @@ Version: 1.0
      height: 48px;
 }
  .homepage-search-form .btn {
-     height: 48px;
+     height: 40px;
      font-size: 18px;
+     position: absolute;
+     right: 9px;
+     top: 4px;
+     line-height: 24px;
+     padding: .5rem 2rem;
 }
 /* search */
 /* popular */
@@ -1990,13 +1995,13 @@ Version: 1.0
 }
  .copyright {
      display: flex;
-     border-top: 1px solid #e4e5e7;
-     margin-top: 30px;
-     padding: 35px 0;
+     /*border-top: 1px solid #e4e5e7;*/
+     margin-top: 0;
+     padding: 0 0 35px;
      align-items: center;
 }
  .copyright .logo img {
-     height: 27px;
+     height: 60px;
 }
  .copyright .social {
      margin-left: auto;

@@ -34,4 +34,28 @@ return [
         'sms_from' => '923487991015',
     ],
 
+    'facebook' => [
+        'client_id' => env('FACEBOOK_APP_ID'),
+        'client_secret' => env('FACEBOOK_APP_SECRET'),
+        'redirect' => env('FACEBOOK_REDIRECT'),
+    ],
+
+    'instagram' => [
+        'client_id' => env('INSTAGRAM_CLIENT_ID'),
+        'client_secret' => env('INSTAGRAM_CLIENT_SECRET'),
+        'redirect' => env('INSTAGRAM_REDIRECT_URI'),
+    ],
+
+    'twitter' => [
+        'client_id' => env('Twitter_APP_ID'),
+        'client_secret' => env('Twitter_APP_SECRET'),
+        'redirect' => env('Twitter_REDIRECT'),
+    ],
+
+    'google' => [
+        'client_id' => env('GOOGLE_APP_ID'),
+        'client_secret' => env('GOOGLE_APP_SECRET'),
+        'redirect' => env('GOOGLE_REDIRECT'),
+    ],
+
 ];

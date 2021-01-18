@@ -38,6 +38,8 @@ class User extends Authenticatable
         'language_id',
         'skills_id',
         'occuption',
+        'facebook_id',
+        'google_id',
     ];
 
     /**

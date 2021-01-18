@@ -63,6 +63,35 @@
     <script src="{{asset('frontend-assets/vendor/select2/js/select2.min.js')}}"></script>
     <!-- Custom -->
     <script src="{{asset('frontend-assets/js/custom.js')}}"></script>
+    <script>
+        var url = "{{ route('changeLang') }}";
+        $(document).ready(function () {
+            var url = "{{ route('changeLang') }}";
+            var session ="{{session()->get('locale') == 'en'}}";
+            console.log(session);
+            // Change to arabic style
+            $(".arabic-format").on("click", function (e) {
+                e.preventDefault();
+                $("body").addClass("arabic").attr("dir", "rtl");
+                window.location.href = url + "?lang="+ $(this).data('info');
+                // console.log( $(this).data('info') );
+                // console.log(this.data('value'));
+                // alert(this.data('value'));
+            });
+            // Change to noramal style
+            $(".english-format").on("click", function (e) {
+                e.preventDefault();
+                $("body").removeClass("arabic").removeAttr("dir", "rtl");
+                // console.log( $(this).data('info') );
+                window.location.href = url + "?lang="+ $(this).data('info');
+            });
+            if(session == 1){
+                $("body").removeClass("arabic").removeAttr("dir", "rtl");
+            }else{
+                $("body").addClass("arabic").attr("dir", "rtl");
+            }
+        });
+    </script>
     @yield('script')
   </body>
 </html>

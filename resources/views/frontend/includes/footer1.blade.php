@@ -2,8 +2,8 @@
 	<div class="container">
 		<div class="footer-nav">
 			<div class="footer-hearder">
-				<img src="images/logo.svg" alt="" />
-				<p>&copy; Engezli All copyrights are reserved.</p>
+				<img src="{{asset('images/logo.svg')}}" alt="" />
+				<p>&copy; {{ __('home.copyrights')}}</p>
 			</div>
 			<div class="social-icons">
 				<ul>
@@ -28,16 +28,16 @@
 					<div class="engezly">
 						<h5>engezly</h5>
 						<ul>
-							<li><a href="">Home</a></li>
-							<li><a href="">How it's work</a></li>
-							<li><a href="">FAQs</a></li>
-							<li><a href="">Privary Policy</a></li>
+							<li><a href="">{{ __('home.Home')}}</a></li>
+							<li><a href="">{{ __('home.How it work')}}</a></li>
+							<li><a href="">{{ __('home.FAQs')}}</a></li>
+							<li><a href="">{{ __('home.Privary Policy')}}</a></li>
 						</ul>
 					</div>
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
 					<div class="categories">
-						<h5>categories</h5>
+						<h5>{{ __('home.Categories')}}</h5>
 						<div class="inner-list-group">
 							<ul>
 								<li><a href="">Web Design</a></li>
@@ -56,7 +56,7 @@
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
 					<div class="payment-methods">
-						<h5>payment methods</h5>
+						<h5>{{ __('home.payment methods')}}</h5>
 						<ul>
 							<li>
 								<a href="">
@@ -83,12 +83,12 @@
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
 					<div class="support">
-						<h5>support</h5>
+						<h5>{{ __('home.Support')}}</h5>
 						<ul>
-							<li><a href="">help & support</a></li>
-							<li><a href="">trust & safety</a></li>
-							<li><a href="">selling on engezly</a></li>
-							<li><a href="">buying on engezly</a></li>
+							<li><a href="">{{ __('home.Help & Support')}}</a></li>
+							<li><a href="">{{ __('home.Trust & Safety')}}</a></li>
+							<li><a href="">{{ __('home.Selling on Engezly')}}</a></li>
+							<li><a href="">{{ __('home.Buying on Engezly')}}</a></li>
 						</ul>
 					</div>
 				</div>

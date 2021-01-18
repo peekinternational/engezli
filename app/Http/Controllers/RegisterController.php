@@ -288,5 +288,5 @@ class RegisterController extends Controller
       $request->session()->flash('passwordSuccess', 'Password changed successfully');
       Auth::logout();
       return redirect('/login');
-    }
+    }   
 }

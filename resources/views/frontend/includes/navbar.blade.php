@@ -7,19 +7,19 @@
       <!-- Main Menu -->
       <ul class="navbar-nav align-items-center ml-auto main-menu">
         <li class="nav-item">
-           <a class="nav-link" href="{{url('/')}}">Home</a>
+           <a class="nav-link" href="{{url('/')}}">{{ __('home.Home')}}</a>
         </li>
         <li class="nav-item">
-           <a class="nav-link" href="{{url('messages')}}">Messages</a>
+           <a class="nav-link" href="{{url('messages')}}">{{ __('home.Message')}}</a>
         </li>
         <li class="nav-item">
-           <a class="nav-link" href="{{url('manage-orders')}}">Orders</a>
+           <a class="nav-link" href="{{url('manage-orders')}}">{{ __('home.Order')}}</a>
         </li>
         <li class="nav-item">
-           <a class="nav-link" href="{{url('services')}}">Services</a>
+           <a class="nav-link" href="{{url('services')}}">{{ __('home.Service')}}</a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link" href="{{url('contact')}}"> Contact Us </a>
+          <a class="nav-link" href="{{url('contact')}}"> {{ __('home.Contact')}} </a>
         </li>
       </ul>
       <!-- Topbar Navbar -->
@@ -28,7 +28,7 @@
           <!-- Topbar Search -->
           <form class="d-none d-sm-inline-block form-inline mr-auto my-2 my-md-0 mw-100 navbar-search">
              <div class="input-group">
-                <input type="text" class="form-control bg-white small" placeholder="Find Services..." aria-label="Search" aria-describedby="basic-addon2">
+                <input type="text" class="form-control bg-white small" placeholder="{{ __('home.Find services')}}..." aria-label="Search" aria-describedby="basic-addon2">
                 <div class="input-group-append">
                    <button class="btn btn-success" type="button">
                    <i class="fa fa-search fa-sm"></i>
@@ -185,10 +185,24 @@
             </div>
          </li>
         <li class="nav-item dropdown no-arrow no-caret dropdown-user mr-3">
-          <a class="btn btn-icon btn-transparent-dark dropdown-toggle" id="navbarDropdownUserImage" href="javascript:void(0);" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="img-fluid" src="{{asset('frontend-assets/images/user/s4.png')}}"></a>
+          <a class="btn btn-icon btn-transparent-dark dropdown-toggle" id="navbarDropdownUserImage" href="javascript:void(0);" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          @if(Auth::user() !='')
+            @if(Auth::user()->facebook_id != Null || Auth::user()->google_id)
+            <img class="img-fluid" src="{{Auth::user()->profile_image}}">
+            @else
+            <img class="img-fluid" src="{{asset('frontend-assets/images/user/s4.png')}}">
+            @endif
+          @endif
+          </a>
           <div class="dropdown-menu dropdown-menu-right border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownUserImage">
              <h6 class="dropdown-header d-flex align-items-center">
-                <img class="dropdown-user-img" src="{{asset('frontend-assets/images/user/s4.png')}}">
+                @if(Auth::user() !='')
+                  @if(Auth::user()->facebook_id != Null || Auth::user()->google_id)
+                  <img class="dropdown-user-img" src="{{Auth::user()->profile_image}}">
+                  @else
+                  <img class="dropdown-user-img" src="{{asset('frontend-assets/images/user/s4.png')}}">
+                  @endif
+                @endif
                 <div class="dropdown-user-details">
                    <div class="dropdown-user-details-name">{{Auth::user()->first_name}} {{Auth::user()->last_name}}</div>
                    <div class="dropdown-user-details-email">{{Auth::user()->email}}</div>
@@ -225,10 +239,10 @@
         @endif
         @if(Auth::user() =='')
         <li class="nav-item mr-3">
-          <a class="text-primary" href="{{('login')}}">Sign in</a>
+          <a class="text-primary" href="{{('login')}}">{{ __('home.Sign in')}}</a>
         </li>
         <li class="nav-item mr-3">
-          <a class="btn btn-primary text-white" href="{{url('register')}}">Sign up</a>
+          <a class="btn btn-primary text-white" href="{{url('register')}}">{{ __('home.Sign up')}}</a>
         </li>
         @endif
       </ul>
@@ -243,19 +257,19 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
          <ul class="navbar-nav">
             <li class="nav-item">
-               <a class="nav-link" href="{{url('/')}}">Home</a>
+               <a class="nav-link" href="{{url('/')}}">{{ __('home.Home')}}</a>
             </li>
             <li class="nav-item">
-               <a class="nav-link" href="{{url('messages')}}">Messages</a>
+               <a class="nav-link" href="{{url('messages')}}">{{ __('home.Message')}}</a>
             </li>
             <li class="nav-item">
-               <a class="nav-link" href="{{url('manage-orders')}}">Orders</a>
+               <a class="nav-link" href="{{url('manage-orders')}}">{{ __('home.Order')}}</a>
             </li>
             <li class="nav-item">
-               <a class="nav-link" href="{{url('services')}}">Services</a>
+               <a class="nav-link" href="{{url('services')}}">{{ __('home.Service')}}</a>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link" href="{{url('contact')}}"> Contact Us </a>
+              <a class="nav-link" href="{{url('contact')}}"> {{ __('home.Contact')}} </a>
             </li>
          </ul>
       </div>

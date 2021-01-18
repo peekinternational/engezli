@@ -11,12 +11,12 @@
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav main-menu">
 				<li class="nav-item">
-					<a href="{{url('/')}}" class="nav-link">Home</a>
+					<a href="{{url('/')}}" class="nav-link">{{ __('home.Home')}}</a>
 				</li>
 				<li class="nav-item active">
 					<a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
 						aria-expanded="false">
-						Message
+						{{ __('home.Message')}}
 					</a>
 					<div class="dropdown-menu notification" aria-labelled="navbarDropdown">
 						<a class="dropdown-item" href="#">
@@ -88,17 +88,17 @@
 					</div>
 				</li>
 				<li class="nav-item">
-					<a href="{{url('order')}}" class="nav-link">Order</a>
+					<a href="{{url('order')}}" class="nav-link">{{ __('home.Order')}}</a>
 				</li>
 				<li class="nav-item">
-					<a href="{{url('services')}}" class="nav-link">Service</a>
+					<a href="{{url('services')}}" class="nav-link">{{ __('home.Service')}}</a>
 				</li>
 				<li class="nav-item">
-					<a href="{{url('contact')}}" class="nav-link">Contact</a>
+					<a href="{{url('contact')}}" class="nav-link">{{ __('home.Contact')}}</a>
 				</li>
 			</ul>
 			<form class="search-box form-inline">
-				<input type="text" placeholder="Find Service..." class="input" />
+				<input type="text" placeholder="{{ __('home.Find services')}}" class="input" />
 				<button class="search-btn">
 				<i class="fa fa-search" aria-hidden="true"></i>
 				</button>
@@ -109,28 +109,37 @@
 						aria-expanded="false">
 						<span> <i class="fa fa-globe"></i></span>
 					</a>
+					
 					<div class="dropdown-menu" aria-labelled="navbarDropdown">
-						<a class="dropdown-item english-format" href="#">English</a>
-						<a class="dropdown-item arabic-format" href="#">Arabic</a>
+						<a class="dropdown-item  english-format"  data-info="en" style="cursor:pointer;" >English</a>
+						<a class="dropdown-item arabic-format" data-info="ar" style="cursor:pointer;" >Arabic</a>
 					</div>
 				</li>
-				<!-- <li class="nav-item sign-in-btn">
-					<a class="nav-link" href="sign_in.html">Sign in</a>
+				@if(Auth::user() =='')
+				<li class="nav-item sign-in-btn">
+					<a class="nav-link" href="{{url('login')}}">{{ __('home.Sign in')}}</a>
 				</li>
 				<li class="nav-item sign-up-btn">
-					<a class="nav-link" href="sign_up.html">Sign up</a>
-				</li> -->
+					<a class="nav-link" href="{{url('register')}}">{{ __('home.Sign up')}}</a>
+				</li>
+				@endif
 				<li class="nav-item dropdown user-dropdown ">
 					<a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
 						aria-expanded="false">
-						<img src="{{asset('images/avatar (1).svg')}}" alt="">
+						@if(Auth::user() !='')
+							@if(Auth::user()->facebook_id != Null || Auth::user()->google_id != Null)
+							<img src="{{Auth::user()->profile_image}}" alt="" class="rounded-circle">
+							@else
+							<img src="{{asset('images/avatar (1).svg')}}" alt="">
+							@endif
+						@endif
 					</a>
 					<div class="dropdown-menu" aria-labelledبواسطة="navbarDropdown">
-						<a class="dropdown-item" href="profile.html">profile</a>
-						<a class="dropdown-item" href="#">edit profile</a>
-						<a class="dropdown-item" href="settings.html">settings</a>
-						<a class="dropdown-item" href="#">help & support</a>
-						<a class="dropdown-item" href="{{url('logout')}}">logout</a>
+						<a class="dropdown-item" href="profile.html">{{ __('home.profile')}}</a>
+						<a class="dropdown-item" href="#">{{ __('home.edit profile')}}</a>
+						<a class="dropdown-item" href="settings.html">{{ __('home.settings')}}</a>
+						<a class="dropdown-item" href="#">{{ __('home.help & support')}}</a>
+						<a class="dropdown-item" href="{{url('logout')}}">{{ __('home.logout')}}</a>
 					</div>
 				</li>
 			</ul>

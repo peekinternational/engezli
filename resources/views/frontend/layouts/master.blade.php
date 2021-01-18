@@ -52,6 +52,22 @@
     <script src="{{asset('frontend-assets/vendor/select2/js/select2.min.js')}}"></script>
     <!-- Custom -->
     <script src="{{asset('frontend-assets/js/custom.js')}}"></script>
+    <script>
+        var url = "{{ route('changeLang') }}";
+        $(document).ready(function () {
+            // Change to arabic style
+            $(".arabic-format").on("click", function (e) {
+                e.preventDefault();
+                $("body").addClass("arabic").attr("dir", "rtl");
+                alert(this.data('value'));
+            });
+            // Change to noramal style
+            $(".english-format").on("click", function (e) {
+                e.preventDefault();
+                $("body").removeClass("arabic").removeAttr("dir", "rtl");
+            });
+        });
+    </script>
     @yield('script')
   </body>
 </html>

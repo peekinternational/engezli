@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\SocialAuthController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +16,10 @@ use App\Http\Controllers\RegisterController;
 |
 */
 
-Route::get('/', [RegisterController::class, 'index']);
+Route::resource('/', HomeController::class);
+// Language Change
+Route::get('lang/change', [HomeController::class, 'change'])->name('changeLang');
+
 Route::get('/about', function () {
     return view('frontend.about');
 });
@@ -50,6 +55,16 @@ Route::get('/forgot-password', [RegisterController::class, 'forgotPasswordRoute'
 Route::post('/password/email', [RegisterController::class, 'sendResetLinkEmail'])->name('password.email');
 Route::get('/reset-password/{email}/{token}', [RegisterController::class, 'showPasswordResetForm']);
 Route::post('/reset-password', [RegisterController::class, 'resetPassword']);
+
+// Socail Login
+Route::get('login/facebook', [SocialAuthController::class, 'redirectToFacebookProvider']);
+Route::get('facebook/callback', [SocialAuthController::class, 'FacebookProviderCallback']);
+// Route::get('login/instagram',[SocialAuthController::class, 'redirectToInstagramProvider']);
+// Route::get('instagram/callback', [SocialAuthController::class, 'instagramProviderCallback']);
+// Route::get('login/twitter', [SocialAuthController::class, 'redirectToTwitterProvider']);
+// Route::get('twitter/callback', [SocialAuthController::class, 'TwitterProviderCallback']);
+Route::get('login/google', [SocialAuthController::class, 'redirectToGoogle']);
+Route::get('google/callback', [SocialAuthController::class, 'GoogleProviderCallback']);
 
 
 Route::get('/messages', function () {

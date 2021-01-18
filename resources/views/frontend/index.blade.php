@@ -1,16 +1,15 @@
-@extends('frontend.layouts.master')
+@extends('frontend.layouts.app')
 @section('title', 'Home  ')
 @section('styling')
 @endsection
 @section('content')
 <!-- Begin Page Content -->
-<section class="py-5 homepage-search-block position-relative">
+<!-- <section class="py-5 homepage-search-block position-relative">
 	<div class="container">
 		<div class="row py-lg-5">
 			<div class="col-lg-7">
 				<div class="homepage-search-title">
 					<h1 class="mb-3 text-shadow text-gray-900 font-weight-bold">Find The Perfect Services with PaidPro For Your Business</h1>
-					<!-- <h5 class="mb-5 text-shadow text-gray-800 font-weight-normal">Millions of people use miver to turn their ideas into reality. -->
 					</h5>
 				</div>
 				<div class="homepage-search-form">
@@ -26,7 +25,6 @@
 					</form>
 				</div>
 				<div class="popular">
-					<!-- <span class="text-body-2">Popular</span> -->
 					<ul>
 						<li><a href="#" class="text-body-2">Logo Design</a></li>
 						<li><a href="#" class="text-body-2">Video Editing</a></li>
@@ -41,7 +39,385 @@
 			</div>
 		</div>
 	</div>
-</section>
+</section> -->
+<div class="banner">
+	<div class="container">
+		<div class="outer-content">
+			<div class="banner-content">
+				<h1 class="title"> {{ __('home.Home Banner Title') }}
+				</h1>
+
+				<form action="" class="search-box">
+					<i class="fa fa-search"></i>
+					<input type="text" class="form-control" placeholder="{{ __('home.Find services')}}" />
+					<button class="btn" type="submit">{{ __('home.search')}}</button>
+				</form>
+
+				<div class="suggestions">
+					<ul>
+						<li class=""><a href="">logo design</a></li>
+						<li class=""><a href="">video editing</a></li>
+						<li class=""><a href="">translation</a></li>
+						<li class=""><a href="">voice over</a></li>
+						<li class=""><a href="">development</a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="image-container">
+				<img src="images/default-img.png" alt="" />
+			</div>
+		</div>
+	</div>
+</div>
+<div class="easy-to-do-it">
+	<div class="container">
+		<div class="outer-content">
+			<div class="headers">
+				<h2>{{ __('home.Home Section two title')}}</h2>
+				<p>{{ __('home.Follow those step')}}</p>
+			</div>
+
+			<div class="inner-content">
+				<div class="row">
+					<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+						<div class="outer-box">
+							<div class="img-container">
+								<img src="images/default-avatar.jpg" alt="" />
+							</div>
+
+							<div class="title-and-desc">
+								<h4>{{ __('home.Search for a service')}}</h4>
+								<p>
+									{{ __('home.lorem home')}}
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+						<div class="outer-box">
+							<div class="img-container">
+								<img src="images/default-avatar.jpg" alt="" />
+							</div>
+
+							<div class="title-and-desc">
+								<h4>{{ __('home.Choose an expert')}}</h4>
+								<p>
+									{{ __('home.lorem home')}}
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+						<div class="outer-box">
+							<div class="img-container">
+								<img src="images/default-avatar.jpg" alt="" />
+							</div>
+
+							<div class="title-and-desc">
+								<h4>{{ __('home.Get your work done')}}</h4>
+								<p>
+									{{ __('home.lorem home')}}
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="all-categories">
+	<div class="container">
+		<div class="outer-content">
+			<div class="headers">
+				<h2>{{ __('home.Categories You Can Search For')}}</h2>
+				<p>{{ __('home.All categories are currently available')}}</p>
+			</div>
+
+			<div class="row">
+				@foreach($categories as $cat)
+				<div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+					<a href="{{$cat->cat_url}}" class="category-box">
+						<div class="img-container">
+							<img src="{{asset('images/cat_images/'.$cat->cat_image)}}" alt="" />
+						</div>
+						<h4>{{ __('home.'.$cat->cat_title)}}</h4>
+						<div class="line"></div>
+					</a>
+				</div>
+				@endforeach
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="achievement">
+	<div class="container">
+		<div class="outer-content">
+			<div class="row">
+				<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+					<div class="outer-box">
+						<div class="box">
+							<div class="icon">
+								<img src="images/default-avatar.jpg" alt="" />
+							</div>
+						</div>
+						<div class="box">
+							<h1>70,000</h1>
+							<p>{{ __('home.Employee around')}}</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+					<div class="outer-box">
+						<div class="box">
+							<div class="icon">
+								<img src="images/default-avatar.jpg" alt="" />
+							</div>
+						</div>
+						<div class="box">
+							<h1>10,000</h1>
+							<p>{{ __('home.Completed Job')}}</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+					<div class="outer-box">
+						<div class="box">
+							<div class="icon">
+								<img src="images/default-avatar.jpg" alt="" />
+							</div>
+						</div>
+						<div class="box">
+							<h1>99%</h1>
+							<p>{{ __('home.Customer satisfaction')}}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="top-rated-services">
+	<div class="container">
+		<div class="outer-content">
+			<div class="headers">
+				<h2>{{ __('home.Top Rated Services')}}</h2>
+			</div>
+
+			<div class="inner-content">
+				<div class="swiper-container top-rated-services-container">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide">
+							<div class="card">
+								<div class="card-img-top">
+									<img src="images/default-img.png" alt="" />
+								</div>
+								<div class="card-body">
+									<div class="category-and-rating">
+										<div class="box title">
+											<a href="">writing & translation</a>
+										</div>
+										<div class="box rating">
+											<ul>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+											</ul>
+										</div>
+									</div>
+									<div class="user-container">
+										<div class="box">
+											<div class="avatar">
+												<img src="images/default-avatar.jpg" alt="" />
+											</div>
+										</div>
+										<div class="box">
+											<a href="" class="author-name">By <span>Sohanur Rahman</span></a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="swiper-slide">
+							<div class="card">
+								<div class="card-img-top">
+									<img src="images/default-img.png" alt="" />
+								</div>
+								<div class="card-body">
+									<div class="category-and-rating">
+										<div class="box title">
+											<a href="">writing & translation</a>
+										</div>
+										<div class="box rating">
+											<ul>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+											</ul>
+										</div>
+									</div>
+									<div class="user-container">
+										<div class="box">
+											<div class="avatar">
+												<img src="images/default-avatar.jpg" alt="" />
+											</div>
+										</div>
+										<div class="box">
+											<a href="" class="author-name">By <span>Sohanur Rahman</span></a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="swiper-slide">
+							<div class="card">
+								<div class="card-img-top">
+									<img src="images/default-img.png" alt="" />
+								</div>
+								<div class="card-body">
+									<div class="category-and-rating">
+										<div class="box title">
+											<a href="">writing & translation</a>
+										</div>
+										<div class="box rating">
+											<ul>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+											</ul>
+										</div>
+									</div>
+									<div class="user-container">
+										<div class="box">
+											<div class="avatar">
+												<img src="images/default-avatar.jpg" alt="" />
+											</div>
+										</div>
+										<div class="box">
+											<a href="" class="author-name">By <span>Sohanur Rahman</span></a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="swiper-slide">
+							<div class="card">
+								<div class="card-img-top">
+									<img src="images/default-img.png" alt="" />
+								</div>
+								<div class="card-body">
+									<div class="category-and-rating">
+										<div class="box title">
+											<a href="">writing & translation</a>
+										</div>
+										<div class="box rating">
+											<ul>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+											</ul>
+										</div>
+									</div>
+									<div class="user-container">
+										<div class="box">
+											<div class="avatar">
+												<img src="images/default-avatar.jpg" alt="" />
+											</div>
+										</div>
+										<div class="box">
+											<a href="" class="author-name">By <span>Sohanur Rahman</span></a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="swiper-slide">
+							<div class="card">
+								<div class="card-img-top">
+									<img src="images/default-img.png" alt="" />
+								</div>
+								<div class="card-body">
+									<div class="category-and-rating">
+										<div class="box title">
+											<a href="">writing & translation</a>
+										</div>
+										<div class="box rating">
+											<ul>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+											</ul>
+										</div>
+									</div>
+									<div class="user-container">
+										<div class="box">
+											<div class="avatar">
+												<img src="images/default-avatar.jpg" alt="" />
+											</div>
+										</div>
+										<div class="box">
+											<a href="" class="author-name">By <span>Sohanur Rahman</span></a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="swiper-slide">
+							<div class="card">
+								<div class="card-img-top">
+									<img src="images/default-img.png" alt="" />
+								</div>
+								<div class="card-body">
+									<div class="category-and-rating">
+										<div class="box title">
+											<a href="">writing & translation</a>
+										</div>
+										<div class="box rating">
+											<ul>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+											</ul>
+										</div>
+									</div>
+									<div class="user-container">
+										<div class="box">
+											<div class="avatar">
+												<img src="images/default-avatar.jpg" alt="" />
+											</div>
+										</div>
+										<div class="box">
+											<a href="" class="author-name">By <span>Sohanur Rahman</span></a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Add Arrows -->
+					<div class="swiper-button-next"></div>
+					<div class="swiper-button-prev"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <!--       social -->
 <!-- <ul class="trusted-by bg-white border-bottom">
 	<li><img src="{{asset('frontend-assets/images/facebook.png')}}"></li>
@@ -55,7 +431,7 @@
 <!--       social -->
 <!--       recent -->
 <!--       freelancer projects -->
-<section class="market-wrapper py-5">
+<!-- <section class="market-wrapper py-5">
 	<div class="container">
 	  <h2 class="text-center">It's Easy to do it with Engezly</h2>
 	  <p class="text-center">Follow these steps</p>
@@ -77,7 +453,7 @@
 	  	</div>
 	  </div>
 	</div>
-</section>
+</section> -->
 <!-- <div class="freelance-projects bg-white py-5">
 	<div class="container">
 		<div class="row freelance-slider">
@@ -141,7 +517,7 @@
 </div> -->
 <!--       freelancer projects -->
 <!--    about section -->
-<div class="market-wrapper py-5 bg-white">
+<!-- <div class="market-wrapper py-5 bg-white">
    <div class="container">
       <h2 class="text-center">Categories you can search for</h2>
       <p class="text-center">All categories are currently available</p>
@@ -186,9 +562,9 @@
          </li>
       </ul>
    </div>
-</div>
+</div> -->
 <!--     market   -->
-<div class="get-started our-profile">
+<!-- <div class="get-started our-profile">
 	<div class="container">
 		<div class="content">
 			<div class="row justify-content-center d-flex">
@@ -216,9 +592,9 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->
 <!--       recent -->
-<section class="py-5">
+<!-- <section class="py-5">
 	<div class="view_slider recommended">
 		<div class="container">
 			<div class="row">
@@ -494,7 +870,7 @@
 			</div>
 		</div>
 	</div>
-</section>
+</section> -->
 <!--       recent -->
 <!--       services-->
 <!-- <div class="services-wrapper bg-white py-5">
@@ -626,7 +1002,7 @@
 </div> -->
 <!--       guides  -->
 <!-- get started -->
-<div>
+<!-- <div>
 	<div class="get-started">
 		<div class="content">
 			<h2>Find Freelance Services For Your Business Today</h2>
@@ -634,8 +1010,43 @@
 			<a href="#" class="c-btn c-fill-color-btn">Get Started</a>
 		</div>
 	</div>
-</div>
+</div> -->
 <!-- get started -->
 @endsection
 @section('script')
+<!-- Initialize Swiper -->
+<script>
+	var swiper = new Swiper(".top-rated-services-container", {
+		slidesPerView: 1,
+		spaceBetween: 10,
+		// autoplay: {
+		// 	delay: 2500,
+		// 	disableOnInteraction: false,
+		// },
+		// init: false,
+		pagination: {
+			el: ".swiper-pagination",
+			clickable: true,
+		},
+		breakpoints: {
+			640: {
+				slidesPerView: 1,
+				spaceBetween: 10,
+			},
+			768: {
+				slidesPerView: 3,
+				spaceBetween: 10,
+			},
+			1024: {
+				slidesPerView: 4,
+				spaceBetween: 10,
+			},
+		},
+		navigation: {
+			nextEl: ".swiper-button-next",
+			prevEl: ".swiper-button-prev",
+		},
+	});
+</script>
+<!-- Initialize Swiper -->
 @endsection
