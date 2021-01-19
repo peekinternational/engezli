@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Categories;
+use App\Models\User;
 use App\Facade\Engezli;
 use Hash;
 use Session;
@@ -13,7 +14,7 @@ use Mail;
 use Redirect;
 use App;
 
-class HomeController extends Controller
+class ProfileController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,9 +23,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $categories = Categories::get();
+        $user_id = auth()->user()->id; 
+        $user = User::where('id', $user_id)->get();
 
-        return \View::make('frontend.index')->with(compact('categories'));
+        return \View::make('frontend.profile')->with(compact('user'));
     }
 
     /**
@@ -91,14 +93,5 @@ class HomeController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    // Language Change
-    public function change(Request $request)
-    {
-        App::setLocale($request->lang);
-        session()->put('locale', $request->lang);
-  
-        return redirect()->back();
     }
 }

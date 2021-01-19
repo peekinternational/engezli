@@ -10,7 +10,7 @@
 				<ul class="nav nav-tabs" id="myTab" role="tablist">
 					<li class="nav-item">
 						<a class="nav-link active" id="overview-tab" data-toggle="tab" href="#overview" role="tab"
-							aria-controls="overview" aria-selected="true">overview</a>
+							aria-controls="overview" aria-selected="true">overview {{Session::get('u_session')}}</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" id="pricing-tab" data-toggle="tab" href="#pricing" role="tab" aria-controls="pricing"
@@ -48,78 +48,84 @@
 						<div class="service-tab-content">
 							<div class="tab-content" id="myTabContent">
 								<div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
-									<div class="tab-pane-box">
-										<div class="pane-box">
-											<h6>gig Title</h6>
-											<div class="inner-pane-box">
-												<textarea name="" id="" class="form-control" rows="2"
-													placeholder="I will do something I'm really good at"></textarea>
+									<form id="service-form">
+										@csrf
+										<div class="tab-pane-box">
+											<div class="pane-box">
+												<h6>gig Title</h6>
+												<div class="inner-pane-box">
+													<textarea name="" id="service_title" class="form-control" rows="2"
+														placeholder="I will do something I'm really good at" name="service_title"></textarea>
 
-												<div class="sub-box">
-													<p class="text">Just perfect</p>
-													<p class="max-char"><span>0</span>/80 max</p>
+													<div class="sub-box">
+														<p class="text">Just perfect</p>
+														<p class="max-char"><span class="descCount">0</span>/80 max</p>
+													</div>
 												</div>
 											</div>
-										</div>
 
-										<div class="pane-box">
-											<h6>seo Title</h6>
-											<div class="inner-pane-box">
-												<input type="text" class="form-control" />
+											<div class="pane-box">
+												<h6>seo Title</h6>
+												<div class="inner-pane-box">
+													<input type="text" class="form-control" id="seo_title" name="seo_title" />
 
-												<div class="sub-box">
-													<!-- <p class="text">Just perfect</p> -->
-													<p class="max-char"><span>0</span>/50 max</p>
+													<div class="sub-box">
+														<!-- <p class="text">Just perfect</p> -->
+														<p class="max-char"><span class="seoCount">0</span>/50 max</p>
+													</div>
 												</div>
 											</div>
-										</div>
 
-										<div class="pane-box">
-											<h6>category</h6>
-											<div class="inner-pane-box">
-												<div class="select-category">
-													<select name="" id="" class="custom-select">
-														<option value="">Category 1</option>
-														<option value="">Category 2</option>
-														<option value="">Category 3</option>
-													</select>
-													<select name="" id="" class="custom-select">
-														<option value="">Category 1</option>
-														<option value="">Category 2</option>
-														<option value="">Category 3</option>
-													</select>
+											<div class="pane-box">
+												<h6>category</h6>
+												<div class="inner-pane-box">
+													<div class="select-category">
+														<select name="cat_id" id="category" class="custom-select">
+															<option>Select Category</option>
+															@foreach($mainCategories as $mainCat)
+															<option value="{{$mainCat->id}}">{{$mainCat->cat_title}}</option>
+															@endforeach
+														</select>
+														<select name="cat_child_id" id="sub-category" class="custom-select">
+														</select>
+													</div>
 												</div>
 											</div>
-										</div>
 
-										<div class="pane-box">
-											<h6>search tags</h6>
-											<div class="inner-pane-box">
-												<input type="text" value="Web design, branding, ui design, ux design, mobile design"
-													data-role="tagsinput" class="form-control tagsinput" />
+											<div class="pane-box">
+												<h6>search tags</h6>
+												<div class="inner-pane-box">
+													<input type="text" name="search_tags" id="search_tags" value=""
+														data-role="tagsinput" class="form-control tagsinput" />
 
-												<div class="sub-box">
-													<!-- <p class="text">Just perfect</p> -->
-													<p class="max-char">
-														5 tags maximum. Use letters and numbers only.
+													<div class="sub-box">
+														<!-- <p class="text">Just perfect</p> -->
+														<p class="max-char">
+															5 tags maximum. Use letters and numbers only.
+														</p>
+													</div>
+												</div>
+											</div>
+
+											<div class="pane-box">
+												<h6></h6>
+												<div class="inner-pane-box">
+													<p class="note">
+														<span>
+															<i class="fa fa-info-circle"></i> Please note:
+														</span>
+														Some categories require that sellers verify their
+														skills.
 													</p>
 												</div>
 											</div>
 										</div>
-
-										<div class="pane-box">
-											<h6></h6>
-											<div class="inner-pane-box">
-												<p class="note">
-													<span>
-														<i class="fa fa-info-circle"></i> Please note:
-													</span>
-													Some categories require that sellers verify their
-													skills.
-												</p>
-											</div>
+										<div class="btns-group">
+											<!-- <button class="prevtab btn btn-primary">Prev</button> -->
+											<button class="cancle custom-btn">Cancle</button>
+											<button class="nexttab custom-btn" type="submit" id="submit"  form="service-form">save</button>
 										</div>
-									</div>
+									</form>
 								</div>
 								<div class="tab-pane fade pricing-tab-container" id="pricing" role="tabpanel"
 									aria-labelledby="pricing-tab">
@@ -596,143 +602,154 @@
 											</div>
 										</div>
 									</div>
+									<div class="btns-group">
+											<!-- <button class="prevtab btn btn-primary">Prev</button> -->
+											<button class="cancle custom-btn">Cancle</button>
+											<button class="nexttab custom-btn" form="description-form-form">save</button>
+										</div>
 								</div>
 								<div class="tab-pane fade descriptionFaq-tab" id="descriptionFaq" role="tabpanel"
 									aria-labelledby="descriptionFaq-tab">
-									<div class="tab-pane-box">
-										<div class="heading">
-											<h3>description</h3>
-											<p>briefly describe you gig</p>
-										</div>
-
-										<div class="page-wrapper box-content">
-											<textarea class="content" name="example"></textarea>
-											<div class="max-char">
-												<p>0/1200 characters</p>
+									<form id="description-form">
+										<div class="tab-pane-box">
+											<div class="heading">
+												<h3>description</h3>
+												<p>briefly describe you gig</p>
 											</div>
-										</div>
 
-										<div class="faq-section">
-											<div class="faq-header">
-												<h3>frequently ask questions</h3>
-												<button class="custom-btn add-faq-btn">
-													<i class="fa fa-plus"></i> add faq
-												</button>
+											<div class="page-wrapper box-content">
+												<textarea class="content" id="service_desc" name="service_desc"></textarea>
+												<div class="max-char">
+													<p>0/1200 characters</p>
+												</div>
 											</div>
-											<p class="QA">
-												Add Questions & Answers for Your Buyers.
-											</p>
-
-											<div class="input-box-container d-none" id="input-box-content">
-												<div class="form-group">
-													<input type="text" class="form-control"
-														placeholder="Add a Question: i.e. Do you translate to English as well?" />
+										</form>
+											<div class="faq-section">
+												<div class="faq-header">
+													<h3>frequently ask questions</h3>
+													<button class="custom-btn add-faq-btn">
+														<i class="fa fa-plus"></i> add faq
+													</button>
 												</div>
-												<div class="form-group">
-													<textarea maxlength="300" class="form-control" rows="3"
-														placeholder="Add an Answer: i.e. Yes, I also translate from English to Hebrew."></textarea>
-												</div>
+												<p class="QA">
+													Add Questions & Answers for Your Buyers.
+												</p>
 
-												<div class="btn-container-box">
-													<div class="btns">
-														<button class="custom-btn cancle-btn">
-															cancle
-														</button>
-														<button class="custom-btn">save</button>
+												<div class="input-box-container d-none" id="input-box-content">
+													<div class="form-group">
+														<input type="text" name="title" class="form-control"
+															placeholder="Add a Question: i.e. Do you translate to English as well?" />
+													</div>
+													<div class="form-group">
+														<textarea maxlength="300" name="description" class="form-control" rows="3"
+															placeholder="Add an Answer: i.e. Yes, I also translate from English to Hebrew."></textarea>
+													</div>
+
+													<div class="btn-container-box">
+														<div class="btns">
+															<button class="custom-btn cancle-btn">
+																cancle
+															</button>
+															<button class="custom-btn">save</button>
+														</div>
 													</div>
 												</div>
-											</div>
 
-											<div class="added-faq-box-container">
-												<div id="accordion">
-													<div class="card">
-														<div class="card-header" id="headingOne">
-															<h5 class="mb-0">
-																<button class="btn btn-link collapsed" data-toggle="collapse"
-																	data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-																	Collapsible Group Item #1
-																</button>
-															</h5>
+												<div class="added-faq-box-container">
+													<div id="accordion">
+														<div class="card">
+															<div class="card-header" id="headingOne">
+																<h5 class="mb-0">
+																	<button class="btn btn-link collapsed" data-toggle="collapse"
+																		data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+																		Collapsible Group Item #1
+																	</button>
+																</h5>
+															</div>
+
+															<div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+																data-parent="#accordion">
+																<div class="card-body">
+																	<div class="input-box-container">
+																		<div class="form-group">
+																			<input type="text" class="form-control"
+																				placeholder="Add a Question: i.e. Do you translate to English as well?" />
+																		</div>
+																		<div class="form-group">
+																			<textarea maxlength="300" class="form-control" rows="3"
+																				placeholder="Add an Answer: i.e. Yes, I also translate from English to Hebrew."></textarea>
+																		</div>
+
+																		<div class="btn-container-box">
+																			<div class="btns">
+																				<button class="custom-btn delete-btn">
+																					<i class="fa fa-times"></i> delete
+																				</button>
+																			</div>
+																			<div class="btns">
+																				<button class="custom-btn">
+																					cancle
+																				</button>
+																				<button class="custom-btn">
+																					save
+																				</button>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
 														</div>
 
-														<div id="collapseOne" class="collapse" aria-labelledby="headingOne"
-															data-parent="#accordion">
-															<div class="card-body">
-																<div class="input-box-container">
-																	<div class="form-group">
-																		<input type="text" class="form-control"
-																			placeholder="Add a Question: i.e. Do you translate to English as well?" />
-																	</div>
-																	<div class="form-group">
-																		<textarea maxlength="300" class="form-control" rows="3"
-																			placeholder="Add an Answer: i.e. Yes, I also translate from English to Hebrew."></textarea>
-																	</div>
-
-																	<div class="btn-container-box">
-																		<div class="btns">
-																			<button class="custom-btn delete-btn">
-																				<i class="fa fa-times"></i> delete
-																			</button>
+														<div class="card">
+															<div class="card-header" id="headingTwo">
+																<h5 class="mb-0">
+																	<button class="btn btn-link collapsed" data-toggle="collapse"
+																		data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+																		Collapsible Group Item #2
+																	</button>
+																</h5>
+															</div>
+															<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+																data-parent="#accordion">
+																<div class="card-body">
+																	<div class="input-box-container">
+																		<div class="form-group">
+																			<input type="text" class="form-control"
+																				placeholder="Add a Question: i.e. Do you translate to English as well?" />
 																		</div>
-																		<div class="btns">
-																			<button class="custom-btn">
-																				cancle
-																			</button>
-																			<button class="custom-btn">
-																				save
-																			</button>
+																		<div class="form-group">
+																			<textarea maxlength="300" class="form-control" rows="3"
+																				placeholder="Add an Answer: i.e. Yes, I also translate from English to Hebrew."></textarea>
+																		</div>
+
+																		<div class="btn-container-box">
+																			<div class="btns">
+																				<button class="custom-btn delete-btn">
+																					<i class="fa fa-times"></i> delete
+																				</button>
+																			</div>
+																			<div class="btns">
+																				<button class="custom-btn">
+																					cancle
+																				</button>
+																				<button class="custom-btn">
+																					save
+																				</button>
+																			</div>
 																		</div>
 																	</div>
 																</div>
 															</div>
 														</div>
 													</div>
-
-													<div class="card">
-														<div class="card-header" id="headingTwo">
-															<h5 class="mb-0">
-																<button class="btn btn-link collapsed" data-toggle="collapse"
-																	data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-																	Collapsible Group Item #2
-																</button>
-															</h5>
-														</div>
-														<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
-															data-parent="#accordion">
-															<div class="card-body">
-																<div class="input-box-container">
-																	<div class="form-group">
-																		<input type="text" class="form-control"
-																			placeholder="Add a Question: i.e. Do you translate to English as well?" />
-																	</div>
-																	<div class="form-group">
-																		<textarea maxlength="300" class="form-control" rows="3"
-																			placeholder="Add an Answer: i.e. Yes, I also translate from English to Hebrew."></textarea>
-																	</div>
-
-																	<div class="btn-container-box">
-																		<div class="btns">
-																			<button class="custom-btn delete-btn">
-																				<i class="fa fa-times"></i> delete
-																			</button>
-																		</div>
-																		<div class="btns">
-																			<button class="custom-btn">
-																				cancle
-																			</button>
-																			<button class="custom-btn">
-																				save
-																			</button>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
 												</div>
 											</div>
 										</div>
-									</div>
+										<div class="btns-group">
+											<!-- <button class="prevtab btn btn-primary">Prev</button> -->
+											<button class="cancle custom-btn">Cancle</button>
+											<button class="nexttab custom-btn" type="submit" id="submit-desc"  form="description-form">save</button>
+										</div>
 								</div>
 								<div class="tab-pane fade" id="requirements" role="tabpanel" aria-labelledby="requirements-tab">
 									<div class="tab-pane-box">
@@ -785,122 +802,116 @@
 								</div>
 								<div class="tab-pane fade gallery-tab-container" id="gallery" role="tabpanel"
 									aria-labelledby="gallery-tab">
-									<div class="tab-pane-box">
+									<form id="gallery-form" enctype="multipart/form-data">
+										<input type="hidden" name="type" value="5">
+										<div class="tab-pane-box">
 
-										<div class="heading">
-											<h3>Build Your Gig Gallery</h3>
-											<p>Add memorable content to your gallery to set yourself apart from competitors.</p>
-										</div>
+											<div class="heading">
+												<h3>Build Your Gig Gallery</h3>
+												<p>Add memorable content to your gallery to set yourself apart from competitors.</p>
+											</div>
 
-										<div class="note">
-											<p class="icon"><i class="fa fa-info-circle"></i></p>
-											<p class="text"><span>Note: </span> To comply with Fiverr’s terms of service, make sure to
-												upload only
-												content you either
-												own or you have the permission or license to use.</p>
-										</div>
+											<div class="note">
+												<p class="icon"><i class="fa fa-info-circle"></i></p>
+												<p class="text"><span>Note: </span> To comply with Fiverr’s terms of service, make sure to
+													upload only
+													content you either
+													own or you have the permission or license to use.</p>
+											</div>
+											<div class="main-upload-wrapper">
 
+												<div class="box gig-photos">
 
-										<div class="main-upload-wrapper">
-
-											<div class="box gig-photos">
-
-												<div class="outer-box">
-													<div class="inner-heading">
-														<h5>Gig Photos</h5>
-														<p>Upload photos that describe or are related to your Gig.</p>
+													<div class="outer-box">
+														<div class="inner-heading">
+															<h5>Gig Photos</h5>
+															<p>Upload photos that describe or are related to your Gig.</p>
+														</div>
+														<p class="show-result">(0/3)</p>
 													</div>
-													<p class="show-result">(0/3)</p>
+
+													<div class="upload-wrap">
+														<div class="gig-photo-wrap">
+															<div class="uploadpreview 01"></div>
+															<input id="01" class="file" name="service_img1" type="file" accept="image/*">
+
+															<!-- <div class="control">
+																<input id="01" class="file" type="file" accept="image/*">
+																<label for="file">choose a file</label>
+															</div> -->
+														</div>
+														<div class="gig-photo-wrap">
+															<div class="uploadpreview 02"></div>
+															<input id="02" type="file" name="service_img2" accept="image/*">
+														</div>
+
+														<div class="gig-photo-wrap">
+															<div class="uploadpreview 03"></div>
+															<input id="03" type="file" name="service_img3" accept="image/*">
+														</div>
+													</div>
 												</div>
+												<div class="box gig-video">
 
-												<div class="upload-wrap">
-													<div class="gig-photo-wrap">
-														<div class="uploadpreview 01"></div>
-														<input id="01" class="file" type="file" accept="image/*">
+													<div class="outer-box">
+														<div class="inner-heading">
+															<h5>Gig Video</h5>
+															<p>Add a relevant, high quality video that best showcases your Gig.</p>
+															<p class="size">Please choose a video shorter than 75 seconds and smaller than 50MB</p>
+														</div>
+														<p class="show-result">(0/1)</p>
+													</div>
+													<div class="upload-wrap">
+														<div class="gig-photo-wrap">
+															<div class="uploadpreview 01"></div>
+															<input id="01" class="file" type="file" name="service_video" accept="video/mp4,video/x-m4v,video/*">
 
-														<!-- <div class="control">
-															<input id="01" class="file" type="file" accept="image/*">
-															<label for="file">choose a file</label>
-														</div> -->
+															<!-- <div class="control">
+																<input id="01" class="file" type="file" accept="image/*">
+																<label for="file">choose a file</label>
+															</div> -->
+														</div>
+													</div>
+												</div>
+												<div class="box gig-pdf">
+													<div class="outer-box">
+														<div class="inner-heading">
+															<h5>Gig PDFs</h5>
+															<p>We only recommend adding a PDF file if it further clarifies the service you will be
+																providing.</p>
+														</div>
+														<p class="show-result">(0/2)</p>
 													</div>
 
-													<div class="gig-photo-wrap">
-														<div class="uploadpreview 02"></div>
-														<input id="02" type="file" accept="image/*">
-													</div>
+													<div class="upload-wrap">
+														<div class="gig-photo-wrap">
+															<div class="uploadpreview 01"></div>
+															<input id="01" class="file" type="file" name="service_pdf1" accept="application/pdf,application/vnd.ms-excel">
 
-													<div class="gig-photo-wrap">
-														<div class="uploadpreview 03"></div>
-														<input id="03" type="file" accept="image/*">
+															<!-- <div class="control">
+																<input id="01" class="file" type="file" accept="image/*">
+																<label for="file">choose a file</label>
+															</div> -->
+														</div>
+
+														<div class="gig-photo-wrap">
+															<div class="uploadpreview 02"></div>
+															<input id="02" type="file" name="service_pdf2" accept="application/pdf,application/vnd.ms-excel">
+														</div>
 													</div>
 												</div>
 											</div>
-
-											<div class="box gig-video">
-
-												<div class="outer-box">
-													<div class="inner-heading">
-														<h5>Gig Video</h5>
-														<p>Add a relevant, high quality video that best showcases your Gig.</p>
-														<p class="size">Please choose a video shorter than 75 seconds and smaller than 50MB</p>
-													</div>
-													<p class="show-result">(0/1)</p>
-												</div>
-
-												<div class="upload-wrap">
-													<div class="gig-photo-wrap">
-														<div class="uploadpreview 01"></div>
-														<input id="01" class="file" type="file" accept="image/*">
-
-														<!-- <div class="control">
-															<input id="01" class="file" type="file" accept="image/*">
-															<label for="file">choose a file</label>
-														</div> -->
-													</div>
-												</div>
-											</div>
-
-											<div class="box gig-pdf">
-
-												<div class="outer-box">
-													<div class="inner-heading">
-														<h5>Gig PDFs</h5>
-														<p>We only recommend adding a PDF file if it further clarifies the service you will be
-															providing.</p>
-													</div>
-													<p class="show-result">(0/2)</p>
-												</div>
-
-												<div class="upload-wrap">
-													<div class="gig-photo-wrap">
-														<div class="uploadpreview 01"></div>
-														<input id="01" class="file" type="file" accept="image/*">
-
-														<!-- <div class="control">
-															<input id="01" class="file" type="file" accept="image/*">
-															<label for="file">choose a file</label>
-														</div> -->
-													</div>
-
-													<div class="gig-photo-wrap">
-														<div class="uploadpreview 02"></div>
-														<input id="02" type="file" accept="image/*">
-													</div>
-												</div>
-											</div>
-
-
 										</div>
-
-									</div>
+										<div class="btns-group">
+											<!-- <button class="prevtab btn btn-primary">Prev</button> -->
+											<button class="cancle custom-btn">Cancle</button>
+											<button class="nexttab custom-btn" type="submit" id="gallery-submit" form="gallery-form">save</button>
+										</div>
+									</form>
 								</div>
 							</div>
 
-							<div class="btns-group">
-								<!-- <button class="prevtab btn btn-primary">Prev</button> -->
-								<button class="cancle custom-btn">Cancle</button>
-								<button class="nexttab custom-btn">save</button>
-							</div>
+							
 						</div>
 					</div>
 					<!-- <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
@@ -960,6 +971,12 @@
 
 <script>
 	$(document).ready(function () {
+		$.ajaxSetup({
+		    headers: {
+		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		    }
+		});
+
 		// show question-input-container
 		$(".add-new-btn-ques").on("click", function (e) {
 			$(".question-input-container").removeClass("d-none");
@@ -1025,6 +1042,83 @@
 				$(".additional-revision .hided-option").addClass('d-none');
 			}
 		});
+
+
+		// POST SERVICE
+
+		$('#submit').click(function(e){
+			e.preventDefault();
+
+			var service_title = $('#service_title').val();
+			var seo_title = $('#seo_title').val();
+			var cat_id = $('#category').val();
+			var cat_child_id = $('#sub-category').val();
+			var search_tags = $('#search_tags').val();
+			var type = "1";
+			// alert(cat_id);
+			$.ajax({
+				url: "{{url('post_service')}}",
+				type: 'post',
+				data:{service_title:service_title,seo_title:seo_title,cat_id:cat_id,cat_child_id:cat_child_id,search_tags:search_tags,type:type},
+				success:function(data){
+					console.log(data);
+					// $("#sub-category").html(data);
+				}
+			});
+
+		})
+
+		$('#submit-desc').click(function(e){
+			e.preventDefault();
+
+			var service_desc = $('#service_desc').val();
+			var type = "3"
+			alert(service_desc);
+			$.ajax({
+				url: "{{url('post_service')}}",
+				type: 'post',
+				data:{service_desc:service_desc,type:type},
+				success:function(data){
+					console.log(data);
+					// $("#sub-category").html(data);
+				}
+			});
+
+		})
+
+		$('#gallery-form').on('submit', function(event){
+		  event.preventDefault();
+		  $.ajax({
+		   url:"{{ url('post_service') }}",
+		   method:"POST",
+		   data:new FormData(this),
+		   dataType:'JSON',
+		   contentType: false,
+		   cache: false,
+		   processData: false,
+		   success:function(data){
+		    
+		   }
+		  })
+		 });
+
+		// $('#gallery-submit').click(function(e){
+		// 	e.preventDefault();
+
+		// 	var service_desc = $('#service_desc').val();
+		// 	var type = "3"
+		// 	alert(service_desc);
+		// 	$.ajax({
+		// 		url: "{{url('post_service')}}",
+		// 		type: 'post',
+		// 		data:{service_desc:service_desc,type:type},
+		// 		success:function(data){
+		// 			console.log(data);
+		// 			// $("#sub-category").html(data);
+		// 		}
+		// 	});
+
+		// })
 	});
 </script>
 
@@ -1038,6 +1132,7 @@
 
 <!-- image-upload -->
 <script>
+	
 	// Gig photos
 	$('.gig-photos input[type=file]').change(function () {
 		var id = $(this).attr("id");
@@ -1064,6 +1159,31 @@
 		newimage.onload = function (e) {
 			$('.gig-pdf .uploadpreview.' + id).css('background-image', 'url(' + e.target.result + ')');
 		}
+	});
+
+	$("#category").change(function(){
+	  $("#sub-category").show();
+	  var category_id = $(this).val();
+	  // alert(category_id);
+	  $.ajax({
+	  	url: "{{url('fetch_subcategory')}}",
+	  	type: 'post',
+	  	data:{category_id:category_id},
+	  	success:function(data){
+	  		// console.log(data);
+	  		$("#sub-category").html(data);
+	  	}
+	  });
+	});
+
+	$("#service_title").keydown(function(){
+		var textarea = $("#service_title").val();
+		$(".descCount").text(textarea.length);  
+	});
+
+	$("#seo_title").keydown(function(){
+		var textarea = $("#seo_title").val();
+		$(".seoCount").text(textarea.length);  
 	});
 </script>
 @endsection

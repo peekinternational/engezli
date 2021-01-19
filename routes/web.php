@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SocialAuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CreateServiceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,24 +69,29 @@ Route::get('login/google', [SocialAuthController::class, 'redirectToGoogle']);
 Route::get('google/callback', [SocialAuthController::class, 'GoogleProviderCallback']);
 
 
+// Profile
+Route::resource('/profile', ProfileController::class);
 Route::get('/messages', function () {
     return view('frontend.messages');
 });
+
+// Service Route
+Route::resource('/create-service', CreateServiceController::class);
+Route::post('/fetch_subcategory', [CreateServiceController::class, 'fetch_subcategory']);
+Route::post('/post_service', [CreateServiceController::class, 'post_service']);
 Route::get('/service-detail', function () {
     return view('frontend.service-detail');
 });
 Route::get('/services', function () {
     return view('frontend.services');
 });
-Route::get('/profile', function () {
-    return view('frontend.profile');
-});
+// Route::get('/profile', function () {
+//     return view('frontend.profile');
+// });
 Route::get('/order', function () {
     return view('frontend.order');
 });
 Route::get('/manage-orders', function () {
     return view('frontend.manage-orders');
 });
-Route::get('/create-service', function () {
-    return view('frontend.create-service');
-});
+

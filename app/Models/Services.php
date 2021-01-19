@@ -35,4 +35,13 @@ class Services extends Model
     {
       return $this->belongsTo(User::class, 'buyer_id');
     }
+
+    public function sluggable()
+    {
+        return [
+            'service_url' => [
+                'source' => 'service_title'
+            ]
+        ];
+    }
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Facade\Engezli;
 use Hash;
 use Session;
 use Mail;
@@ -20,7 +21,7 @@ class RegisterController extends Controller
      */
     public function index()
     {
-        return view('frontend.index');
+        
     }
 
     // Route
@@ -216,6 +217,7 @@ class RegisterController extends Controller
       $user_id = auth()->user()->id;
       $update_status = User::where('id', $user_id)->update(array('user_status' => 'offline'));
       Auth::logout();
+      $request->session()->flash('u_session');
       return redirect('login');
     }
     // Reset Password

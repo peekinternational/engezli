@@ -39,18 +39,13 @@
 					<div class="categories">
 						<h5>{{ __('home.Categories')}}</h5>
 						<div class="inner-list-group">
+							@foreach(Engezli::get_categories()->chunk(4) as $chunk)
 							<ul>
-								<li><a href="">Web Design</a></li>
-								<li><a href="">Free Business</a></li>
-								<li><a href="">voice over</a></li>
-								<li><a href="">video and montage</a></li>
+          			@foreach($chunk as $category)
+          			<li><a href="{{$category->cat_url}}">{{$category->cat_title}}</a></li>
+          		@endforeach
 							</ul>
-							<ul>
-								<li><a href="">digital marketing </a></li>
-								<li><a href="">Web development </a></li>
-								<li><a href="">training and consulting </a></li>
-								<li><a href="">writing and translation</a></li>
-							</ul>
+          		@endforeach
 						</div>
 					</div>
 				</div>

@@ -36,12 +36,13 @@
       </div>
       <div class="footer-list">
         <h2>{{ __('home.Categories')}}</h2>
+        @foreach(Engezli::get_categories()->chunk(4) as $chunk)
         <ul class="list">
-          <li><a href="#">Web &amp; Design</a></li>
-          <li><a href="#">Free &amp; Business</a></li>
-          <li><a href="#">Voice &amp; Over</a></li>
-          <li><a href="#">Video and montage</a></li>
+          @foreach($chunk as $category)
+          <li><a href="{{$category->cat_url}}">{{$category->cat_title}}</a></li>
+          @endforeach
         </ul>
+        @endforeach
       </div>
       <div class="footer-list">
         <h2><br></h2>
