@@ -10,10 +10,11 @@ class Packages extends Model
     use HasFactory;
 
     protected $fillable = [
-    	'service_id',
+    	'services_id',
     	'title',
-    	'desciption',
-    	'price'
+    	'description',
+    	'price',
+        'delivery_time'
     ];
     public function serviceInfo()
     {

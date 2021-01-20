@@ -31,9 +31,13 @@ class Services extends Model
     {
       return $this->belongsTo(Services::class, 'service_id');
     }
-    public function buyerInfo()
+    public function packageInfo()
     {
-      return $this->belongsTo(User::class, 'buyer_id');
+      return $this->hasMany(Packages::class, 'services_id');
+    }
+    public function sellerInfo()
+    {
+      return $this->belongsTo(User::class, 'seller_id');
     }
 
     public function sluggable()

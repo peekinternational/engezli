@@ -9,7 +9,7 @@ use Str;
 
 class Engezli {
 	public function get_categories(){
-		$categories = Categories::get();
+		$categories = Categories::where('parent_id', '==', 0)->get();
 		return $categories;
 	}
 }

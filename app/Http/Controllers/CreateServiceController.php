@@ -9,6 +9,11 @@ use Illuminate\Support\Str;
 use App\Models\Categories;
 use App\Models\User;
 use App\Models\Services;
+use App\Models\ServiceRequirement;
+use App\Models\ServiceFaq;
+use App\Models\Packages;
+use App\Models\PackagesOption;
+use App\Models\PackagesOptionService;
 use App\Facade\Engezli;
 use Hash;
 use Session;
@@ -41,6 +46,15 @@ class CreateServiceController extends Controller
 
             return view('frontend.fetch_subcategory',compact('subCategory'));
         
+    }
+
+    // Fetch Package Attribute Using id
+    public function fetch_package_option(Request $request){
+      $category_id = $request->input('category_id');
+      
+      $packageOptions = PackagesOption::wherecat_id($category_id)->get();
+      // dd($packageOptions);
+      return view('frontend.fetch_package_option', compact('packageOptions'));
     }
     /**
      * Show the form for creating a new resource.
@@ -104,14 +118,56 @@ class CreateServiceController extends Controller
           $request->session()->put('u_session', $service_id);
           // dd($session_id);
         }elseif($type == 2){
-          $service_id= Session::get('u_session');
+          $service_id = Session::get('u_session');
+          $package_type = $request->input('package_type');
+
+          $packages = $request->input('proposal_packages');
+
+          foreach ($packages as $key => $package) {
+            $packageBasic = [
+              "service_id" => $service_id,
+              "title" => $package['package_name'],
+              "description" => $package['package_desc'],
+              "delivery_time" => $package['delivery_time'],
+              "price" => $package['package_price']
+            ];
+
+            $insertPackage = Packages::insert($packageBasic);
+
+          }
+
+          $attributes = $request->input('package_attribute');
+
+          foreach ($attributes as $key => $attr) {
+            $serviceAttr = [
+              "service_id" => $service_id,
+              "package_option_id" => $attr['id'],
+              "value" => '0'
+            ];
+            
+            $insertOption = PackagesOptionService::insert($serviceAttr);
+          }
 
         }elseif ($type == 3) {
           $service_id= Session::get('u_session');
           // $service->service_desc = $request->input('service_desc');
           $update = Services::where('id', $service_id)->update(['service_desc' => $request->input('service_desc')]);
+
+          $faqData =[
+            'service_id' => $service_id,
+            'title' => $request->input('title'),
+            'description' => $request->input('description')
+          ];
+          $inserFaq = ServiceFaq::create($faqData);
+
         }elseif ($type == 4) {
           $service_id= Session::get('u_session');
+          $requirementsData = [
+            'question' => $request->input('question'),
+            'response' => $request->input('response'),
+            'service_id' => $service_id
+          ];
+          $insertRequr = ServiceRequirement::insert($requirementsData);
         }else{
           $data = [];
           $service_id= Session::get('u_session');

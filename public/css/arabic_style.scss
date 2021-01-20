@@ -17,6 +17,7 @@ body.arabic {
 			.search-btn {
 				left: 0;
 				right: unset;
+				border-radius: 4px 0 0 4px;
 			}
 		}
 	}
@@ -88,9 +89,30 @@ body.arabic {
 
 	//////////////////////////////////////
 
-	.search-container .outer-content .header-title .inner-box:last-child select {
-		margin-left: 0;
-		margin-right: 10px;
+	.search-container {
+		.search-filter-wrapper {
+			.left {
+				.select-box {
+					margin-right: 0;
+					margin-left: 15px;
+				}
+			}
+		}
+
+		.service-lists-wrapper {
+			.result-and-sort {
+				.headers {
+					text-align: right;
+				}
+
+				.sort {
+					.select2-container {
+						margin-left: 0;
+						margin-right: 8px;
+					}
+				}
+			}
+		}
 	}
 
 	.search-container .outer-content .result-and-sort .sort {
@@ -143,6 +165,11 @@ body.arabic {
 		left: 0 !important;
 		text-align: right;
 	}
+
+	ul.main-menu {
+		margin-right: 20px;
+	}
+
 	ul.main-menu
 		li.nav-item
 		.notification
@@ -283,6 +310,34 @@ body.arabic {
 		// text-align: right;
 	}
 
+	/////////////////////////////////////
+	.card .card-body.seller-info .seller-image {
+		right: unset;
+		left: 15px;
+	}
+
+	.card .card-body .content-info .gig-rating i.fa {
+		margin-right: unset;
+		margin-left: 6px;
+	}
+	.card .card-body .content-info .gig-rating span {
+		margin-left: unset;
+		margin-right: 3px;
+	}
+	.top-rated-services .headers {
+		text-align: right !important;
+	}
+	.top-rated-services
+		.outer-content
+		.inner-content
+		.swiper-container
+		.swiper-btn-container {
+		right: unset;
+		left: 3px;
+	}
+
+	/////////////////////////////////////
+
 	////////////////// Responsive Design //////////////////
 	@media (min-width: 1024px) {
 		ul.main-menu li.nav-item .notification {
@@ -296,6 +351,26 @@ body.arabic {
 		.card-box .card-body .outer-card-box a.inner-card-box {
 			width: 100%;
 		}
+		//////////////////////////
+		.banner {
+			.outer-content {
+				.banner-content {
+					.suggestions {
+						ul {
+							li {
+								margin-right: 0px;
+								margin-left: 10px;
+							}
+						}
+					}
+					.search-box button {
+						left: 10px;
+						margin-right: auto;
+					}
+				}
+			}
+		}
+		//////////////////////////
 	}
 
 	@media (max-width: 768px) {
@@ -305,13 +380,7 @@ body.arabic {
 	}
 
 	@media (max-width: 425px) {
-		.search-container
-			.outer-content
-			.header-title
-			.inner-box:last-child
-			select {
-			margin-left: 0;
-			margin-right: 0;
+		.search-container {
 		}
 	}
 

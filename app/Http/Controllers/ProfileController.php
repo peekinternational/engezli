@@ -24,7 +24,7 @@ class ProfileController extends Controller
     public function index()
     {
         $user_id = auth()->user()->id; 
-        $user = User::where('id', $user_id)->get();
+        $user = User::where('id', $user_id)->first();
 
         return \View::make('frontend.profile')->with(compact('user'));
     }

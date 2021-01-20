@@ -129,7 +129,9 @@
 								</div>
 								<div class="tab-pane fade pricing-tab-container" id="pricing" role="tabpanel"
 									aria-labelledby="pricing-tab">
-									<div class="tab-pane-box">
+									<form id="package-form">
+										<input type="hidden" name="type" value="2">
+										<div class="tab-pane-box">
 										<div class="heading">
 											<div class="inner-heading">
 												<h3>Scope & Pricing</h3>
@@ -154,79 +156,82 @@
 															<th>PREMIUM</th>
 														</tr>
 													</thead>
-													<tbody>
+													<tbody id="package_table">
 														<tr>
 															<td></td>
 															<td>
-																<textarea name="" id="" placeholder="Name your package"></textarea>
+																<input type="hidden" name="package_type" value="basic">
+																<textarea name="proposal_packages[1][package_name]" id="" placeholder="Name your package" required></textarea>
 															</td>
 															<td>
-																<textarea name="" id="" placeholder="Name your package"></textarea>
+																<input type="hidden" name="package_type" value="standard">
+																<textarea name="proposal_packages[2][package_name]" id="" placeholder="Name your package"></textarea>
 															</td>
 															<td>
-																<textarea name="" id="" placeholder="Name your package"></textarea>
+																<input type="hidden" name="package_type" value="premium">
+																<textarea name="proposal_packages[3][package_name]" id="" placeholder="Name your package"></textarea>
 															</td>
 														</tr>
 														<tr>
 															<td></td>
 															<td>
-																<textarea name="" id=""
+																<textarea name="proposal_packages[1][package_desc]" id=""
 																	placeholder="Describe the details of your offering"></textarea>
 															</td>
 															<td>
-																<textarea name="" id=""
+																<textarea name="proposal_packages[2][package_desc]" id=""
 																	placeholder="Describe the details of your offering"></textarea>
 															</td>
 															<td>
-																<textarea name="" id=""
+																<textarea name="proposal_packages[3][package_desc]" id=""
 																	placeholder="Describe the details of your offering"></textarea>
 															</td>
 														</tr>
 														<tr>
 															<td></td>
 															<td>
-																<select name="" id="" class="custom-select">
+																<select name="proposal_packages[1][delivery_time]" id="" class="custom-select">
 																	<option value="">Select</option>
-																	<option value="">1 day delivery</option>
-																	<option value="">2 day delivery</option>
-																	<option value="">3 day delivery</option>
-																	<option value="">4 day delivery</option>
-																	<option value="">5 day delivery</option>
-																	<option value="">6 day delivery</option>
-																	<option value="">7 day delivery</option>
-																	<option value="">8 day delivery</option>
-																	<option value="">9 day delivery</option>
-																	<option value="">10 day delivery</option>
+																	<option value="1 day">1 day delivery</option>
+																	<option value="2 day">2 day delivery</option>
+																	<option value="3 day">3 day delivery</option>
+																	<option value="4 day">4 day delivery</option>
+																	<option value="5 day">5 day delivery</option>
+																	<option value="6 day">6 day delivery</option>
+																	<option value="7 day">7 day delivery</option>
+																	<option value="8 day">8 day delivery</option>
+																	<option value="9 day">9 day delivery</option>
+																	<option value="10 day">10 day delivery</option>
 																</select>
 															</td>
 															<td>
-																<select name="" id="" class="custom-select">
+																<select name="proposal_packages[2][delivery_time]" id="" class="custom-select">
 																	<option value="">Select</option>
-																	<option value="">1 day delivery</option>
-																	<option value="">2 day delivery</option>
-																	<option value="">3 day delivery</option>
-																	<option value="">4 day delivery</option>
-																	<option value="">5 day delivery</option>
-																	<option value="">6 day delivery</option>
-																	<option value="">7 day delivery</option>
-																	<option value="">8 day delivery</option>
-																	<option value="">9 day delivery</option>
-																	<option value="">10 day delivery</option>
+																	<option value="1 day">1 day delivery</option>
+																	<option value="2 day">2 day delivery</option>
+																	<option value="3 day">3 day delivery</option>
+																	<option value="3 day">4 day delivery</option>
+																	<option value="5 day">5 day delivery</option>
+																	<option value="6 day">6 day delivery</option>
+																	<option value="7 day">7 day delivery</option>
+																	<option value="8 day">8 day delivery</option>
+																	<option value="9 day">9 day delivery</option>
+																	<option value="10 day">10 day delivery</option>
 																</select>
 															</td>
 															<td>
-																<select name="" id="" class="custom-select">
+																<select name="proposal_packages[3][delivery_time]" id="" class="custom-select">
 																	<option value="">Select</option>
-																	<option value="">1 day delivery</option>
-																	<option value="">2 day delivery</option>
-																	<option value="">3 day delivery</option>
-																	<option value="">4 day delivery</option>
-																	<option value="">5 day delivery</option>
-																	<option value="">6 day delivery</option>
-																	<option value="">7 day delivery</option>
-																	<option value="">8 day delivery</option>
-																	<option value="">9 day delivery</option>
-																	<option value="">10 day delivery</option>
+																	<option value="1 day">1 day delivery</option>
+																	<option value="2 day">2 day delivery</option>
+																	<option value="3 day">3 day delivery</option>
+																	<option value="4 day">4 day delivery</option>
+																	<option value="5 day">5 day delivery</option>
+																	<option value="6 day">6 day delivery</option>
+																	<option value="7 day">7 day delivery</option>
+																	<option value="8 day">8 day delivery</option>
+																	<option value="9 day">9 day delivery</option>
+																	<option value="10 day">10 day delivery</option>
 																</select>
 															</td>
 														</tr>
@@ -278,49 +283,14 @@
 																</select>
 															</td>
 														</tr>
-														<tr>
-															<td>Design Customization</td>
-															<td>
-																<div class="checkbox">
-																	<label><input type="checkbox" value="" checked /></label>
-																</div>
-															</td>
-															<td>
-																<div class="checkbox">
-																	<label><input type="checkbox" value="" /></label>
-																</div>
-															</td>
-															<td>
-																<div class="checkbox">
-																	<label><input type="checkbox" value="" /></label>
-																</div>
-															</td>
-														</tr>
-														<tr>
-															<td>Responsive Design</td>
-															<td>
-																<div class="checkbox">
-																	<label><input type="checkbox" value="" /></label>
-																</div>
-															</td>
-															<td>
-																<div class="checkbox">
-																	<label><input type="checkbox" value="" checked /></label>
-																</div>
-															</td>
-															<td>
-																<div class="checkbox">
-																	<label><input type="checkbox" value="" checked /></label>
-																</div>
-															</td>
-														</tr>
+														
 														<tr>
 															<td>Price</td>
 															<td>
-																<select name="" id="" class="custom-select">
-																	<option value="">$5</option>
-																	<option value="">$10</option>
-																	<option value="">$15</option>
+																<select name="proposal_packages[1][package_price]" id="" class="custom-select" required>
+																	<option value="$5">$5</option>
+																	<option value="$10">$10</option>
+																	<option value="$15">$15</option>
 																	<option value="">$20</option>
 																	<option value="">$25</option>
 																	<option value="">$30</option>
@@ -331,13 +301,13 @@
 																</select>
 															</td>
 															<td>
-																<select name="" id="" class="custom-select">
-																	<option value="">$5</option>
-																	<option value="">$10</option>
-																	<option value="">$15</option>
-																	<option value="">$20</option>
-																	<option value="">$25</option>
-																	<option value="">$30</option>
+																<select name="proposal_packages[2][package_price]" id="" class="custom-select">
+																	<option value="$5">$5</option>
+																	<option value="$10">$10</option>
+																	<option value="$15">$15</option>
+																	<option value="$20">$20</option>
+																	<option value="$25">$25</option>
+																	<option value="$30">$30</option>
 																	<option value="">$35</option>
 																	<option value="">$40</option>
 																	<option value="">$45</option>
@@ -345,13 +315,13 @@
 																</select>
 															</td>
 															<td>
-																<select name="" id="" class="custom-select">
+																<select name="proposal_packages[3][package_price]" id="" class="custom-select">
 																	<option value="">$5</option>
 																	<option value="">$10</option>
-																	<option value="">$15</option>
-																	<option value="">$20</option>
-																	<option value="">$25</option>
-																	<option value="">$30</option>
+																	<option value="$15">$15</option>
+																	<option value="$20">$20</option>
+																	<option value="$25">$25</option>
+																	<option value="$30">$30</option>
 																	<option value="">$35</option>
 																	<option value="">$40</option>
 																	<option value="">$45</option>
@@ -603,15 +573,17 @@
 										</div>
 									</div>
 									<div class="btns-group">
-											<!-- <button class="prevtab btn btn-primary">Prev</button> -->
-											<button class="cancle custom-btn">Cancle</button>
-											<button class="nexttab custom-btn" form="description-form-form">save</button>
-										</div>
+										<!-- <button class="prevtab btn btn-primary">Prev</button> -->
+										<button class="cancle custom-btn">Cancel</button>
+										<button class="nexttab custom-btn" type="submit" id="package-submit" form="package-form">save</button>
+									</div>
+									</form>
 								</div>
 								<div class="tab-pane fade descriptionFaq-tab" id="descriptionFaq" role="tabpanel"
 									aria-labelledby="descriptionFaq-tab">
-									<form id="description-form">
-										<div class="tab-pane-box">
+									
+									<div class="tab-pane-box">
+										<form id="description-form">
 											<div class="heading">
 												<h3>description</h3>
 												<p>briefly describe you gig</p>
@@ -634,27 +606,28 @@
 												<p class="QA">
 													Add Questions & Answers for Your Buyers.
 												</p>
+												<form id="faq-form">
+													<div class="input-box-container d-none" id="input-box-content">
+														<div class="form-group">
+															<input type="hidden" name="type" value="3">
+															<input type="text" name="title" class="form-control"
+																placeholder="Add a Question: i.e. Do you translate to English as well?" />
+														</div>
+														<div class="form-group">
+															<textarea maxlength="300" name="description" class="form-control" rows="3"
+																placeholder="Add an Answer: i.e. Yes, I also translate from English to Hebrew."></textarea>
+														</div>
 
-												<div class="input-box-container d-none" id="input-box-content">
-													<div class="form-group">
-														<input type="text" name="title" class="form-control"
-															placeholder="Add a Question: i.e. Do you translate to English as well?" />
-													</div>
-													<div class="form-group">
-														<textarea maxlength="300" name="description" class="form-control" rows="3"
-															placeholder="Add an Answer: i.e. Yes, I also translate from English to Hebrew."></textarea>
-													</div>
-
-													<div class="btn-container-box">
-														<div class="btns">
-															<button class="custom-btn cancle-btn">
-																cancle
-															</button>
-															<button class="custom-btn">save</button>
+														<div class="btn-container-box">
+															<div class="btns">
+																<button class="custom-btn cancle-btn">
+																	cancel
+																</button>
+																<button class="custom-btn" type="submit" id="faq-submit">save</button>
+															</div>
 														</div>
 													</div>
-												</div>
-
+												</form>
 												<div class="added-faq-box-container">
 													<div id="accordion">
 														<div class="card">
@@ -714,7 +687,7 @@
 																<div class="card-body">
 																	<div class="input-box-container">
 																		<div class="form-group">
-																			<input type="text" class="form-control"
+																			<input type="text"  class="form-control"
 																				placeholder="Add a Question: i.e. Do you translate to English as well?" />
 																		</div>
 																		<div class="form-group">
@@ -752,52 +725,64 @@
 										</div>
 								</div>
 								<div class="tab-pane fade" id="requirements" role="tabpanel" aria-labelledby="requirements-tab">
-									<div class="tab-pane-box">
-										<div class="require-text-title">
-											<h5>
-												<i class="fa fa-file"></i> Here’s how buyers will
-												see your questions. You can edit or remove questions
-												anytime.
-											</h5>
-										</div>
-										<div class="question-input-container d-none">
-											<h6>add question</h6>
-											<textarea name="" id="" class="form-control question-textarea" rows="3"
-												placeholder="Request necessary details such as dimensions, brand guidelines, and more."></textarea>
-
-											<div class="btn-container-box">
-												<div class="btns">
-													<button class="custom-btn btn-cancle">
-														cancle
-													</button>
-													<button class="custom-btn btn-add">add</button>
-												</div>
+									<form id="requirements-form">
+										<input type="hidden" name="type" value="4">
+										<div class="tab-pane-box">
+											<div class="require-text-title">
+												<h5>
+													<i class="fa fa-file"></i> Here’s how buyers will
+													see your questions. You can edit or remove questions
+													anytime.
+												</h5>
 											</div>
-										</div>
-										<div class="added-questions d-none">
-											<div class="question-list-item">
-												<div class="inner-text">
-													<p>free text</p>
-													<div class="dropdown">
-														<a class="nav-link globe-icon" href="#" id="navbarDropdown" role="button"
-															data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-															<i class="fa fa-ellipsis-h"></i>
-														</a>
-														<div class="dropdown-menu" aria-labelledبواسطة="navbarDropdown">
-															<a class="dropdown-item" href="#">Edit</a>
-															<a class="dropdown-item" href="#">Delete</a>
-														</div>
+											<div class="question-input-container d-none">
+												<h6>add question</h6>
+												<textarea name="question" id="" class="form-control question-textarea" rows="3"
+													placeholder="Request necessary details such as dimensions, brand guidelines, and more."></textarea>
+												<select name="response" class="form-control">
+													<option value="free text">Free text</option>
+													<option value="attachement">Attachement</option>
+												</select>
+												<div class="btn-container-box">
+													<div class="btns">
+														<button class="custom-btn btn-cancle">
+															cancle
+														</button>
+														<button type="submit" id="requirements-submit" class="custom-btn btn-add">add</button>
 													</div>
 												</div>
-												<h6>
-													Lorem ipsum dolor sit amet consectetur,
-													adipisicing elit.
-												</h6>
 											</div>
+											<div class="added-questions d-none">
+												<div class="question-list-item">
+													<div class="inner-text">
+														<p>free text</p>
+														<div class="dropdown">
+															<a class="nav-link globe-icon" href="#" id="navbarDropdown" role="button"
+																data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+																<i class="fa fa-ellipsis-h"></i>
+															</a>
+															<div class="dropdown-menu" aria-labelledبواسطة="navbarDropdown">
+																<a class="dropdown-item" href="#">Edit</a>
+																<a class="dropdown-item" href="#">Delete</a>
+															</div>
+														</div>
+													</div>
+													<h6>
+														Lorem ipsum dolor sit amet consectetur,
+														adipisicing elit.
+													</h6>
+												</div>
+											</div>
+											<button class="custom-btn add-new-btn-ques">
+												<i class="fa fa-plus"></i> add new question
+											</button>
 										</div>
-										<button class="custom-btn add-new-btn-ques">
-											<i class="fa fa-plus"></i> add new question
-										</button>
+									</form>
+
+									<div class="btns-group">
+										<!-- <button class="prevtab btn btn-primary">Prev</button> -->
+										<button class="cancle custom-btn">Cancel</button>
+										<button class="nexttab custom-btn">save</button>
 									</div>
 								</div>
 								<div class="tab-pane fade gallery-tab-container" id="gallery" role="tabpanel"
@@ -904,7 +889,7 @@
 										</div>
 										<div class="btns-group">
 											<!-- <button class="prevtab btn btn-primary">Prev</button> -->
-											<button class="cancle custom-btn">Cancle</button>
+											<button class="cancle custom-btn">Cancel</button>
 											<button class="nexttab custom-btn" type="submit" id="gallery-submit" form="gallery-form">save</button>
 										</div>
 									</form>
@@ -1073,7 +1058,7 @@
 
 			var service_desc = $('#service_desc').val();
 			var type = "3"
-			alert(service_desc);
+			// alert(service_desc);
 			$.ajax({
 				url: "{{url('post_service')}}",
 				type: 'post',
@@ -1085,6 +1070,22 @@
 			});
 
 		})
+
+		$('#faq-form').on('submit', function(event){
+		  event.preventDefault();
+		  $.ajax({
+		   url:"{{ url('post_service') }}",
+		   method:"POST",
+		   data:new FormData(this),
+		   dataType:'JSON',
+		   contentType: false,
+		   cache: false,
+		   processData: false,
+		   success:function(data){
+		    
+		   }
+		  })
+	 });
 
 		$('#gallery-form').on('submit', function(event){
 		  event.preventDefault();
@@ -1100,25 +1101,41 @@
 		    
 		   }
 		  })
-		 });
+	 });
 
-		// $('#gallery-submit').click(function(e){
-		// 	e.preventDefault();
+		$('#requirements-form').on('submit', function(event){
+		  event.preventDefault();
+		  $.ajax({
+		   url:"{{ url('post_service') }}",
+		   method:"POST",
+		   data:new FormData(this),
+		   dataType:'JSON',
+		   contentType: false,
+		   cache: false,
+		   processData: false,
+		   success:function(data){
+		    
+		   }
+		  })
+	 });
 
-		// 	var service_desc = $('#service_desc').val();
-		// 	var type = "3"
-		// 	alert(service_desc);
-		// 	$.ajax({
-		// 		url: "{{url('post_service')}}",
-		// 		type: 'post',
-		// 		data:{service_desc:service_desc,type:type},
-		// 		success:function(data){
-		// 			console.log(data);
-		// 			// $("#sub-category").html(data);
-		// 		}
-		// 	});
+		$('#package-form').on('submit', function(event){
+		  event.preventDefault();
+		  $.ajax({
+		   url:"{{ url('post_service') }}",
+		   method:"POST",
+		   data:new FormData(this),
+		   dataType:'JSON',
+		   contentType: false,
+		   cache: false,
+		   processData: false,
+		   success:function(data){
+		    
+		   }
+		  })
+	 });
 
-		// })
+		
 	});
 </script>
 
@@ -1172,6 +1189,22 @@
 	  	success:function(data){
 	  		// console.log(data);
 	  		$("#sub-category").html(data);
+	  	}
+	  });
+	});
+
+	$("#sub-category").change(function(){
+	  
+	  var category_id = $(this).val();
+	  // alert(category_id);
+	  $.ajax({
+	  	url: "{{url('fetch_package_option')}}",
+	  	type: 'post',
+	  	data:{category_id:category_id},
+	  	success:function(data){
+	  		// console.log(data);
+	  		$('#package_table tr:nth-child(4)').after(data);
+	  		// $("#package_option").html(data);
 	  	}
 	  });
 	});

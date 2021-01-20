@@ -6,6 +6,7 @@ use App\Http\Controllers\SocialAuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CreateServiceController;
+use App\Http\Controllers\ServiceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,13 +79,12 @@ Route::get('/messages', function () {
 // Service Route
 Route::resource('/create-service', CreateServiceController::class);
 Route::post('/fetch_subcategory', [CreateServiceController::class, 'fetch_subcategory']);
+Route::post('/fetch_package_option', [CreateServiceController::class, 'fetch_package_option']);
 Route::post('/post_service', [CreateServiceController::class, 'post_service']);
 Route::get('/service-detail', function () {
     return view('frontend.service-detail');
 });
-Route::get('/services', function () {
-    return view('frontend.services');
-});
+Route::resource('/services', ServiceController::class);
 // Route::get('/profile', function () {
 //     return view('frontend.profile');
 // });

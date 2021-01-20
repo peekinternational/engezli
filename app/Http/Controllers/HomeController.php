@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Categories;
+use App\Models\Services;
 use App\Facade\Engezli;
 use Hash;
 use Session;
@@ -22,9 +23,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $categories = Categories::get();
+        $categories = Categories::where('parent_id', '==', 0)->get();
 
-        return \View::make('frontend.index')->with(compact('categories'));
+        $services = Services::with('sellerInfo','packageInfo')->get();
+        // dd($services);
+        return \View::make('frontend.index')->with(compact('categories','services'));
     }
 
     /**

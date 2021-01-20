@@ -18,6 +18,7 @@ body.arabic .navbar .search-box input {
 body.arabic .navbar .search-box .search-btn {
   left: 0;
   right: unset;
+  border-radius: 4px 0 0 4px;
 }
 
 body.arabic .banner .outer-content .image-container {
@@ -73,9 +74,18 @@ body.arabic .footer .footer-nav .social-icons ul {
   float: left;
 }
 
-body.arabic .search-container .outer-content .header-title .inner-box:last-child select {
+body.arabic .search-container .search-filter-wrapper .left .select-box {
+  margin-right: 0;
+  margin-left: 15px;
+}
+
+body.arabic .search-container .service-lists-wrapper .result-and-sort .headers {
+  text-align: right;
+}
+
+body.arabic .search-container .service-lists-wrapper .result-and-sort .sort .select2-container {
   margin-left: 0;
-  margin-right: 10px;
+  margin-right: 8px;
 }
 
 body.arabic .search-container .outer-content .result-and-sort .sort {
@@ -124,6 +134,10 @@ body.arabic .dropdown-menu {
   right: auto !important;
   left: 0 !important;
   text-align: right;
+}
+
+body.arabic ul.main-menu {
+  margin-right: 20px;
 }
 
 body.arabic ul.main-menu
@@ -268,6 +282,34 @@ a.dropdown-item
   padding-left: 0;
 }
 
+body.arabic .card .card-body.seller-info .seller-image {
+  right: unset;
+  left: 15px;
+}
+
+body.arabic .card .card-body .content-info .gig-rating i.fa {
+  margin-right: unset;
+  margin-left: 6px;
+}
+
+body.arabic .card .card-body .content-info .gig-rating span {
+  margin-left: unset;
+  margin-right: 3px;
+}
+
+body.arabic .top-rated-services .headers {
+  text-align: right !important;
+}
+
+body.arabic .top-rated-services
+.outer-content
+.inner-content
+.swiper-container
+.swiper-btn-container {
+  right: unset;
+  left: 3px;
+}
+
 @media (min-width: 1024px) {
   body.arabic ul.main-menu li.nav-item .notification {
     right: 0 !important;
@@ -280,22 +322,19 @@ a.dropdown-item
   body.arabic .card-box .card-body .outer-card-box a.inner-card-box {
     width: 100%;
   }
+  body.arabic .banner .outer-content .banner-content .suggestions ul li {
+    margin-right: 0px;
+    margin-left: 10px;
+  }
+  body.arabic .banner .outer-content .banner-content .search-box button {
+    left: 10px;
+    margin-right: auto;
+  }
 }
 
 @media (max-width: 768px) {
   body.arabic ul.main-menu .dropdown-menu.show {
     left: 50% !important;
-  }
-}
-
-@media (max-width: 425px) {
-  body.arabic .search-container
-.outer-content
-.header-title
-.inner-box:last-child
-select {
-    margin-left: 0;
-    margin-right: 0;
   }
 }
 /*# sourceMappingURL=arabic_style.css.map */

@@ -15,6 +15,9 @@ class CreatePackagesOptionsTable extends Migration
     {
         Schema::create('packages_options', function (Blueprint $table) {
             $table->id();
+            $table->integer('cat_id');
+            $table->string('name');
+            $table->string('type');
             $table->timestamps();
         });
     }

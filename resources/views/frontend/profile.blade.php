@@ -1,456 +1,1139 @@
-@extends('frontend.layouts.master')
+@extends('frontend.layouts.app')
 @section('title', 'Profile  ')
 @section('styling')
 @endsection
 @section('content')
-<div class="main-page second py-5">
+<div class="seller-profile">
   <div class="container">
-    <div class="row">
-      <div class="col-lg-4 left">
-        <div class="profile_info">
-          <div class="seller-card">
-            <div>
-              <div class="user-online-indicator is-online " data-user-id="1152855">
-                <i class="fa fa-circle"></i>online
+    <div class="outer-content">
+      <div class="inner-content">
+        <div class="inner-box">
+          <div class="seller-details">
+            <div class="seller-image">
+              <div class="avatar">
+                <img src="images/avatar (1).svg" alt="" />
+              </div>
+              <div class="level">level two</div>
+            </div>
+
+            <div class="name-designation-rating">
+              <h2 class="name">{{$user->first_name}} {{$user->last_name}}</h2>
+              <p class="designation">UI/UX Designer</p>
+              <div class="rating">
+                <ul>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                  <li><i class="fa fa-star"></i></li>
+                </ul>
+                <div class="no-of-rating">5.0 <span>(1k+)</span></div>
               </div>
             </div>
-            <div><a href="#" class="ambassadors-badge">Ambassador</a></div>
-            <div class="user-profile-info">
-              <div>
-                <div class="user-profile-image">
-                  <label class="user-pict">
-                    <img
-                    src="{{asset('frontend-assets/images/user/s10.png')}}"
-                    class="img-fluid user-pict-img" alt="Askbootstrap">
-                    <a href="#"
-                    class="user-badge-round user-badge-round-med locale-en-us top-rated-seller"></a></label>
-                  </div>
+
+            <div class="contact-btns">
+              <a href="" class="btn">contact me</a>
+              <div class="dropdown">
+                <button class="btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded="false">
+                  <i class="fa fa-ellipsis-h"></i>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="#">Action</a>
+                  <a class="dropdown-item" href="#">Another action</a>
+                  <a class="dropdown-item" href="#">Something else here</a>
                 </div>
-                <div class="user-profile-label">
-                  <div class="username-line">
-                    <a href="#" class="seller-link">Askbootstrap</a>
-                  </div>
-                  <div class="oneliner-wrapper">
-                    <small class="oneliner">Professional Voice Actress</small>
-                    <div class="ratings-wrapper">
-                      <p class="rating-text"><strong>5.0</strong> (1k+ reviews)</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="buttons-wrapper">
-                <a href="#" class="btn-lrg-standard btn-contact-me js-contact-me js-open-popup-join">Contact
-                Me</a>
-                <div class="btn-lrg-standard btn-white btn-custom-order">Get a Quote</div>
-              </div>
-              <div class="user-stats-desc">
-                <ul class="user-stats">
-                  <li class="location">From<strong>United States</strong></li>
-                  <li class="member-since">Member since<strong>Dec 2012</strong></li>
-                  <li class="response-time">Avg. Response Time<strong>2 hours</strong></li>
-                  <li class="recent-delivery">Recent Delivery<strong>about&nbsp;15</strong></li>
-                </ul>
               </div>
             </div>
           </div>
-          <div class="seller-profile">
-            <div class="description">
-              <h3>Description</h3>
-              <p>I am a Voice Actress with over 16+ years experience in everything from video games to phone
-                systems to explainer videos to children's books.
-                I am originally from the South East of England and have a natural British accent, as well as a
-                Standard American accent from living in the US for 15 years.
-              </p>
+        </div>
+
+        <div class="cover-photo">
+          <img src="images/cover-photo.jpg" alt="" />
+        </div>
+      </div>
+
+      <div class="profile-details">
+        <div class="tab-header">
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="project-tab" data-toggle="tab" href="#project" role="tab"
+                aria-controls="project" aria-selected="true">projects 25</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="about-tab" data-toggle="tab" href="#about" role="tab" aria-controls="about"
+                aria-selected="false">about</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review"
+                aria-selected="false">review 200</a>
+            </li>
+          </ul>
+          <select name="" id="" class="custom-select">
+            <option value="">recent</option>
+            <option value="">option 1</option>
+            <option value="">option 2</option>
+            <option value="">option 3</option>
+            <option value="">option 4</option>
+            <option value="">option 5</option>
+          </select>
+        </div>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active projects" id="project" role="tabpanel" aria-labelledby="project-tab">
+            <div class="row">
+
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-box">
+                <div class="card-box">
+                  <div class="card-img-top">
+                    <img src="images/card (1).png" alt="" />
+                  </div>
+
+                  <div class="card-body">
+                    <div class="outer-card-box">
+                      <a href="" class="inner-card-box">
+                        <div class="avatar">
+                          <img src="images/avatar (1).svg" alt="" />
+                        </div>
+                        <div class="name-and-level">
+                          <h6 class="author-name">Sohanur Rahman</h6>
+                          <p>level two seller</p>
+                        </div>
+                      </a>
+                      <div class="rating">
+                        <div class="no-of-rating">
+                          5.0 <span>(1k+)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <a href="" class="post-title">
+                      Lorem ipsum, dolor sit amet consectetur adipisicing
+                      elit. Quae, saepe!
+                    </a>
+                  </div>
+                  <div class="price-and-save">
+                    <p>Starting at $20</p>
+                    <a href="" class="active"><i class="fa fa-heart"></i></a>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-box">
+                <div class="card-box">
+                  <div class="card-img-top">
+                    <img src="images/card (2).png" alt="" />
+                  </div>
+
+                  <div class="card-body">
+                    <div class="outer-card-box">
+                      <a href="" class="inner-card-box">
+                        <div class="avatar">
+                          <img src="images/avatar (2).svg" alt="" />
+                        </div>
+                        <div class="name-and-level">
+                          <h6 class="author-name">Sohanur Rahman</h6>
+                          <p>level two seller</p>
+                        </div>
+                      </a>
+                      <div class="rating">
+                        <div class="no-of-rating">
+                          5.0 <span>(1k+)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <a href="" class="post-title">
+                      Lorem ipsum, dolor sit amet consectetur adipisicing
+                      elit. Quae, saepe!
+                    </a>
+                  </div>
+                  <div class="price-and-save">
+                    <p>Starting at $20</p>
+                    <a href=""><i class="fa fa-heart"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-box">
+                <div class="card-box">
+                  <div class="card-img-top">
+                    <img src="images/card (3).png" alt="" />
+                  </div>
+
+                  <div class="card-body">
+                    <div class="outer-card-box">
+                      <a href="" class="inner-card-box">
+                        <div class="avatar">
+                          <img src="images/avatar (3).svg" alt="" />
+                        </div>
+                        <div class="name-and-level">
+                          <h6 class="author-name">Sohanur Rahman</h6>
+                          <p>level two seller</p>
+                        </div>
+                      </a>
+                      <div class="rating">
+                        <div class="no-of-rating">
+                          5.0 <span>(1k+)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <a href="" class="post-title">
+                      Lorem ipsum, dolor sit amet consectetur adipisicing
+                      elit. Quae, saepe!
+                    </a>
+                  </div>
+                  <div class="price-and-save">
+                    <p>Starting at $20</p>
+                    <a href="" class="active"><i class="fa fa-heart"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-box">
+                <div class="card-box">
+                  <div class="card-img-top">
+                    <img src="images/card (4).png" alt="" />
+                  </div>
+
+                  <div class="card-body">
+                    <div class="outer-card-box">
+                      <a href="" class="inner-card-box">
+                        <div class="avatar">
+                          <img src="images/avatar (1).svg" alt="" />
+                        </div>
+                        <div class="name-and-level">
+                          <h6 class="author-name">Sohanur Rahman</h6>
+                          <p>level two seller</p>
+                        </div>
+                      </a>
+                      <div class="rating">
+                        <div class="no-of-rating">
+                          5.0 <span>(1k+)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <a href="" class="post-title">
+                      Lorem ipsum, dolor sit amet consectetur adipisicing
+                      elit. Quae, saepe!
+                    </a>
+                  </div>
+                  <div class="price-and-save">
+                    <p>Starting at $20</p>
+                    <a href=""><i class="fa fa-heart"></i></a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-box">
+                <div class="card-box">
+                  <div class="card-img-top">
+                    <img src="images/card (1).png" alt="" />
+                  </div>
+
+                  <div class="card-body">
+                    <div class="outer-card-box">
+                      <a href="" class="inner-card-box">
+                        <div class="avatar">
+                          <img src="images/avatar (1).svg" alt="" />
+                        </div>
+                        <div class="name-and-level">
+                          <h6 class="author-name">Sohanur Rahman</h6>
+                          <p>level two seller</p>
+                        </div>
+                      </a>
+                      <div class="rating">
+                        <div class="no-of-rating">
+                          5.0 <span>(1k+)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <a href="" class="post-title">
+                      Lorem ipsum, dolor sit amet consectetur adipisicing
+                      elit. Quae, saepe!
+                    </a>
+                  </div>
+                  <div class="price-and-save">
+                    <p>Starting at $20</p>
+                    <a href="" class="active"><i class="fa fa-heart"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-box">
+                <div class="card-box">
+                  <div class="card-img-top">
+                    <img src="images/card (2).png" alt="" />
+                  </div>
+
+                  <div class="card-body">
+                    <div class="outer-card-box">
+                      <a href="" class="inner-card-box">
+                        <div class="avatar">
+                          <img src="images/avatar (2).svg" alt="" />
+                        </div>
+                        <div class="name-and-level">
+                          <h6 class="author-name">Sohanur Rahman</h6>
+                          <p>level two seller</p>
+                        </div>
+                      </a>
+                      <div class="rating">
+                        <div class="no-of-rating">
+                          5.0 <span>(1k+)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <a href="" class="post-title">
+                      Lorem ipsum, dolor sit amet consectetur adipisicing
+                      elit. Quae, saepe!
+                    </a>
+                  </div>
+                  <div class="price-and-save">
+                    <p>Starting at $20</p>
+                    <a href=""><i class="fa fa-heart"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-box">
+                <div class="card-box">
+                  <div class="card-img-top">
+                    <img src="images/card (3).png" alt="" />
+                  </div>
+
+                  <div class="card-body">
+                    <div class="outer-card-box">
+                      <a href="" class="inner-card-box">
+                        <div class="avatar">
+                          <img src="images/avatar (3).svg" alt="" />
+                        </div>
+                        <div class="name-and-level">
+                          <h6 class="author-name">Sohanur Rahman</h6>
+                          <p>level two seller</p>
+                        </div>
+                      </a>
+                      <div class="rating">
+                        <div class="no-of-rating">
+                          5.0 <span>(1k+)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <a href="" class="post-title">
+                      Lorem ipsum, dolor sit amet consectetur adipisicing
+                      elit. Quae, saepe!
+                    </a>
+                  </div>
+                  <div class="price-and-save">
+                    <p>Starting at $20</p>
+                    <a href=""><i class="fa fa-heart"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-box">
+                <div class="card-box">
+                  <div class="card-img-top">
+                    <img src="images/card (4).png" alt="" />
+                  </div>
+
+                  <div class="card-body">
+                    <div class="outer-card-box">
+                      <a href="" class="inner-card-box">
+                        <div class="avatar">
+                          <img src="images/avatar (1).svg" alt="" />
+                        </div>
+                        <div class="name-and-level">
+                          <h6 class="author-name">Sohanur Rahman</h6>
+                          <p>level two seller</p>
+                        </div>
+                      </a>
+                      <div class="rating">
+                        <div class="no-of-rating">
+                          5.0 <span>(1k+)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <a href="" class="post-title">
+                      Lorem ipsum, dolor sit amet consectetur adipisicing
+                      elit. Quae, saepe!
+                    </a>
+                  </div>
+                  <div class="price-and-save">
+                    <p>Starting at $20</p>
+                    <a href="" class="active"><i class="fa fa-heart"></i></a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-box">
+                <div class="card-box">
+                  <div class="card-img-top">
+                    <img src="images/card (1).png" alt="" />
+                  </div>
+
+                  <div class="card-body">
+                    <div class="outer-card-box">
+                      <a href="" class="inner-card-box">
+                        <div class="avatar">
+                          <img src="images/avatar (1).svg" alt="" />
+                        </div>
+                        <div class="name-and-level">
+                          <h6 class="author-name">Sohanur Rahman</h6>
+                          <p>level two seller</p>
+                        </div>
+                      </a>
+                      <div class="rating">
+                        <div class="no-of-rating">
+                          5.0 <span>(1k+)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <a href="" class="post-title">
+                      Lorem ipsum, dolor sit amet consectetur adipisicing
+                      elit. Quae, saepe!
+                    </a>
+                  </div>
+                  <div class="price-and-save">
+                    <p>Starting at $20</p>
+                    <a href=""><i class="fa fa-heart"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-box">
+                <div class="card-box">
+                  <div class="card-img-top">
+                    <img src="images/card (2).png" alt="" />
+                  </div>
+
+                  <div class="card-body">
+                    <div class="outer-card-box">
+                      <a href="" class="inner-card-box">
+                        <div class="avatar">
+                          <img src="images/avatar (2).svg" alt="" />
+                        </div>
+                        <div class="name-and-level">
+                          <h6 class="author-name">Sohanur Rahman</h6>
+                          <p>level two seller</p>
+                        </div>
+                      </a>
+                      <div class="rating">
+                        <div class="no-of-rating">
+                          5.0 <span>(1k+)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <a href="" class="post-title">
+                      Lorem ipsum, dolor sit amet consectetur adipisicing
+                      elit. Quae, saepe!
+                    </a>
+                  </div>
+                  <div class="price-and-save">
+                    <p>Starting at $20</p>
+                    <a href=""><i class="fa fa-heart"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-box">
+                <div class="card-box">
+                  <div class="card-img-top">
+                    <img src="images/card (3).png" alt="" />
+                  </div>
+
+                  <div class="card-body">
+                    <div class="outer-card-box">
+                      <a href="" class="inner-card-box">
+                        <div class="avatar">
+                          <img src="images/avatar (3).svg" alt="" />
+                        </div>
+                        <div class="name-and-level">
+                          <h6 class="author-name">Sohanur Rahman</h6>
+                          <p>level two seller</p>
+                        </div>
+                      </a>
+                      <div class="rating">
+                        <div class="no-of-rating">
+                          5.0 <span>(1k+)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <a href="" class="post-title">
+                      Lorem ipsum, dolor sit amet consectetur adipisicing
+                      elit. Quae, saepe!
+                    </a>
+                  </div>
+                  <div class="price-and-save">
+                    <p>Starting at $20</p>
+                    <a href=""><i class="fa fa-heart"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-box">
+                <div class="card-box">
+                  <div class="card-img-top">
+                    <img src="images/card (4).png" alt="" />
+                  </div>
+
+                  <div class="card-body">
+                    <div class="outer-card-box">
+                      <a href="" class="inner-card-box">
+                        <div class="avatar">
+                          <img src="images/avatar (1).svg" alt="" />
+                        </div>
+                        <div class="name-and-level">
+                          <h6 class="author-name">Sohanur Rahman</h6>
+                          <p>level two seller</p>
+                        </div>
+                      </a>
+                      <div class="rating">
+                        <div class="no-of-rating">
+                          5.0 <span>(1k+)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <a href="" class="post-title">
+                      Lorem ipsum, dolor sit amet consectetur adipisicing
+                      elit. Quae, saepe!
+                    </a>
+                  </div>
+                  <div class="price-and-save">
+                    <p>Starting at $20</p>
+                    <a href=""><i class="fa fa-heart"></i></a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-box">
+                <div class="card-box">
+                  <div class="card-img-top">
+                    <img src="images/card (1).png" alt="" />
+                  </div>
+
+                  <div class="card-body">
+                    <div class="outer-card-box">
+                      <a href="" class="inner-card-box">
+                        <div class="avatar">
+                          <img src="images/avatar (1).svg" alt="" />
+                        </div>
+                        <div class="name-and-level">
+                          <h6 class="author-name">Sohanur Rahman</h6>
+                          <p>level two seller</p>
+                        </div>
+                      </a>
+                      <div class="rating">
+                        <div class="no-of-rating">
+                          5.0 <span>(1k+)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <a href="" class="post-title">
+                      Lorem ipsum, dolor sit amet consectetur adipisicing
+                      elit. Quae, saepe!
+                    </a>
+                  </div>
+                  <div class="price-and-save">
+                    <p>Starting at $20</p>
+                    <a href=""><i class="fa fa-heart"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-box">
+                <div class="card-box">
+                  <div class="card-img-top">
+                    <img src="images/card (2).png" alt="" />
+                  </div>
+
+                  <div class="card-body">
+                    <div class="outer-card-box">
+                      <a href="" class="inner-card-box">
+                        <div class="avatar">
+                          <img src="images/avatar (2).svg" alt="" />
+                        </div>
+                        <div class="name-and-level">
+                          <h6 class="author-name">Sohanur Rahman</h6>
+                          <p>level two seller</p>
+                        </div>
+                      </a>
+                      <div class="rating">
+                        <div class="no-of-rating">
+                          5.0 <span>(1k+)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <a href="" class="post-title">
+                      Lorem ipsum, dolor sit amet consectetur adipisicing
+                      elit. Quae, saepe!
+                    </a>
+                  </div>
+                  <div class="price-and-save">
+                    <p>Starting at $20</p>
+                    <a href=""><i class="fa fa-heart"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-box">
+                <div class="card-box">
+                  <div class="card-img-top">
+                    <img src="images/card (3).png" alt="" />
+                  </div>
+
+                  <div class="card-body">
+                    <div class="outer-card-box">
+                      <a href="" class="inner-card-box">
+                        <div class="avatar">
+                          <img src="images/avatar (3).svg" alt="" />
+                        </div>
+                        <div class="name-and-level">
+                          <h6 class="author-name">Sohanur Rahman</h6>
+                          <p>level two seller</p>
+                        </div>
+                      </a>
+                      <div class="rating">
+                        <div class="no-of-rating">
+                          5.0 <span>(1k+)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <a href="" class="post-title">
+                      Lorem ipsum, dolor sit amet consectetur adipisicing
+                      elit. Quae, saepe!
+                    </a>
+                  </div>
+                  <div class="price-and-save">
+                    <p>Starting at $20</p>
+                    <a href=""><i class="fa fa-heart"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-box">
+                <div class="card-box">
+                  <div class="card-img-top">
+                    <img src="images/card (4).png" alt="" />
+                  </div>
+
+                  <div class="card-body">
+                    <div class="outer-card-box">
+                      <a href="" class="inner-card-box">
+                        <div class="avatar">
+                          <img src="images/avatar (1).svg" alt="" />
+                        </div>
+                        <div class="name-and-level">
+                          <h6 class="author-name">Sohanur Rahman</h6>
+                          <p>level two seller</p>
+                        </div>
+                      </a>
+                      <div class="rating">
+                        <div class="no-of-rating">
+                          5.0 <span>(1k+)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <a href="" class="post-title">
+                      Lorem ipsum, dolor sit amet consectetur adipisicing
+                      elit. Quae, saepe!
+                    </a>
+                  </div>
+                  <div class="price-and-save">
+                    <p>Starting at $20</p>
+                    <a href=""><i class="fa fa-heart"></i></a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-box">
+                <div class="card-box">
+                  <div class="card-img-top">
+                    <img src="images/card (1).png" alt="" />
+                  </div>
+
+                  <div class="card-body">
+                    <div class="outer-card-box">
+                      <a href="" class="inner-card-box">
+                        <div class="avatar">
+                          <img src="images/avatar (1).svg" alt="" />
+                        </div>
+                        <div class="name-and-level">
+                          <h6 class="author-name">Sohanur Rahman</h6>
+                          <p>level two seller</p>
+                        </div>
+                      </a>
+                      <div class="rating">
+                        <div class="no-of-rating">
+                          5.0 <span>(1k+)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <a href="" class="post-title">
+                      Lorem ipsum, dolor sit amet consectetur adipisicing
+                      elit. Quae, saepe!
+                    </a>
+                  </div>
+                  <div class="price-and-save">
+                    <p>Starting at $20</p>
+                    <a href=""><i class="fa fa-heart"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-box">
+                <div class="card-box">
+                  <div class="card-img-top">
+                    <img src="images/card (2).png" alt="" />
+                  </div>
+
+                  <div class="card-body">
+                    <div class="outer-card-box">
+                      <a href="" class="inner-card-box">
+                        <div class="avatar">
+                          <img src="images/avatar (2).svg" alt="" />
+                        </div>
+                        <div class="name-and-level">
+                          <h6 class="author-name">Sohanur Rahman</h6>
+                          <p>level two seller</p>
+                        </div>
+                      </a>
+                      <div class="rating">
+                        <div class="no-of-rating">
+                          5.0 <span>(1k+)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <a href="" class="post-title">
+                      Lorem ipsum, dolor sit amet consectetur adipisicing
+                      elit. Quae, saepe!
+                    </a>
+                  </div>
+                  <div class="price-and-save">
+                    <p>Starting at $20</p>
+                    <a href=""><i class="fa fa-heart"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-box">
+                <div class="card-box">
+                  <div class="card-img-top">
+                    <img src="images/card (3).png" alt="" />
+                  </div>
+
+                  <div class="card-body">
+                    <div class="outer-card-box">
+                      <a href="" class="inner-card-box">
+                        <div class="avatar">
+                          <img src="images/avatar (3).svg" alt="" />
+                        </div>
+                        <div class="name-and-level">
+                          <h6 class="author-name">Sohanur Rahman</h6>
+                          <p>level two seller</p>
+                        </div>
+                      </a>
+                      <div class="rating">
+                        <div class="no-of-rating">
+                          5.0 <span>(1k+)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <a href="" class="post-title">
+                      Lorem ipsum, dolor sit amet consectetur adipisicing
+                      elit. Quae, saepe!
+                    </a>
+                  </div>
+                  <div class="price-and-save">
+                    <p>Starting at $20</p>
+                    <a href=""><i class="fa fa-heart"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-box">
+                <div class="card-box">
+                  <div class="card-img-top">
+                    <img src="images/card (4).png" alt="" />
+                  </div>
+
+                  <div class="card-body">
+                    <div class="outer-card-box">
+                      <a href="" class="inner-card-box">
+                        <div class="avatar">
+                          <img src="images/avatar (1).svg" alt="" />
+                        </div>
+                        <div class="name-and-level">
+                          <h6 class="author-name">Sohanur Rahman</h6>
+                          <p>level two seller</p>
+                        </div>
+                      </a>
+                      <div class="rating">
+                        <div class="no-of-rating">
+                          5.0 <span>(1k+)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <a href="" class="post-title">
+                      Lorem ipsum, dolor sit amet consectetur adipisicing
+                      elit. Quae, saepe!
+                    </a>
+                  </div>
+                  <div class="price-and-save">
+                    <p>Starting at $20</p>
+                    <a href=""><i class="fa fa-heart"></i></a>
+                  </div>
+                </div>
+              </div>
+
             </div>
-            <div class="languages">
-              <h3>Languages</h3>
-              <ul>
-                <li>English&nbsp;&nbsp;- <span>Fluent</span></li>
-                <li>Spanish&nbsp;<strong>(español)</strong>&nbsp;- <span>Conversational</span></li>
-                <li>French&nbsp;<strong>(français)</strong>&nbsp;- <span>Basic</span></li>
+
+            <nav class="pagination-container">
+              <ul class="pagination">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1">
+                    <i class="fa fa-angle-left"></i>
+                  </a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">1</a>
+                </li>
+                <li class="page-item active">
+                  <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">3</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#"><i class="fa fa-angle-right"></i>
+                  </a>
+                </li>
               </ul>
-            </div>
-            <div class="linked-accounts">
-              <h3>Linked Accounts</h3>
-              <ul>
-                <li class="platform social-account facebook"><i class="platform-icon facebook hint--top"
-                  aria-hidden="true" data-hint="facebook"></i><span class="text">facebook</span></li>
-                  <li class="platform social-account google"><i class="platform-icon google hint--top"
-                    aria-hidden="true" data-hint="google"></i><span class="text">google</span></li>
-                  </ul>
+            </nav>
+          </div>
+
+          <div class="tab-pane fade about" id="about" role="tabpanel" aria-labelledby="about-tab">
+            <div class="row">
+              <div class="col-xs-12 col-sm-7 col-md-8 col-lg-8">
+                <div class="outer-tab-box">
+                  <div class="box biography">
+                    <h5>biography</h5>
+                    <p>
+                      Lorem ipsum dolor, sit amet consectetur adipisicing
+                      elit. Doloremque fuga cum obcaecati, quod ipsum nisi.
+                      Aperiam doloribus doloremque quisquam aliquid
+                      obcaecati, facilis libero. Maiores culpa assumenda,
+                      vel velit nulla eligendi!
+                    </p>
+                  </div>
+                  <div class="box languages">
+                    <h5>languages</h5>
+                    <ul>
+                      <li>English</li>
+                      <li>French</li>
+                      <li>Arabic</li>
+                    </ul>
+                  </div>
+                  <div class="box skills">
+                    <h5>skills</h5>
+                    <ul>
+                      <li>web</li>
+                      <li>UI</li>
+                      <li>front-end</li>
+                      <li>web design</li>
+                      <li>UX</li>
+                      <li>back-end</li>
+                    </ul>
+                  </div>
+                  <div class="box education">
+                    <h5>education</h5>
+                    <div class="education-list">
+                      <div class="list-item">
+                        <h6>M.B.A. - Business administration</h6>
+                        <p>
+                          university of dallas, united states, graduated
+                          2015
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="box linked-acounts">
+                    <h5>linked accounts</h5>
+                    <ul>
+                      <li>
+                        <a href="">
+                          <p><i class="fab fa-facebook-f"></i></p>
+                          facebook
+                        </a>
+                      </li>
+                      <li>
+                        <a href="">
+                          <p><i class="fab fa-linkedin-in"></i></p>
+                          linkedin
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
-                <div class="skills">
-                  <h3>Skills</h3>
-                  <ul>
-                    <li class=""><a href="#">voice talent</a></li>
-                    <li class=""><a href="#">voice acting</a></li>
-                    <li class=""><a href="#">voiceover</a></li>
-                    <li class=""><a href="#">voice over</a></li>
-                    <li class=""><a href="#">voiceover talent</a></li>
-                    <li class=""><a href="#">voice actor</a></li>
-                    <li class=""><a href="#">voicetalent</a></li>
-                    <li class=""><a href="#">voiceacting</a></li>
-                    <li class=""><a href="#">voiceactor</a></li>
-                    <li class=""><a href="#">voiceover artist</a></li>
-                  </ul>
-                </div>
-                <div class="education-list list">
-                  <h3>Education</h3>
+              </div>
+              <div class="col-xs-12 col-sm-5 col-md-4 col-lg-4">
+                <div class="seller-activity">
                   <ul>
                     <li>
-                      <p>B.A. - communication studies</p>
-                      <p>Clayton State University, United States, Graduated 2006</p>
+                      <i class="fa fa-map-marker-alt"></i>Sarasota, FL
+                    </li>
+                    <li>
+                      <i class="fa fa-address-card"></i>member since july
+                      2018
+                    </li>
+                    <li>
+                      <i class="fa fa-clock"></i>avg response time 2hrs
+                    </li>
+                    <li>
+                      <i class="fa fa-paper-plane"></i>last delivery 7 days
                     </li>
                   </ul>
                 </div>
               </div>
             </div>
-            <div class="col-lg-8 right">
-              <h2>Askbootstrap's Gigs</h2>
-              <div class="recommended">
-                <div class="row">
-                  <div class="col-md-4">
-                    <div>
-                      <a href="#">
-                        <img class="img-fluid" src="{{asset('frontend-assets/images/list/v1.png')}}" />
-                      </a>
-                      <div class="inner-slider">
-                        <div class="inner-wrapper">
-                          <div class="d-flex align-items-center">
-                            <span class="seller-image">
-                              <img class="img-fluid"
-                              src="{{asset('frontend-assets/images/user/s1.png')}}"
-                              alt='' />
-                            </span>
-                            <span class="seller-name">
-                              <a href="#">Marcin Kowalski</a>
-                              <span class="level hint--top level-one-seller">
-                                Level 1 Seller
-                              </span>
-                            </span>
-                          </div>
-                          <h3>I will create professional audio ads or radio commercials for your project</h3>
-                          <div class="content-info">
-                            <div class="rating-wrapper">
-                              <span class="gig-rating text-body-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
-                                  <path fill="currentColor"
-                                    d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z">
-                                  </path>
-                                </svg>
-                                5.0
-                                <span>(7)</span>
-                              </span>
-                            </div>
-                          </div>
-                          <div class="footer">
-                            <i class="fa fa-heart" aria-hidden="true"></i>
-                            <div class="price">
-                              <a href="#">
-                                Starting At <span> $1,205</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+          </div>
+
+          <div class="tab-pane fade reviews" id="review" role="tabpanel" aria-labelledby="review-tab">
+            <div class="review-headers">
+              <div class="inner-box">
+                <h5>200 reviews</h5>
+                <div class="rating">
+                  <ul>
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                  </ul>
+                  <div class="no-of-rating">4.8</div>
+                </div>
+              </div>
+              <div class="review-category">
+                <div class="box">
+                  <h6>seller communication level</h6>
+                  <p>4.8 <i class="fa fa-star"></i></p>
+                </div>
+                <div class="box">
+                  <h6>recommend to a friend</h6>
+                  <p>4.8 <i class="fa fa-star"></i></p>
+                </div>
+                <div class="box">
+                  <h6>service as described</h6>
+                  <p>4.8 <i class="fa fa-star"></i></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="review-list-group">
+
+              <div class="review-list-item">
+                <div class="user-img">
+                  <div class="avatar">
+                    <img src="images/avatar (1).svg" alt="">
+                  </div>
+                </div>
+                <div class="comments">
+                  <div class="review-inner-content">
+                    <a href="" class="name">Ali ahmed <span> <i class="fa fa-star"></i> 5.0</span></a>
+                    <p class="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae, placeat delectus
+                      esse illo
+                      necessitatibus adipisci fugiat? Ipsum, architecto molestiae ratione deleniti fuga cumque
+                      excepturi, inventore autem facilis incidunt consectetur voluptatum?</p>
+
+                    <p class="posted-time">14 hours ago</p>
+
+                    <div class="btns-group">
+                      <a href="" class="thumbs-up active"><i class="fa fa-thumbs-up"> </i>helpful</a>
+                      <a href="" class="thumbs-down"><i class="fa fa-thumbs-down"> </i>not helpful</a>
                     </div>
                   </div>
-                  <div class="col-md-4">
-                    <div>
-                      <a href="#">
-                        <img class="img-fluid" src="{{asset('frontend-assets/images/list/v2.png')}}" />
-                      </a>
-                      <div class="inner-slider">
-                        <div class="inner-wrapper">
-                          <div class="d-flex align-items-center">
-                            <span class="seller-image">
-                              <img class="img-fluid"
-                              src="{{asset('frontend-assets/images/user/s2.png')}}"
-                              alt='' />
-                            </span>
-                            <span class="seller-name">
-                              <a href="#">Marcin Kowalski</a>
-                              <span class="level hint--top level-one-seller">
-                                Level 1 Seller
-                              </span>
-                            </span>
-                          </div>
-                          <h3>I will create professional audio ads or radio commercials for your project</h3>
-                          <div class="content-info">
-                            <div class="rating-wrapper">
-                              <span class="gig-rating text-body-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
-                                  <path fill="currentColor"
-                                    d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z">
-                                  </path>
-                                </svg>
-                                5.0
-                                <span>(7)</span>
-                              </span>
-                            </div>
-                          </div>
-                          <div class="footer">
-                            <i class="fa fa-heart" aria-hidden="true"></i>
-                            <div class="price">
-                              <a href="#">
-                                Starting At <span> $1,205</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
+
+                  <div class="sub-comments">
+                    <div class="user-img">
+                      <div class="avatar">
+                        <img src="images/avatar (3).svg" alt="">
                       </div>
                     </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div>
-                      <a href="#">
-                        <img class="img-fluid" src="{{asset('frontend-assets/images/list/v3.png')}}" />
-                      </a>
-                      <div class="inner-slider">
-                        <div class="inner-wrapper">
-                          <div class="d-flex align-items-center">
-                            <span class="seller-image">
-                              <img class="img-fluid"
-                              src="{{asset('frontend-assets/images/user/s3.png')}}"
-                              alt='' />
-                            </span>
-                            <span class="seller-name">
-                              <a href="#">Marcin Kowalski</a>
-                              <span class="level hint--top level-one-seller">
-                                Level 1 Seller
-                              </span>
-                            </span>
-                          </div>
-                          <h3>I will create professional audio ads or radio commercials for your project</h3>
-                          <div class="content-info">
-                            <div class="rating-wrapper">
-                              <span class="gig-rating text-body-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
-                                  <path fill="currentColor"
-                                    d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z">
-                                  </path>
-                                </svg>
-                                5.0
-                                <span>(7)</span>
-                              </span>
-                            </div>
-                          </div>
-                          <div class="footer">
-                            <i class="fa fa-heart" aria-hidden="true"></i>
-                            <div class="price">
-                              <a href="#">
-                                Starting At <span> $1,205</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                    <div class="review-inner-content">
+                      <a href="" class="name">john william <span>(seller)</span></a>
+                      <p class="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae, placeat
+                        delectus</p>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="review-section">
-                <div class="d-flex align-items-center justify-content-between mb-4">
-                  <h4 class="m-0">Reviews as Seller <small><span class="star-rating-s15"></span><span><span
-                  class="total-rating-out-five header-average-rating"
-                data-impression-collected="true">5</span></span><span><span
-                class="total-rating header-total-rating"
-              data-impression-collected="true">(28051)</span></span></small> </h4>
-              <select class="custom-select custom-select-sm border-0 shadow-sm ml-2">
-                <option>Most Relevant</option>
-                <option>Most Recent</option>
-              </select>
+
+              <div class="review-list-item">
+                <div class="user-img">
+                  <div class="avatar">
+                    <img src="images/avatar (2).svg" alt="">
+                  </div>
+                </div>
+                <div class="comments">
+                  <div class="review-inner-content">
+                    <a href="" class="name">Ali ahmed <span> <i class="fa fa-star"></i> 5.0</span></a>
+                    <p class="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae, placeat delectus
+                      esse illo
+                      necessitatibus adipisci fugiat? Ipsum, architecto molestiae ratione deleniti fuga cumque
+                      excepturi, inventore autem facilis incidunt consectetur voluptatum?</p>
+
+                    <p class="posted-time">14 hours ago</p>
+
+                    <div class="btns-group">
+                      <a href="" class="thumbs-up "><i class="fa fa-thumbs-up"> </i>helpful</a>
+                      <a href="" class="thumbs-down"><i class="fa fa-thumbs-down"> </i>not helpful</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="review-list-item">
+                <div class="user-img">
+                  <div class="avatar">
+                    <img src="images/avatar (3).svg" alt="">
+                  </div>
+                </div>
+                <div class="comments">
+                  <div class="review-inner-content">
+                    <a href="" class="name">Ali ahmed <span> <i class="fa fa-star"></i> 5.0</span></a>
+                    <p class="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae, placeat delectus
+                      esse illo
+                      necessitatibus adipisci fugiat? Ipsum, architecto molestiae ratione deleniti fuga cumque
+                      excepturi, inventore autem facilis incidunt consectetur voluptatum?</p>
+
+                    <p class="posted-time">14 hours ago</p>
+
+                    <div class="btns-group">
+                      <a href="" class="thumbs-up "><i class="fa fa-thumbs-up"> </i>helpful</a>
+                      <a href="" class="thumbs-down"><i class="fa fa-thumbs-down"> </i>not helpful</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="review-list-item">
+                <div class="user-img">
+                  <div class="avatar">
+                    <img src="images/avatar (1).svg" alt="">
+                  </div>
+                </div>
+                <div class="comments">
+                  <div class="review-inner-content">
+                    <a href="" class="name">Ali ahmed <span> <i class="fa fa-star"></i> 5.0</span></a>
+                    <p class="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae, placeat delectus
+                      esse illo
+                      necessitatibus adipisci fugiat? Ipsum, architecto molestiae ratione deleniti fuga cumque
+                      excepturi, inventore autem facilis incidunt consectetur voluptatum?</p>
+
+                    <p class="posted-time">14 hours ago</p>
+
+                    <div class="btns-group">
+                      <a href="" class="thumbs-up "><i class="fa fa-thumbs-up"> </i>helpful</a>
+                      <a href="" class="thumbs-down"><i class="fa fa-thumbs-down"> </i>not helpful</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="review-list-item">
+                <div class="user-img">
+                  <div class="avatar">
+                    <img src="images/avatar (2).svg" alt="">
+                  </div>
+                </div>
+                <div class="comments">
+                  <div class="review-inner-content">
+                    <a href="" class="name">Ali ahmed <span> <i class="fa fa-star"></i> 5.0</span></a>
+                    <p class="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae, placeat delectus
+                      esse illo
+                      necessitatibus adipisci fugiat? Ipsum, architecto molestiae ratione deleniti fuga cumque
+                      excepturi, inventore autem facilis incidunt consectetur voluptatum?</p>
+
+                    <p class="posted-time">14 hours ago</p>
+
+                    <div class="btns-group">
+                      <a href="" class="thumbs-up "><i class="fa fa-thumbs-up"> </i>helpful</a>
+                      <a href="" class="thumbs-down"><i class="fa fa-thumbs-down"> </i>not helpful</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="review-list-item">
+                <div class="user-img">
+                  <div class="avatar">
+                    <img src="images/avatar (3).svg" alt="">
+                  </div>
+                </div>
+                <div class="comments">
+                  <div class="review-inner-content">
+                    <a href="" class="name">Ali ahmed <span> <i class="fa fa-star"></i> 5.0</span></a>
+                    <p class="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae, placeat delectus
+                      esse illo
+                      necessitatibus adipisci fugiat? Ipsum, architecto molestiae ratione deleniti fuga cumque
+                      excepturi, inventore autem facilis incidunt consectetur voluptatum?</p>
+
+                    <p class="posted-time">14 hours ago</p>
+
+                    <div class="btns-group">
+                      <a href="" class="thumbs-up active"><i class="fa fa-thumbs-up"> </i>helpful</a>
+                      <a href="" class="thumbs-down"><i class="fa fa-thumbs-down"> </i>not helpful</a>
+                    </div>
+                  </div>
+
+                  <div class="sub-comments">
+                    <div class="user-img">
+                      <div class="avatar">
+                        <img src="images/avatar (1).svg" alt="">
+                      </div>
+                    </div>
+                    <div class="review-inner-content">
+                      <a href="" class="name">john william <span>(seller)</span></a>
+                      <p class="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae, placeat
+                        delectus</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
-            <div class="breakdown">
-              <ul class="header-stars">
-                <li>
-                  Seller communication level
-                  <small>
-                  <span class="star-rating-s15"></span>
-                  <span class="total-rating-out-five">5</span>
-                  </small>
+
+            <nav class="pagination-container">
+              <ul class="pagination">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1">
+                    <i class="fa fa-angle-left"></i>
+                  </a>
                 </li>
-                <li>
-                  Recommend to a friend
-                  <small>
-                  <span class="star-rating-s15"></span>
-                  <span class="total-rating-out-five">5</span>
-                  </small>
+                <li class="page-item">
+                  <a class="page-link" href="#">1</a>
                 </li>
-                <li>
-                  Service as described
-                  <small>
-                  <span class="star-rating-s15"></span>
-                  <span class="total-rating-out-five">5</span>
-                  </small>
+                <li class="page-item active">
+                  <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">3</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#"><i class="fa fa-angle-right"></i>
+                  </a>
                 </li>
               </ul>
-            </div>
-          </div>
-          <div class="review-list">
-            <ul>
-              <li>
-                <div class="d-flex">
-                  <div class="left">
-                    <span>
-                      <img
-                      src="{{asset('frontend-assets/images/user/s9.png')}}"
-                      class="profile-pict-img img-fluid" alt="">
-                    </span>
-                  </div>
-                  <div class="right">
-                    <h4>
-                    Askbootstrap
-                    <span class="gig-rating text-body-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15"
-                        height="15">
-                        <path fill="currentColor"
-                          d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z">
-                        </path>
-                      </svg>
-                      5.0
-                    </span>
-                    </h4>
-                    <div class="country d-flex align-items-center">
-                      <span>
-                        <img class="country-flag img-fluid"
-                        src="{{asset('frontend-assets/images/flag/india.png')}}">
-                      </span>
-                      <div class="country-name font-accent">India</div>
-                    </div>
-                    <div class="review-description">
-                      <p>
-                        The process was smooth, after providing the required info,
-                        Pragyesh sent me an outstanding packet of wireframes. Thank you a lot!
-                      </p>
-                    </div>
-                    <span class="publish py-3 d-inline-block w-100">Published 4 weeks ago</span>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="d-flex">
-                  <div class="left">
-                    <span>
-                      <img
-                      src="{{asset('frontend-assets/images/user/s8.png')}}"
-                      class="profile-pict-img img-fluid" alt="">
-                    </span>
-                  </div>
-                  <div class="right">
-                    <h4>
-                    Askbootstrap
-                    <span class="gig-rating text-body-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15"
-                        height="15">
-                        <path fill="currentColor"
-                          d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z">
-                        </path>
-                      </svg>
-                      5.0
-                    </span>
-                    </h4>
-                    <div class="country d-flex align-items-center">
-                      <span>
-                        <img class="country-flag img-fluid"
-                        src="{{asset('frontend-assets/images/flag/flag.png')}}">
-                      </span>
-                      <div class="country-name font-accent">Germany</div>
-                    </div>
-                    <div class="review-description">
-                      <p>
-                        The process was smooth, after providing the required info,
-                        Pragyesh sent me an outstanding packet of wireframes. Thank you a lot!
-                      </p>
-                    </div>
-                    <span class="publish py-3 d-inline-block w-100">Published 4 weeks ago</span>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="d-flex">
-                  <div class="left">
-                    <span>
-                      <img
-                      src="{{asset('frontend-assets/images/user/s7.png')}}"
-                      class="profile-pict-img img-fluid" alt="">
-                    </span>
-                  </div>
-                  <div class="right">
-                    <h4>
-                    Askbootstrap
-                    <span class="gig-rating text-body-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15"
-                        height="15">
-                        <path fill="currentColor"
-                          d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z">
-                        </path>
-                      </svg>
-                      5.0
-                    </span>
-                    </h4>
-                    <div class="country d-flex align-items-center">
-                      <span>
-                        <img class="country-flag img-fluid"
-                        src="{{asset('frontend-assets/images/flag/uk.png')}}">
-                      </span>
-                      <div class="country-name font-accent">UK</div>
-                    </div>
-                    <div class="review-description">
-                      <p>
-                        The process was smooth, after providing the required info,
-                        Pragyesh sent me an outstanding packet of wireframes. Thank you a lot!
-                      </p>
-                    </div>
-                    <span class="publish py-3 d-inline-block w-100">Published 4 weeks ago</span>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="d-flex">
-                  <div class="left">
-                    <span>
-                      <img
-                      src="{{asset('frontend-assets/images/user/s6.png')}}"
-                      class="profile-pict-img img-fluid" alt="">
-                    </span>
-                  </div>
-                  <div class="right">
-                    <h4>
-                    Askbootstrap
-                    <span class="gig-rating text-body-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15"
-                        height="15">
-                        <path fill="currentColor"
-                          d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z">
-                        </path>
-                      </svg>
-                      5.0
-                    </span>
-                    </h4>
-                    <div class="country d-flex align-items-center">
-                      <span>
-                        <img class="country-flag img-fluid"
-                        src="{{asset('frontend-assets/images/flag/australia.png')}}">
-                      </span>
-                      <div class="country-name font-accent">Australia</div>
-                    </div>
-                    <div class="review-description">
-                      <p>
-                        The process was smooth, after providing the required info,
-                        Pragyesh sent me an outstanding packet of wireframes. Thank you a lot!
-                      </p>
-                    </div>
-                    <span class="publish py-3 d-inline-block w-100">Published 4 weeks ago</span>
-                  </div>
-                </div>
-              </li>
-            </ul>
+            </nav>
+
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 @endsection
 @section('script')
 @endsection
