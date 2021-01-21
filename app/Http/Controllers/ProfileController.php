@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Categories;
 use App\Models\User;
+use App\Models\Services;
 use App\Facade\Engezli;
 use Hash;
 use Session;
@@ -25,8 +26,10 @@ class ProfileController extends Controller
     {
         $user_id = auth()->user()->id; 
         $user = User::where('id', $user_id)->first();
-
-        return \View::make('frontend.profile')->with(compact('user'));
+        $userServices = Services::where('seller_id', $user_id)->with('sellerInfo','packageInfo')->get();
+        $serviceCount = $userServices->count();
+        
+        return \View::make('frontend.profile')->with(compact('user','userServices','serviceCount'));
     }
 
     /**
@@ -36,7 +39,7 @@ class ProfileController extends Controller
      */
     public function create()
     {
-        //
+        return \View::make('frontend.edit-profile');
     }
 
     /**

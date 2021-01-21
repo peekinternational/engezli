@@ -11,9 +11,9 @@
 				<h1 class="title"> {{ __('home.Home Banner Title') }}
 				</h1>
 
-				<form action="" class="search-box">
+				<form action="{{url('/search')}}" method="get" class="search-box">
 					<i class="fa fa-search"></i>
-					<input type="text" class="form-control" placeholder="{{ __('home.Find services')}}" />
+					<input type="text" name="service_title" class="form-control" placeholder="{{ __('home.Find services')}}"  value="{{ old('titlesearch') }}" />
 					<button class="btn" type="submit">{{ __('home.search')}}</button>
 				</form>
 
@@ -103,7 +103,7 @@
 			<div class="row">
 				@foreach($categories as $cat)
 				<div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-					<a href="{{$cat->cat_url}}" class="category-box">
+					<a href="{{url('services/'.$cat->cat_url)}}" class="category-box">
 						<div class="img-container">
 							<img src="{{asset('images/cat_images/'.$cat->cat_image)}}" alt="" />
 						</div>

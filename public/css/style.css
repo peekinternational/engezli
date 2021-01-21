@@ -4479,3 +4479,123 @@ nav.breadcrumb-container .breadcrumb a {
   text-decoration: underline !important;
 }
 /*# sourceMappingURL=style.css.map */
+
+ .dropdown-filters .dropdown {
+     background: none;
+}
+ .dropdown-filters .dropdown-menu.show {
+     min-width: 450px;
+     background: #fff;
+     padding: 20px;
+}
+ .dropdown-filters .dropdown button {
+     background: none;
+     border-color: #dadbdd;
+     color: #222325;
+     min-width: 50px;
+     padding: 6px 12px;
+     border-radius: 4px;
+     box-shadow: none !important;
+     font-size: 14px;
+}
+ .dropdown-filters .dropdown.show>.btn-secondary.dropdown-toggle {
+     background: none;
+     border-color: #dadbdd;
+     color: #222325;
+}
+ .dropdown-filters .dropdown .dropdown-toggle::after {
+     content: "\f107";
+     display: inline-block;
+     font: 400 18px/18px FontAwesome;
+     font-family: "FontAwesome";
+     color: inherit;
+     margin-left: 12px;
+     position: relative;
+     top: 1px;
+     -webkit-transition: all .24s cubic-bezier(.215, .61, .355, 1);
+     -o-transition: all .24s cubic-bezier(.215, .61, .355, 1);
+     transition: all .24s cubic-bezier(.215, .61, .355, 1);
+     width: auto;
+     height: auto;
+     border: none;
+     vertical-align: text-top;
+}
+ .dropdown-menu .options+.options {
+     padding-top: 15px;
+     margin-top: 15px;
+     border-top: 1px solid #eee;
+}
+ .dropdown-menu .options h5 {
+     color: #222325;
+     font-weight: bold;
+     margin-bottom: 6px;
+     font-size: 16px;
+     line-height: 24px;
+     text-transform: none;
+     letter-spacing: normal;
+}
+ .options .fake-radio-wrapper {
+     display: inline-block;
+     text-align: left;
+     padding: 16px 0;
+}
+ .options .fake-radio-wrapper .fake-radio {
+     display: block;
+     font-size: 14px;
+     color: #62646a;
+     cursor: pointer;
+     position: relative;
+}
+ .options .fake-radio-wrapper .fake-radio input[type="radio"] {
+     position: absolute;
+     opacity: 0;
+     top: -20px;
+     left: -20px;
+}
+ .options .fake-radio-wrapper .fake-radio input[type="radio"]:checked+.radio-img {
+     background-position: -100px -150px;
+}
+ .options .fake-radio-wrapper .fake-radio .radio-img {
+     background: transparent url(../frontend-assets/images/radio.svg) no-repeat -125px -150px;
+     width: 16px;
+     height: 16px;
+     float: left;
+     margin-right: 8px;
+     margin-top: 2px;
+}
+ .options .fake-radio-wrapper .fake-radio .faster-price {
+     padding-left: 24px;
+}
+ .dropdown-menu.budget {
+     width: 319px;
+}
+ .dropdown-menu.budget .options input[type="text"] {
+     min-height: 36px;
+     -webkit-box-shadow: none;
+     box-shadow: none;
+     border: 1px solid #dadbdd;
+     -webkit-transition: border-color .35s ease;
+     -o-transition: border-color .35s ease;
+     transition: border-color .35s ease;
+     -moz-appearance: textfield;
+     width: 100%;
+     padding: 0 15px;
+     border-radius: 3px;
+}
+ .dropdown-menu.budget .options i {
+     position: absolute;
+     right: 25px;
+     bottom: 10px;
+     color: #b5b6ba;
+}
+ .dropdown-menu.budget label {
+     font-size: 16px;
+     line-height: 24px;
+     font-weight: 600;
+     color: #62646a;
+     margin-bottom: 4px;
+}
+.dropdown-menu.delivery {
+    width: 200px;
+    min-width: auto !important;
+}

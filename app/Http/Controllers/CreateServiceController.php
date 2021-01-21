@@ -43,8 +43,7 @@ class CreateServiceController extends Controller
         $subCategory = Categories::where('parent_id', $category_id)->get();
         // dd($subCategory);
        
-
-            return view('frontend.fetch_subcategory',compact('subCategory'));
+        return view('frontend.fetch_subcategory',compact('subCategory'));
         
     }
 
@@ -125,7 +124,7 @@ class CreateServiceController extends Controller
 
           foreach ($packages as $key => $package) {
             $packageBasic = [
-              "service_id" => $service_id,
+              "services_id" => $service_id,
               "title" => $package['package_name'],
               "description" => $package['package_desc'],
               "delivery_time" => $package['delivery_time'],

@@ -91,14 +91,14 @@
 					<a href="{{url('order')}}" class="nav-link">{{ __('home.Order')}}</a>
 				</li>
 				<li class="nav-item">
-					<a href="{{url('services')}}" class="nav-link">{{ __('home.Service')}}</a>
+					<a href="{{url('services/all')}}" class="nav-link">{{ __('home.Service')}}</a>
 				</li>
 				<li class="nav-item">
 					<a href="{{url('contact')}}" class="nav-link">{{ __('home.Contact')}}</a>
 				</li>
 			</ul>
-			<form class="search-box form-inline">
-				<input type="text" placeholder="{{ __('home.Find services')}}" class="input" />
+			<form class="search-box form-inline" method="get" action="{{url('search')}}">
+				<input type="text" placeholder="{{ __('home.Find services')}}" name="service_title" class="input" />
 				<button class="search-btn">
 				<i class="fa fa-search" aria-hidden="true"></i>
 				</button>
@@ -135,8 +135,8 @@
 						@endif
 					</a>
 					<div class="dropdown-menu" aria-labelledبواسطة="navbarDropdown">
-						<a class="dropdown-item" href="profile.html">{{ __('home.profile')}}</a>
-						<a class="dropdown-item" href="#">{{ __('home.edit profile')}}</a>
+						<a class="dropdown-item" href="{{url('profile')}}">{{ __('home.profile')}}</a>
+						<a class="dropdown-item" href="{{('#')}}">{{ __('home.edit profile')}}</a>
 						<a class="dropdown-item" href="settings.html">{{ __('home.settings')}}</a>
 						<a class="dropdown-item" href="#">{{ __('home.help & support')}}</a>
 						<a class="dropdown-item" href="{{url('logout')}}">{{ __('home.logout')}}</a>

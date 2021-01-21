@@ -1,782 +1,304 @@
-@extends('frontend.layouts.master')
-@section('title', 'Gigs  ')
+@extends('frontend.layouts.app')
+@section('title', 'Search  ')
 @section('styling')
 @endsection
 @section('content')
+<!-- Category Slider -->
+@include('frontend.includes.category-slider')
 <!-- Inner Header -->
-<section class="py-5 bg-dark inner-header">
-   <div class="container">
-      <div class="row">
-         <div class="col-md-12 text-center">
-            <h1 class="mt-0 mb-3 text-white">Gigs</h1>
-            <div class="breadcrumbs">
-               <p class="mb-0 text-white"><a class="text-white" href="#">Home</a>  /  <span class="text-success">Gigs</span></p>
-            </div>
-         </div>
-      </div>
-   </div>
-</section>
-<!-- End Inner Header -->
-<!--   header -->
-<div class="third-menu filter-options py-3">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12 d-flex align-items-center justify-content-between">
-        <div class="left">
-          <div class="dropdown-filters d-flex">
-            <div class="dropdown">
-              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Seller Details
-              </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <div class="options">
-                  <h5>Main type</h5>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <label class="custom-checkbox">Mobile Apps
-                        <span class="count">(150)</span>
-                        <input type="checkbox">
-                        <span class="checkmark"></span>
-                      </label>
-                    </div>
-                    <div class="col-md-6">
-                      <label class="custom-checkbox">Email Templates
-                        <span class="count">(150)</span>
-                        <input type="checkbox">
-                        <span class="checkmark"></span>
-                      </label>
-                    </div>
-                    <div class="col-md-6">
-                      <label class="custom-checkbox">Landing pages
-                        <span class="count">(150)</span>
-                        <input type="checkbox">
-                        <span class="checkmark"></span>
-                      </label>
-                    </div>
-                    <div class="col-md-6">
-                      <label class="custom-checkbox">Websites
-                        <span class="count">(150)</span>
-                        <input type="checkbox">
-                        <span class="checkmark"></span>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-                <div class="options">
-                  <h5>Image file format</h5>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <label class="custom-checkbox">jpg
-                        <span class="count">(150)</span>
-                        <input type="checkbox">
-                        <span class="checkmark"></span>
-                      </label>
-                    </div>
-                    <div class="col-md-6">
-                      <label class="custom-checkbox">png
-                        <span class="count">(150)</span>
-                        <input type="checkbox">
-                        <span class="checkmark"></span>
-                      </label>
-                    </div>
-                    <div class="col-md-6">
-                      <label class="custom-checkbox">psd
-                        <span class="count">(150)</span>
-                        <input type="checkbox">
-                        <span class="checkmark"></span>
-                      </label>
-                    </div>
-                    <div class="col-md-6">
-                      <label class="custom-checkbox">pdf
-                        <span class="count">(150)</span>
-                        <input type="checkbox">
-                        <span class="checkmark"></span>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="dropdown ml-4">
-              <button class="btn btn-secondary dropdown-toggle" type="button" id="budget" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Budget
-              </button>
-              <div class="dropdown-menu budget" aria-labelledby="budget">
-                <div class="options">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <label>Min.</label>
-                      <input type="text" placeholder="Any">
-                      <i class="fa fa-inr" aria-hidden="true"></i>
-                    </div>
-                    <div class="col-md-6">
-                      <label>Min.</label>
-                      <input type="text" placeholder="Any">
-                      <i class="fa fa-inr" aria-hidden="true"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="dropdown ml-4">
-              <button class="btn btn-secondary dropdown-toggle" type="button" id="delivery" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Delivery Time
-              </button>
-              <div class="dropdown-menu delivery" aria-labelledby="delivery">
-                <div class="options">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="fake-radio-wrapper">
-                        <div><input type="hidden" name="gig_items[2][0007284419489][gig_item_id]"
-                          value="117210558"><input type="hidden"
-                        name="gig_items[2][0007284419489][quantity]" value="0"></div>
-                        <label
-                          class="fake-radio"><input type="radio" name="2" value="0" checked=""><span
-                          class="radio-img"></span><span>Express 24H</span></label><label
-                          class="fake-radio"><input type="radio" name="2" value="1"><span
-                          class="radio-img"></span><span>Up to 3 days</span>
-                        </label>
-                        <label
-                          class="fake-radio"><input type="radio" name="2" value="1"><span
-                          class="radio-img"></span><span>Up to 7 days</span>
-                        </label>
-                        <label
-                          class="fake-radio"><input type="radio" name="2" value="1"><span
-                          class="radio-img"></span><span>Anytime</span>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+<div class="search-container">
+  <div class="page-headers">
+    <div class="container">
+      <h2>Results for "<span>{{Request::get('service_title')}}</span>"</h2>
+      <nav class="breadcrumb-container" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a></li>
+          <li class="breadcrumb-item"><a href="">service</a></li>
+          <li class="breadcrumb-item active" aria-current="page">
+            Search Page
+          </li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="search-filter-wrapper">
+    <div class="container">
+      <div class="outer-content">
+        <div class="left dropdown-filters">
+          <div class="category-select select-box">
+            <select name="category_id" class="select2" id="category">
+              <option value="">Category</option>
+              @foreach($categories as $category)
+              <option value="{{$category->id}}">{{$category->cat_title}}</option>
+              @endforeach
+            </select>
           </div>
-        </div>
-        <div class="right">
-          <ul class="d-flex align-items-center">
-            <li>
-              <label class="switch">
-                <input type="checkbox">
-                <span class="slider round"></span>
-              </label>
-              <h5>Pro Services</h5>
-            </li>
-            <li>
-              <label class="switch">
-                <input type="checkbox">
-                <span class="slider round"></span>
-              </label>
-              <h5>Local Sellers</h5>
-            </li>
-            <li>
-              <label class="switch">
-                <input type="checkbox">
-                <span class="slider round"></span>
-              </label>
-              <h5>Online Sellers</h5>
-            </li>
-          </ul>
+
+          <div class="logo-select select-box">
+            <select name="" class="select2" id="">
+              <option value="">logo option</option>
+              <option value="">option 1</option>
+              <option value="">option 2</option>
+              <option value="">option 3</option>
+              <option value="">option 4</option>
+              <option value="">option 5</option>
+            </select>
+          </div>
+          <!-- <div class="sellter-details-select select-box">
+            <select name="" class="select2" id="">
+              <option value="">seller details</option>
+              <option value="">option 1</option>
+              <option value="">option 2</option>
+              <option value="">option 3</option>
+              <option value="">option 4</option>
+              <option value="">option 5</option>
+            </select>
+          </div> -->
+
+
+          <div class="budget-select select-box">
+            <select name="budget" class="select2" id="budget">
+              <option value="">budget</option>
+              <option value="$5-$50">$5-$50</option>
+              <option value="$50-$100">$50-$100</option>
+              <option value="$100-1000">$100-1000</option>
+              <option value="$1000-$2000">$1000-$2000</option>
+            </select>
+          </div>
+
+          <!-- <div class="dropdown ml-4">
+             <button class="btn btn-secondary dropdown-toggle" type="button" id="budget" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+             Budget
+             </button>
+             <div class="dropdown-menu budget" aria-labelledby="budget">
+                <div class="options">
+                   <div class="row">
+                      <div class="col-md-6">
+                         <label>Min.</label>
+                         <input type="text" placeholder="Any">
+                         <i class="fa fa-inr" aria-hidden="true"></i>
+                      </div>
+                      <div class="col-md-6">
+                         <label>Max.</label>
+                         <input type="text" placeholder="Any">
+                         <i class="fa fa-inr" aria-hidden="true"></i>
+                      </div>
+                   </div>
+                </div>
+             </div>
+          </div> -->
+
+          <div class="dropdown ml-4">
+             <button class="btn btn-secondary dropdown-toggle" type="button" id="delivery" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+             Delivery Time
+             </button>
+             <div class="dropdown-menu delivery" aria-labelledby="delivery">
+                <div class="options">
+                   <div class="row">
+                      <div class="col-md-12">
+                         <div class="fake-radio-wrapper">
+                            <div><input type="hidden" name="gig_items[2][0007284419489][gig_item_id]"
+                               value="117210558"><input type="hidden"
+                               name="gig_items[2][0007284419489][quantity]" value="0"></div>
+                            <label
+                               class="fake-radio"><input type="radio" name="2" value="0" checked=""><span
+                               class="radio-img"></span><span>Express 24H</span></label><label
+                               class="fake-radio"><input type="radio" name="2" value="1"><span
+                               class="radio-img"></span><span>Up to 3 days</span>
+                            </label>
+                            <label
+                               class="fake-radio"><input type="radio" name="2" value="1"><span
+                               class="radio-img"></span><span>Up to 7 days</span>
+                            </label>
+                            <label
+                               class="fake-radio"><input type="radio" name="2" value="1"><span
+                               class="radio-img"></span><span>Anytime</span>
+                            </label>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+          </div>
+          <!-- <div class="delivery-time-select select-box">
+            <select name="" class="select2" id="">
+              <option value="">delivery time</option>
+              <option value="">1 day</option>
+              <option value="">2 day</option>
+              <option value="">3 day</option>
+              <option value="">4 day</option>
+              <option value="">5 day</option>
+              <option value="">6 day</option>
+              <option value="">7 day</option>
+              <option value="">8 day</option>
+              <option value="">9 day</option>
+              <option value="">10 day</option>
+            </select>
+          </div> -->
         </div>
       </div>
     </div>
   </div>
-</div>
-<div class="main-page best-selling">
-  <div class="view_slider recommended pt-5">
+
+  <div class="service-lists-wrapper outer-content">
     <div class="container">
-      <div class="sorting-div d-flex align-items-center justify-content-between">
-        <p class="mb-2">463 Services available</p>
-        <div class="sorting d-flex align-items-center">
-          <p>Sortby</p>
-          <select class="custom-select custom-select-sm border-0 shadow-sm ml-2">
-            <option>Best Selling</option>
-            <option>Recommended</option>
-            <option>Newest Arrivals</option>
+      <div class="result-and-sort">
+        <div class="headers">
+          <p class="result">{{$serviceCount}} services available</p>
+          <h2>Search results</h2>
+        </div>
+        <div class="sort">
+          <p>Sort by</p>
+          <select name="" id="" class="select2">
+            <option value="">best selling</option>
+            <option value="">Recommanded</option>
+            <option value="">Newest</option>
           </select>
         </div>
       </div>
-      <h3>Services In Web &amp; Mobile Design</h3>
-    </div>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-3">
-          <a href="#">
-            <img class="img-fluid" src="{{asset('frontend-assets/images/list/v1.png')}}" />
-          </a>
-          <div class="inner-slider">
-            <div class="inner-wrapper">
-              <div class="d-flex align-items-center">
-                <span class="seller-image">
-                  <img class="img-fluid"
-                  src="{{asset('frontend-assets/images/user/s1.png')}}"
-                  alt='' />
-                </span>
-                <span class="seller-name">
-                  <a href="#">Stave Martin</a>
-                  <span class="level hint--top level-one-seller">
-                    Level 1 Seller
-                  </span>
-                </span>
-              </div>
-              <h3>
-              Contrary to popular belief, Lorem Ipsum is not simply...
-              </h3>
-              <div class="content-info">
-                <div class="rating-wrapper">
-                  <span class="gig-rating text-body-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
-                      <path fill="currentColor"
-                        d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z">
-                      </path>
-                    </svg>
-                    5.0
-                    <span>(7)</span>
-                  </span>
+
+      <div class="post-lists">
+        <div class="row" id="services">
+          @foreach($services as $service)
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-box">
+            <div class="card">
+              <span class="gig-image">
+                @if($service->service_img1 != '')
+                <img
+                  alt=""
+                  class="card-img-top"
+                  src="{{asset('images/service_images/'.$service->service_img1)}}"
+                />
+                @else
+                <img
+                  alt=""
+                  class="card-img-top"
+                  src="{{asset('images/card (1).png')}}"
+                />
+                @endif
+              </span>
+              <div class="card-body seller-info">
+                <div class="seller-image">
+                  @if($service->sellerInfo->facebook_id != null || $service->sellerInfo->google_id != null)
+                  <img alt="" class="" src="{{$service->sellerInfo->profile_image}}" />
+                  @elseif($service->sellerInfo->profile_image != '')
+                  <img alt="" class="" src="{{asset('images/user_images/'.$service->sellerInfo->profile_image)}}" />
+                  @else
+                  <img src="{{asset('images/avatar (1).svg')}}">
+                  @endif
+                </div>
+
+                <div class="seller-name">
+                  <a href="#">{{$service->sellerInfo->first_name}} {{$service->sellerInfo->last_name}}</a>
+                  <p class="level">Level 1 Seller</p>
+                </div>
+                <a href="" class="gig-title">
+                  {{$service->service_title}}
+                </a>
+                <div class="content-info">
+                  <div class="rating-wrapper">
+                    <span class="gig-rating text-body-2">
+                      <i class="fa fa-star"></i>
+                      5.0
+                      <span>(7)</span>
+                    </span>
+                  </div>
                 </div>
               </div>
-              <div class="footer">
-                <i class="fa fa-heart" aria-hidden="true"></i>
+              <div class="card-footer">
+                <i aria-hidden="true" class="fa fa-heart"></i>
                 <div class="price">
                   <a href="#">
-                    Starting At <span> $1,205</span>
+                    Starting At
+                    @foreach($service->packageInfo as $key => $packg)
+                    @if($key == 0)
+                      <span>{{$packg->price}} </span>
+                    @endif
+                    @endforeach
                   </a>
                 </div>
               </div>
             </div>
           </div>
+          @endforeach
         </div>
-        <div class="col-md-3">
-          <a href="#">
-            <img class="img-fluid" src="{{asset('frontend-assets/images/list/v2.png')}}" />
-          </a>
-          <div class="inner-slider">
-            <div class="inner-wrapper">
-              <div class="d-flex align-items-center">
-                <span class="seller-image">
-                  <img class="img-fluid"
-                  src="{{asset('frontend-assets/images/user/s2.png')}}"
-                  alt='' />
-                </span>
-                <span class="seller-name">
-                  <a href="#">Stave Martin</a>
-                  <span class="level hint--top level-one-seller">
-                    Level 1 Seller
-                  </span>
-                </span>
-              </div>
-              <h3>
-              Contrary to popular belief, Lorem Ipsum is not simply...
-              </h3>
-              <div class="content-info">
-                <div class="rating-wrapper">
-                  <span class="gig-rating text-body-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
-                      <path fill="currentColor"
-                        d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z">
-                      </path>
-                    </svg>
-                    5.0
-                    <span>(7)</span>
-                  </span>
-                </div>
-              </div>
-              <div class="footer">
-                <i class="fa fa-heart" aria-hidden="true"></i>
-                <div class="price">
-                  <a href="#">
-                    Starting At <span> $1,205</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="row hidden" id="category-services" >
+          
         </div>
-        <div class="col-md-3">
-          <a href="#">
-            <img class="img-fluid" src="{{asset('frontend-assets/images/list/v3.png')}}" />
-          </a>
-          <div class="inner-slider">
-            <div class="inner-wrapper">
-              <div class="d-flex align-items-center">
-                <span class="seller-image">
-                  <img class="img-fluid"
-                  src="{{asset('frontend-assets/images/user/s3.png')}}"
-                  alt='' />
-                </span>
-                <span class="seller-name">
-                  <a href="#">Stave Martin</a>
-                  <span class="level hint--top level-one-seller">
-                    Level 1 Seller
-                  </span>
-                </span>
-              </div>
-              <h3>
-              Contrary to popular belief, Lorem Ipsum is not simply...
-              </h3>
-              <div class="content-info">
-                <div class="rating-wrapper">
-                  <span class="gig-rating text-body-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
-                      <path fill="currentColor"
-                        d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z">
-                      </path>
-                    </svg>
-                    5.0
-                    <span>(7)</span>
-                  </span>
-                </div>
-              </div>
-              <div class="footer">
-                <i class="fa fa-heart" aria-hidden="true"></i>
-                <div class="price">
-                  <a href="#">
-                    Starting At <span> $1,205</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <a href="#">
-            <img class="img-fluid" src="{{asset('frontend-assets/images/list/v4.png')}}" />
-          </a>
-          <div class="inner-slider">
-            <div class="inner-wrapper">
-              <div class="d-flex align-items-center">
-                <span class="seller-image">
-                  <img class="img-fluid"
-                  src="{{asset('frontend-assets/images/user/s4.png')}}"
-                  alt='' />
-                </span>
-                <span class="seller-name">
-                  <a href="#">Stave Martin</a>
-                  <span class="level hint--top level-one-seller">
-                    Level 1 Seller
-                  </span>
-                </span>
-              </div>
-              <h3>
-              Contrary to popular belief, Lorem Ipsum is not simply...
-              </h3>
-              <div class="content-info">
-                <div class="rating-wrapper">
-                  <span class="gig-rating text-body-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
-                      <path fill="currentColor"
-                        d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z">
-                      </path>
-                    </svg>
-                    5.0
-                    <span>(7)</span>
-                  </span>
-                </div>
-              </div>
-              <div class="footer">
-                <i class="fa fa-heart" aria-hidden="true"></i>
-                <div class="price">
-                  <a href="#">
-                    Starting At <span> $1,205</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <a href="#">
-            <img class="img-fluid" src="{{asset('frontend-assets/images/list/v5.png')}}" />
-          </a>
-          <div class="inner-slider">
-            <div class="inner-wrapper">
-              <div class="d-flex align-items-center">
-                <span class="seller-image">
-                  <img class="img-fluid"
-                  src="{{asset('frontend-assets/images/user/s5.png')}}"
-                  alt='' />
-                </span>
-                <span class="seller-name">
-                  <a href="#">Stave Martin</a>
-                  <span class="level hint--top level-one-seller">
-                    Level 1 Seller
-                  </span>
-                </span>
-              </div>
-              <h3>
-              Contrary to popular belief, Lorem Ipsum is not simply...
-              </h3>
-              <div class="content-info">
-                <div class="rating-wrapper">
-                  <span class="gig-rating text-body-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
-                      <path fill="currentColor"
-                        d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z">
-                      </path>
-                    </svg>
-                    5.0
-                    <span>(7)</span>
-                  </span>
-                </div>
-              </div>
-              <div class="footer">
-                <i class="fa fa-heart" aria-hidden="true"></i>
-                <div class="price">
-                  <a href="#">
-                    Starting At <span> $1,205</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <a href="#">
-            <img class="img-fluid" src="{{asset('frontend-assets/images/list/v6.png')}}" />
-          </a>
-          <div class="inner-slider">
-            <div class="inner-wrapper">
-              <div class="d-flex align-items-center">
-                <span class="seller-image">
-                  <img class="img-fluid"
-                  src="{{asset('frontend-assets/images/user/s6.png')}}"
-                  alt='' />
-                </span>
-                <span class="seller-name">
-                  <a href="#">Stave Martin</a>
-                  <span class="level hint--top level-one-seller">
-                    Level 1 Seller
-                  </span>
-                </span>
-              </div>
-              <h3>
-              Contrary to popular belief, Lorem Ipsum is not simply...
-              </h3>
-              <div class="content-info">
-                <div class="rating-wrapper">
-                  <span class="gig-rating text-body-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
-                      <path fill="currentColor"
-                        d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z">
-                      </path>
-                    </svg>
-                    5.0
-                    <span>(7)</span>
-                  </span>
-                </div>
-              </div>
-              <div class="footer">
-                <i class="fa fa-heart" aria-hidden="true"></i>
-                <div class="price">
-                  <a href="#">
-                    Starting At <span> $1,205</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <a href="#">
-            <img class="img-fluid" src="{{asset('frontend-assets/images/list/v7.png')}}" />
-          </a>
-          <div class="inner-slider">
-            <div class="inner-wrapper">
-              <div class="d-flex align-items-center">
-                <span class="seller-image">
-                  <img class="img-fluid"
-                  src="{{asset('frontend-assets/images/user/s7.png')}}"
-                  alt='' />
-                </span>
-                <span class="seller-name">
-                  <a href="#">Stave Martin</a>
-                  <span class="level hint--top level-one-seller">
-                    Level 1 Seller
-                  </span>
-                </span>
-              </div>
-              <h3>
-              Contrary to popular belief, Lorem Ipsum is not simply...
-              </h3>
-              <div class="content-info">
-                <div class="rating-wrapper">
-                  <span class="gig-rating text-body-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
-                      <path fill="currentColor"
-                        d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z">
-                      </path>
-                    </svg>
-                    5.0
-                    <span>(7)</span>
-                  </span>
-                </div>
-              </div>
-              <div class="footer">
-                <i class="fa fa-heart" aria-hidden="true"></i>
-                <div class="price">
-                  <a href="#">
-                    Starting At <span> $1,205</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <a href="#">
-            <img class="img-fluid" src="{{asset('frontend-assets/images/list/v8.png')}}" />
-          </a>
-          <div class="inner-slider">
-            <div class="inner-wrapper">
-              <div class="d-flex align-items-center">
-                <span class="seller-image">
-                  <img class="img-fluid"
-                  src="{{asset('frontend-assets/images/user/s8.png')}}"
-                  alt='' />
-                </span>
-                <span class="seller-name">
-                  <a href="#">Stave Martin</a>
-                  <span class="level hint--top level-one-seller">
-                    Level 1 Seller
-                  </span>
-                </span>
-              </div>
-              <h3>
-              Contrary to popular belief, Lorem Ipsum is not simply...
-              </h3>
-              <div class="content-info">
-                <div class="rating-wrapper">
-                  <span class="gig-rating text-body-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
-                      <path fill="currentColor"
-                        d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z">
-                      </path>
-                    </svg>
-                    5.0
-                    <span>(7)</span>
-                  </span>
-                </div>
-              </div>
-              <div class="footer">
-                <i class="fa fa-heart" aria-hidden="true"></i>
-                <div class="price">
-                  <a href="#">
-                    Starting At <span> $1,205</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <a href="#">
-            <img class="img-fluid" src="{{asset('frontend-assets/images/list/v2.png')}}" />
-          </a>
-          <div class="inner-slider">
-            <div class="inner-wrapper">
-              <div class="d-flex align-items-center">
-                <span class="seller-image">
-                  <img class="img-fluid"
-                  src="{{asset('frontend-assets/images/user/s9.png')}}"
-                  alt='' />
-                </span>
-                <span class="seller-name">
-                  <a href="#">Stave Martin</a>
-                  <span class="level hint--top level-one-seller">
-                    Level 1 Seller
-                  </span>
-                </span>
-              </div>
-              <h3>
-              Contrary to popular belief, Lorem Ipsum is not simply...
-              </h3>
-              <div class="content-info">
-                <div class="rating-wrapper">
-                  <span class="gig-rating text-body-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
-                      <path fill="currentColor"
-                        d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z">
-                      </path>
-                    </svg>
-                    5.0
-                    <span>(7)</span>
-                  </span>
-                </div>
-              </div>
-              <div class="footer">
-                <i class="fa fa-heart" aria-hidden="true"></i>
-                <div class="price">
-                  <a href="#">
-                    Starting At <span> $1,205</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <a href="#">
-            <img class="img-fluid" src="{{asset('frontend-assets/images/list/v4.png')}}" />
-          </a>
-          <div class="inner-slider">
-            <div class="inner-wrapper">
-              <div class="d-flex align-items-center">
-                <span class="seller-image">
-                  <img class="img-fluid"
-                  src="{{asset('frontend-assets/images/user/s10.png')}}"
-                  alt='' />
-                </span>
-                <span class="seller-name">
-                  <a href="#">Stave Martin</a>
-                  <span class="level hint--top level-one-seller">
-                    Level 1 Seller
-                  </span>
-                </span>
-              </div>
-              <h3>
-              Contrary to popular belief, Lorem Ipsum is not simply...
-              </h3>
-              <div class="content-info">
-                <div class="rating-wrapper">
-                  <span class="gig-rating text-body-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
-                      <path fill="currentColor"
-                        d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z">
-                      </path>
-                    </svg>
-                    5.0
-                    <span>(7)</span>
-                  </span>
-                </div>
-              </div>
-              <div class="footer">
-                <i class="fa fa-heart" aria-hidden="true"></i>
-                <div class="price">
-                  <a href="#">
-                    Starting At <span> $1,205</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <a href="#">
-            <img class="img-fluid" src="{{asset('frontend-assets/images/list/v5.png')}}" />
-          </a>
-          <div class="inner-slider">
-            <div class="inner-wrapper">
-              <div class="d-flex align-items-center">
-                <span class="seller-image">
-                  <img class="img-fluid"
-                  src="{{asset('frontend-assets/images/user/s1.png')}}"
-                  alt='' />
-                </span>
-                <span class="seller-name">
-                  <a href="#">Stave Martin</a>
-                  <span class="level hint--top level-one-seller">
-                    Level 1 Seller
-                  </span>
-                </span>
-              </div>
-              <h3>
-              Contrary to popular belief, Lorem Ipsum is not simply...
-              </h3>
-              <div class="content-info">
-                <div class="rating-wrapper">
-                  <span class="gig-rating text-body-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
-                      <path fill="currentColor"
-                        d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z">
-                      </path>
-                    </svg>
-                    5.0
-                    <span>(7)</span>
-                  </span>
-                </div>
-              </div>
-              <div class="footer">
-                <i class="fa fa-heart" aria-hidden="true"></i>
-                <div class="price">
-                  <a href="#">
-                    Starting At <span> $1,205</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <a href="#">
-            <img class="img-fluid" src="{{asset('frontend-assets/images/list/v1.png')}}" />
-          </a>
-          <div class="inner-slider">
-            <div class="inner-wrapper">
-              <div class="d-flex align-items-center">
-                <span class="seller-image">
-                  <img class="img-fluid"
-                  src="{{asset('frontend-assets/images/user/s3.png')}}"
-                  alt='' />
-                </span>
-                <span class="seller-name">
-                  <a href="#">Stave Martin</a>
-                  <span class="level hint--top level-one-seller">
-                    Level 1 Seller
-                  </span>
-                </span>
-              </div>
-              <h3>
-              Contrary to popular belief, Lorem Ipsum is not simply...
-              </h3>
-              <div class="content-info">
-                <div class="rating-wrapper">
-                  <span class="gig-rating text-body-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
-                      <path fill="currentColor"
-                        d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z">
-                      </path>
-                    </svg>
-                    5.0
-                    <span>(7)</span>
-                  </span>
-                </div>
-              </div>
-              <div class="footer">
-                <div class="price">
-                  <a href="#">
-                    Starting At <span> $1,205</span>
-                  </a>
-                </div>
-                <i class="fa fa-heart" aria-hidden="true"></i>
-              </div>
-            </div>
-          </div>
-        </div>
+        <nav class="pagination-container">
+          {{$services->links()}}
+         <!--  <ul class="pagination">
+            <li class="page-item disabled">
+              <a class="page-link" href="#" tabindex="-1">
+                <i class="fa fa-angle-left"></i>
+              </a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="#">1</a>
+            </li>
+            <li class="page-item active">
+              <a class="page-link" href="#"
+                >2 <span class="sr-only">(current)</span></a
+              >
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="#">3</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="#"
+                ><i class="fa fa-angle-right"></i>
+              </a>
+            </li>
+          </ul> -->
+        </nav>
       </div>
     </div>
-  </div>
-  <div class="footer-pagination text-center">
-    <nav aria-label="Page navigation example">
-      <ul class="pagination">
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Previous">
-            <span aria-hidden="true"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>
-            <!--                    <span class="sr-only"></span>-->
-          </a>
-        </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item active"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">4</a></li>
-        <li class="page-item"><a class="page-link" href="#">5</a></li>
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Next">
-            <span aria-hidden="true"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>
-            <!--                    <span class="sr-only"></span>-->
-          </a>
-        </li>
-      </ul>
-    </nav>
   </div>
 </div>
 @endsection
 @section('script')
+<script>
+  $(document).ready(function () {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $('#category').change(function(e){
+      e.preventDefault();
+
+      var category = $('#category').val();
+      // alert(category);
+      $.ajax({
+        url: "{{url('get_services')}}",
+        type: 'get',
+        data:{category_id:category},
+        success:function(data){
+          console.log(data);
+          $("#services").hide();
+          $("#category-services").html(data);
+        }
+      });
+
+    })
+    $('#budget').change(function(e){
+      // e.preventDefault();
+
+      var buget = $('#budget').val();
+      alert(buget);
+      $.ajax({
+        url: "{{url('budget_filter_services')}}",
+        type: 'get',
+        data:{budgt:budget},
+        success:function(data){
+          console.log(data);
+          $("#services").hide();
+          $("#category-services").html(data);
+        }
+      });
+
+    })
+  });
+</script>
 @endsection

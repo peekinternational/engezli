@@ -84,7 +84,12 @@ Route::post('/post_service', [CreateServiceController::class, 'post_service']);
 Route::get('/service-detail', function () {
     return view('frontend.service-detail');
 });
-Route::resource('/services', ServiceController::class);
+Route::get('/services/{url}', [ServiceController::class, 'index']);
+Route::get('/get_services', [ServiceController::class, 'get_services']);
+Route::get('/search', [ServiceController::class, 'search_service']);
+Route::get('/online_seller_services', [ServiceController::class, 'online_seller_services']);
+Route::get('/local_seller_services', [ServiceController::class, 'local_seller_services']);
+Route::get('/budget_filter_services', [ServiceController::class, 'budget_filter_services']);
 // Route::get('/profile', function () {
 //     return view('frontend.profile');
 // });

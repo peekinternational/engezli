@@ -15,7 +15,7 @@
           <li class="breadcrumb-item"><a href="/">Home</a></li>
           <li class="breadcrumb-item"><a href="">service</a></li>
           <li class="breadcrumb-item active" aria-current="page">
-            writing and translation
+            {{$cat_name}}
           </li>
         </ol>
       </nav>
@@ -64,13 +64,12 @@
             <input
               type="checkbox"
               class="custom-control-input"
-              id="customSwitch1"
+              id="pro_service"
               data="off"
-              checked
             />
             <label
               class="custom-control-label control-package"
-              for="customSwitch1"
+              for="pro_service"
             >
               Pro Services
             </label>
@@ -79,13 +78,12 @@
             <input
               type="checkbox"
               class="custom-control-input"
-              id="customSwitch2"
+              id="local_seller"
               data="off"
-              checked
             />
             <label
               class="custom-control-label control-package"
-              for="customSwitch2"
+              for="local_seller"
             >
               Local Sellers
             </label>
@@ -94,13 +92,13 @@
             <input
               type="checkbox"
               class="custom-control-input"
-              id="customSwitch3"
+              id="online_seller"
               data="off"
-              checked
+              value="online"
             />
             <label
               class="custom-control-label control-package"
-              for="customSwitch3"
+              for="online_seller"
             >
               Online Sellers
             </label>
@@ -114,24 +112,21 @@
     <div class="container">
       <div class="result-and-sort">
         <div class="headers">
-          <p class="result">1,162 services available</p>
-          <h2>Services In Web & Mobile Design</h2>
+          <p class="result">{{$serviceCount}} services available</p>
+          <h2>Services In {{$cat_name}} </h2>
         </div>
         <div class="sort">
           <p>Sort by</p>
           <select name="" id="" class="select2">
             <option value="">best selling</option>
-            <option value="">option 1</option>
-            <option value="">option 2</option>
-            <option value="">option 3</option>
-            <option value="">option 4</option>
-            <option value="">option 5</option>
+            <option value="">Recommanded</option>
+            <option value="">Newest</option>
           </select>
         </div>
       </div>
 
       <div class="post-lists">
-        <div class="row">
+        <div class="row" id="services">
           @foreach($services as $service)
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-box">
             <div class="card">
@@ -196,8 +191,15 @@
           @endforeach
           
         </div>
-        <!-- <nav class="pagination-container">
-          <ul class="pagination">
+        <div class="row hidden" id="online_seller-service">
+          
+        </div>
+        <div class="row hidden" id="local_seller-service">
+          
+        </div>
+        <nav class="pagination-container">
+        {{$services->links()}}
+          <!-- <ul class="pagination">
             <li class="page-item disabled">
               <a class="page-link" href="#" tabindex="-1">
                 <i class="fa fa-angle-left"></i>
@@ -219,12 +221,61 @@
                 ><i class="fa fa-angle-right"></i>
               </a>
             </li>
-          </ul>
-        </nav> -->
+          </ul> -->
+        </nav>
       </div>
     </div>
   </div>
 </div>
 @endsection
 @section('script')
+<script>
+  $(document).ready(function () {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $('#online_seller').click(function(e){
+      // e.preventDefault();
+      if($('#online_seller').is(":checked")){
+        var seller_status ="on";
+      }else{
+        var seller_status = "off";
+      }
+      $.ajax({
+        url: "{{url('online_seller_services')}}",
+        type: 'get',
+        data:{seller_status:seller_status},
+        success:function(data){
+          console.log(data);
+          $("#services").hide();
+          $("#online_seller-service").html(data);
+        }
+      });
+
+    })
+    $('#local_seller').click(function(e){
+      // e.preventDefault();
+      if($('#local_seller').is(":checked")){
+        var local_seller ="on";
+      }else{
+        var local_seller = "off";
+      }
+      // alert(local_seller);
+      $.ajax({
+        url: "{{url('local_seller_services')}}",
+        type: 'get',
+        data:{seller_country:local_seller},
+        success:function(data){
+          console.log(data);
+          $("#services").hide();
+          $("#online_seller-service").hide();
+          $("#local_seller-service").html(data);
+        }
+      });
+
+    })
+  });
+</script>
 @endsection
