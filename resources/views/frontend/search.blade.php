@@ -58,84 +58,24 @@
 
 
           <div class="budget-select select-box">
-            <select name="budget" class="select2" id="budget">
+            <select name="budgets" class="select2" id="budget">
               <option value="">budget</option>
-              <option value="$5-$50">$5-$50</option>
-              <option value="$50-$100">$50-$100</option>
-              <option value="$100-1000">$100-1000</option>
-              <option value="$1000-$2000">$1000-$2000</option>
+              <option value="5-50">$5-$50</option>
+              <option value="50-100">$50-$100</option>
+              <option value="100-1000">$100-$1000</option>
+              <option value="1000-2000">$1000-$2000</option>
             </select>
           </div>
 
-          <!-- <div class="dropdown ml-4">
-             <button class="btn btn-secondary dropdown-toggle" type="button" id="budget" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-             Budget
-             </button>
-             <div class="dropdown-menu budget" aria-labelledby="budget">
-                <div class="options">
-                   <div class="row">
-                      <div class="col-md-6">
-                         <label>Min.</label>
-                         <input type="text" placeholder="Any">
-                         <i class="fa fa-inr" aria-hidden="true"></i>
-                      </div>
-                      <div class="col-md-6">
-                         <label>Max.</label>
-                         <input type="text" placeholder="Any">
-                         <i class="fa fa-inr" aria-hidden="true"></i>
-                      </div>
-                   </div>
-                </div>
-             </div>
-          </div> -->
-
-          <div class="dropdown ml-4">
-             <button class="btn btn-secondary dropdown-toggle" type="button" id="delivery" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-             Delivery Time
-             </button>
-             <div class="dropdown-menu delivery" aria-labelledby="delivery">
-                <div class="options">
-                   <div class="row">
-                      <div class="col-md-12">
-                         <div class="fake-radio-wrapper">
-                            <div><input type="hidden" name="gig_items[2][0007284419489][gig_item_id]"
-                               value="117210558"><input type="hidden"
-                               name="gig_items[2][0007284419489][quantity]" value="0"></div>
-                            <label
-                               class="fake-radio"><input type="radio" name="2" value="0" checked=""><span
-                               class="radio-img"></span><span>Express 24H</span></label><label
-                               class="fake-radio"><input type="radio" name="2" value="1"><span
-                               class="radio-img"></span><span>Up to 3 days</span>
-                            </label>
-                            <label
-                               class="fake-radio"><input type="radio" name="2" value="1"><span
-                               class="radio-img"></span><span>Up to 7 days</span>
-                            </label>
-                            <label
-                               class="fake-radio"><input type="radio" name="2" value="1"><span
-                               class="radio-img"></span><span>Anytime</span>
-                            </label>
-                         </div>
-                      </div>
-                   </div>
-                </div>
-             </div>
-          </div>
-          <!-- <div class="delivery-time-select select-box">
-            <select name="" class="select2" id="">
+          <div class="delivery-time-select select-box">
+            <select name="delivery_time" class="select2" id="delivery_time">
               <option value="">delivery time</option>
-              <option value="">1 day</option>
-              <option value="">2 day</option>
-              <option value="">3 day</option>
-              <option value="">4 day</option>
-              <option value="">5 day</option>
-              <option value="">6 day</option>
-              <option value="">7 day</option>
-              <option value="">8 day</option>
-              <option value="">9 day</option>
-              <option value="">10 day</option>
+              <option value="1 day">24 H</option>
+              <option value="3 day">Up to 3 days</option>
+              <option value="7 day">Up to 7 days</option>
+              <option value="all day">Anytime</option>
             </select>
-          </div> -->
+          </div>
         </div>
       </div>
     </div>
@@ -150,10 +90,10 @@
         </div>
         <div class="sort">
           <p>Sort by</p>
-          <select name="" id="" class="select2">
-            <option value="">best selling</option>
-            <option value="">Recommanded</option>
-            <option value="">Newest</option>
+          <select name="sort_by" id="sort_by" class="select2">
+            <option value="best selling">best selling</option>
+            <option value="recommanded">Recommanded</option>
+            <option value="newest">Newest</option>
           </select>
         </div>
       </div>
@@ -193,7 +133,7 @@
                   <a href="#">{{$service->sellerInfo->first_name}} {{$service->sellerInfo->last_name}}</a>
                   <p class="level">Level 1 Seller</p>
                 </div>
-                <a href="" class="gig-title">
+                <a href="{{url('service/'.$service->service_url)}}" class="gig-title">
                   {{$service->service_title}}
                 </a>
                 <div class="content-info">
@@ -275,30 +215,70 @@
         type: 'get',
         data:{category_id:category},
         success:function(data){
-          console.log(data);
+          // console.log(data);
           $("#services").hide();
           $("#category-services").html(data);
         }
       });
 
-    })
+    });
+
     $('#budget').change(function(e){
-      // e.preventDefault();
+      e.preventDefault();
 
-      var buget = $('#budget').val();
-      alert(buget);
+      var budget = $('#budget').val();
       $.ajax({
-        url: "{{url('budget_filter_services')}}",
+        url: "{{url('get_services')}}",
         type: 'get',
-        data:{budgt:budget},
+        data:{budget:budget},
+        cache : false,
         success:function(data){
-          console.log(data);
+          // console.log(data);
           $("#services").hide();
           $("#category-services").html(data);
         }
       });
 
     })
+
+    $('#delivery_time').change(function(e){
+      e.preventDefault();
+
+      var delivery_time = $('#delivery_time').val();
+      
+      $.ajax({
+        url: "{{url('get_services')}}",
+        type: 'get',
+        data:{delivery_time:delivery_time},
+        cache : false,
+        success:function(data){
+          // console.log(data);
+          $("#services").hide();
+          $("#category-services").html(data);
+        }
+      });
+
+    })
+
+    $('#sort_by').change(function(e){
+      e.preventDefault();
+
+      var sort_by = $('#sort_by').val();
+      
+      $.ajax({
+        url: "{{url('get_services')}}",
+        type: 'get',
+        data:{sort_by:sort_by},
+        cache : false,
+        success:function(data){
+          // console.log(data);
+          $("#services").hide();
+          $("#category-services").html(data);
+        }
+      });
+
+    })
+
   });
 </script>
 @endsection

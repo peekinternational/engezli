@@ -10,13 +10,13 @@ class PackagesOptionService extends Model
     use HasFactory;
 
     protected $fillable = [
-    	'service_id',
+    	'services_id',
     	'package_option_id',
     	'value',
     ];
     public function serviceInfo()
     {
-      return $this->belongsTo(Services::class, 'service_id');
+      return $this->belongsTo(Services::class, 'services_id');
     }
     public function packageOptionInfo()
     {

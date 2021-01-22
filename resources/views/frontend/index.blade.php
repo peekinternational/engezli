@@ -210,7 +210,7 @@
 										<a href="#">{{$service->sellerInfo->first_name}} {{$service->sellerInfo->last_name}}</a>
 										<p class="level">Level 1 Seller</p>
 									</div>
-									<a href="service_details.html" class="gig-title">
+									<a href="{{url('service/'.$service->service_url)}}" class="gig-title">
 										{{$service->service_title}}
 									</a>
 									<div class="content-info">

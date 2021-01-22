@@ -132,6 +132,7 @@ class RegisterController extends Controller
         $user->password = Hash::make(trim($request->input('password')));
         $user->verification = '0';
         $user->user_status = 'online';
+        $user->member_since = date("Y-m-d");
         // $slug = $this->createSlug($request->input('username'));
         // $user->slug = $slug;
         $user->save();

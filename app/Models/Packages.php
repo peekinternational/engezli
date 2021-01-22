@@ -14,7 +14,9 @@ class Packages extends Model
     	'title',
     	'description',
     	'price',
-        'delivery_time'
+        'delivery_time',
+        'revision',
+        'no_of_pages'
     ];
     public function serviceInfo()
     {

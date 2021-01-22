@@ -15,7 +15,7 @@ class CreateServiceRequirementsTable extends Migration
     {
         Schema::create('service_requirements', function (Blueprint $table) {
             $table->id();
-            $table->integer('service_id');
+            $table->integer('services_id');
             $table->string('question');
             $table->string('response');
             $table->timestamps();

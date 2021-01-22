@@ -36,6 +36,18 @@ class Services extends Model
     {
       return $this->hasMany(Packages::class, 'services_id');
     }
+    public function serviceFaq()
+    {
+      return $this->hasMany(ServiceFaq::class, 'services_id');
+    }
+    public function serviceReq()
+    {
+      return $this->hasMany(ServiceRequirement::class, 'services_id');
+    }
+    public function servicePackgOptions()
+    {
+      return $this->hasMany(PackagesOptionService::class, 'services_id');
+    }
     public function sellerInfo()
     {
       return $this->belongsTo(User::class, 'seller_id');

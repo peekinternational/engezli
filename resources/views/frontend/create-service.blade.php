@@ -238,48 +238,96 @@
 														<tr>
 															<td>Number of Pages</td>
 															<td>
-																<select name="" id="" class="custom-select">
+																<select name="proposal_packages[1][no_of_pages]" id="" class="custom-select">
 																	<option value="">Select</option>
-																	<option value="">1</option>
-																	<option value="">2</option>
-																	<option value="">3</option>
-																	<option value="">4</option>
-																	<option value="">5</option>
-																	<option value="">6</option>
-																	<option value="">7</option>
-																	<option value="">8</option>
-																	<option value="">9</option>
-																	<option value="">10</option>
+																	<option value="1">1</option>
+																	<option value="2">2</option>
+																	<option value="3">3</option>
+																	<option value="4">4</option>
+																	<option value="5">5</option>
+																	<option value="6">6</option>
+																	<option value="7">7</option>
+																	<option value="8">8</option>
+																	<option value="9">9</option>
+																	<option value="10">10</option>
 																</select>
 															</td>
 															<td>
-																<select name="" id="" class="custom-select">
+																<select name="proposal_packages[2][no_of_pages]" id="" class="custom-select">
 																	<option value="">Select</option>
-																	<option value="">1</option>
-																	<option value="">2</option>
-																	<option value="">3</option>
-																	<option value="">4</option>
-																	<option value="">5</option>
-																	<option value="">6</option>
-																	<option value="">7</option>
-																	<option value="">8</option>
-																	<option value="">9</option>
-																	<option value="">10</option>
+																	<option value="1">1</option>
+																	<option value="2">2</option>
+																	<option value="3">3</option>
+																	<option value="4">4</option>
+																	<option value="5">5</option>
+																	<option value="6">6</option>
+																	<option value="7">7</option>
+																	<option value="8">8</option>
+																	<option value="9">9</option>
+																	<option value="10">10</option>
 																</select>
 															</td>
 															<td>
-																<select name="" id="" class="custom-select">
+																<select name="proposal_packages[3][no_of_pages]" id="" class="custom-select">
 																	<option value="">Select</option>
-																	<option value="">1</option>
-																	<option value="">2</option>
-																	<option value="">3</option>
-																	<option value="">4</option>
-																	<option value="">5</option>
-																	<option value="">6</option>
-																	<option value="">7</option>
-																	<option value="">8</option>
-																	<option value="">9</option>
-																	<option value="">10</option>
+																	<option value="1">1</option>
+																	<option value="2">2</option>
+																	<option value="3">3</option>
+																	<option value="4">4</option>
+																	<option value="5">5</option>
+																	<option value="6">6</option>
+																	<option value="7">7</option>
+																	<option value="8">8</option>
+																	<option value="9">9</option>
+																	<option value="10">10</option>
+																</select>
+															</td>
+														</tr>
+														<tr>
+															<td>Revisions</td>
+															<td>
+																<select name="proposal_packages[1][revision]" id="" class="custom-select">
+																	<option value="">Select</option>
+																	<option value="1">1</option>
+																	<option value="2">2</option>
+																	<option value="3">3</option>
+																	<option value="4">4</option>
+																	<option value="5">5</option>
+																	<option value="6">6</option>
+																	<option value="7">7</option>
+																	<option value="8">8</option>
+																	<option value="9">9</option>
+																	<option value="10">10</option>
+																</select>
+															</td>
+															<td>
+																<select name="proposal_packages[2][revision]" id="" class="custom-select">
+																	<option value="">Select</option>
+																	<option value="1">1</option>
+																	<option value="2">2</option>
+																	<option value="3">3</option>
+																	<option value="4">4</option>
+																	<option value="5">5</option>
+																	<option value="6">6</option>
+																	<option value="7">7</option>
+																	<option value="8">8</option>
+																	<option value="9">9</option>
+																	<option value="10">10</option>
+																</select>
+															</td>
+															<td>
+																<select name="proposal_packages[3][revision]" id="" class="custom-select">
+																	<option value="">Select</option>
+																	<option value="1">1</option>
+																	<option value="2">2</option>
+																	<option value="3">3</option>
+																	<option value="4">4</option>
+																	<option value="5">5</option>
+																	<option value="6">6</option>
+																	<option value="7">7</option>
+																	<option value="8">8</option>
+																	<option value="9">9</option>
+																	<option value="10">10</option>
 																</select>
 															</td>
 														</tr>
@@ -288,44 +336,44 @@
 															<td>Price</td>
 															<td>
 																<select name="proposal_packages[1][package_price]" id="" class="custom-select" required>
-																	<option value="$5">$5</option>
-																	<option value="$10">$10</option>
-																	<option value="$15">$15</option>
-																	<option value="">$20</option>
-																	<option value="">$25</option>
-																	<option value="">$30</option>
-																	<option value="">$35</option>
-																	<option value="">$40</option>
-																	<option value="">$45</option>
-																	<option value="">$50</option>
+																	<option value="5">$5</option>
+																	<option value="10">$10</option>
+																	<option value="15">$15</option>
+																	<option value="20">$20</option>
+																	<option value="25">$25</option>
+																	<option value="30">$30</option>
+																	<option value="35">$35</option>
+																	<option value="40">$40</option>
+																	<option value="45">$45</option>
+																	<option value="50">$50</option>
 																</select>
 															</td>
 															<td>
 																<select name="proposal_packages[2][package_price]" id="" class="custom-select">
-																	<option value="$5">$5</option>
-																	<option value="$10">$10</option>
-																	<option value="$15">$15</option>
-																	<option value="$20">$20</option>
-																	<option value="$25">$25</option>
-																	<option value="$30">$30</option>
-																	<option value="">$35</option>
-																	<option value="">$40</option>
-																	<option value="">$45</option>
-																	<option value="">$50</option>
+																	<option value="5">$5</option>
+																	<option value="10">$10</option>
+																	<option value="15">$15</option>
+																	<option value="20">$20</option>
+																	<option value="25">$25</option>
+																	<option value="30">$30</option>
+																	<option value="35">$35</option>
+																	<option value="40">$40</option>
+																	<option value="45">$45</option>
+																	<option value="50">$50</option>
 																</select>
 															</td>
 															<td>
 																<select name="proposal_packages[3][package_price]" id="" class="custom-select">
-																	<option value="">$5</option>
-																	<option value="">$10</option>
-																	<option value="$15">$15</option>
-																	<option value="$20">$20</option>
-																	<option value="$25">$25</option>
-																	<option value="$30">$30</option>
-																	<option value="">$35</option>
-																	<option value="">$40</option>
-																	<option value="">$45</option>
-																	<option value="">$50</option>
+																	<option value="5">$5</option>
+																	<option value="10">$10</option>
+																	<option value="15">$15</option>
+																	<option value="20">$20</option>
+																	<option value="25">$25</option>
+																	<option value="30">$30</option>
+																	<option value="35">$35</option>
+																	<option value="40">$40</option>
+																	<option value="45">$45</option>
+																	<option value="50">$50</option>
 																</select>
 															</td>
 														</tr>

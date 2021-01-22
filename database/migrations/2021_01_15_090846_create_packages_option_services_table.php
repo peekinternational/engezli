@@ -15,7 +15,7 @@ class CreatePackagesOptionServicesTable extends Migration
     {
         Schema::create('packages_option_services', function (Blueprint $table) {
             $table->id();
-            $table->integer('service_id');
+            $table->integer('services_id');
             $table->integer('package_option_id');
             $table->string('value');
             $table->timestamps();

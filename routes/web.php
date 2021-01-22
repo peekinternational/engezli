@@ -81,15 +81,12 @@ Route::resource('/create-service', CreateServiceController::class);
 Route::post('/fetch_subcategory', [CreateServiceController::class, 'fetch_subcategory']);
 Route::post('/fetch_package_option', [CreateServiceController::class, 'fetch_package_option']);
 Route::post('/post_service', [CreateServiceController::class, 'post_service']);
-Route::get('/service-detail', function () {
-    return view('frontend.service-detail');
-});
+
 Route::get('/services/{url}', [ServiceController::class, 'index']);
 Route::get('/get_services', [ServiceController::class, 'get_services']);
 Route::get('/search', [ServiceController::class, 'search_service']);
-Route::get('/online_seller_services', [ServiceController::class, 'online_seller_services']);
-Route::get('/local_seller_services', [ServiceController::class, 'local_seller_services']);
-Route::get('/budget_filter_services', [ServiceController::class, 'budget_filter_services']);
+Route::get('/service/{url}', [ServiceController::class, 'service_detail']);
+
 // Route::get('/profile', function () {
 //     return view('frontend.profile');
 // });

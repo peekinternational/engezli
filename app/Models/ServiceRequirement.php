@@ -10,12 +10,12 @@ class ServiceRequirement extends Model
     use HasFactory;
 
     protected $fillable = [
-    	'service_id',
+    	'services_id',
     	'question',
     	'response',
     ];
     public function serviceInfo()
     {
-      return $this->belongsTo(Services::class, 'service_id');
+      return $this->belongsTo(Services::class, 'services_id');
     }
 }

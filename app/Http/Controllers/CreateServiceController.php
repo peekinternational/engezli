@@ -128,7 +128,9 @@ class CreateServiceController extends Controller
               "title" => $package['package_name'],
               "description" => $package['package_desc'],
               "delivery_time" => $package['delivery_time'],
-              "price" => $package['package_price']
+              "price" => $package['package_price'],
+              "revision" => $package['revision'],
+              "no_of_pages" => $package['no_of_pages']
             ];
 
             $insertPackage = Packages::insert($packageBasic);
