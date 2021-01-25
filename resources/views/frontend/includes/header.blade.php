@@ -10,11 +10,11 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav main-menu">
-				<li class="nav-item">
+				<li class="nav-item {{ Request()->is('/') ? 'active' : '' }}">
 					<a href="{{url('/')}}" class="nav-link">{{ __('home.Home')}}</a>
 				</li>
-				<li class="nav-item active">
-					<a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+				<li class="nav-item {{ Request()->is('/message') ? 'active' : '' }}">
+					<a class="nav-link" href="{{url('message')}}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
 						aria-expanded="false">
 						{{ __('home.Message')}}
 					</a>
@@ -87,13 +87,13 @@
 						</a>
 					</div>
 				</li>
-				<li class="nav-item">
+				<li class="nav-item {{ Request()->is('/order') ? 'active' : '' }}">
 					<a href="{{url('order')}}" class="nav-link">{{ __('home.Order')}}</a>
 				</li>
-				<li class="nav-item">
+				<li class="nav-item {{ Request()->is('/services/all') ? 'active' : '' }}">
 					<a href="{{url('services/all')}}" class="nav-link">{{ __('home.Service')}}</a>
 				</li>
-				<li class="nav-item">
+				<li class="nav-item {{ Request()->is('/contact') ? 'active' : '' }}">
 					<a href="{{url('contact')}}" class="nav-link">{{ __('home.Contact')}}</a>
 				</li>
 			</ul>

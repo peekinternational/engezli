@@ -103,7 +103,7 @@
 			<div class="row">
 				@foreach($categories as $cat)
 				<div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-					<a href="{{url('services/'.$cat->cat_url)}}" class="category-box">
+					<a href="{{url('categories/'.$cat->cat_url)}}" class="category-box">
 						<div class="img-container">
 							<img src="{{asset('images/cat_images/'.$cat->cat_image)}}" alt="" />
 						</div>
@@ -207,7 +207,7 @@
 									</div>
 
 									<div class="seller-name">
-										<a href="#">{{$service->sellerInfo->first_name}} {{$service->sellerInfo->last_name}}</a>
+										<a href="{{url('profile/'.$service->sellerInfo->username)}}">{{$service->sellerInfo->first_name}} {{$service->sellerInfo->last_name}}</a>
 										<p class="level">Level 1 Seller</p>
 									</div>
 									<a href="{{url('service/'.$service->service_url)}}" class="gig-title">
@@ -230,7 +230,7 @@
 											Starting At
 											@foreach($service->packageInfo as $key => $packg)
 											@if($key == 0)
-												<span>{{$packg->price}} </span>
+												<span>${{$packg->price}} </span>
 											@endif
 											@endforeach
 										</a>

@@ -35,14 +35,15 @@ class ServiceController extends Controller
         }else{
             $get_cat = Categories::wherecat_url($cat_url)->first();
             // dd($get_cat->id);
-            $services = Services::wherecat_id($get_cat->id)->with('sellerInfo','packageInfo')->paginate(15);
+            $services = Services::wherecat_id($get_cat->id)->orWhere('cat_child_id',$get_cat->id)->with('sellerInfo','packageInfo')->paginate(15);
             $serviceCount = $services->count();
             $cat_name = $get_cat->cat_title;
         }
         $languages = Language::get();
         $sellerLevels = SellerLevel::get();
-
-        return \View::make('frontend.services')->with(compact('services','serviceCount','cat_name','languages','sellerLevels'));
+        $sellerCountries = User::select('country')->where('country','!=', '')->distinct()->get();
+        
+        return \View::make('frontend.services')->with(compact('services','serviceCount','cat_name','languages','sellerLevels','sellerCountries'));
     }
 
     public function search_service(Request $request){
@@ -54,7 +55,10 @@ class ServiceController extends Controller
             $serviceCount = $services->count();
         }
         $categories = Categories::where('parent_id', '==', 0)->get(); 
-        return view('frontend.search',compact('services','serviceCount','categories'));
+        $languages = Language::get();
+        $sellerLevels = SellerLevel::get();
+        $sellerCountries = User::select('country')->where('country','!=', '')->distinct()->get();
+        return view('frontend.search',compact('services','serviceCount','categories','languages','sellerLevels','sellerCountries'));
     }
 
     // Get Category Search Service
@@ -66,6 +70,10 @@ class ServiceController extends Controller
         $budget = $request->input('budget');
         $delivery_time = $request->input('delivery_time');
         $sort_by = $request->input('sort_by');
+        $language_id = $request->input('language_id');
+        $level_id = $request->input('level_id');
+        $country = $request->input('country');
+        $reset = $request->input('reset');
 
         if($category_id != null){
         // dd($category_id);
@@ -159,6 +167,39 @@ class ServiceController extends Controller
             $serviceCount = $services->count();
             return view('frontend.ajax.category-service',compact('services','serviceCount'));
           }
+        }
+        if($language_id != null){
+          $userData = User::wherelanguage_id($language_id)->get();
+          foreach ($userData as $key => $user) {
+            $services = Services::where('seller_id',$user->id)->with('sellerInfo','packageInfo')->get();
+            $serviceCount = $services->count();
+            // dd($services);
+          }
+            return view('frontend.ajax.category-service',compact('services','serviceCount'));
+        }
+        if($level_id != null){
+          $userData = User::wherelevel_id($level_id)->get();
+          foreach ($userData as $key => $user) {
+            $services = Services::where('seller_id',$user->id)->with('sellerInfo','packageInfo')->get();
+            $serviceCount = $services->count();
+            // dd($services);
+          }
+            return view('frontend.ajax.category-service',compact('services','serviceCount'));
+        }
+        if($country != null){
+          $userData = User::wherecountry($country)->get();
+          foreach ($userData as $key => $user) {
+            $services = Services::where('seller_id',$user->id)->with('sellerInfo','packageInfo')->get();
+            $serviceCount = $services->count();
+            // dd($services);
+          }
+            return view('frontend.ajax.category-service',compact('services','serviceCount'));
+        }
+        if($reset != null){
+            $services = Services::with('sellerInfo','packageInfo')->get();
+            $serviceCount = $services->count();
+          
+            return view('frontend.ajax.category-service',compact('services','serviceCount'));
         }
     }
 

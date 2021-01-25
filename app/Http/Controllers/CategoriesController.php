@@ -3,19 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Categories;
 use App\Models\User;
-use App\Models\Services;
-use App\Facade\Engezli;
 use Hash;
 use Session;
 use Mail;
 use Redirect;
 use App;
 
-class ProfileController extends Controller
+class CategoriesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,12 +20,8 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $user_id = auth()->user()->id; 
-        $user = User::where('id', $user_id)->first();
-        $userServices = Services::where('seller_id', $user_id)->with('sellerInfo','packageInfo')->paginate(16);
-        $serviceCount = $userServices->count();
-        
-        return \View::make('frontend.profile')->with(compact('user','userServices','serviceCount'));
+        $mainCategories = Categories::where('parent_id', '0')->get();
+        return \View::make('frontend.categories')->with(compact('mainCategories'));
     }
 
     /**
@@ -39,7 +31,7 @@ class ProfileController extends Controller
      */
     public function create()
     {
-        return \View::make('frontend.edit-profile');
+        //
     }
 
     /**
@@ -59,13 +51,13 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($username)
+    public function show($url)
     {
-        $user = User::whereusername($username)->first();
-        $userServices = Services::where('seller_id', $user->id)->with('sellerInfo','packageInfo')->paginate(16);
-        $serviceCount = $userServices->count();
-        // dd($userServices);
-        return \View::make('frontend.user')->with(compact('user','userServices'));
+        $mainCategories = Categories::wherecat_url($url)->first();
+       
+        $subCategories = Categories::whereparent_id($mainCategories->id)->get();
+        // dd($subCategories);
+        return \View::make('frontend.categories')->with(compact('mainCategories', 'subCategories'));
     }
 
     /**

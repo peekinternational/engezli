@@ -29,7 +29,7 @@
         </div>
 
         <div class="seller-name">
-          <a href="#">{{$service->sellerInfo->first_name}} {{$service->sellerInfo->last_name}}</a>
+          <a href="{{url('/'.$service->sellerInfo->username)}}">{{$service->sellerInfo->first_name}} {{$service->sellerInfo->last_name}}</a>
           <p class="level">Level 1 Seller</p>
         </div>
         <a href="" class="gig-title">
@@ -52,7 +52,7 @@
             Starting At
             @foreach($service->packageInfo as $key => $packg)
             @if($key == 0)
-              <span>{{$packg->price}} </span>
+              <span>${{$packg->price}} </span>
             @endif
             @endforeach
           </a>

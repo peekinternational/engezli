@@ -53,7 +53,37 @@ class CreateServiceController extends Controller
       
       $packageOptions = PackagesOption::wherecat_id($category_id)->get();
       // dd($packageOptions);
-      return view('frontend.fetch_package_option', compact('packageOptions'));
+      $packg1[] ='';
+      $packg2[] ='';
+      $packg3[] ='';
+      foreach ($packageOptions as $key => $option) {
+
+        $packg1[] = '<div class="form-group-check border-bottom ">'.
+          '<div class="form-check">'.
+            '<input type="checkbox" class="form-check-input"  id="exampleCheck'.$option->id.'1" value=""  name="package_attribute[1][value]" />'.
+            '<input type="hidden" name="package_attribute[1][package_option_id]">'.
+            '<label class="form-check-label" for="exampleCheck'.$option->id.'1" >'.$option->name.'</label>'.
+          '</div>'.
+        '</div>';
+        $packg2[] = '<div class="form-group-check border-bottom ">'.
+          '<div class="form-check">'.
+            '<input type="checkbox" class="form-check-input"  id="exampleCheck'.$option->id.'2" value=""  name="package_attribute[2][value]" />'.
+            '<input type="hidden" name="package_attribute[2][package_option_id]">'.
+            '<label class="form-check-label" for="exampleCheck'.$option->id.'2" >'.$option->name.'</label>'.
+          '</div>'.
+        '</div>';
+        $packg3[] = '<div class="form-group-check border-bottom ">'.
+          '<div class="form-check">'.
+            '<input type="checkbox" class="form-check-input"  id="exampleCheck'.$option->id.'3" value=""  name="package_attribute[3][value]" />'.
+            '<input type="hidden" name="package_attribute[3][package_option_id]">'.
+            '<label class="form-check-label" for="exampleCheck'.$option->id.'3" >'.$option->name.'</label>'.
+          '</div>'.
+        '</div>';
+      }
+        return response()->json(['packg1'=>$packg1,'packg2'=>$packg2,'packg3'=>$packg3]);
+      
+      
+      
     }
     /**
      * Show the form for creating a new resource.
@@ -142,8 +172,8 @@ class CreateServiceController extends Controller
           foreach ($attributes as $key => $attr) {
             $serviceAttr = [
               "service_id" => $service_id,
-              "package_option_id" => $attr['id'],
-              "value" => '0'
+              "package_option_id" => $attr['package_option_id'],
+              "value" => $attr['value']
             ];
             
             $insertOption = PackagesOptionService::insert($serviceAttr);

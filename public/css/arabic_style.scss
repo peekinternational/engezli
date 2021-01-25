@@ -182,6 +182,16 @@ body.arabic {
 	}
 
 	////////////////////////////////
+	.form-check {
+		padding-left: unset;
+		padding-right: 1.25rem;
+
+		.form-check-input {
+			margin-right: -1.25rem;
+			margin-left: unset;
+		}
+	}
+	////////////////////////////////
 	.seller-profile .outer-content .inner-content .cover-photo {
 		right: unset;
 		left: 0;
@@ -337,6 +347,173 @@ body.arabic {
 	}
 
 	/////////////////////////////////////
+	.review-list {
+		ul li .left {
+			margin: 0 0 0 10px;
+		}
+
+		.country .country-flag {
+			margin: 0 0 0 7px;
+		}
+		.helpful-thumbs,
+		.helpful-thumb svg {
+			margin-left: 10px !important;
+		}
+	}
+	/////////////////////////////////////
+	.service-details {
+		.filter-options .outer-content .right ul.lists-group li .collect-count {
+			margin-right: 13px;
+
+			&::before {
+				border-width: 8px 0px 8px 9px;
+				border-color: transparent transparent transparent #dadbdd;
+				top: 6px;
+				right: -9px;
+				left: unset;
+			}
+
+			&::after {
+				border-width: 6px 0 6px 8px;
+				border-color: transparent transparent transparent #fff;
+				top: 8px;
+				right: -8px;
+				left: unset;
+			}
+		}
+
+		.user-info a {
+			margin-left: 0;
+			margin-right: 8px;
+		}
+
+		.delivery i {
+			padding-right: 0 !important;
+			padding-left: 8px;
+
+			&.fa-refresh {
+				margin-right: 10px;
+			}
+		}
+
+		.features li i {
+			padding-right: 0 !important;
+			padding-left: 12px;
+		}
+
+		ul.metadata li {
+			padding-right: 0 !important;
+			padding-left: 20px;
+		}
+
+		.user-profile-image .right {
+			padding-left: 0 !important;
+			padding-right: 15px;
+		}
+
+		.table-package table {
+			tr {
+				th {
+					text-align: right !important;
+				}
+
+				&.package-type td,
+				&.description td {
+					text-align: right !important;
+				}
+			}
+			.fake-radio {
+				text-align: right;
+
+				.radio-img {
+					margin-right: 0;
+				}
+
+				input[type="checkbox"],
+				input[type="radio"] {
+					margin-left: 10px;
+				}
+			}
+		}
+
+		.tags ul li {
+			margin: 0 0 10px 10px !important;
+		}
+	}
+	/////////////////////////////////////
+	.profile-container
+		.profile_info
+		.seller-card
+		.buttons-wrapper
+		> .btn-lrg-standard:nth-child(2) {
+		margin-left: 0;
+		margin-right: 20px;
+	}
+	/////////////////////////////////////
+	.message-container
+		.outer-content
+		.conversation-panels
+		.conversation-container-body
+		.coversation-lists
+		.conversation-list-item
+		.avatar {
+		margin-right: 0px;
+		margin-left: 10px;
+	}
+	.message-container
+		.outer-content
+		.contacts-container
+		.contacts-container-body
+		.contacts-list-item
+		.text {
+		padding-right: 10px;
+		padding-left: 0;
+	}
+	.message-container .outer-content {
+		.dropdown-menu.show {
+			transform: unset !important;
+			right: unset !important;
+			left: 0 !important;
+		}
+	}
+
+	.conversation-container-body
+		.coversation-lists
+		.conversation-list-item
+		.user-info
+		h4
+		span {
+		float: left !important;
+	}
+	/////////////////////////////////////
+	.manage-order {
+		.outer-content {
+			.manage-tab-container ul.nav-pills {
+				padding-left: 50px;
+				padding-right: 0;
+			}
+			.tab-content .inner-tab-container .table td a span.text {
+				padding-left: 0;
+				padding-right: 10px;
+				text-align: right;
+			}
+		}
+	}
+	/////////////////////////////////////
+
+	.create-service {
+		.btn-container-box {
+			.custom-btn {
+				margin-left: 0;
+				margin-right: 6px;
+			}
+
+			.delete-btn {
+				margin-right: 0;
+			}
+		}
+	}
+	/////////////////////////////////////
 
 	////////////////// Responsive Design //////////////////
 	@media (min-width: 1024px) {
@@ -371,6 +548,23 @@ body.arabic {
 			}
 		}
 		//////////////////////////
+		.profile-container
+			.profile_info
+			.seller-card
+			.buttons-wrapper
+			> .btn-lrg-standard:nth-child(2) {
+			margin-left: 0;
+			margin-right: 10px;
+		}
+		//////////////////////////
+		.profile-container .seller-profile .platform.social-account::before {
+			margin-right: 0;
+			margin-left: 10px;
+		}
+		.profile-container .seller-profile .skills li {
+			margin: 0 0 7px 3px;
+		}
+		//////////////////////////
 	}
 
 	@media (max-width: 768px) {
@@ -381,6 +575,20 @@ body.arabic {
 
 	@media (max-width: 425px) {
 		.search-container {
+		}
+
+		.service-details
+			.service-wrapper
+			.outer-content
+			.left
+			.profile-card
+			.user-profile-image
+			.right {
+			padding-right: 0 !important;
+
+			a {
+				margin-right: 0;
+			}
 		}
 	}
 

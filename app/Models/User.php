@@ -36,6 +36,7 @@ class User extends Authenticatable
         'recent_delivery',
         'member_since',
         'language_id',
+        'level_id',
         'skills_id',
         'occuption',
         'facebook_id',

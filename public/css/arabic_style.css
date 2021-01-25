@@ -151,6 +151,16 @@ span {
   float: left;
 }
 
+body.arabic .form-check {
+  padding-left: unset;
+  padding-right: 1.25rem;
+}
+
+body.arabic .form-check .form-check-input {
+  margin-right: -1.25rem;
+  margin-left: unset;
+}
+
 body.arabic .seller-profile .outer-content .inner-content .cover-photo {
   right: unset;
   left: 0;
@@ -310,6 +320,160 @@ body.arabic .top-rated-services
   left: 3px;
 }
 
+body.arabic .review-list ul li .left {
+  margin: 0 0 0 10px;
+}
+
+body.arabic .review-list .country .country-flag {
+  margin: 0 0 0 7px;
+}
+
+body.arabic .review-list .helpful-thumbs,
+body.arabic .review-list .helpful-thumb svg {
+  margin-left: 10px !important;
+}
+
+body.arabic .service-details .filter-options .outer-content .right ul.lists-group li .collect-count {
+  margin-right: 13px;
+}
+
+body.arabic .service-details .filter-options .outer-content .right ul.lists-group li .collect-count::before {
+  border-width: 8px 0px 8px 9px;
+  border-color: transparent transparent transparent #dadbdd;
+  top: 6px;
+  right: -9px;
+  left: unset;
+}
+
+body.arabic .service-details .filter-options .outer-content .right ul.lists-group li .collect-count::after {
+  border-width: 6px 0 6px 8px;
+  border-color: transparent transparent transparent #fff;
+  top: 8px;
+  right: -8px;
+  left: unset;
+}
+
+body.arabic .service-details .user-info a {
+  margin-left: 0;
+  margin-right: 8px;
+}
+
+body.arabic .service-details .delivery i {
+  padding-right: 0 !important;
+  padding-left: 8px;
+}
+
+body.arabic .service-details .delivery i.fa-refresh {
+  margin-right: 10px;
+}
+
+body.arabic .service-details .features li i {
+  padding-right: 0 !important;
+  padding-left: 12px;
+}
+
+body.arabic .service-details ul.metadata li {
+  padding-right: 0 !important;
+  padding-left: 20px;
+}
+
+body.arabic .service-details .user-profile-image .right {
+  padding-left: 0 !important;
+  padding-right: 15px;
+}
+
+body.arabic .service-details .table-package table tr th {
+  text-align: right !important;
+}
+
+body.arabic .service-details .table-package table tr.package-type td,
+body.arabic .service-details .table-package table tr.description td {
+  text-align: right !important;
+}
+
+body.arabic .service-details .table-package table .fake-radio {
+  text-align: right;
+}
+
+body.arabic .service-details .table-package table .fake-radio .radio-img {
+  margin-right: 0;
+}
+
+body.arabic .service-details .table-package table .fake-radio input[type="checkbox"],
+body.arabic .service-details .table-package table .fake-radio input[type="radio"] {
+  margin-left: 10px;
+}
+
+body.arabic .service-details .tags ul li {
+  margin: 0 0 10px 10px !important;
+}
+
+body.arabic .profile-container
+.profile_info
+.seller-card
+.buttons-wrapper
+> .btn-lrg-standard:nth-child(2) {
+  margin-left: 0;
+  margin-right: 20px;
+}
+
+body.arabic .message-container
+.outer-content
+.conversation-panels
+.conversation-container-body
+.coversation-lists
+.conversation-list-item
+.avatar {
+  margin-right: 0px;
+  margin-left: 10px;
+}
+
+body.arabic .message-container
+.outer-content
+.contacts-container
+.contacts-container-body
+.contacts-list-item
+.text {
+  padding-right: 10px;
+  padding-left: 0;
+}
+
+body.arabic .message-container .outer-content .dropdown-menu.show {
+  -webkit-transform: unset !important;
+          transform: unset !important;
+  right: unset !important;
+  left: 0 !important;
+}
+
+body.arabic .conversation-container-body
+.coversation-lists
+.conversation-list-item
+.user-info
+h4
+span {
+  float: left !important;
+}
+
+body.arabic .manage-order .outer-content .manage-tab-container ul.nav-pills {
+  padding-left: 50px;
+  padding-right: 0;
+}
+
+body.arabic .manage-order .outer-content .tab-content .inner-tab-container .table td a span.text {
+  padding-left: 0;
+  padding-right: 10px;
+  text-align: right;
+}
+
+body.arabic .create-service .btn-container-box .custom-btn {
+  margin-left: 0;
+  margin-right: 6px;
+}
+
+body.arabic .create-service .btn-container-box .delete-btn {
+  margin-right: 0;
+}
+
 @media (min-width: 1024px) {
   body.arabic ul.main-menu li.nav-item .notification {
     right: 0 !important;
@@ -330,11 +494,47 @@ body.arabic .top-rated-services
     left: 10px;
     margin-right: auto;
   }
+  body.arabic .profile-container
+.profile_info
+.seller-card
+.buttons-wrapper
+> .btn-lrg-standard:nth-child(2) {
+    margin-left: 0;
+    margin-right: 10px;
+  }
+  body.arabic .profile-container .seller-profile .platform.social-account::before {
+    margin-right: 0;
+    margin-left: 10px;
+  }
+  body.arabic .profile-container .seller-profile .skills li {
+    margin: 0 0 7px 3px;
+  }
 }
 
 @media (max-width: 768px) {
   body.arabic ul.main-menu .dropdown-menu.show {
     left: 50% !important;
+  }
+}
+
+@media (max-width: 425px) {
+  body.arabic .service-details
+.service-wrapper
+.outer-content
+.left
+.profile-card
+.user-profile-image
+.right {
+    padding-right: 0 !important;
+  }
+  body.arabic .service-details
+.service-wrapper
+.outer-content
+.left
+.profile-card
+.user-profile-image
+.right a {
+    margin-right: 0;
   }
 }
 /*# sourceMappingURL=arabic_style.css.map */

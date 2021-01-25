@@ -25,7 +25,7 @@
   <div class="search-filter-wrapper">
     <div class="container">
       <div class="outer-content">
-        <div class="left dropdown-filters">
+        <div class="left">
           <div class="category-select select-box">
             <select name="category_id" class="select2" id="category">
               <option value="">Category</option>
@@ -55,6 +55,68 @@
               <option value="">option 5</option>
             </select>
           </div> -->
+          <div class="sellter-details-select dropdown-filters select-box">
+            <div class="dropdown">
+               <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               Seller Details
+               </button>
+               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <div class="options">
+                     <h5>Seller Level</h5>
+                     <div class="row" id="level_filter">
+                        @foreach($sellerLevels as $level)
+                        <div class="col-md-6">
+                           <label class="custom-checkbox">{{$level->level_title}}
+                           <span class="count"></span>
+                           <input type="checkbox" value="{{$level->id}}" id="level{{$level->id}}">
+                           <span class="checkmark"></span>
+                           </label>
+                        </div>
+                        @endforeach
+                     </div>
+                  </div>
+                  <div class="options">
+                     <h5>Seller Speaks</h5>
+                     <div class="row" id="language_filter">
+                        @foreach($languages as $language)
+                        <div class="col-md-6">
+                           <label class="custom-checkbox">{{$language->language_title}}
+                           <span class="count"></span>
+                           <input type="checkbox" value="{{$language->id}}" id="language{{$language->id}}">
+                           <span class="checkmark"></span>
+                           </label>
+                        </div>
+                        @endforeach
+                     </div>
+                  </div>
+                  <div class="options">
+                     <h5>Seller Lives In</h5>
+                     <div class="row" id="country_filter">
+                      @foreach($sellerCountries as $country)
+                        <div class="col-md-6">
+                           <label class="custom-checkbox">{{$country->country}}
+                           <span class="count"></span>
+                           <input type="checkbox" value="{{$country->country}}">
+                           <span class="checkmark"></span>
+                           </label>
+                        </div>
+                        @endforeach
+                     </div>
+                  </div>
+                  <div class="options">
+                     <div class="row">
+                        <div class="col-md-6">
+                           <label class="custom-checkbox">Reset Filter
+                           <span class="count"></span>
+                           <input type="checkbox" value="reset" id="reset">
+                           <span class="checkmark"></span>
+                           </label>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+          </div>
 
 
           <div class="budget-select select-box">
@@ -130,7 +192,7 @@
                 </div>
 
                 <div class="seller-name">
-                  <a href="#">{{$service->sellerInfo->first_name}} {{$service->sellerInfo->last_name}}</a>
+                  <a href="{{url('profile/'.$service->sellerInfo->username)}}">{{$service->sellerInfo->first_name}} {{$service->sellerInfo->last_name}}</a>
                   <p class="level">Level 1 Seller</p>
                 </div>
                 <a href="{{url('service/'.$service->service_url)}}" class="gig-title">
@@ -277,6 +339,74 @@
         }
       });
 
+    })
+
+    $('#language_filter :checkbox').change(function(){
+      
+      var language_id = $(this).val();
+
+      $.ajax({
+        url: "{{url('get_services')}}",
+        type: 'get',
+        data: {'language_id':language_id},
+        cache: false,
+        success:function(data){
+          // console.log(data);
+          $("#services").hide();
+          $("#category-services").html(data);
+        }
+      });
+    })
+    
+    $('#level_filter :checkbox').change(function(){
+      
+      var level_id = $(this).val();
+
+      $.ajax({
+        url: "{{url('get_services')}}",
+        type: 'get',
+        data: {'level_id':level_id},
+        cache: false,
+        success:function(data){
+          // console.log(data);
+          $("#services").hide();
+          $("#category-services").html(data);
+        }
+      });
+    })
+    
+    $('#country_filter :checkbox').change(function(){
+      
+      var country = $(this).val();
+
+      $.ajax({
+        url: "{{url('get_services')}}",
+        type: 'get',
+        data: {'country':country},
+        cache: false,
+        success:function(data){
+          // console.log(data);
+          $("#services").hide();
+          $("#category-services").html(data);
+        }
+      });
+    })
+    
+    $('#reset').change(function(){
+      
+      var reset = $(this).val();
+
+      $.ajax({
+        url: "{{url('get_services')}}",
+        type: 'get',
+        data: {'reset':reset},
+        cache: false,
+        success:function(data){
+          // console.log(data);
+          $("#services").hide();
+          $("#category-services").html(data);
+        }
+      });
     })
 
   });

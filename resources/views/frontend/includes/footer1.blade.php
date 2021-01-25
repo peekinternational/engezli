@@ -42,7 +42,7 @@
 							@foreach(Engezli::get_categories()->chunk(4) as $chunk)
 							<ul>
           			@foreach($chunk as $category)
-          			<li><a href="{{$category->cat_url}}">{{$category->cat_title}}</a></li>
+          			<li><a href="{{url('categories/'.$category->cat_url)}}">{{$category->cat_title}}</a></li>
           		@endforeach
 							</ul>
           		@endforeach

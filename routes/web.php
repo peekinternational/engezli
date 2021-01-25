@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CreateServiceController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\CategoriesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,6 +73,7 @@ Route::get('google/callback', [SocialAuthController::class, 'GoogleProviderCallb
 
 // Profile
 Route::resource('/profile', ProfileController::class);
+// Route::get('/{username}', [ProfileController::class, 'show']);
 Route::get('/messages', function () {
     return view('frontend.messages');
 });
@@ -83,13 +85,14 @@ Route::post('/fetch_package_option', [CreateServiceController::class, 'fetch_pac
 Route::post('/post_service', [CreateServiceController::class, 'post_service']);
 
 Route::get('/services/{url}', [ServiceController::class, 'index']);
+
 Route::get('/get_services', [ServiceController::class, 'get_services']);
 Route::get('/search', [ServiceController::class, 'search_service']);
 Route::get('/service/{url}', [ServiceController::class, 'service_detail']);
 
-// Route::get('/profile', function () {
-//     return view('frontend.profile');
-// });
+// Categories
+Route::resource('/categories', CategoriesController::class);
+
 Route::get('/order', function () {
     return view('frontend.order');
 });
