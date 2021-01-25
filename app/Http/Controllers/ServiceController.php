@@ -45,7 +45,6 @@ class ServiceController extends Controller
         return \View::make('frontend.services')->with(compact('services','serviceCount','cat_name','languages','sellerLevels'));
     }
 
-
     public function search_service(Request $request){
         if($request->has('service_title')){
             $services = Services::where('service_title','like','%'.$request->service_title.'%')->paginate(15);
