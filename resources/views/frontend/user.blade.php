@@ -196,10 +196,10 @@
                   </div>
 
                   <div class="seller-name">
-                    <a href="#">{{$service->sellerInfo->first_name}} {{$service->sellerInfo->last_name}}</a>
+                    <a href="{{url('profile/'.$service->sellerInfo->username)}}">{{$service->sellerInfo->first_name}} {{$service->sellerInfo->last_name}}</a>
                     <p class="level">Level 1 Seller</p>
                   </div>
-                  <a href="{{url('service/'.$service->service_url)}}" class="gig-title">
+                  <a href="{{url('/'.$service->sellerInfo->username.'/'.$service->service_url)}}" class="gig-title">
                     {{$service->service_title}}
                   </a>
                   <div class="content-info">

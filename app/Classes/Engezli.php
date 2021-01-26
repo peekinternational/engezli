@@ -17,5 +17,9 @@ class Engezli {
 		$option_name = PackagesOption::whereid($id)->get();
 		return $option_name;
 	}
+	public function get_subCatName($url){
+		$subCatName = Categories::wherecat_url($url)->first();
+		return $subCatName;
+	}
 }
 ?>

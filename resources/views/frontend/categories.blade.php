@@ -48,7 +48,7 @@
 								@foreach($subCategories as $subcategory)
 								<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 col-box">
 									<div class="categories-card">
-										<a href="{{url('services/'.$subcategory->cat_url)}}">
+										<a href="{{url('services/'.$mainCategories->cat_url.'/'.$subcategory->cat_url)}}">
 											<span class="category-image">
 												@if($subcategory->cat_image != '')
 												<img alt="" class="card-img-top" src="{{asset('images/cat_images/'.$subcategory->cat_image)}}"

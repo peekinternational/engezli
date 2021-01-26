@@ -135,6 +135,7 @@
 						@endif
 					</a>
 					<div class="dropdown-menu" aria-labelledبواسطة="navbarDropdown">
+						<a class="dropdown-item" href="{{url('create-service')}}">{{ __('home.Create Service')}}</a>
 						<a class="dropdown-item" href="{{url('profile')}}">{{ __('home.profile')}}</a>
 						<a class="dropdown-item" href="{{('#')}}">{{ __('home.edit profile')}}</a>
 						<a class="dropdown-item" href="settings.html">{{ __('home.settings')}}</a>

@@ -88,6 +88,15 @@
 						<div class="service-tab-content">
 							<div class="tab-content" id="myTabContent">
 								<div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+									@if ($errors->any())
+									 <div class="alert alert-danger">
+									    <ul>
+									       @foreach ($errors->all() as $error)
+									       <li>{{ $error }}</li>
+									       @endforeach
+									    </ul>
+									 </div>
+									@endif
 									<form id="service-form">
 										@csrf
 										<div class="tab-pane-box">
@@ -101,6 +110,9 @@
 														<p class="text">Just perfect</p>
 														<p class="max-char"><span class="descCount">0</span>/80 max</p>
 													</div>
+													@if($errors->has('service_title'))
+													<span class="display_error">{{ $errors->first('service_title') }}</span>
+													@endif
 												</div>
 											</div>
 
@@ -398,16 +410,16 @@
 													<div class="form-group border-bottom">
 														<select name="proposal_packages[3][no_of_pages]" id="" class="select2">
 															<option value="">Number of Pages</option>
-															<option value="1 day">1 day delivery</option>
-															<option value="2 day">2 day delivery</option>
-															<option value="3 day">3 day delivery</option>
-															<option value="4 day">4 day delivery</option>
-															<option value="5 day">5 day delivery</option>
-															<option value="6 day">6 day delivery</option>
-															<option value="7 day">7 day delivery</option>
-															<option value="8 day">8 day delivery</option>
-															<option value="9 day">9 day delivery</option>
-															<option value="10 day">10 day delivery</option>
+															<option value="1">1</option>
+															<option value="2">2</option>
+															<option value="3">3</option>
+															<option value="4">4</option>
+															<option value="5">5</option>
+															<option value="6">6</option>
+															<option value="7">7</option>
+															<option value="8">8</option>
+															<option value="9">9</option>
+															<option value="10">10</option>
 														</select>
 													</div>
 													<div class="form-group border-bottom">

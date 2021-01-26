@@ -50,7 +50,7 @@
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="/">Home</a></li>
                   <li class="breadcrumb-item">
-                    <a href="service_lists.html">service</a>
+                    <a href="{{url('services/all')}}">service</a>
                   </li>
                   <li class="breadcrumb-item">
                     <a href="{{url('services/'.$productCat->cat_url)}}">{{$productCat->cat_title}}</a>
@@ -75,7 +75,7 @@
                   @else
                   <img src="{{asset('images/avatar (2).svg')}}">
                   @endif
-                  <a href="profile.html">{{$serviceData->sellerInfo->first_name}} {{$serviceData->sellerInfo->last_name}}</a>
+                  <a href="{{url('profile/'.$serviceData->sellerInfo->username)}}">{{$serviceData->sellerInfo->first_name}} {{$serviceData->sellerInfo->last_name}}</a>
                 </div>
                 <ul class="lists-group d-flex align-items-center">
                   <li><span class="seller-level">Level 1 Seller</span></li>
@@ -166,7 +166,7 @@
                   <div class="right">
                     <div class="profile-name">
                       <span class="user-status">
-                        <a href="profile.html" class="seller-link"
+                        <a href="{{url('profile/'.$serviceData->sellerInfo->username)}}" class="seller-link"
                           >{{$serviceData->sellerInfo->first_name}} {{$serviceData->sellerInfo->last_name}}</a
                         >
                       </span>

@@ -26,14 +26,16 @@ class ServiceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
+    { 
         $cat_url = $request->segment(2);
+        $child_url = $request->segment(3);
         if($cat_url == 'all'){
             $services = Services::with('sellerInfo','packageInfo')->paginate(15);
             $serviceCount = $services->count();
             $cat_name = "All Categories";  
         }else{
             $get_cat = Categories::wherecat_url($cat_url)->first();
+
             // dd($get_cat->id);
             $services = Services::wherecat_id($get_cat->id)->orWhere('cat_child_id',$get_cat->id)->with('sellerInfo','packageInfo')->paginate(15);
             $serviceCount = $services->count();
@@ -203,8 +205,9 @@ class ServiceController extends Controller
         }
     }
 
-    public function service_detail(Request $request, $url){
-      $serviceData = Services::where('service_url',$url)->with('sellerInfo', 'packageInfo','serviceFaq','serviceReq','servicePackgOptions')->first();
+    public function service_detail(Request $request,$username, $slug){
+
+      $serviceData = Services::where('service_url',$slug)->with('sellerInfo', 'packageInfo','serviceFaq','serviceReq','servicePackgOptions')->first();
       // dd($serviceData);
       $productCat = Categories::where('id',$serviceData->cat_id)->first();
       $productSubCat = Categories::where('id',$serviceData->cat_child_id)->first();

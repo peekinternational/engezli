@@ -3,6 +3,10 @@
 @section('styling')
 @endsection
 @section('content')
+<?php $child_url_id = Request::segment(3); 
+$child_url = request()->segment(count(request()->segments(3)));
+
+?>
 <!-- Category Slider -->
 @include('frontend.includes.category-slider')
 <!-- Maan tabs -->
@@ -13,10 +17,15 @@
       <nav class="breadcrumb-container" aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/">Home</a></li>
-          <li class="breadcrumb-item"><a href="">service</a></li>
+          <li class="breadcrumb-item"><a href="">Services</a></li>
+          <li class="breadcrumb-item"><a href="" @if($child_url_id == '') style="color: #0099ff" @endif>{{$cat_name}}</a></li>
+          @if($child_url_id != '')
           <li class="breadcrumb-item active" aria-current="page">
-            {{$cat_name}}
+            {{Engezli::get_subCatName($child_url)->cat_title}}
           </li>
+          @else
+
+          @endif
         </ol>
       </nav>
     </div>
@@ -172,7 +181,15 @@
       <div class="result-and-sort">
         <div class="headers">
           <p class="result">{{$serviceCount}} services available</p>
-          <h2>Services In {{$cat_name}} </h2>
+          <h2>Services In 
+            @if($child_url_id != '')
+            <span>
+              {{Engezli::get_subCatName($child_url)->cat_title}}
+            </span>
+            @else
+              {{$cat_name}}
+            @endif
+            </h2>
         </div>
         <div class="sort">
           <p>Sort by</p>
@@ -219,7 +236,7 @@
                   <a href="{{url('profile/'.$service->sellerInfo->username)}}">{{$service->sellerInfo->first_name}} {{$service->sellerInfo->last_name}}</a>
                   <p class="level">Level 1 Seller</p>
                 </div>
-                <a href="{{url('service/'.$service->service_url)}}" class="gig-title">
+                <a href="{{url('/'.$service->sellerInfo->username.'/'.$service->service_url)}}" class="gig-title">
                   {{$service->service_title}}
                 </a>
                 <div class="content-info">

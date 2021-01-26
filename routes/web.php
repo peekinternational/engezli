@@ -48,6 +48,7 @@ Route::get('/faq', function () {
 // Route::get('/forgot-password', function () {
 //     return view('frontend.forgot-password');
 // });
+Route::resource('/categories', CategoriesController::class);
 
 Route::match(['get','post'],'/register', [RegisterController::class, 'register']);
 Route::get('/login', [RegisterController::class, 'accountLogin']);
@@ -85,13 +86,14 @@ Route::post('/fetch_package_option', [CreateServiceController::class, 'fetch_pac
 Route::post('/post_service', [CreateServiceController::class, 'post_service']);
 
 Route::get('/services/{url}', [ServiceController::class, 'index']);
+Route::get('/services/{url}/{child_url}', [ServiceController::class, 'index']);
+
 
 Route::get('/get_services', [ServiceController::class, 'get_services']);
 Route::get('/search', [ServiceController::class, 'search_service']);
-Route::get('/service/{url}', [ServiceController::class, 'service_detail']);
+Route::get('/{username}/{url}', [ServiceController::class, 'service_detail']);
 
 // Categories
-Route::resource('/categories', CategoriesController::class);
 
 Route::get('/order', function () {
     return view('frontend.order');

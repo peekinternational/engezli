@@ -51,10 +51,10 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($url)
+    public function show(Request $request, $url)
     {
         $mainCategories = Categories::wherecat_url($url)->first();
-       
+        
         $subCategories = Categories::whereparent_id($mainCategories->id)->get();
         // dd($subCategories);
         return \View::make('frontend.categories')->with(compact('mainCategories', 'subCategories'));

@@ -171,7 +171,7 @@ class CreateServiceController extends Controller
 
           foreach ($attributes as $key => $attr) {
             $serviceAttr = [
-              "service_id" => $service_id,
+              "services_id" => $service_id,
               "package_option_id" => $attr['package_option_id'],
               "value" => $attr['value']
             ];
@@ -183,9 +183,9 @@ class CreateServiceController extends Controller
           $service_id= Session::get('u_session');
           // $service->service_desc = $request->input('service_desc');
           $update = Services::where('id', $service_id)->update(['service_desc' => $request->input('service_desc')]);
-
+          // dd($service_id);
           $faqData =[
-            'service_id' => $service_id,
+            'services_id' => $service_id,
             'title' => $request->input('title'),
             'description' => $request->input('description')
           ];
@@ -196,7 +196,7 @@ class CreateServiceController extends Controller
           $requirementsData = [
             'question' => $request->input('question'),
             'response' => $request->input('response'),
-            'service_id' => $service_id
+            'services_id' => $service_id
           ];
           $insertRequr = ServiceRequirement::insert($requirementsData);
         }else{
