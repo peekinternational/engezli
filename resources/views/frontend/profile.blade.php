@@ -134,7 +134,7 @@
             >
               <div class="row">
                 @foreach($userServices as $service)
-                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-box">
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-box mb-4">
                   <div class="card">
                     <span class="gig-image">
                       @if($service->service_img1 != '')

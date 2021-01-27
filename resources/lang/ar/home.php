@@ -60,5 +60,11 @@ return [
 	"Trust & Safety" => "الثقة والأمان",
 	"Selling on Engezly" => "البيع على Engezly",
 	"Buying on Engezly" => "الشراء من Engezly",
+	"Create Service" => " ",
+	"Profile" => " ",
+	"Edit Profile"=> " ",
+	"Settings"=> " ",
+	"All"=> " ",
+
 
 ];

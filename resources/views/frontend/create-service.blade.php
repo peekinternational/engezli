@@ -105,14 +105,13 @@
 												<div class="inner-pane-box">
 													<textarea name="" id="service_title" class="form-control" rows="2"
 														placeholder="I will do something I'm really good at" name="service_title"></textarea>
-
+													<span class="service_title-error text-danger"  style="display: none;">title is required</span>
 													<div class="sub-box">
 														<p class="text">Just perfect</p>
 														<p class="max-char"><span class="descCount">0</span>/80 max</p>
 													</div>
-													@if($errors->has('service_title'))
 													<span class="display_error">{{ $errors->first('service_title') }}</span>
-													@endif
+													
 												</div>
 											</div>
 
@@ -133,13 +132,16 @@
 												<div class="inner-pane-box">
 													<div class="select-category">
 														<select name="cat_id" id="category" class="custom-select">
-															<option>Select Category</option>
+															<option value="">Select Category</option>
 															@foreach($mainCategories as $mainCat)
 															<option value="{{$mainCat->id}}">{{$mainCat->cat_title}}</option>
 															@endforeach
 														</select>
+														
 														<select name="cat_child_id" id="sub-category" class="custom-select">
 														</select>
+														<span class="cat_error text-danger"  style="display: none;">category is required</span>
+														<span class="sub_cat-error text-danger"  style="display: none;">sub category is required</span>
 													</div>
 												</div>
 											</div>
@@ -175,7 +177,7 @@
 										<div class="btns-group">
 											<!-- <button class="prevtab btn btn-primary">Prev</button> -->
 											<button class="cancle custom-btn">Cancle</button>
-											<button class="nexttab custom-btn" type="submit" id="submit"  form="service-form">save</button>
+											<button class=" custom-btn" type="submit" id="submit"  form="service-form">save</button>
 										</div>
 									</form>
 								</div>
@@ -201,21 +203,23 @@
 															name="proposal_packages[1][package_name]"
 															id=""
 															rows="3"
-															class="form-control"
-															placeholder="Name your package..." required
+															class="form-control title1"
+															placeholder="Name your package..."
 														></textarea>
+														<span class="title1-error text-danger" style="display: none;">Package title is required</span>
 													</div>
 													<div class="form-group border-bottom">
 														<textarea
 															name="proposal_packages[1][package_desc]"
 															id=""
 															rows="3"
-															class="form-control"
+															class="form-control description1"
 															placeholder="Describe the details of your service..."
 														></textarea>
+														<span class="desc1-error text-danger"  style="display: none;"> Description is required</span>
 													</div>
 													<div class="form-group border-bottom">
-														<select name="proposal_packages[1][delivery_time]" id="" class="select2">
+														<select name="proposal_packages[1][delivery_time]" id="delivery_time1" class="select2 ">
 															<option value="">delivery time</option>
 															<option value="1 day">1 day delivery</option>
 															<option value="2 day">2 day delivery</option>
@@ -229,8 +233,9 @@
 															<option value="10 day">10 day delivery</option>
 														</select>
 													</div>
+														<span class="delivery1-error text-danger"  style="display: none;">Delivery time is required</span>
 													<div class="form-group border-bottom">
-														<select name="proposal_packages[1][no_of_pages]" id="" class="select2">
+														<select name="proposal_packages[1][no_of_pages]" id="no_of_pages1" class="select2">
 															<option value="">Number of Pages</option>
 															<option value="1">1</option>
 															<option value="2">2</option>
@@ -244,8 +249,9 @@
 															<option value="10">10</option>
 														</select>
 													</div>
+														<span class="no_of_pages1-error text-danger"  style="display: none;">No of pages required</span>
 													<div class="form-group border-bottom">
-														<select name="proposal_packages[1][revision]" id="" class="select2">
+														<select name="proposal_packages[1][revision]" id="revision1" class="select2">
 															<option value="">revisions</option>
 															<option value="1">1</option>
 															<option value="2">2</option>
@@ -259,13 +265,14 @@
 															<option value="10">10</option>
 														</select>
 													</div>
+														<span class="revision1-error text-danger"  style="display: none;">Revision is required</span>
 													<div class="extra-options packg-options1">
 														
 													</div>
 													
 
 													<div class="form-group price-dropdown">
-														<select name="proposal_packages[1][package_price]" id="" class="select2">
+														<select name="proposal_packages[1][package_price]" id="package_price1" class="select2">
 															<option value="5">$5</option>
 															<option value="10">$10</option>
 															<option value="15">$15</option>
@@ -278,6 +285,7 @@
 															<option value="50">$50</option>
 														</select>
 													</div>
+														<span class="price1-error text-danger"  style="display: none;">Package price is required</span>
 												</div>
 
 												<div class="pricing-box">
@@ -733,7 +741,7 @@
 									<div class="btns-group">
 										<!-- <button class="prevtab btn btn-primary">Prev</button> -->
 										<button class="cancle custom-btn">Cancel</button>
-										<button class="nexttab custom-btn" type="submit" id="package-submit" form="package-form">save</button>
+										<button class="custom-btn" type="submit" id="package-submit" form="package-form">save</button>
 									</div>
 									</form>
 								</div>
@@ -787,91 +795,8 @@
 													</div>
 												</form>
 												<div class="added-faq-box-container">
-													<div id="accordion">
-														<div class="card">
-															<div class="card-header" id="headingOne">
-																<h5 class="mb-0">
-																	<button class="btn btn-link collapsed" data-toggle="collapse"
-																		data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-																		Collapsible Group Item #1
-																	</button>
-																</h5>
-															</div>
-
-															<div id="collapseOne" class="collapse" aria-labelledby="headingOne"
-																data-parent="#accordion">
-																<div class="card-body">
-																	<div class="input-box-container">
-																		<div class="form-group">
-																			<input type="text" class="form-control"
-																				placeholder="Add a Question: i.e. Do you translate to English as well?" />
-																		</div>
-																		<div class="form-group">
-																			<textarea maxlength="300" class="form-control" rows="3"
-																				placeholder="Add an Answer: i.e. Yes, I also translate from English to Hebrew."></textarea>
-																		</div>
-
-																		<div class="btn-container-box">
-																			<div class="btns">
-																				<button class="custom-btn delete-btn">
-																					<i class="fa fa-times"></i> delete
-																				</button>
-																			</div>
-																			<div class="btns">
-																				<button class="custom-btn">
-																					cancle
-																				</button>
-																				<button class="custom-btn">
-																					save
-																				</button>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-
-														<div class="card">
-															<div class="card-header" id="headingTwo">
-																<h5 class="mb-0">
-																	<button class="btn btn-link collapsed" data-toggle="collapse"
-																		data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-																		Collapsible Group Item #2
-																	</button>
-																</h5>
-															</div>
-															<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
-																data-parent="#accordion">
-																<div class="card-body">
-																	<div class="input-box-container">
-																		<div class="form-group">
-																			<input type="text"  class="form-control"
-																				placeholder="Add a Question: i.e. Do you translate to English as well?" />
-																		</div>
-																		<div class="form-group">
-																			<textarea maxlength="300" class="form-control" rows="3"
-																				placeholder="Add an Answer: i.e. Yes, I also translate from English to Hebrew."></textarea>
-																		</div>
-
-																		<div class="btn-container-box">
-																			<div class="btns">
-																				<button class="custom-btn delete-btn">
-																					<i class="fa fa-times"></i> delete
-																				</button>
-																			</div>
-																			<div class="btns">
-																				<button class="custom-btn">
-																					cancle
-																				</button>
-																				<button class="custom-btn">
-																					save
-																				</button>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
+													<div id="accordion" class="accordion">
+														
 													</div>
 												</div>
 											</div>
@@ -939,7 +864,7 @@
 												</div>
 											</div>
 											<div class="added-questions d-none">
-												<div class="question-list-item">
+												<!-- <div class="question-list-item">
 													<div class="inner-text">
 														<p>free text</p>
 														<div class="dropdown">
@@ -967,7 +892,7 @@
 														Lorem ipsum dolor sit amet consectetur,
 														adipisicing elit.
 													</h6>
-												</div>
+												</div> -->
 											</div>
 											<button class="custom-btn add-new-btn-ques" >
 												<i class="fa fa-plus"></i> add new question
@@ -1167,6 +1092,7 @@
 			pane = $(".create-service .tab-pane");
 		// next
 		$(".nexttab").on("click", function () {
+			
 			for (i = 0; i < items.length; i++) {
 				if ($(items[i]).hasClass("active") == true) {
 					break;
@@ -1288,15 +1214,31 @@
 			var search_tags = $('#search_tags').val();
 			var type = "1";
 			// alert(cat_id);
-			$.ajax({
-				url: "{{url('post_service')}}",
-				type: 'post',
-				data:{service_title:service_title,seo_title:seo_title,cat_id:cat_id,cat_child_id:cat_child_id,search_tags:search_tags,type:type},
-				success:function(data){
-					console.log(data);
-					// $("#sub-category").html(data);
-				}
-			});
+			if(service_title == '' && cat_id == '' || cat_child_id == ''){
+				$('.service_title-error').show();
+				$('.cat_error').show();
+				$('.sub_cat-error').show();
+			}else if(service_title == ''){
+				$('.service_title-error').show();
+			}else if(cat_id == ''){
+				$('.cat_error').show();
+				$('.service_title-error').hide();
+			}else{
+				$.ajax({
+					url: "{{url('post_service')}}",
+					type: 'post',
+					data:{service_title:service_title,seo_title:seo_title,cat_id:cat_id,cat_child_id:cat_child_id,search_tags:search_tags,type:type},
+					success:function(data){
+						console.log(data);
+						// $("#sub-category").html(data);
+						$("#overview-tab").removeClass("active");
+						$("#pricing-tab").addClass("active");
+						$("#overview").removeClass("show active");
+						$("#pricing").addClass("show active");
+					}
+				});
+			}
+			
 
 		})
 
@@ -1312,7 +1254,11 @@
 				data:{service_desc:service_desc,type:type},
 				success:function(data){
 					console.log(data);
-					// $("#sub-category").html(data);
+					
+					$("#requirements-tab").removeClass("active");
+			    $("#descriptionFaq-tab").addClass("active");
+		    	$("#descriptionFaq").removeClass("show active");
+			    $("#requirements-tab").addClass("show active");
 				}
 			});
 
@@ -1329,7 +1275,10 @@
 		   cache: false,
 		   processData: false,
 		   success:function(data){
-		    
+		    console.log(data);
+		    $('.accordion').append(data);
+		    $("#faq-form input").val('');
+		    $("#faq-form textarea").val('');
 		   }
 		  })
 	 });
@@ -1345,7 +1294,16 @@
 		   cache: false,
 		   processData: false,
 		   success:function(data){
-		    
+		    swal({
+		    type: 'success',
+		    text: '$text',
+		    timer: 2000,
+		    onOpen: function(){
+		    swal.showLoading()
+		    }
+		    }).then(function(){
+		    	window.open('profile','_self');
+		    });
 		   }
 		  })
 	 });
@@ -1361,25 +1319,52 @@
 		   cache: false,
 		   processData: false,
 		   success:function(data){
-		    
+		   	$('.added-questions').append(data);
+		   	$('#requirements-form textarea').val('');
 		   }
 		  })
 	 });
 
 		$('#package-form').on('submit', function(event){
 		  event.preventDefault();
+		  var items = $(".create-service .nav-link");
+		  var pane = $(".create-service .tab-pane");
+		  if($('.description1').val() == '' && $('.title1').val() == '' && $('#delivery_time1').val() == '' && $('#no_of_pages1').val() == '' && $('.revision1').val() == '')
+		  {
+		    event.preventDefault();
+		    $('.desc1-error').show();
+		    $('.title1-error').show();
+		    $('.delivery1-error').show();
+		    $('.price1-error').show();
+		    $('.description1').addClass('border-red');
+		    $('.description1').prop('required', true);
+		    $('.title1').addClass('border-red');
+		    $('.title1').prop('required', true);
+		  }else{
+		    $('.desc1-error').hide();
+		    $('.title1-error').hide();
+		    $('.delivery1-error').hide();
+		    $('.no_of_pages1-error').hide();
+		    $('.revision1-error').hide();
+		    $('.price1-error').hide();
+		    $('.description1').removeClass('border-red');
 		  $.ajax({
-		   url:"{{ url('post_service') }}",
-		   method:"POST",
-		   data:new FormData(this),
-		   dataType:'JSON',
-		   contentType: false,
-		   cache: false,
-		   processData: false,
-		   success:function(data){
-		    
-		   }
-		  })
+			  url:"{{ url('post_service') }}",
+			  method:"POST",
+			  data:new FormData(this),
+			  dataType:'JSON',
+			  contentType: false,
+			  cache: false,
+			  processData: false,
+			  success:function(data){
+			  	console.log(data);
+			    $("#pricing-tab").removeClass("active");
+			    $("#descriptionFaq-tab").addClass("active");
+			    $("#pricing").removeClass("show active");
+			    $("#descriptionFaq").addClass("show active");
+			  }
+			  })
+			}
 	 });
 
 		

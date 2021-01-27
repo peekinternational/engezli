@@ -1,4 +1,4 @@
-
+@if($packageOptions != '')
 @foreach($packageOptions as $key => $option)
 <div class="form-group-check border-bottom ">
 	<div class="form-check">
@@ -9,7 +9,7 @@
 			value=""
 			name="package_attribute[{{$key+1}}][value]"
 		/>
-		<input type="hidden" name="package_attribute[{{$key+1}}][package_option_id]">
+		<input type="hidden" name="package_attribute[{{$key+1}}][package_option_id]" value="{{$option->id}}">
 		<label
 			class="form-check-label"
 			for="exampleCheck1"
@@ -36,3 +36,4 @@
 	</td>
 </tr> -->
 @endforeach
+@endif

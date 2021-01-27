@@ -14,7 +14,7 @@ $twitter: #0986d9;
 
 $success: #08a141;
 $warning: #fa952a;
-$danger: #c70039;
+$danger: #f00000;
 
 @mixin success_opacity($op) {
 	background: rgba($color: #08a141, $alpha: $op);

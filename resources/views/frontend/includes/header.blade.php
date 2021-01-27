@@ -136,10 +136,10 @@
 					</a>
 					<div class="dropdown-menu" aria-labelledبواسطة="navbarDropdown">
 						<a class="dropdown-item" href="{{url('create-service')}}">{{ __('home.Create Service')}}</a>
-						<a class="dropdown-item" href="{{url('profile')}}">{{ __('home.profile')}}</a>
-						<a class="dropdown-item" href="{{('#')}}">{{ __('home.edit profile')}}</a>
-						<a class="dropdown-item" href="settings.html">{{ __('home.settings')}}</a>
-						<a class="dropdown-item" href="#">{{ __('home.help & support')}}</a>
+						<a class="dropdown-item" href="{{url('profile')}}">{{ __('home.Profile')}}</a>
+						<a class="dropdown-item" href="{{('#')}}">{{ __('home.Edit Profile')}}</a>
+						<a class="dropdown-item" href="settings.html">{{ __('home.Settings')}}</a>
+						<a class="dropdown-item" href="#">{{ __('home.Help & Support')}}</a>
 						<a class="dropdown-item" href="{{url('logout')}}">{{ __('home.logout')}}</a>
 					</div>
 				</li>

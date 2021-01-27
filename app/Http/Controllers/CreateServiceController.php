@@ -20,6 +20,7 @@ use Session;
 use Mail;
 use Redirect;
 use App;
+use Response;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 
 class CreateServiceController extends Controller
@@ -56,30 +57,33 @@ class CreateServiceController extends Controller
       $packg1[] ='';
       $packg2[] ='';
       $packg3[] ='';
-      foreach ($packageOptions as $key => $option) {
+      if($packageOptions != ''){
+        foreach ($packageOptions as $key => $option) {
 
-        $packg1[] = '<div class="form-group-check border-bottom ">'.
-          '<div class="form-check">'.
-            '<input type="checkbox" class="form-check-input"  id="exampleCheck'.$option->id.'1" value=""  name="package_attribute[1][value]" />'.
-            '<input type="hidden" name="package_attribute[1][package_option_id]">'.
-            '<label class="form-check-label" for="exampleCheck'.$option->id.'1" >'.$option->name.'</label>'.
-          '</div>'.
-        '</div>';
-        $packg2[] = '<div class="form-group-check border-bottom ">'.
-          '<div class="form-check">'.
-            '<input type="checkbox" class="form-check-input"  id="exampleCheck'.$option->id.'2" value=""  name="package_attribute[2][value]" />'.
-            '<input type="hidden" name="package_attribute[2][package_option_id]">'.
-            '<label class="form-check-label" for="exampleCheck'.$option->id.'2" >'.$option->name.'</label>'.
-          '</div>'.
-        '</div>';
-        $packg3[] = '<div class="form-group-check border-bottom ">'.
-          '<div class="form-check">'.
-            '<input type="checkbox" class="form-check-input"  id="exampleCheck'.$option->id.'3" value=""  name="package_attribute[3][value]" />'.
-            '<input type="hidden" name="package_attribute[3][package_option_id]">'.
-            '<label class="form-check-label" for="exampleCheck'.$option->id.'3" >'.$option->name.'</label>'.
-          '</div>'.
-        '</div>';
+          $packg1[] = '<div class="form-group-check border-bottom ">'.
+            '<div class="form-check">'.
+              '<input type="checkbox" class="form-check-input"  id="exampleCheck'.$option->id.'1"  name="package_attribute[1][value]" />'.
+              '<input type="hidden" name="package_attribute[1][package_option_id]"value="'.$option->id.'">'.
+              '<label class="form-check-label" for="exampleCheck'.$option->id.'1" >'.$option->name.'</label>'.
+            '</div>'.
+          '</div>';
+          $packg2[] = '<div class="form-group-check border-bottom ">'.
+            '<div class="form-check">'.
+              '<input type="checkbox" class="form-check-input"  id="exampleCheck'.$option->id.'2"  name="package_attribute[2][value]" />'.
+              '<input type="hidden" name="package_attribute[2][package_option_id]" value="'.$option->id.'">'.
+              '<label class="form-check-label" for="exampleCheck'.$option->id.'2" >'.$option->name.'</label>'.
+            '</div>'.
+          '</div>';
+          $packg3[] = '<div class="form-group-check border-bottom ">'.
+            '<div class="form-check">'.
+              '<input type="checkbox" class="form-check-input"  id="exampleCheck'.$option->id.'3"   name="package_attribute[3][value]" />'.
+              '<input type="hidden" name="package_attribute[3][package_option_id]"value="'.$option->id.'">'.
+              '<label class="form-check-label" for="exampleCheck'.$option->id.'3" >'.$option->name.'</label>'.
+            '</div>'.
+          '</div>';
+        }
       }
+      
         return response()->json(['packg1'=>$packg1,'packg2'=>$packg2,'packg3'=>$packg3]);
       
       
@@ -168,16 +172,19 @@ class CreateServiceController extends Controller
           }
 
           $attributes = $request->input('package_attribute');
-
-          foreach ($attributes as $key => $attr) {
-            $serviceAttr = [
-              "services_id" => $service_id,
-              "package_option_id" => $attr['package_option_id'],
-              "value" => $attr['value']
-            ];
-            
-            $insertOption = PackagesOptionService::insert($serviceAttr);
+          if($attributes != ''){
+            // dd($attributes);
+            foreach ($attributes as $key => $attr) {
+              $serviceAttr = [
+                "services_id" => $service_id,
+                "package_option_id" => $attr['package_option_id'],
+                "value" => $attr['value']
+              ];
+              
+              $insertOption = PackagesOptionService::insert($serviceAttr);
+            }
           }
+          return $insertPackage;
 
         }elseif ($type == 3) {
           $service_id= Session::get('u_session');
@@ -190,15 +197,72 @@ class CreateServiceController extends Controller
             'description' => $request->input('description')
           ];
           $inserFaq = ServiceFaq::create($faqData);
+          $faqId = $inserFaq->id;
+          // dd($faqId);
+          $faq = ServiceFaq::where('id',$faqId)->first();
+
+          $faq_data = '<div class="card"><div class="card-header" id="heading'.$faq->id.'">'.
+            '<h5 class="mb-0">'.
+              '<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse'.$faq->id.'" aria-expanded="false" aria-controls="collapse'.$faq->id.'">'.$faq->title.'</button>'.
+              '</h5>'.
+            '</div>'.
+            '<div id="collapse'.$faq->id.'" class="collapse" aria-labelledby="heading'.$faq->id.'" data-parent="#accordion">'.
+              '<div class="card-body">'.
+                '<div class="input-box-container">'.
+                  '<div class="form-group">'.
+                    '<input type="text" value="'.$faq->title.'" class="form-control" placeholder="Add a Question: i.e. Do you translate to English as well?" />'.
+                  '</div>'.
+                  '<div class="form-group">'.
+                    '<textarea maxlength="300" class="form-control" rows="3" placeholder="Add an Answer: i.e. Yes, I also translate from English to Hebrew.">'.$faq->description.'</textarea>'.
+                  '</div>'.
+
+                  '<div class="btn-container-box">'.
+                    '<div class="btns">'.
+                      '<button class="custom-btn delete-btn">'.
+                        '<i class="fa fa-times"></i> delete'.
+                      '</button>'.
+                    '</div>'.
+                    '<div class="btns">'.
+                      '<button class="custom-btn">cancle</button>'.
+                      '<button class="custom-btn">save</button>'.
+                    '</div>'.
+                  '</div>'.
+                '</div>'.
+              '</div>'.
+            '</div>'.
+            '</div>';
+          return json_encode($faq_data);
 
         }elseif ($type == 4) {
           $service_id= Session::get('u_session');
+          // dd($service_id);
           $requirementsData = [
             'question' => $request->input('question'),
             'response' => $request->input('response'),
             'services_id' => $service_id
           ];
-          $insertRequr = ServiceRequirement::insert($requirementsData);
+          $insertRequr = ServiceRequirement::create($requirementsData);
+
+          $requestId = $insertRequr->id;
+          // dd($faqId);
+          $request = ServiceRequirement::where('id',$requestId)->first();
+
+          $req_data = 
+            '<div class="question-list-item">'.
+              '<div class="inner-text">'.
+                '<p>'.$request->response.'</p>'.
+                '<div class="dropdown">'.
+                  '<a class="nav-link globe-icon" href="#" id="navbarDropdown'.$request->id.'" ="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'.
+                    '<i class="fa fa-ellipsis-h"></i></a>'.
+                  '<div class="dropdown-menu" aria-labelledبواسطة="navbarDropdown'.$request->id.'">'.
+                    '<a class="dropdown-item" href="#">Edit</a>'.
+                    '<a class="dropdown-item" href="#">Delete</a>'.
+                  '</div>'.
+                '</div>'.
+              '</div>'.
+              '<h6>'.$request->question.'</h6>'.
+            '</div>';
+          return json_encode($req_data);
         }else{
           $data = [];
           $service_id= Session::get('u_session');
@@ -265,8 +329,8 @@ class CreateServiceController extends Controller
 
           $update = Services::where('id', $service_id)->update($data);
           $request->session()->flash('u_session');
-          
-          return redirect('create-service');
+          return $update;
+          // return redirect('profile');
         }
 
     }

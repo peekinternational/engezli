@@ -83,7 +83,7 @@ Route::get('/messages', function () {
 Route::resource('/create-service', CreateServiceController::class);
 Route::post('/fetch_subcategory', [CreateServiceController::class, 'fetch_subcategory']);
 Route::post('/fetch_package_option', [CreateServiceController::class, 'fetch_package_option']);
-Route::post('/post_service', [CreateServiceController::class, 'post_service']);
+Route::match(['get','post'],'/post_service', [CreateServiceController::class, 'post_service']);
 
 Route::get('/services/{url}', [ServiceController::class, 'index']);
 Route::get('/services/{url}/{child_url}', [ServiceController::class, 'index']);

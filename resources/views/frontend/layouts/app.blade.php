@@ -26,6 +26,7 @@
     <link href="{{asset('css/arabic_style.css')}}" rel="stylesheet">
     <!-- Custom Css -->
     <link href="{{asset('css/responsive.css')}}" rel="stylesheet">
+    <link href="{{asset('frontend-assets/css/sweat_alert.css')}}" rel="stylesheet">
      @yield('styling')
   </head>
   <body>
@@ -46,6 +47,7 @@
     <script src="{{asset('js/cdn/select2.min.js')}}"></script>
     <script src="{{asset('js/cdn/jquery.richtext.js')}}"></script>
     <script src="{{asset('js/custom.js')}}"></script>
+    <script src="{{asset('frontend-assets/js/sweat_alert.js')}}"></script>
     <!-- Contact form JavaScript -->
     
     <script>

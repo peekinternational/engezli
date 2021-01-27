@@ -60,5 +60,10 @@ return [
 	"Trust & Safety" => "Trust & Safety",
 	"Selling on Engezly" => "Selling on Engezly",
 	"Buying on Engezly" => "Buying on Engezly",
+	"Create Service" => "Create Service",
+	"Profile" => "Profile",
+	"Edit Profile" => "Edit Profile",
+	"Settings" => "Settings",
+	"All" => "All",
 
 ];

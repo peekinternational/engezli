@@ -43,11 +43,13 @@
         <div class="form-group">
           <label for="">{{ __('home.Username or Email')}}</label>
           <input type="text" class="form-control" name="username" placeholder="">
+          <span class="text-danger">{{ $errors->first('username') }}</span>
         </div>
 
         <div class="form-group">
           <label for="">{{ __('home.Password')}}</label>
           <input type="password" class="form-control" name="password" placeholder="">
+          <span class="text-danger">{{ $errors->first('password') }}</span>
         </div>
         <div class="btn-container">
           <button type="submit" class="btn">{{ __('home.Sign in')}}</button>
