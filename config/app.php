@@ -162,6 +162,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         App\Providers\EngezliProvider::class,
+        Brian2694\Toastr\ToastrServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -229,6 +230,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Engezli' => App\Facade\Engezli::class,
+        'Toastr'  => Brian2694\Toastr\Facades\Toastr::class,
 
     ],
 

@@ -129,6 +129,8 @@
 						@if(Auth::user() !='')
 							@if(Auth::user()->facebook_id != Null || Auth::user()->google_id != Null)
 							<img src="{{Auth::user()->profile_image}}" alt="" class="rounded-circle">
+							@elseif(Auth::user()->profile_image != Null)
+                  			<img class="rounded-circle" src="{{asset('images/user_images/'.Auth::user()->profile_image)}}">
 							@else
 							<img src="{{asset('images/avatar (1).svg')}}" alt="">
 							@endif
@@ -137,8 +139,8 @@
 					<div class="dropdown-menu" aria-labelledبواسطة="navbarDropdown">
 						<a class="dropdown-item" href="{{url('create-service')}}">{{ __('home.Create Service')}}</a>
 						<a class="dropdown-item" href="{{url('profile')}}">{{ __('home.Profile')}}</a>
-						<a class="dropdown-item" href="{{('#')}}">{{ __('home.Edit Profile')}}</a>
-						<a class="dropdown-item" href="settings.html">{{ __('home.Settings')}}</a>
+						<a class="dropdown-item" href="{{url('settings')}}">{{ __('home.Edit Profile')}}</a>
+						<a class="dropdown-item" href="{{url('settings')}}">{{ __('home.Settings')}}</a>
 						<a class="dropdown-item" href="#">{{ __('home.Help & Support')}}</a>
 						<a class="dropdown-item" href="{{url('logout')}}">{{ __('home.logout')}}</a>
 					</div>

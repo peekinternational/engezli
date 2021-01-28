@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Categories;
 use App\Models\PackagesOption;
+use App\Models\Language;
+use App\Models\Skills;
 use Str;
 
 class Engezli {
@@ -20,6 +22,14 @@ class Engezli {
 	public function get_subCatName($url){
 		$subCatName = Categories::wherecat_url($url)->first();
 		return $subCatName;
+	}
+	public function get_skill($id){
+		$skillName = Skills::whereid($id)->first();
+		return $skillName;
+	}
+	public function get_language($id){
+		$langName = Language::whereid($id)->first();
+		return $langName;
 	}
 }
 ?>

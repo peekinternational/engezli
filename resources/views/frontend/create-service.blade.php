@@ -17,7 +17,7 @@
 							role="tab"
 							aria-controls="overview"
 							aria-selected="true"
-							>service information</a
+							>{{ __('home.service information')}}</a
 						>
 					</li>
 					<li class="nav-item">
@@ -29,7 +29,7 @@
 							role="tab"
 							aria-controls="pricing"
 							aria-selected="false"
-							>pricing</a
+							>{{ __('home.pricing')}}</a
 						>
 					</li>
 					<li class="nav-item">
@@ -41,7 +41,7 @@
 							role="tab"
 							aria-controls="descriptionFaq"
 							aria-selected="false"
-							>description & FAQ</a
+							>{{ __('home.description & FAQ')}}</a
 						>
 					</li>
 					<li class="nav-item">
@@ -53,7 +53,7 @@
 							role="tab"
 							aria-controls="requirements"
 							aria-selected="false"
-							>requirements</a
+							>{{ __('home.requirements')}}</a
 						>
 					</li>
 					<li class="nav-item">
@@ -65,15 +65,15 @@
 							role="tab"
 							aria-controls="gallery"
 							aria-selected="false"
-							>gallery</a
+							>{{ __('home.gallery')}}</a
 						>
 					</li>
 				</ul>
 
 				<div class="btn-container">
 					<div class="btn-groups">
-						<a href="" class="btn">Save</a>
-						<a href="" class="btn">Save & Preview</a>
+						<a href="" class="btn">{{ __('home.Save')}}</a>
+						<a href="" class="btn">{{ __('home.Save & Preview')}}</a>
 					</div>
 				</div>
 			</div>
@@ -101,13 +101,13 @@
 										@csrf
 										<div class="tab-pane-box">
 											<div class="pane-box">
-												<h6>gig Title</h6>
+												<h6>{{ __('home.gig Title')}}</h6>
 												<div class="inner-pane-box">
 													<textarea name="" id="service_title" class="form-control" rows="2"
 														placeholder="I will do something I'm really good at" name="service_title"></textarea>
 													<span class="service_title-error text-danger"  style="display: none;">title is required</span>
 													<div class="sub-box">
-														<p class="text">Just perfect</p>
+														<p class="text">{{ __('home.Just perfect')}}</p>
 														<p class="max-char"><span class="descCount">0</span>/80 max</p>
 													</div>
 													<span class="display_error">{{ $errors->first('service_title') }}</span>
@@ -116,7 +116,7 @@
 											</div>
 
 											<div class="pane-box">
-												<h6>seo Title</h6>
+												<h6>{{ __('home.seo Title')}}</h6>
 												<div class="inner-pane-box">
 													<input type="text" class="form-control" id="seo_title" name="seo_title" />
 
@@ -128,11 +128,11 @@
 											</div>
 
 											<div class="pane-box">
-												<h6>category</h6>
+												<h6>{{ __('home.category')}}</h6>
 												<div class="inner-pane-box">
 													<div class="select-category">
 														<select name="cat_id" id="category" class="custom-select">
-															<option value="">Select Category</option>
+															<option value="">{{ __('home.Select Category')}}</option>
 															@foreach($mainCategories as $mainCat)
 															<option value="{{$mainCat->id}}">{{$mainCat->cat_title}}</option>
 															@endforeach
@@ -147,7 +147,7 @@
 											</div>
 
 											<div class="pane-box">
-												<h6>search tags</h6>
+												<h6>{{ __('home.search tags')}}</h6>
 												<div class="inner-pane-box">
 													<input type="text" name="search_tags" id="search_tags" value=""
 														data-role="tagsinput" class="form-control tagsinput" />
@@ -176,8 +176,8 @@
 										</div>
 										<div class="btns-group">
 											<!-- <button class="prevtab btn btn-primary">Prev</button> -->
-											<button class="cancle custom-btn">Cancle</button>
-											<button class=" custom-btn" type="submit" id="submit"  form="service-form">save</button>
+											<button class="cancle custom-btn">{{ __('home.Cancel')}}</button>
+											<button class=" custom-btn" type="submit" id="submit"  form="service-form">{{ __('home.Save')}}</button>
 										</div>
 									</form>
 								</div>
@@ -187,7 +187,7 @@
 										<input type="hidden" name="type" value="2">
 										<div class="tab-pane-box">
 											<div class="heading">
-												<h3>Packages & Pricing</h3>
+												<h3>{{ __('home.Packages & Pricing')}}</h3>
 												<p>The buyer needs the following information</p>
 											</div>
 
@@ -195,7 +195,7 @@
 											<div class="packages-pricing-wrapper">
 												<div class="pricing-box">
 													<div class="category border-bottom">
-														<h5>Basic</h5>
+														<h5>{{ __('home.Basic')}}</h5>
 													</div>
 													<div class="form-group border-bottom">
 														<input type="hidden" name="package_type" value="basic">
@@ -220,23 +220,23 @@
 													</div>
 													<div class="form-group border-bottom">
 														<select name="proposal_packages[1][delivery_time]" id="delivery_time1" class="select2 ">
-															<option value="">delivery time</option>
-															<option value="1 day">1 day delivery</option>
-															<option value="2 day">2 day delivery</option>
-															<option value="3 day">3 day delivery</option>
-															<option value="4 day">4 day delivery</option>
-															<option value="5 day">5 day delivery</option>
-															<option value="6 day">6 day delivery</option>
-															<option value="7 day">7 day delivery</option>
-															<option value="8 day">8 day delivery</option>
-															<option value="9 day">9 day delivery</option>
-															<option value="10 day">10 day delivery</option>
+															<option value="">{{ __('home.delivery time')}}</option>
+															<option value="1 day">1 {{ __('home.day delivery')}}</option>
+															<option value="2 day">2 {{ __('home.day delivery')}}</option>
+															<option value="3 day">3 {{ __('home.day delivery')}}</option>
+															<option value="4 day">4 {{ __('home.day delivery')}}</option>
+															<option value="5 day">5 {{ __('home.day delivery')}}</option>
+															<option value="6 day">6 {{ __('home.day delivery')}}</option>
+															<option value="7 day">7 {{ __('home.day delivery')}}</option>
+															<option value="8 day">8 {{ __('home.day delivery')}}</option>
+															<option value="9 day">9 {{ __('home.day delivery')}}</option>
+															<option value="10 day">10 {{ __('home.day delivery')}}</option>
 														</select>
 													</div>
 														<span class="delivery1-error text-danger"  style="display: none;">Delivery time is required</span>
 													<div class="form-group border-bottom">
 														<select name="proposal_packages[1][no_of_pages]" id="no_of_pages1" class="select2">
-															<option value="">Number of Pages</option>
+															<option value="">{{ __('home.Number of Pages')}}</option>
 															<option value="1">1</option>
 															<option value="2">2</option>
 															<option value="3">3</option>
@@ -252,7 +252,7 @@
 														<span class="no_of_pages1-error text-danger"  style="display: none;">No of pages required</span>
 													<div class="form-group border-bottom">
 														<select name="proposal_packages[1][revision]" id="revision1" class="select2">
-															<option value="">revisions</option>
+															<option value="">{{ __('home.revisions')}}</option>
 															<option value="1">1</option>
 															<option value="2">2</option>
 															<option value="3">3</option>
@@ -290,7 +290,7 @@
 
 												<div class="pricing-box">
 													<div class="category border-bottom">
-														<h5>Standard</h5>
+														<h5>{{ __('home.Standard')}}</h5>
 													</div>
 													<div class="form-group border-bottom">
 														<input type="hidden" name="package_type" value="standard">
@@ -313,22 +313,22 @@
 													</div>
 													<div class="form-group border-bottom">
 														<select name="proposal_packages[2][delivery_time]" id="" class="select2">
-															<option value="">delivery time</option>
-															<option value="1 day">1 day delivery</option>
-															<option value="2 day">2 day delivery</option>
-															<option value="3 day">3 day delivery</option>
-															<option value="4 day">4 day delivery</option>
-															<option value="5 day">5 day delivery</option>
-															<option value="6 day">6 day delivery</option>
-															<option value="7 day">7 day delivery</option>
-															<option value="8 day">8 day delivery</option>
-															<option value="9 day">9 day delivery</option>
-															<option value="10 day">10 day delivery</option>
+															<option value="">{{ __('home.delivery time')}}</option>
+															<option value="1 day">1 {{ __('home.day delivery')}}</option>
+															<option value="2 day">2 {{ __('home.day delivery')}}</option>
+															<option value="3 day">3 {{ __('home.day delivery')}}</option>
+															<option value="4 day">4 {{ __('home.day delivery')}}</option>
+															<option value="5 day">5 {{ __('home.day delivery')}}</option>
+															<option value="6 day">6 {{ __('home.day delivery')}}</option>
+															<option value="7 day">7 {{ __('home.day delivery')}}</option>
+															<option value="8 day">8 {{ __('home.day delivery')}}</option>
+															<option value="9 day">9 {{ __('home.day delivery')}}</option>
+															<option value="10 day">10 {{ __('home.day delivery')}}</option>
 														</select>
 													</div>
 													<div class="form-group border-bottom">
 														<select name="proposal_packages[2][no_of_pages]" id="" class="select2">
-															<option value="">Number of Pages</option>
+															<option value="">{{ __('home.Number of Pages')}}</option>
 															<option value="1">1</option>
 															<option value="2">2</option>
 															<option value="3">3</option>
@@ -343,7 +343,7 @@
 													</div>
 													<div class="form-group border-bottom">
 														<select name="proposal_packages[2][revision]" id="" class="select2">
-															<option value="">revisions</option>
+															<option value="">{{ __('home.revisions')}}</option>
 															<option value="1">1</option>
 															<option value="2">2</option>
 															<option value="3">3</option>
@@ -379,7 +379,7 @@
 
 												<div class="pricing-box">
 													<div class="category border-bottom">
-														<h5>premium</h5>
+														<h5>{{ __('home.premium')}}</h5>
 													</div>
 													<div class="form-group border-bottom">
 														<input type="hidden" name="package_type" value="premium">
@@ -402,22 +402,22 @@
 													</div>
 													<div class="form-group border-bottom">
 														<select name="proposal_packages[3][delivery_time]" id="" class="select2">
-															<option value="">delivery time</option>
-															<option value="1 day">1 day delivery</option>
-															<option value="2 day">2 day delivery</option>
-															<option value="3 day">3 day delivery</option>
-															<option value="4 day">4 day delivery</option>
-															<option value="5 day">5 day delivery</option>
-															<option value="6 day">6 day delivery</option>
-															<option value="7 day">7 day delivery</option>
-															<option value="8 day">8 day delivery</option>
-															<option value="9 day">9 day delivery</option>
-															<option value="10 day">10 day delivery</option>
+															<option value="">{{ __('home.delivery time')}}</option>
+															<option value="1 day">1 {{ __('home.day delivery')}}</option>
+															<option value="2 day">2 {{ __('home.day delivery')}}</option>
+															<option value="3 day">3 {{ __('home.day delivery')}}</option>
+															<option value="4 day">4 {{ __('home.day delivery')}}</option>
+															<option value="5 day">5 {{ __('home.day delivery')}}</option>
+															<option value="6 day">6 {{ __('home.day delivery')}}</option>
+															<option value="7 day">7 {{ __('home.day delivery')}}</option>
+															<option value="8 day">8 {{ __('home.day delivery')}}</option>
+															<option value="9 day">9 {{ __('home.day delivery')}}</option>
+															<option value="10 day">10 {{ __('home.day delivery')}}</option>
 														</select>
 													</div>
 													<div class="form-group border-bottom">
 														<select name="proposal_packages[3][no_of_pages]" id="" class="select2">
-															<option value="">Number of Pages</option>
+															<option value="">{{ __('home.Number of Pages')}}</option>
 															<option value="1">1</option>
 															<option value="2">2</option>
 															<option value="3">3</option>
@@ -432,7 +432,7 @@
 													</div>
 													<div class="form-group border-bottom">
 														<select name="proposal_packages[3][revision]" id="" class="select2">
-															<option value="">revisions</option>
+															<option value="">{{ __('home.revisions')}}</option>
 															<option value="1">1</option>
 															<option value="2">2</option>
 															<option value="3">3</option>
@@ -468,15 +468,14 @@
 											</div>
 											<!-- End Pricing Design -->
 										<div class="add-extra-service">
-											<h5>Add extra service</h5>
+											<h5>{{ __('home.Add extra service')}}</h5>
 											<div class="extra-service-container">
 												<div class="note">
 													<p>
 														<span
-															><i class="fa fa-lightbulb"></i> Note:</span
+															><i class="fa fa-lightbulb"></i> {{ __('home.Note')}}:</span
 														>
-														Increase your revenue by offering in-demand
-														services at an additional cost.
+														{{ __('home.Increase your revenue by offering in-demand services at an additional cost.')}}
 													</p>
 												</div>
 
@@ -493,79 +492,36 @@
 																	class="custom-control-label"
 																	for="customCheck01"
 																>
-																	Extra fast delivery
+																	{{ __('home.Extra fast delivery')}}
 																</label>
 															</div>
 														</div>
 														<div class="inner-list-item-box d-none">
 															<table class="table">
 																<tr>
-																	<td>Basic</td>
+																	<td>{{ __('home.Basic')}}</td>
 																	<td>
-																		<span>I'll deliver in only</span>
+																		<span>{{ __('home.I will deliver in only')}}</span>
 																		<select
 																			name=""
 																			id=""
 																			class="custom-select"
 																		>
-																			<option value="">Select</option>
-																			<option value="">1 days</option>
-																			<option value="">2 days</option>
-																			<option value="">3 days</option>
-																			<option value="">4 days</option>
-																			<option value="">5 days</option>
-																			<option value="">6 days</option>
-																			<option value="">7 days</option>
-																			<option value="">8 days</option>
-																			<option value="">9 days</option>
-																			<option value="">10 days</option>
+																			<option value="">{{ __('home.Select')}}</option>
+																			<option value="">1 {{ __('home.days')}}</option>
+																			<option value="">2 {{ __('home.days')}}</option>
+																			<option value="">3 {{ __('home.days')}}</option>
+																			<option value="">4 {{ __('home.days')}}</option>
+																			<option value="">5 {{ __('home.days')}}</option>
+																			<option value="">6 {{ __('home.days')}}</option>
+																			<option value="">7 {{ __('home.days')}}</option>
+																			<option value="">8 {{ __('home.days')}}</option>
+																			<option value="">9 {{ __('home.days')}}</option>
+																			<option value="">10 {{ __('home.days')}}</option>
 																		</select>
 																	</td>
 																	<td>
-																		<span>for an extra</span>
-																		<select
-																			name=""
-																			class="custom-select"
-																			id=""
-																		>
-																			<option value="">$</option>
-																			<option value="">$5</option>
-																			<option value="">$10</option>
-																			<option value="">$15</option>
-																			<option value="">$20</option>
-																			<option value="">$25</option>
-																			<option value="">$30</option>
-																			<option value="">$35</option>
-																			<option value="">$40</option>
-																			<option value="">$45</option>
-																			<option value="">$50</option>
-																		</select>
-																	</td>
-																</tr>
-																<tr>
-																	<td>Standard</td>
-																	<td>
-																		<span>I'll deliver in only</span>
-																		<select
-																			name=""
-																			id=""
-																			class="custom-select"
-																		>
-																			<option value="">Select</option>
-																			<option value="">1 days</option>
-																			<option value="">2 days</option>
-																			<option value="">3 days</option>
-																			<option value="">4 days</option>
-																			<option value="">5 days</option>
-																			<option value="">6 days</option>
-																			<option value="">7 days</option>
-																			<option value="">8 days</option>
-																			<option value="">9 days</option>
-																			<option value="">10 days</option>
-																		</select>
-																	</td>
-																	<td>
-																		<span>for an extra</span>
+																		<span>{{ __('home.for an extra')}}</span>
 																		<select
 																			name=""
 																			class="custom-select"
@@ -586,29 +542,72 @@
 																	</td>
 																</tr>
 																<tr>
-																	<td>Premium</td>
+																	<td>{{ __('home.Standard')}}</td>
 																	<td>
-																		<span>I'll deliver in only</span>
+																		<span>{{ __('home.I will deliver in only')}}</span>
 																		<select
 																			name=""
 																			id=""
 																			class="custom-select"
 																		>
-																			<option value="">Select</option>
-																			<option value="">1 days</option>
-																			<option value="">2 days</option>
-																			<option value="">3 days</option>
-																			<option value="">4 days</option>
-																			<option value="">5 days</option>
-																			<option value="">6 days</option>
-																			<option value="">7 days</option>
-																			<option value="">8 days</option>
-																			<option value="">9 days</option>
-																			<option value="">10 days</option>
+																			<option value="">{{ __('home.Select')}}</option>
+																			<option value="">1 {{ __('home.days')}}</option>
+																			<option value="">2 {{ __('home.days')}}</option>
+																			<option value="">3 {{ __('home.days')}}</option>
+																			<option value="">4 {{ __('home.days')}}</option>
+																			<option value="">5 {{ __('home.days')}}</option>
+																			<option value="">6 {{ __('home.days')}}</option>
+																			<option value="">7 {{ __('home.days')}}</option>
+																			<option value="">8 {{ __('home.days')}}</option>
+																			<option value="">9 {{ __('home.days')}}</option>
+																			<option value="">10 {{ __('home.days')}}</option>
 																		</select>
 																	</td>
 																	<td>
-																		<span>for an extra</span>
+																		<span>{{ __('home.for an extra')}}</span>
+																		<select
+																			name=""
+																			class="custom-select"
+																			id=""
+																		>
+																			<option value="">$</option>
+																			<option value="">$5</option>
+																			<option value="">$10</option>
+																			<option value="">$15</option>
+																			<option value="">$20</option>
+																			<option value="">$25</option>
+																			<option value="">$30</option>
+																			<option value="">$35</option>
+																			<option value="">$40</option>
+																			<option value="">$45</option>
+																			<option value="">$50</option>
+																		</select>
+																	</td>
+																</tr>
+																<tr>
+																	<td>{{ __('home.premium')}}</td>
+																	<td>
+																		<span>{{ __('home.I will deliver in only')}}</span>
+																		<select
+																			name=""
+																			id=""
+																			class="custom-select"
+																		>
+																			<option value="">{{ __('home.Select')}}</option>
+																			<option value="">1 {{ __('home.days')}}</option>
+																			<option value="">2 {{ __('home.days')}}</option>
+																			<option value="">3 {{ __('home.days')}}</option>
+																			<option value="">4 {{ __('home.days')}}</option>
+																			<option value="">5 {{ __('home.days')}}</option>
+																			<option value="">6 {{ __('home.days')}}</option>
+																			<option value="">7 {{ __('home.days')}}</option>
+																			<option value="">8 {{ __('home.days')}}</option>
+																			<option value="">9 {{ __('home.days')}}</option>
+																			<option value="">10 {{ __('home.days')}}</option>
+																		</select>
+																	</td>
+																	<td>
+																		<span>{{ __('home.for an extra')}}</span>
 																		<select
 																			name=""
 																			class="custom-select"
@@ -644,13 +643,13 @@
 																	class="custom-control-label"
 																	for="customCheck1"
 																>
-																	Additional Page
+																	{{ __('home.Additional Page')}}
 																</label>
 															</div>
 														</div>
 														<div class="hided-option d-none">
 															<div class="extra-pay">
-																<span>for an extra</span>
+																<span>{{ __('home.for an extra')}}</span>
 																<select name="" class="custom-select" id="">
 																	<option value="">$</option>
 																	<option value="">$5</option>
@@ -666,7 +665,7 @@
 																</select>
 															</div>
 															<div class="addition-date">
-																<span>an additional</span>
+																<span>{{ __('home.an additional')}}</span>
 																<select name="" class="custom-select" id="">
 																	<option value="">$</option>
 																	<option value="">$5</option>
@@ -695,13 +694,13 @@
 																	class="custom-control-label"
 																	for="customCheck2"
 																>
-																	Additional revision
+																	{{ __('home.Additional revision')}}
 																</label>
 															</div>
 														</div>
 														<div class="hided-option d-none">
 															<div class="extra-pay">
-																<span>for an extra</span>
+																<span>{{ __('home.for an extra')}}</span>
 																<select name="" class="custom-select" id="">
 																	<option value="">$</option>
 																	<option value="">$5</option>
@@ -717,7 +716,7 @@
 																</select>
 															</div>
 															<div class="addition-date">
-																<span>an additional</span>
+																<span>{{ __('home.an additional')}}</span>
 																<select name="" class="custom-select" id="">
 																	<option value="">$</option>
 																	<option value="">$5</option>
@@ -740,8 +739,8 @@
 									</div>
 									<div class="btns-group">
 										<!-- <button class="prevtab btn btn-primary">Prev</button> -->
-										<button class="cancle custom-btn">Cancel</button>
-										<button class="custom-btn" type="submit" id="package-submit" form="package-form">save</button>
+										<button class="cancle custom-btn">{{ __('home.Cancel')}}</button>
+										<button class="custom-btn" type="submit" id="package-submit" form="package-form">{{ __('home.Save')}}</button>
 									</div>
 									</form>
 								</div>
@@ -751,8 +750,8 @@
 									<div class="tab-pane-box">
 										<form id="description-form">
 											<div class="heading">
-												<h3>description</h3>
-												<p>briefly describe you gig</p>
+												<h3>{{ __('home.description')}}</h3>
+												<p>{{ __('home.briefly describe you gig')}}</p>
 											</div>
 
 											<div class="page-wrapper box-content">
@@ -764,13 +763,13 @@
 										</form>
 											<div class="faq-section">
 												<div class="faq-header">
-													<h3>frequently ask questions</h3>
+													<h3>{{ __('home.frequently ask questions')}}</h3>
 													<button class="custom-btn add-faq-btn">
-														<i class="fa fa-plus"></i> add faq
+														<i class="fa fa-plus"></i> {{ __('home.add faq')}}
 													</button>
 												</div>
 												<p class="QA">
-													Add Questions & Answers for Your Buyers.
+													{{ __('home.Add Questions & Answers for Your Buyers.')}}
 												</p>
 												<form id="faq-form">
 													<div class="input-box-container d-none" id="input-box-content">
@@ -787,9 +786,9 @@
 														<div class="btn-container-box">
 															<div class="btns">
 																<button class="custom-btn cancle-btn">
-																	cancel
+																	{{ __('home.Cancel')}}
 																</button>
-																<button class="custom-btn" type="submit" id="faq-submit">save</button>
+																<button class="custom-btn" type="submit" id="faq-submit">{{ __('home.Save')}}</button>
 															</div>
 														</div>
 													</div>
@@ -803,8 +802,8 @@
 										</div>
 										<div class="btns-group">
 											<!-- <button class="prevtab btn btn-primary">Prev</button> -->
-											<button class="cancle custom-btn">Cancle</button>
-											<button class="nexttab custom-btn" type="submit" id="submit-desc"  form="description-form">save</button>
+											<button class="cancle custom-btn">{{ __('home.Cancel')}}</button>
+											<button class="nexttab custom-btn" type="submit" id="submit-desc"  form="description-form">{{ __('home.Save')}}</button>
 										</div>
 								</div>
 								<div class="tab-pane fade  requirements-tab" id="requirements" role="tabpanel" aria-labelledby="requirements-tab">
@@ -813,19 +812,17 @@
 										<div class="tab-pane-box">
 											<div class="require-text-title">
 												<h5>
-													<i class="fa fa-file"></i> Here’s how buyers will
-													see your questions. You can edit or remove questions
-													anytime.
+													<i class="fa fa-file"></i> {{ __('home.Here’s how buyers will see your questions. You can edit or remove questions anytime.')}}
 												</h5>
 											</div>
 											<div class="question-input-container d-none">
 												<div class="add-ques-header">
-													<h6>add question</h6>
+													<h6>{{ __('home.add question')}}</h6>
 													<div class="answer-type">
-														<span>answer type</span>
+														<span>{{ __('home.answer type')}}</span>
 														<select name="response" id="" class="select2">
-															<option value="free text">free text</option>
-															<option value="attachement">Attachement</option>
+															<option value="free text">{{ __('home.free text')}}</option>
+															<option value="attachement">{{ __('home.Attachement')}}</option>
 														</select>
 													</div>
 												</div>
@@ -848,7 +845,7 @@
 														<label
 															class="form-check-label"
 															for="exampleCheck1"
-															>Answer is mandatory</label
+															>{{ __('home.Answer is mandatory')}}</label
 														>
 													</div>
 													<p class="max-char"><span>0</span>/450 max</p>
@@ -857,9 +854,9 @@
 												<div class="btn-container-box">
 													<div class="btns">
 														<button class="custom-btn btn-cancle">
-															cancle
+															{{ __('home.Cancel')}}
 														</button>
-														<button class="custom-btn btn-add" type="submit" id="requirements-submit">add</button>
+														<button class="custom-btn btn-add" type="submit" id="requirements-submit">{{ __('home.add')}}</button>
 													</div>
 												</div>
 											</div>
@@ -895,7 +892,7 @@
 												</div> -->
 											</div>
 											<button class="custom-btn add-new-btn-ques" >
-												<i class="fa fa-plus"></i> add new question
+												<i class="fa fa-plus"></i> {{ __('home.add new question')}}
 											</button>
 										</div>
 
@@ -953,8 +950,8 @@
 
 									<div class="btns-group">
 										<!-- <button class="prevtab btn btn-primary">Prev</button> -->
-										<button class="cancle custom-btn">Cancel</button>
-										<button class="nexttab custom-btn">save</button>
+										<button class="cancle custom-btn">{{ __('home.Cancel')}}</button>
+										<button class="nexttab custom-btn">{{ __('home.Save')}}</button>
 									</div>
 								</div>
 								<div class="tab-pane fade gallery-tab-container" id="gallery" role="tabpanel"
@@ -964,13 +961,13 @@
 										<div class="tab-pane-box">
 
 											<div class="heading">
-												<h3>Build Your Gig Gallery</h3>
-												<p>Add memorable content to your gallery to set yourself apart from competitors.</p>
+												<h3>{{ __('home.Build Your Gig Gallery')}}</h3>
+												<p>{{ __('home.Add memorable content to your gallery to set yourself apart from competitors.')}}</p>
 											</div>
 
 											<div class="note">
 												<p class="icon"><i class="fa fa-info-circle"></i></p>
-												<p class="text"><span>Note: </span> To comply with Fiverr’s terms of service, make sure to
+												<p class="text"><span>{{ __('home.Note')}}: </span> To comply with Fiverr’s terms of service, make sure to
 													upload only
 													content you either
 													own or you have the permission or license to use.</p>
@@ -981,8 +978,8 @@
 
 													<div class="outer-box">
 														<div class="inner-heading">
-															<h5>Gig Photos</h5>
-															<p>Upload photos that describe or are related to your Gig.</p>
+															<h5>{{ __('home.Gig Photos')}}</h5>
+															<p>{{ __('home.Upload photos that describe or are related to your Gig.')}}</p>
 														</div>
 														<p class="show-result">(0/3)</p>
 													</div>
@@ -1012,9 +1009,9 @@
 
 													<div class="outer-box">
 														<div class="inner-heading">
-															<h5>Gig Video</h5>
-															<p>Add a relevant, high quality video that best showcases your Gig.</p>
-															<p class="size">Please choose a video shorter than 75 seconds and smaller than 50MB</p>
+															<h5>{{ __('home.Gig Video')}}</h5>
+															<p>{{ __('home.Add a relevant, high quality video that best showcases your Gig.')}}</p>
+															<p class="size">{{ __('home.Please choose a video shorter than 75 seconds and smaller than 50MB')}}</p>
 														</div>
 														<p class="show-result">(0/1)</p>
 													</div>
@@ -1033,9 +1030,8 @@
 												<div class="box gig-pdf">
 													<div class="outer-box">
 														<div class="inner-heading">
-															<h5>Gig PDFs</h5>
-															<p>We only recommend adding a PDF file if it further clarifies the service you will be
-																providing.</p>
+															<h5>{{ __('home.Gig PDFs')}}</h5>
+															<p>{{ __('home.We only recommend adding a PDF file if it further clarifies the service you will be providing.')}}</p>
 														</div>
 														<p class="show-result">(0/2)</p>
 													</div>
@@ -1061,8 +1057,8 @@
 										</div>
 										<div class="btns-group">
 											<!-- <button class="prevtab btn btn-primary">Prev</button> -->
-											<button class="cancle custom-btn">Cancel</button>
-											<button class="nexttab custom-btn" type="submit" id="gallery-submit" form="gallery-form">save</button>
+											<button class="cancle custom-btn">{{ __('home.Cancel')}}</button>
+											<button class="nexttab custom-btn" type="submit" id="gallery-submit" form="gallery-form">{{ __('home.Save')}}</button>
 										</div>
 									</form>
 								</div>

@@ -53,7 +53,7 @@
                   <a href="#" class="seller-link">{{$user->first_name}} {{$user->last_name}}</a>
                 </div>
                 <div class="oneliner-wrapper">
-                  <small class="oneliner">Professional Voice Actress</small>
+                  <small class="oneliner">{{$user->occuption}}</small>
                   <div class="ratings-wrapper">
                     <p class="rating-text">
                       <strong>5.0</strong> (1k+ reviews)
@@ -76,7 +76,7 @@
               <ul class="user-stats">
                 <li class="location">From<strong>{{$user->country}}</strong></li>
                 <li class="member-since">
-                  Member since<strong>{{$user->member_since }}</strong>
+                  Member since<strong><?php echo date('F Y', strtotime($user->member_since)); ?></strong>
                 </li>
                 <li class="response-time">
                   Avg. Response Time<strong>2 hours</strong>
@@ -91,26 +91,17 @@
         <div class="seller-profile">
           <div class="description">
             <h3>Description</h3>
-            <p>
-              I am a Voice Actress with over 16+ years experience in
-              everything from video games to phone systems to explainer
-              videos to children's books. I am originally from the South
-              East of England and have a natural British accent, as well as
-              a Standard American accent from living in the US for 15 years.
-            </p>
+            <p>{{$user->bio }}</p>
           </div>
           <div class="languages">
             <h3>Languages</h3>
             <ul>
-              <li>English&nbsp;&nbsp;- <span>Fluent</span></li>
-              <li>
-                Spanish&nbsp;<strong>(español)</strong>&nbsp;-
-                <span>Conversational</span>
-              </li>
-              <li>
-                French&nbsp;<strong>(français)</strong>&nbsp;-
-                <span>Basic</span>
-              </li>
+              <?php $langData = json_decode($user->language_id);?>
+              @if($langData != '')
+                @foreach($langData as $userLang)
+                <li>{{Engezli::get_language($userLang)->language_title}}</li>
+                @endforeach
+                @endif
             </ul>
           </div>
           <div class="linked-accounts">
@@ -136,27 +127,25 @@
           </div>
           <div class="skills">
             <h3>Skills</h3>
+            <?php $skil = json_decode($user->skills_id);?>
             <ul>
-              <li class=""><a href="#">voice talent</a></li>
-              <li class=""><a href="#">voice acting</a></li>
-              <li class=""><a href="#">voiceover</a></li>
-              <li class=""><a href="#">voice over</a></li>
-              <li class=""><a href="#">voiceover talent</a></li>
-              <li class=""><a href="#">voice actor</a></li>
-              <li class=""><a href="#">voicetalent</a></li>
-              <li class=""><a href="#">voiceacting</a></li>
-              <li class=""><a href="#">voiceactor</a></li>
-              <li class=""><a href="#">voiceover artist</a></li>
+              @if($skil != '')
+              @foreach($skil as $userSkil)
+              <li class=""><a href="#">{{Engezli::get_skill($userSkil)->skill_title}}</a></li>
+              @endforeach
+              @endif
             </ul>
           </div>
           <div class="education-list list">
             <h3>Education</h3>
             <ul>
               <li>
-                <p>B.A. - communication studies</p>
+                @if($userEdu != '')
+                <p>{{$userEdu->major}}</p>
                 <p>
-                  Clayton State University, United States, Graduated 2006
+                  {{$userEdu->institute}}, {{$userEdu->country}}, Graduated {{$userEdu->degree_year}}
                 </p>
+                @endif
               </li>
             </ul>
           </div>

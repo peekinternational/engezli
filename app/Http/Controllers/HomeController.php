@@ -48,7 +48,7 @@ class HomeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Toastr::success('Post added successfully :)','Success');
     }
 
     /**

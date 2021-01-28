@@ -25,7 +25,7 @@
 
               <div class="name-designation-rating">
                 <h2 class="name">{{$user->first_name}} {{$user->last_name}}</h2>
-                <p class="designation">UI/UX Designer</p>
+                <p class="designation">{{$user->occuption}}</p>
                 <div class="rating">
                   <ul>
                     <li><i class="fa fa-star"></i></li>
@@ -236,42 +236,40 @@
                   <div class="outer-tab-box">
                     <div class="box biography">
                       <h5>biography</h5>
-                      <p>
-                        Lorem ipsum dolor, sit amet consectetur adipisicing
-                        elit. Doloremque fuga cum obcaecati, quod ipsum
-                        nisi. Aperiam doloribus doloremque quisquam aliquid
-                        obcaecati, facilis libero. Maiores culpa assumenda,
-                        vel velit nulla eligendi!
-                      </p>
+                      <p>{{$user->bio}}</p>
                     </div>
                     <div class="box languages">
                       <h5>languages</h5>
+                        <?php $langData = json_decode($user->language_id);?>
                       <ul>
-                        <li>English</li>
-                        <li>French</li>
-                        <li>Arabic</li>
+                      @if($langData != null)
+                        @foreach($langData as $userLang)
+                        <li>{{Engezli::get_language($userLang)->language_title}}</li>
+                        @endforeach
+                      @endif
                       </ul>
                     </div>
                     <div class="box skills">
                       <h5>skills</h5>
+                      <?php $skil = json_decode($user->skills_id);?>
                       <ul>
-                        <li>web</li>
-                        <li>UI</li>
-                        <li>front-end</li>
-                        <li>web design</li>
-                        <li>UX</li>
-                        <li>back-end</li>
+                      @if($skil != '')
+                        @foreach($skil as $userSkil)
+                        <li>{{Engezli::get_skill($userSkil)->skill_title}}</a></li>
+                        @endforeach
+                      @endif
                       </ul>
                     </div>
                     <div class="box education">
                       <h5>education</h5>
                       <div class="education-list">
                         <div class="list-item">
-                          <h6>M.B.A. - Business administration</h6>
+                          @if($userEdu != '')
+                          <h6>{{$userEdu->major}}</h6>
                           <p>
-                            university of dallas, united states, graduated
-                            2015
+                            {{$userEdu->institute}}, {{$userEdu->country}}, Graduated {{$userEdu->degree_year}}
                           </p>
+                          @endif
                         </div>
                       </div>
                     </div>
@@ -298,11 +296,10 @@
                   <div class="seller-activity">
                     <ul>
                       <li>
-                        <i class="fa fa-map-marker-alt"></i>Sarasota, FL
+                        <i class="fa fa-map-marker-alt"></i>{{$user->country}}
                       </li>
                       <li>
-                        <i class="fa fa-address-card"></i>member since july
-                        2018
+                        <i class="fa fa-address-card"></i><?php echo date('F Y', strtotime($user->member_since)); ?>
                       </li>
                       <li>
                         <i class="fa fa-clock"></i>avg response time 2hrs

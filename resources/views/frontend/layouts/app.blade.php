@@ -26,6 +26,7 @@
     <link href="{{asset('css/arabic_style.css')}}" rel="stylesheet">
     <!-- Custom Css -->
     <link href="{{asset('css/responsive.css')}}" rel="stylesheet">
+     <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css"> 
     <link href="{{asset('frontend-assets/css/sweat_alert.css')}}" rel="stylesheet">
      @yield('styling')
   </head>
@@ -48,13 +49,15 @@
     <script src="{{asset('js/cdn/jquery.richtext.js')}}"></script>
     <script src="{{asset('js/custom.js')}}"></script>
     <script src="{{asset('frontend-assets/js/sweat_alert.js')}}"></script>
+    <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+    
     <!-- Contact form JavaScript -->
     
     <script>
         var url = "{{ route('changeLang') }}";
         $(document).ready(function () {
             var url = "{{ route('changeLang') }}";
-            var session ="{{session()->get('locale') == 'en'}}";
+            var session ="{{session()->get('locale') == 'ar'}}";
             console.log(session);
             // Change to arabic style
             $(".arabic-format").on("click", function (e) {
@@ -71,9 +74,9 @@
                 window.location.href = url + "?lang="+ $(this).data('info');
             });
             if(session == 1){
-                $("body").removeClass("arabic").removeAttr("dir", "rtl");
-            }else{
                 $("body").addClass("arabic").attr("dir", "rtl");
+            }else{
+                $("body").removeClass("arabic").removeAttr("dir", "rtl");
             }
         });
     </script>

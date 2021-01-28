@@ -73,8 +73,10 @@ Route::get('google/callback', [SocialAuthController::class, 'GoogleProviderCallb
 
 
 // Profile
-Route::resource('/profile', ProfileController::class);
-// Route::get('/{username}', [ProfileController::class, 'show']);
+Route::get('profile/{username}', [ProfileController::class, 'show']);
+Route::get('/profile', [ProfileController::class,'index']);
+Route::get('settings', [ProfileController::class,'edit_profile']);
+Route::post('edit_profile_info', [ProfileController::class,'edit_profile_info']);
 Route::get('/messages', function () {
     return view('frontend.messages');
 });
