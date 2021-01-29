@@ -34,7 +34,7 @@ class ProfileController extends Controller
         $userExp = UserExperience::where('user_id',$user_id)->first();
         $userEdu = UserEducation::where('user_id',$user_id)->first();
         $serviceCount = $userServices->count();
-        
+
         return \View::make('frontend.profile')->with(compact('user','userServices','serviceCount','userExp','userEdu'));
     }
 

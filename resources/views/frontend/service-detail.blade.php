@@ -171,7 +171,7 @@
                         >
                       </span>
                       <div class="seller-level">
-                        Website and mobile wireframes UI UX
+                        {{$serviceData->sellerInfo->occuption}}
                       </div>
                     </div>
                     <div class="user-info">
@@ -197,12 +197,12 @@
                 <div class="stats-desc">
                   <ul class="user-stats">
                     <li>From<strong>{{$serviceData->sellerInfo->country}}</strong></li>
-                    <li>Member since<strong>{{$serviceData->sellerInfo->member_since}}</strong></li>
+                    <li>Member since<strong><?php echo date('F Y', strtotime($serviceData->sellerInfo->member_since)); ?></strong></li>
                     <li>Avg. Response Time<strong>1 hour</strong></li>
                   </ul>
                   <article class="seller-desc">
                     <div class="inner">
-                      {{$serviceData->sellerInfo->description}}
+                      {{$serviceData->sellerInfo->bio}}
                     </div>
                   </article>
                 </div>
@@ -221,7 +221,7 @@
                         @foreach($serviceData->packageInfo as $key => $packg)
                         <td>
                           <p class="price">${{$packg->price}}</p>
-                          <b class="type">{{$packg->title}}</b>
+                          <b class="type">{{$packg->package_name}}</b>
                           <b class="title">{{$packg->no_of_pages}} Screens</b>
                         </td>
                         @endforeach
@@ -650,15 +650,15 @@
               <ul class="nav nav-tabs">
                 @foreach($serviceData->packageInfo as $key => $packg)
                 <li>
-                  <a @if($key == 0) class="active" @endif data-toggle="tab" href="#{{$packg->title}}"
-                    >{{$packg->title}}</a
+                  <a @if($key == 0) class="active" @endif data-toggle="tab" href="#{{$packg->package_name}}"
+                    >{{$packg->package_name}}</a
                   >
                 </li>
                 @endforeach
               </ul>
               <div class="tab-content">
                 @foreach($serviceData->packageInfo as $key => $packg)
-                <div id="{{$packg->title}}" class="tab-pane fade @if($key == 0)show active @endif">
+                <div id="{{$packg->package_name}}" class="tab-pane fade @if($key == 0)show active @endif">
                   <div class="header">
                     <h3>
                       <b class="title">{{$packg->no_of_pages}} Screens</b

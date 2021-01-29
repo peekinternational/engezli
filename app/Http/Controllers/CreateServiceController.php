@@ -159,6 +159,7 @@ class CreateServiceController extends Controller
           foreach ($packages as $key => $package) {
             $packageBasic = [
               "services_id" => $service_id,
+              "package_name" => $package['package_title'],
               "title" => $package['package_name'],
               "description" => $package['package_desc'],
               "delivery_time" => $package['delivery_time'],
@@ -354,7 +355,15 @@ class CreateServiceController extends Controller
      */
     public function edit($id)
     {
-        //
+        $getSingleData = Services::find($id);
+        $mainCategories = Categories::where('parent_id', '0')->get();
+        $subCategories = Categories::where('parent_id', '!=', '0')->get();
+        $package1 = Packages::where('services_id',$id)->where('package_name','Basic')->first();
+        $package2 = Packages::where('services_id',$id)->where('package_name','Standard')->first();
+        $package3 = Packages::where('services_id',$id)->where('package_name','Premium')->first();
+        $getSingleFaq = ServiceFaq::where('services_id',$id)->get();
+        $getSingleReq = ServiceRequirement::where('services_id',$id)->get();
+        return \View::make('frontend.edit-service' , compact('getSingleData','mainCategories','subCategories','package1','package2','package3','getSingleFaq','getSingleReq'));
     }
 
     /**
@@ -366,7 +375,462 @@ class CreateServiceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      $user_id = auth()->user()->id;
+
+      $service = Services::find($id);
+      $type = $request->input('type');
+      
+      $service->seller_id = $user_id;
+      $service->service_status = "pending";
+      $service->posted_date = date("Y-m-d");
+      
+        if($type == 1){
+          $service_id = 0;
+          $this->validate($request,[
+            'service_title' => 'required',
+            'seo_title' => 'required',
+            'cat_id' => 'required',
+            'cat_child_id' => 'required',
+            'search_tags' => 'required'
+
+          ],[
+
+            'service_title.required' =>'Enter service title',
+            'seo_title.required' => 'Enter seo title',
+            'cat_id.required' => 'Please select category',
+            'cat_child_id.required' => 'Please select sub category',
+            'search_tags.required' => 'Enter search tags',
+          ]);
+          
+          
+          $service->service_title = $request->input('service_title');
+          $service->service_url = Str::slug($request->input('service_title'), '-');
+         
+          $service->seo_title = $request->input('seo_title');
+          $service->cat_id = $request->input('cat_id');
+          $service->cat_child_id = $request->input('cat_child_id');
+          $service->search_tags = $request->input('search_tags');
+          
+          $service->save();
+          $service_id = $service->id;
+          $request->session()->put('u_session', $service_id);
+          // dd($session_id);
+        }elseif($type == 2){
+          $service_id = $id;
+          $package_type = $request->input('package_type');
+
+          $packages = $request->input('proposal_packages');
+          foreach ($packages as $key => $package) {
+
+            $packageBasic = [
+              "services_id" => $service_id,
+              "package_name" => $package['package_title'],
+              "title" => $package['package_name'],
+              "description" => $package['package_desc'],
+              "delivery_time" => $package['delivery_time'],
+              "price" => $package['package_price'],
+              "revision" => $package['revision'],
+              "no_of_pages" => $package['no_of_pages']
+            ];
+            // dd($package['package_id']);
+            $insertPackage = Packages::where('services_id',$id)->where('id',$package['package_id'])->update($packageBasic);
+
+          }
+
+          $attributes = $request->input('package_attribute');
+          if($attributes != ''){
+            // dd($attributes);
+            foreach ($attributes as $key => $attr) {
+              $serviceAttr = [
+                "services_id" => $service_id,
+                "package_option_id" => $attr['package_option_id'],
+                "value" => $attr['value']
+              ];
+              
+              $insertOption = PackagesOptionService::where('services_id',$id)->update($serviceAttr);
+            }
+          }
+          return $insertPackage;
+
+        }elseif ($type == 3) {
+          $service_id= $id;
+          // $service->service_desc = $request->input('service_desc');
+          $update = Services::where('id', $service_id)->update(['service_desc' => $request->input('service_desc')]);
+          // dd($service_id);
+          $faqData =[
+            'services_id' => $service_id,
+            'title' => $request->input('title'),
+            'description' => $request->input('description')
+          ];
+          $inserFaq = ServiceFaq::create($faqData);
+          $faqId = $inserFaq->id;
+          // dd($faqId);
+          $faq = ServiceFaq::where('id',$faqId)->first();
+
+          $faq_data = '<div class="card"><div class="card-header" id="heading'.$faq->id.'">'.
+            '<h5 class="mb-0">'.
+              '<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse'.$faq->id.'" aria-expanded="false" aria-controls="collapse'.$faq->id.'">'.$faq->title.'</button>'.
+              '</h5>'.
+            '</div>'.
+            '<div id="collapse'.$faq->id.'" class="collapse" aria-labelledby="heading'.$faq->id.'" data-parent="#accordion">'.
+              '<div class="card-body">'.
+                '<div class="input-box-container">'.
+                  '<div class="form-group">'.
+                    '<input type="text" value="'.$faq->title.'" class="form-control" placeholder="Add a Question: i.e. Do you translate to English as well?" />'.
+                  '</div>'.
+                  '<div class="form-group">'.
+                    '<textarea maxlength="300" class="form-control" rows="3" placeholder="Add an Answer: i.e. Yes, I also translate from English to Hebrew.">'.$faq->description.'</textarea>'.
+                  '</div>'.
+
+                  '<div class="btn-container-box">'.
+                    '<div class="btns">'.
+                      '<button class="custom-btn delete-btn">'.
+                        '<i class="fa fa-times"></i> delete'.
+                      '</button>'.
+                    '</div>'.
+                    '<div class="btns">'.
+                      '<button class="custom-btn">cancle</button>'.
+                      '<button class="custom-btn">save</button>'.
+                    '</div>'.
+                  '</div>'.
+                '</div>'.
+              '</div>'.
+            '</div>'.
+            '</div>';
+          return json_encode($faq_data);
+
+        }elseif ($type == 4) {
+          $service_id= $id;
+          // dd($service_id);
+          $requirementsData = [
+            'question' => $request->input('question'),
+            'response' => $request->input('response'),
+            'services_id' => $service_id
+          ];
+          $insertRequr = ServiceRequirement::create($requirementsData);
+
+          $requestId = $insertRequr->id;
+          // dd($faqId);
+          $request = ServiceRequirement::where('id',$requestId)->first();
+
+          $req_data = 
+            '<div class="question-list-item">'.
+              '<div class="inner-text">'.
+                '<p>'.$request->response.'</p>'.
+                '<div class="dropdown">'.
+                  '<a class="nav-link globe-icon" href="#" id="navbarDropdown'.$request->id.'" ="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'.
+                    '<i class="fa fa-ellipsis-h"></i></a>'.
+                  '<div class="dropdown-menu" aria-labelledبواسطة="navbarDropdown'.$request->id.'">'.
+                    '<a class="dropdown-item" href="#">Edit</a>'.
+                    '<a class="dropdown-item" href="#">Delete</a>'.
+                  '</div>'.
+                '</div>'.
+              '</div>'.
+              '<h6>'.$request->question.'</h6>'.
+            '</div>';
+          return json_encode($req_data);
+        }else{
+          // dd($type);
+          $data = [];
+          $service_id= $id;
+          $service_img1 = $request->file('service_img1');
+          if($service_img1 != ''){
+            $filename= $service_img1->getClientOriginalName();
+            // $imagename= 'message-'.rand(000000,999999).'.'.$service_img1->getClientOriginalExtension();
+            $extension= $service_img1->getClientOriginalExtension();
+            $imagename= $filename;
+            $destinationpath= public_path('images/service_images');
+            $service_img1->move($destinationpath, $imagename);
+            $service->service_img1 = $imagename;
+          }
+          $service_img2 = $request->file('service_img2');
+          if($service_img2 != ''){
+            $filename= $service_img2->getClientOriginalName();
+            // $imagename= 'message-'.rand(000000,999999).'.'.$service_img2->getClientOriginalExtension();
+            $extension= $service_img2->getClientOriginalExtension();
+            $imagename= $filename;
+            $destinationpath= public_path('images/service_images');
+            $service_img2->move($destinationpath, $imagename);
+            $service->service_img2 = $imagename;
+          }
+          $service_img3 = $request->file('service_img3');
+          if($service_img3 != ''){
+            $filename= $service_img3->getClientOriginalName();
+            // $imagename= 'message-'.rand(000000,999999).'.'.$service_img3->getClientOriginalExtension();
+            $extension= $service_img3->getClientOriginalExtension();
+            $imagename= $filename;
+            $destinationpath= public_path('images/service_images');
+            $service_img3->move($destinationpath, $imagename);
+            $service->service_img3 = $imagename;
+          }
+          $service_video = $request->file('service_video');
+          if($service_video != ''){
+            $filename= $service_video->getClientOriginalName();
+            // $imagename= 'message-'.rand(000000,999999).'.'.$service_video->getClientOriginalExtension();
+            $extension= $service_video->getClientOriginalExtension();
+            $imagename= $filename;
+            $destinationpath= public_path('images/service_images');
+            $service_video->move($destinationpath, $imagename);
+            $service->service_video = $imagename;
+          }
+          $service_pdf1 = $request->file('service_pdf1');
+          if($service_pdf1 != ''){
+            $filename= $service_pdf1->getClientOriginalName();
+            // $imagename= 'message-'.rand(000000,999999).'.'.$service_pdf1->getClientOriginalExtension();
+            $extension= $service_pdf1->getClientOriginalExtension();
+            $imagename= $filename;
+            $destinationpath= public_path('images/service_images');
+            $service_pdf1->move($destinationpath, $imagename);
+            $service->service_pdf1 = $imagename;
+          }
+          $service_pdf2 = $request->file('service_pdf2');
+          if($service_pdf2 != ''){
+            $filename= $service_pdf2->getClientOriginalName();
+            // $imagename= 'message-'.rand(000000,999999).'.'.$service_pdf2->getClientOriginalExtension();
+            $extension= $service_pdf2->getClientOriginalExtension();
+            $imagename= $filename;
+            $destinationpath= public_path('images/service_images');
+            $service_pdf2->move($destinationpath, $imagename);
+            $service->service_pdf2 = $imagename;
+          }
+          $service->save();
+          // dd($service);
+          // $update = Services::where('id', $service_id)->update($data);
+          $request->session()->flash('u_session');
+          return "1";
+          // return redirect('profile');
+        }
+    }
+
+    public function update_service(Request $request, $id)
+    {
+      $user_id = auth()->user()->id;
+
+      $service = Services::find($id);
+      $type = $request->input('type');
+      dd($type);
+      
+
+      $service->seller_id = $user_id;
+      $service->service_status = "pending";
+      $service->posted_date = date("Y-m-d");
+      
+        if($type == 1){
+          $service_id = 0;
+          $this->validate($request,[
+            'service_title' => 'required',
+            'seo_title' => 'required',
+            'cat_id' => 'required',
+            'cat_child_id' => 'required',
+            'search_tags' => 'required'
+
+          ],[
+
+            'service_title.required' =>'Enter service title',
+            'seo_title.required' => 'Enter seo title',
+            'cat_id.required' => 'Please select category',
+            'cat_child_id.required' => 'Please select sub category',
+            'search_tags.required' => 'Enter search tags',
+          ]);
+          
+          
+          $service->service_title = $request->input('service_title');
+          $service->service_url = Str::slug($request->input('service_title'), '-');
+         
+          $service->seo_title = $request->input('seo_title');
+          $service->cat_id = $request->input('cat_id');
+          $service->cat_child_id = $request->input('cat_child_id');
+          $service->search_tags = $request->input('search_tags');
+          
+          $service->save();
+          $service_id = $service->id;
+          $request->session()->put('u_session', $service_id);
+          // dd($session_id);
+        }elseif($type == 2){
+          $service_id = $id;
+          $package_type = $request->input('package_type');
+
+          $packages = $request->input('proposal_packages');
+          foreach ($packages as $key => $package) {
+
+            $packageBasic = [
+              "services_id" => $service_id,
+              "package_name" => $package['package_title'],
+              "title" => $package['package_name'],
+              "description" => $package['package_desc'],
+              "delivery_time" => $package['delivery_time'],
+              "price" => $package['package_price'],
+              "revision" => $package['revision'],
+              "no_of_pages" => $package['no_of_pages']
+            ];
+            // dd($package['package_id']);
+            $insertPackage = Packages::where('services_id',$id)->where('id',$package['package_id'])->update($packageBasic);
+
+          }
+
+          $attributes = $request->input('package_attribute');
+          if($attributes != ''){
+            // dd($attributes);
+            foreach ($attributes as $key => $attr) {
+              $serviceAttr = [
+                "services_id" => $service_id,
+                "package_option_id" => $attr['package_option_id'],
+                "value" => $attr['value']
+              ];
+              
+              $insertOption = PackagesOptionService::where('services_id',$id)->update($serviceAttr);
+            }
+          }
+          return $insertPackage;
+
+        }elseif ($type == 3) {
+          $service_id= $id;
+          // $service->service_desc = $request->input('service_desc');
+          $update = Services::where('id', $service_id)->update(['service_desc' => $request->input('service_desc')]);
+          // dd($service_id);
+          $faqData =[
+            'services_id' => $service_id,
+            'title' => $request->input('title'),
+            'description' => $request->input('description')
+          ];
+          $inserFaq = ServiceFaq::create($faqData);
+          $faqId = $inserFaq->id;
+          // dd($faqId);
+          $faq = ServiceFaq::where('id',$faqId)->first();
+
+          $faq_data = '<div class="card"><div class="card-header" id="heading'.$faq->id.'">'.
+            '<h5 class="mb-0">'.
+              '<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse'.$faq->id.'" aria-expanded="false" aria-controls="collapse'.$faq->id.'">'.$faq->title.'</button>'.
+              '</h5>'.
+            '</div>'.
+            '<div id="collapse'.$faq->id.'" class="collapse" aria-labelledby="heading'.$faq->id.'" data-parent="#accordion">'.
+              '<div class="card-body">'.
+                '<div class="input-box-container">'.
+                  '<div class="form-group">'.
+                    '<input type="text" value="'.$faq->title.'" class="form-control" placeholder="Add a Question: i.e. Do you translate to English as well?" />'.
+                  '</div>'.
+                  '<div class="form-group">'.
+                    '<textarea maxlength="300" class="form-control" rows="3" placeholder="Add an Answer: i.e. Yes, I also translate from English to Hebrew.">'.$faq->description.'</textarea>'.
+                  '</div>'.
+
+                  '<div class="btn-container-box">'.
+                    '<div class="btns">'.
+                      '<button class="custom-btn delete-btn">'.
+                        '<i class="fa fa-times"></i> delete'.
+                      '</button>'.
+                    '</div>'.
+                    '<div class="btns">'.
+                      '<button class="custom-btn">cancle</button>'.
+                      '<button class="custom-btn">save</button>'.
+                    '</div>'.
+                  '</div>'.
+                '</div>'.
+              '</div>'.
+            '</div>'.
+            '</div>';
+          return json_encode($faq_data);
+
+        }elseif ($type == 4) {
+          $service_id= $id;
+          // dd($service_id);
+          $requirementsData = [
+            'question' => $request->input('question'),
+            'response' => $request->input('response'),
+            'services_id' => $service_id
+          ];
+          $insertRequr = ServiceRequirement::create($requirementsData);
+
+          $requestId = $insertRequr->id;
+          // dd($faqId);
+          $request = ServiceRequirement::where('id',$requestId)->first();
+
+          $req_data = 
+            '<div class="question-list-item">'.
+              '<div class="inner-text">'.
+                '<p>'.$request->response.'</p>'.
+                '<div class="dropdown">'.
+                  '<a class="nav-link globe-icon" href="#" id="navbarDropdown'.$request->id.'" ="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'.
+                    '<i class="fa fa-ellipsis-h"></i></a>'.
+                  '<div class="dropdown-menu" aria-labelledبواسطة="navbarDropdown'.$request->id.'">'.
+                    '<a class="dropdown-item" href="#">Edit</a>'.
+                    '<a class="dropdown-item" href="#">Delete</a>'.
+                  '</div>'.
+                '</div>'.
+              '</div>'.
+              '<h6>'.$request->question.'</h6>'.
+            '</div>';
+          return json_encode($req_data);
+        }else{
+          dd($type);
+          $data = [];
+          $service_id= $id;
+          $service_img1 = $request->file('service_img1');
+          if($service_img1 != ''){
+            $filename= $service_img1->getClientOriginalName();
+            // $imagename= 'message-'.rand(000000,999999).'.'.$service_img1->getClientOriginalExtension();
+            $extension= $service_img1->getClientOriginalExtension();
+            $imagename= $filename;
+            $destinationpath= public_path('images/service_images');
+            $service_img1->move($destinationpath, $imagename);
+            $service->service_img1 = $imagename;
+          }
+          $service_img2 = $request->file('service_img2');
+          if($service_img2 != ''){
+            $filename= $service_img2->getClientOriginalName();
+            // $imagename= 'message-'.rand(000000,999999).'.'.$service_img2->getClientOriginalExtension();
+            $extension= $service_img2->getClientOriginalExtension();
+            $imagename= $filename;
+            $destinationpath= public_path('images/service_images');
+            $service_img2->move($destinationpath, $imagename);
+            $service->service_img2 = $imagename;
+          }
+          $service_img3 = $request->file('service_img3');
+          if($service_img3 != ''){
+            $filename= $service_img3->getClientOriginalName();
+            // $imagename= 'message-'.rand(000000,999999).'.'.$service_img3->getClientOriginalExtension();
+            $extension= $service_img3->getClientOriginalExtension();
+            $imagename= $filename;
+            $destinationpath= public_path('images/service_images');
+            $service_img3->move($destinationpath, $imagename);
+            $service->service_img3 = $imagename;
+          }
+          $service_video = $request->file('service_video');
+          if($service_video != ''){
+            $filename= $service_video->getClientOriginalName();
+            // $imagename= 'message-'.rand(000000,999999).'.'.$service_video->getClientOriginalExtension();
+            $extension= $service_video->getClientOriginalExtension();
+            $imagename= $filename;
+            $destinationpath= public_path('images/service_images');
+            $service_video->move($destinationpath, $imagename);
+            $service->service_video = $imagename;
+          }
+          $service_pdf1 = $request->file('service_pdf1');
+          if($service_pdf1 != ''){
+            $filename= $service_pdf1->getClientOriginalName();
+            // $imagename= 'message-'.rand(000000,999999).'.'.$service_pdf1->getClientOriginalExtension();
+            $extension= $service_pdf1->getClientOriginalExtension();
+            $imagename= $filename;
+            $destinationpath= public_path('images/service_images');
+            $service_pdf1->move($destinationpath, $imagename);
+            $service->service_pdf1 = $imagename;
+          }
+          $service_pdf2 = $request->file('service_pdf2');
+          if($service_pdf2 != ''){
+            $filename= $service_pdf2->getClientOriginalName();
+            // $imagename= 'message-'.rand(000000,999999).'.'.$service_pdf2->getClientOriginalExtension();
+            $extension= $service_pdf2->getClientOriginalExtension();
+            $imagename= $filename;
+            $destinationpath= public_path('images/service_images');
+            $service_pdf2->move($destinationpath, $imagename);
+            $service->service_pdf2 = $imagename;
+          }
+          $service->save();
+          // dd($service);
+          // $update = Services::where('id', $service_id)->update($data);
+          $request->session()->flash('u_session');
+          return "1";
+          // return redirect('profile');
+        }
     }
 
     /**

@@ -23,7 +23,7 @@
 							aria-controls="pills-account"
 							aria-selected="true"
 						>
-							account
+							{{ __('home.account')}}
 						</a>
 					</li>
 					<li class="nav-item">
@@ -35,7 +35,7 @@
 							role="tab"
 							aria-controls="pills-security"
 							aria-selected="false"
-							>security</a
+							>{{ __('home.security')}}</a
 						>
 					</li>
 					<li class="nav-item">
@@ -47,7 +47,7 @@
 							role="tab"
 							aria-controls="pills-notifications"
 							aria-selected="false"
-							>notifications</a
+							>{{ __('home.notifications')}}</a
 						>
 					</li>
 					<li class="nav-item">
@@ -59,7 +59,7 @@
 							role="tab"
 							aria-controls="pills-billing-information"
 							aria-selected="false"
-							>billing information</a
+							>{{ __('home.billing information')}}</a
 						>
 					</li>
 					<li class="nav-item">
@@ -71,7 +71,7 @@
 							role="tab"
 							aria-controls="pills-balance"
 							aria-selected="false"
-							>balance</a
+							>{{ __('home.balance')}}</a
 						>
 					</li>
 				</ul>
@@ -106,7 +106,7 @@
 													class="btn1 custom-btn"
 												>
 													<i class="fa fa-paperclip" aria-hidden="true"></i>
-													upload
+													{{ __('home.upload')}}
 												</label>
 
 												<input
@@ -117,13 +117,13 @@
 													form="edit-profile-form"
 												/>
 											</span>
-											<a id="delete_img" class="btn custom-btn"> delete </a>
+											<a id="delete_img" class="btn custom-btn"> {{ __('home.delete')}} </a>
 										</div>
 									</div>
 
 									<div class="outer-box about mt-4">
 										<div class="header">
-											<h6>About</h6>
+											<h6>{{ __('home.About')}}</h6>
 											<p>Lorem ipsum dolor sit amet.</p>
 										</div>
 
@@ -143,7 +143,7 @@
 
 									<form class="outer-box social-profiles mt-4">
 										<div class="header">
-											<h6>social profiles</h6>
+											<h6>{{ __('home.social profiles')}}</h6>
 											<p>Lorem ipsum dolor sit amet.</p>
 										</div>
 
@@ -187,44 +187,44 @@
 									<form class="outer-box basic-info form" action="{{url('edit_profile_info')}}" method="post" id="edit-profile-form" enctype="multipart/form-data">
 										@csrf
 										<div class="header">
-											<h6>edit basic info</h6>
+											<h6>{{ __('home.edit basic info')}}</h6>
 											<p>Lorem ipsum dolor sit amet.</p>
 										</div>
 										<div class="form-content">
 											<div class="row">
 												<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 													<div class="form-group">
-														<label for="">First Name <span>*</span></label>
+														<label for="">{{ __('home.First Name')}} <span>*</span></label>
 														<input type="text" name="first_name" value="{{$userData->first_name}}" class="form-control" />
 														<span class="text-danger">{{ $errors->first('first_name') }}</span>
 													</div>
 												</div>
 												<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 													<div class="form-group">
-														<label for="">Last Name <span>*</span></label>
+														<label for="">{{ __('home.Last Name')}} <span>*</span></label>
 														<input type="text" name="last_name" value="{{$userData->last_name}}" class="form-control" />
 														<span class="text-danger">{{ $errors->first('last_name') }}</span>
 													</div>
 												</div>
 												<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 													<div class="form-group">
-														<label for="">username <span>*</span></label>
+														<label for="">{{ __('home.Username')}} <span>*</span></label>
 														<input type="text" name="username" value="{{$userData->username}}" class="form-control" readonly="" />
 
 													</div>
 												</div>
 												<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 													<div class="form-group">
-														<label for="">birth date <span>*</span></label>
+														<label for="">{{ __('home.birth date')}} <span>*</span></label>
 														<input type="date" value="{{$userData->birth_date}}" name="birth_date" class="form-control" />
 														<span class="text-danger">{{ $errors->first('birth_date') }}</span>
 													</div>
 												</div>
 												<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 													<div class="form-group">
-														<label for="">gender <span>*</span></label>
+														<label for="">{{ __('home.gender')}} <span>*</span></label>
 														<select name="gender" id="" class="select2">
-															<option value="">gender</option>
+															<option value="">{{ __('home.gender')}}</option>
 															<option value="male" @if($userData->gender == 'male') selected @endif>male</option>
 															<option value="female" @if($userData->gender == 'female') selected @endif>female</option>
 														</select>
@@ -233,21 +233,21 @@
 												</div>
 												<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 													<div class="form-group">
-														<label for="">email <span>*</span></label>
+														<label for="">{{ __('home.Email')}} <span>*</span></label>
 														<input type="text" name="email" value="{{$userData->email}}" class="form-control" readonly="" />
 														<span class="text-danger">{{ $errors->first('email') }}</span>
 													</div>
 												</div>
 												<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 													<div class="form-group">
-														<label for="">Country <span>*</span></label>
+														<label for="">{{ __('home.Country')}} <span>*</span></label>
 														<input type="text" name="country" value="{{$userData->country}}" class="form-control" />
 														<span class="text-danger">{{ $errors->first('country') }}</span>
 													</div>
 												</div>
 												<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 													<div class="form-group">
-														<label for="">website <span>*</span></label>
+														<label for="">{{ __('home.website')}} <span>*</span></label>
 														<input type="text" value="{{$userData->website}}" name="website" class="form-control" />
 														<span class="text-danger">{{ $errors->first('website') }}</span>
 													</div>
@@ -255,7 +255,7 @@
 												<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 													<div class="form-group">
 														<label for=""
-															>organization <span>*</span></label
+															>{{ __('home.organization')}} <span>*</span></label
 														>
 														<input type="text" value="{{$userData->organization}}" name="organization"  class="form-control" />
 														<span class="text-danger">{{ $errors->first('organization') }}</span>
@@ -264,7 +264,7 @@
 												<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 													<div class="form-group">
 														<label for=""
-															>Occuption <span>*</span></label
+															>{{ __('home.Occuption')}} <span>*</span></label
 														>
 														<input type="text" name="occuption" value="{{$userData->occuption}}" class="form-control" />
 														<span class="text-danger">{{ $errors->first('occuption') }}</span>
@@ -273,7 +273,7 @@
 												<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 													<div class="form-group">
 														<label for=""
-															>phone number <span>*</span></label
+															>{{ __('home.Mobile Number')}} <span>*</span></label
 														>
 														<input type="text" value="{{$userData->mobile_number}}" name="mobile_number" class="form-control" />
 														<span class="text-danger">{{ $errors->first('mobile_number') }}</span>
@@ -282,7 +282,7 @@
 												<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 													<div class="form-group">
 														<label for=""
-															>preferred language <span>*</span></label
+															>{{ __('home.preferred languages')}} <span>*</span></label
 														>
 														<?php $langData = json_decode($userData->language_id);?>
 														<select name="language_id[]" id="" class="select2" multiple>
@@ -301,7 +301,7 @@
 												<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 													<div class="form-group">
 														<label for=""
-															>Skills <span>*</span></label
+															>{{ __('home.Skills')}} <span>*</span></label
 														>
 														<?php $skil = json_decode($userData->skills_id);?>
 														<select name="skills_id[]" id="" class="select2" multiple>
@@ -323,32 +323,32 @@
 									</form>
 									<div class="outer-box form mt-4">
 										<div class="header">
-											<h6>Experience</h6>
+											<h6>{{ __('home.Experience')}}</h6>
 											<p>Lorem ipsum dolor sit amet.</p>
 										</div>
 										<div class="form-content">
 											<div class="row">
 												<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 													<div class="form-group">
-														<label for="">from </label>
+														<label for="">{{ __('home.from')}} </label>
 														<input type="date" value="{{$userExpData != null ? $userExpData->from_date : ''}}" form="edit-profile-form" name="from_date" class="form-control" />
 													</div>
 												</div>
 												<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 													<div class="form-group">
-														<label for="">to </label>
+														<label for="">{{ __('home.to')}} </label>
 														<input type="date" form="edit-profile-form" value="{{$userExpData != null ? $userExpData->to_date : ''}}" name="to_date" class="form-control" />
 													</div>
 												</div>
 												<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 													<div class="form-group">
-														<label for="">company </label>
+														<label for="">{{ __('home.company')}} </label>
 														<input type="text" value="{{$userExpData != null ? $userExpData->company : ''}}" form="edit-profile-form" name="company" class="form-control" />
 													</div>
 												</div>
 												<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 													<div class="form-group">
-														<label for="">position </label>
+														<label for="">{{ __('home.position')}} </label>
 														<input type="text" form="edit-profile-form" value="{{$userExpData != null ? $userExpData->position : ''}}" name="position" class="form-control" />
 													</div>
 												</div>
@@ -357,32 +357,32 @@
 									</div>
 									<div class="outer-box form mt-4">
 										<div class="header">
-											<h6>Education</h6>
+											<h6>{{ __('home.Education')}}</h6>
 											<p>Lorem ipsum dolor sit amet.</p>
 										</div>
 										<div class="form-content">
 											<div class="row">
 												<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 													<div class="form-group">
-														<label for="">Degree Name </label>
+														<label for="">{{ __('home.Degree')}} </label>
 														<input type="text" form="edit-profile-form" value="{{$userEduData != null ? $userEduData->major : ''}}" name="degree" class="form-control" />
 													</div>
 												</div>
 												<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 													<div class="form-group">
-														<label for="">Institute </label>
+														<label for="">{{ __('home.Institute')}} </label>
 														<input type="text" form="edit-profile-form" value="{{$userEduData != null ? $userEduData->institute : ''}}" name="institute" class="form-control" />
 													</div>
 												</div>
 												<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 													<div class="form-group">
-														<label for="">Country </label>
+														<label for="">{{ __('home.Country')}} </label>
 														<input type="text" form="edit-profile-form" value="{{$userEduData != null ? $userEduData->country : ''}}"  name="country" class="form-control" />
 													</div>
 												</div>
 												<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 													<div class="form-group">
-														<label for="">Degree year </label>
+														<label for="">{{ __('home.Degree year')}} </label>
 														<input type="text" value="{{$userEduData != null ? $userEduData->degree_year : ''}}"  form="edit-profile-form" name="degree_year" class="form-control" />
 													</div>
 												</div>
@@ -391,9 +391,9 @@
 									</div>
 
 									<div class="btn-container mt-3 text-right">
-										<a href="" class="btn custom-btn">cancel</a>
+										<a href="" class="btn custom-btn">{{ __('home.Cancel')}}</a>
 										<button type="submit" form="edit-profile-form" class="btn custom-btn btn-primary text-white"
-											>submit</a
+											>{{ __('home.Submit')}}</a
 										>
 									</div>
 								</div>
@@ -406,7 +406,7 @@
 						role="tabpanel"
 						aria-labelledby="pills-security-tab"
 					>
-						security
+						{{ __('home.security')}}
 					</div>
 					<div
 						class="tab-pane fade"
@@ -414,7 +414,7 @@
 						role="tabpanel"
 						aria-labelledby="pills-notifications-tab"
 					>
-						notifications
+						{{ __(home.notifications)}}
 					</div>
 					<div
 						class="tab-pane fade"
@@ -422,7 +422,7 @@
 						role="tabpanel"
 						aria-labelledby="pills-billing-information-tab"
 					>
-						billing-information
+						{{ __('home.billing information')}}
 					</div>
 					<div
 						class="tab-pane fade"
@@ -432,7 +432,7 @@
 					>
 						<div class="inner-tab-container outer-box">
 							<div class="tab-headers">
-								<h4>your account balance</h4>
+								<h4>{{ __('home.your account balance')}}</h4>
 								<p>
 									Lorem ipsum dolor sit, amet consectetur adipisicing elit.
 									Iste, molestias!
@@ -441,26 +441,26 @@
 
 							<div class="balance-container">
 								<div class="box">
-									<h6>engezly balance</h6>
+									<h6>{{ __('home.engezly balance')}}</h6>
 
 									<div class="inner-box">
-										<p>total</p>
+										<p>{{ __('home.total')}}</p>
 										<h4>$0.00</h4>
 									</div>
 								</div>
 								<div class="box">
-									<h6>balance on hold</h6>
+									<h6>{{ __('home.balance on hold')}}</h6>
 
 									<div class="inner-box">
-										<p>total</p>
+										<p>{{ __('home.total')}}</p>
 										<h4>$0.00</h4>
 									</div>
 								</div>
 								<div class="box">
-									<h6>balance can be withdrawn</h6>
+									<h6>{{ __('home.balance can be withdrawn')}}</h6>
 
 									<div class="inner-box">
-										<p>total</p>
+										<p>{{ __('home.total')}}</p>
 										<h4>$0.00</h4>
 									</div>
 								</div>
@@ -478,7 +478,7 @@
 											aria-controls="seller"
 											aria-selected="true"
 										>
-											Payment Methods as a Seller
+											{{ __('home.Payment Methods as a Seller')}}
 										</a>
 									</li>
 									<li class="nav-item">
@@ -491,7 +491,7 @@
 											aria-controls="buyer"
 											aria-selected="false"
 										>
-											Payment Methods as a Buyer
+											{{ __('home.Payment Methods as a Buyer')}}
 										</a>
 									</li>
 								</ul>
@@ -504,19 +504,19 @@
 									>
 										<div class="payment-tab-container">
 											<div class="lists-item">
-												<h5>saved cards</h5>
+												<h5>{{ __('home.saved cards')}}</h5>
 												<div class="inner-box">
 													<p>
 														<img src="images/mastercard.svg" alt="" />
 														MasterCard Ending in *****8900
 														<span class="expire-date"> expires 30/2</span>
 													</p>
-													<a href="">remove</a>
+													<a href="">{{ __('home.remove')}}</a>
 												</div>
 											</div>
 										</div>
 										<div class="add-payment-method">
-											<h5>add a new payment options</h5>
+											<h5>{{ __('home.add a new payment options')}}</h5>
 
 											<div class="payment-option">
 												<div class="form-check">
@@ -577,19 +577,19 @@
 									>
 										<div class="payment-tab-container">
 											<div class="lists-item">
-												<h5>saved cards</h5>
+												<h5>{{ __('home.saved cards')}}</h5>
 												<div class="inner-box">
 													<p>
 														<img src="images/mastercard.svg" alt="" />
 														MasterCard Ending in *****8900
 														<span class="expire-date"> expires 30/2</span>
 													</p>
-													<a href="">remove</a>
+													<a href="">{{ __('home.remove')}}</a>
 												</div>
 											</div>
 										</div>
 										<div class="add-payment-method">
-											<h5>add a new payment options</h5>
+											<h5>{{ __('home.add a new payment options')}}</h5>
 
 											<div class="payment-option">
 												<div class="form-check">
@@ -647,7 +647,7 @@
 
 							<div class="transaction-history">
 								<div class="heading">
-									<h4>transaction history</h4>
+									<h4>{{ __('home.transaction history')}}</h4>
 								</div>
 								<div class="transaction-lists">
 									<div class="list-item">
@@ -668,7 +668,7 @@
 										</div>
 										<div class="receipt">
 											<a href="" class="custom-btn"
-												><i class="fa fa-file"> </i>receipt</a
+												><i class="fa fa-file"> </i>{{ __('home.receipt')}}</a
 											>
 										</div>
 									</div>
@@ -690,7 +690,7 @@
 										</div>
 										<div class="receipt">
 											<a href="" class="custom-btn"
-												><i class="fa fa-file"> </i>receipt</a
+												><i class="fa fa-file"> </i>{{ __('home.receipt')}}</a
 											>
 										</div>
 									</div>
@@ -712,7 +712,7 @@
 										</div>
 										<div class="receipt">
 											<a href="" class="custom-btn"
-												><i class="fa fa-file"> </i>receipt</a
+												><i class="fa fa-file"> </i>{{ __('home.receipt')}}</a
 											>
 										</div>
 									</div>

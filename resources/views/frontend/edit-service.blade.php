@@ -1,5 +1,5 @@
 @extends('frontend.layouts.app')
-@section('title', 'Create Service  ')
+@section('title', 'Edit Service  ')
 @section('styling')
 @endsection
 @section('content')
@@ -104,7 +104,7 @@
 												<h6>{{ __('home.gig Title')}}</h6>
 												<div class="inner-pane-box">
 													<textarea name="" id="service_title" class="form-control" rows="2"
-														placeholder="I will do something I'm really good at" name="service_title"></textarea>
+														placeholder="I will do something I'm really good at" name="service_title">{{$getSingleData->service_title}}</textarea>
 													<span class="service_title-error text-danger"  style="display: none;">title is required</span>
 													<div class="sub-box">
 														<p class="text">{{ __('home.Just perfect')}}</p>
@@ -118,7 +118,7 @@
 											<div class="pane-box">
 												<h6>{{ __('home.seo Title')}}</h6>
 												<div class="inner-pane-box">
-													<input type="text" class="form-control" id="seo_title" name="seo_title" />
+													<input type="text" class="form-control" value="{{$getSingleData->seo_title}}" id="seo_title" name="seo_title" />
 
 													<div class="sub-box">
 														<!-- <p class="text">Just perfect</p> -->
@@ -134,11 +134,12 @@
 														<select name="cat_id" id="category" class="custom-select">
 															<option value="">{{ __('home.Select Category')}}</option>
 															@foreach($mainCategories as $mainCat)
-															<option value="{{$mainCat->id}}">{{$mainCat->cat_title}}</option>
+															<option value="{{$mainCat->id}}" {{$getSingleData->cat_id == $mainCat->id ? 'selected': ''}}>{{$mainCat->cat_title}}</option>
 															@endforeach
 														</select>
 														
 														<select name="cat_child_id" id="sub-category" class="custom-select">
+															<option value="{{$getSingleData->cat_child_id}}">{{Engezli::get_subcat($getSingleData->cat_child_id)->cat_title}}</option>
 														</select>
 														<span class="cat_error text-danger"  style="display: none;">category is required</span>
 														<span class="sub_cat-error text-danger"  style="display: none;">sub category is required</span>
@@ -149,7 +150,8 @@
 											<div class="pane-box">
 												<h6>{{ __('home.search tags')}}</h6>
 												<div class="inner-pane-box">
-													<input type="text" name="search_tags" id="search_tags" value=""
+
+													<input type="text" name="search_tags" id="search_tags" value="{{$getSingleData->search_tags}}"
 														data-role="tagsinput" class="form-control tagsinput" />
 
 													<div class="sub-box">
@@ -197,16 +199,19 @@
 													<div class="category border-bottom">
 														<h5>{{ __('home.Basic')}}</h5>
 													</div>
+
 													<div class="form-group border-bottom">
 														<input type="hidden" name="package_type" value="basic">
 														<input type="hidden" name="proposal_packages[1][package_title]" value="Basic">
+														<input type="hidden" name="proposal_packages[1][package_id]" value="<?= $package1->id; ?>">
+														
 														<textarea
 															name="proposal_packages[1][package_name]"
 															id=""
 															rows="3"
 															class="form-control title1"
 															placeholder="Name your package..."
-														></textarea>
+														>{{$package1->title}}</textarea>
 														<span class="title1-error text-danger" style="display: none;">Package title is required</span>
 													</div>
 													<div class="form-group border-bottom">
@@ -216,12 +221,13 @@
 															rows="3"
 															class="form-control description1"
 															placeholder="Describe the details of your service..."
-														></textarea>
+														>{{$package1->description}}</textarea>
 														<span class="desc1-error text-danger"  style="display: none;"> Description is required</span>
 													</div>
 													<div class="form-group border-bottom">
 														<select name="proposal_packages[1][delivery_time]" id="delivery_time1" class="select2 ">
 															<option value="">{{ __('home.delivery time')}}</option>
+															<option value="{{$package1->delivery_time}}" selected="">{{$package1->delivery_time}}</option>
 															<option value="1 day">1 {{ __('home.day delivery')}}</option>
 															<option value="2 day">2 {{ __('home.day delivery')}}</option>
 															<option value="3 day">3 {{ __('home.day delivery')}}</option>
@@ -238,6 +244,7 @@
 													<div class="form-group border-bottom">
 														<select name="proposal_packages[1][no_of_pages]" id="no_of_pages1" class="select2">
 															<option value="">{{ __('home.Number of Pages')}}</option>
+															<option value="{{$package1->no_of_pages}}" selected="">{{$package1->no_of_pages}}</option>
 															<option value="1">1</option>
 															<option value="2">2</option>
 															<option value="3">3</option>
@@ -254,6 +261,7 @@
 													<div class="form-group border-bottom">
 														<select name="proposal_packages[1][revision]" id="revision1" class="select2">
 															<option value="">{{ __('home.revisions')}}</option>
+															<option value="{{$package1->revision}}" selected="">{{$package1->revision}}</option>
 															<option value="1">1</option>
 															<option value="2">2</option>
 															<option value="3">3</option>
@@ -271,9 +279,10 @@
 														
 													</div>
 													
-
+													{{$package1->package_price}}
 													<div class="form-group price-dropdown">
 														<select name="proposal_packages[1][package_price]" id="package_price1" class="select2">
+															<option value="{{$package1->price}}" selected="">${{$package1->price}}</option>
 															<option value="5">$5</option>
 															<option value="10">$10</option>
 															<option value="15">$15</option>
@@ -296,13 +305,15 @@
 													<div class="form-group border-bottom">
 														<input type="hidden" name="package_type" value="standard">
 														<input type="hidden" name="proposal_packages[2][package_title]" value="Standard">
+														<input type="hidden" name="proposal_packages[2][package_id]" value="<?= $package2->id; ?>">
+														
 														<textarea
 															name="proposal_packages[2][package_name]"
 															id=""
 															rows="3"
 															class="form-control"
 															placeholder="Name your package..."
-														></textarea>
+														>{{$package2->title}}</textarea>
 													</div>
 													<div class="form-group border-bottom">
 														<textarea
@@ -311,11 +322,12 @@
 															rows="3"
 															class="form-control"
 															placeholder="Describe the details of your service..."
-														></textarea>
+														>{{$package2->description}}</textarea>
 													</div>
 													<div class="form-group border-bottom">
 														<select name="proposal_packages[2][delivery_time]" id="" class="select2">
 															<option value="">{{ __('home.delivery time')}}</option>
+															<option value="{{$package2->delivery_time}}" selected="">{{$package2->delivery_time}}</option>
 															<option value="1 day">1 {{ __('home.day delivery')}}</option>
 															<option value="2 day">2 {{ __('home.day delivery')}}</option>
 															<option value="3 day">3 {{ __('home.day delivery')}}</option>
@@ -331,6 +343,7 @@
 													<div class="form-group border-bottom">
 														<select name="proposal_packages[2][no_of_pages]" id="" class="select2">
 															<option value="">{{ __('home.Number of Pages')}}</option>
+															<option value="{{$package2->no_of_pages}}" selected="">{{$package2->no_of_pages}}</option>
 															<option value="1">1</option>
 															<option value="2">2</option>
 															<option value="3">3</option>
@@ -346,6 +359,7 @@
 													<div class="form-group border-bottom">
 														<select name="proposal_packages[2][revision]" id="" class="select2">
 															<option value="">{{ __('home.revisions')}}</option>
+															<option value="{{$package2->revision}}" selected="">{{$package2->revision}}</option>
 															<option value="1">1</option>
 															<option value="2">2</option>
 															<option value="3">3</option>
@@ -365,6 +379,7 @@
 
 													<div class="form-group price-dropdown">
 														<select name="proposal_packages[2][package_price]" id="" class="select2">
+															<option value="{{$package2->price}}" selected="">${{$package2->price}}</option>
 															<option value="5">$5</option>
 															<option value="10">$10</option>
 															<option value="15">$15</option>
@@ -386,13 +401,14 @@
 													<div class="form-group border-bottom">
 														<input type="hidden" name="package_type" value="premium">
 														<input type="hidden" name="proposal_packages[3][package_title]" value="Premium">
+														<input type="hidden" name="proposal_packages[3][package_id]" value="<?= $package3->id; ?>">
 														<textarea
 															name="proposal_packages[3][package_name]"
 															id=""
 															rows="3"
 															class="form-control"
 															placeholder="Name your package..."
-														></textarea>
+														>{{$package3->title}}</textarea>
 													</div>
 													<div class="form-group border-bottom">
 														<textarea
@@ -401,11 +417,12 @@
 															rows="3"
 															class="form-control"
 															placeholder="Describe the details of your service..."
-														></textarea>
+														>{{$package3->description}}</textarea>
 													</div>
 													<div class="form-group border-bottom">
 														<select name="proposal_packages[3][delivery_time]" id="" class="select2">
 															<option value="">{{ __('home.delivery time')}}</option>
+															<option value="{{$package3->delivery_time}}" selected="">{{$package3->delivery_time}}</option>
 															<option value="1 day">1 {{ __('home.day delivery')}}</option>
 															<option value="2 day">2 {{ __('home.day delivery')}}</option>
 															<option value="3 day">3 {{ __('home.day delivery')}}</option>
@@ -421,6 +438,7 @@
 													<div class="form-group border-bottom">
 														<select name="proposal_packages[3][no_of_pages]" id="" class="select2">
 															<option value="">{{ __('home.Number of Pages')}}</option>
+															<option value="{{$package3->no_of_pages}}" selected="">{{$package3->no_of_pages}}</option>
 															<option value="1">1</option>
 															<option value="2">2</option>
 															<option value="3">3</option>
@@ -436,6 +454,7 @@
 													<div class="form-group border-bottom">
 														<select name="proposal_packages[3][revision]" id="" class="select2">
 															<option value="">{{ __('home.revisions')}}</option>
+															<option value="{{$package3->revision}}" selected="">{{$package3->revision}}</option>
 															<option value="1">1</option>
 															<option value="2">2</option>
 															<option value="3">3</option>
@@ -455,6 +474,7 @@
 
 													<div class="form-group price-dropdown">
 														<select name="proposal_packages[3][package_price]" id="" class="select2">
+															<option value="{{$package3->price}}" selected="">${{$package3->price}}</option>
 															<option value="5">$5</option>
 															<option value="10">$10</option>
 															<option value="15">$15</option>
@@ -758,7 +778,7 @@
 											</div>
 
 											<div class="page-wrapper box-content">
-												<textarea class="content" id="service_desc" name="service_desc"></textarea>
+												<textarea class="content" id="service_desc" name="service_desc">{{$getSingleData->service_desc}}</textarea>
 												<div class="max-char">
 													<p>0/1200 characters</p>
 												</div>
@@ -778,11 +798,11 @@
 													<div class="input-box-container d-none" id="input-box-content">
 														<div class="form-group">
 															<input type="hidden" name="type" value="3">
-															<input type="text" name="title" class="form-control"
+															<input type="text" id="faq_title" name="title" class="form-control"
 																placeholder="Add a Question: i.e. Do you translate to English as well?" />
 														</div>
 														<div class="form-group">
-															<textarea maxlength="300" name="description" class="form-control" rows="3"
+															<textarea maxlength="300" id="faq_description" name="description" class="form-control" rows="3"
 																placeholder="Add an Answer: i.e. Yes, I also translate from English to Hebrew."></textarea>
 														</div>
 
@@ -797,6 +817,51 @@
 													</div>
 												</form>
 												<div class="added-faq-box-container">
+													
+													@foreach($getSingleFaq as $faq)
+													<div class="card">
+														<div class="card-header" id="heading{{$faq->id}}">
+															<h5 class="mb-0">
+																<button class="btn btn-link collapsed" data-toggle="collapse"
+																	data-target="#collapse{{$faq->id}}" aria-expanded="false" aria-controls="collapse{{$faq->id}}">
+																	{{$faq->title}}
+																</button>
+															</h5>
+														</div>
+
+														<div id="collapse{{$faq->id}}" class="collapse" aria-labelledby="heading{{$faq->id}}"
+															data-parent="#accordion">
+															<div class="card-body">
+																<div class="input-box-container">
+																	<div class="form-group">
+																		<input type="text" value="{{$faq->title}}" class="form-control"
+																			placeholder="Add a Question: i.e. Do you translate to English as well?" />
+																	</div>
+																	<div class="form-group">
+																		<textarea maxlength="300" class="form-control" rows="3"
+																			placeholder="Add an Answer: i.e. Yes, I also translate from English to Hebrew.">{{$faq->description}}</textarea>
+																	</div>
+
+																	<div class="btn-container-box">
+																		<div class="btns">
+																			<button class="custom-btn delete-btn">
+																				<i class="fa fa-times"></i> delete
+																			</button>
+																		</div>
+																		<div class="btns">
+																			<button class="custom-btn">
+																				cancle
+																			</button>
+																			<button class="custom-btn">
+																				save
+																			</button>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+													@endforeach
 													<div id="accordion" class="accordion">
 														
 													</div>
@@ -823,7 +888,7 @@
 													<h6>{{ __('home.add question')}}</h6>
 													<div class="answer-type">
 														<span>{{ __('home.answer type')}}</span>
-														<select name="response" id="" class="select2">
+														<select name="response" id="response" class="select2">
 															<option value="free text">{{ __('home.free text')}}</option>
 															<option value="attachement">{{ __('home.Attachement')}}</option>
 														</select>
@@ -832,7 +897,7 @@
 
 												<textarea
 													name="question"
-													id=""
+													id="question"
 													class="form-control question-textarea"
 													rows="3"
 													placeholder="Request necessary details such as dimensions, brand guidelines, and more."
@@ -863,7 +928,7 @@
 													</div>
 												</div>
 											</div>
-											<div class="added-questions d-none">
+											<div class="added-questions d-none" id="added-questions">
 												<!-- <div class="question-list-item">
 													<div class="inner-text">
 														<p>free text</p>
@@ -893,6 +958,38 @@
 														adipisicing elit.
 													</h6>
 												</div> -->
+											</div>
+											<div class="added-questions">
+												@foreach($getSingleReq as $request)
+												<div class="question-list-item">
+													<div class="inner-text">
+														<p>{{$request->response}}</p>
+														<div class="dropdown">
+															<a
+																class="nav-link globe-icon"
+																href="#"
+																id="navbarDropdown"
+																role="button"
+																data-toggle="dropdown"
+																aria-haspopup="true"
+																aria-expanded="false"
+															>
+																<i class="fa fa-ellipsis-h"></i>
+															</a>
+															<div
+																class="dropdown-menu"
+																aria-labelledبواسطة="navbarDropdown"
+															>
+																<a class="dropdown-item" href="#">Edit</a>
+																<a class="dropdown-item" href="#">Delete</a>
+															</div>
+														</div>
+													</div>
+													<h6>
+														{{$request->question}}
+													</h6>
+												</div>
+												@endforeach
 											</div>
 											<button class="custom-btn add-new-btn-ques" >
 												<i class="fa fa-plus"></i> {{ __('home.add new question')}}
@@ -960,7 +1057,7 @@
 								<div class="tab-pane fade gallery-tab-container" id="gallery" role="tabpanel"
 									aria-labelledby="gallery-tab">
 									<form id="gallery-form" enctype="multipart/form-data">
-										<input type="hidden" name="type" value="5">
+										<input type="hidden" name="type" form="gallery-form" value="5">
 										<div class="tab-pane-box">
 
 											<div class="heading">
@@ -989,8 +1086,8 @@
 
 													<div class="upload-wrap">
 														<div class="gig-photo-wrap">
-															<div class="uploadpreview 01"></div>
-															<input id="01" class="file" name="service_img1" type="file" accept="image/*">
+															<div class="uploadpreview 01" style="background-image: url('/images/service_images/{{$getSingleData->service_img1}}');"></div>
+															<input id="01" class="file" value="" name="service_img1" type="file" accept="image/*">
 
 															<!-- <div class="control">
 																<input id="01" class="file" type="file" accept="image/*">
@@ -998,12 +1095,12 @@
 															</div> -->
 														</div>
 														<div class="gig-photo-wrap">
-															<div class="uploadpreview 02"></div>
+															<div class="uploadpreview 02" style="background-image: url('/images/service_images/{{$getSingleData->service_img2}}');"></div>
 															<input id="02" type="file" name="service_img2" accept="image/*">
 														</div>
 
 														<div class="gig-photo-wrap">
-															<div class="uploadpreview 03"></div>
+															<div class="uploadpreview 03" style="background-image: url('/images/service_images/{{$getSingleData->service_img3}}');"></div>
 															<input id="03" type="file" name="service_img3" accept="image/*">
 														</div>
 													</div>
@@ -1021,7 +1118,7 @@
 													<div class="upload-wrap">
 														<div class="gig-photo-wrap">
 															<div class="uploadpreview 01"></div>
-															<input id="01" class="file" type="file" name="service_video" accept="video/mp4,video/x-m4v,video/*">
+															<input id="video01" class="file" type="file" name="service_video" accept="video/mp4,video/x-m4v,video/*">
 
 															<!-- <div class="control">
 																<input id="01" class="file" type="file" accept="image/*">
@@ -1042,7 +1139,7 @@
 													<div class="upload-wrap">
 														<div class="gig-photo-wrap">
 															<div class="uploadpreview 01"></div>
-															<input id="01" class="file" type="file" name="service_pdf1" accept="application/pdf,application/vnd.ms-excel">
+															<input id="pdf01" class="file" type="file" name="service_pdf1" accept="application/pdf,application/vnd.ms-excel">
 
 															<!-- <div class="control">
 																<input id="01" class="file" type="file" accept="image/*">
@@ -1052,7 +1149,7 @@
 
 														<div class="gig-photo-wrap">
 															<div class="uploadpreview 02"></div>
-															<input id="02" type="file" name="service_pdf2" accept="application/pdf,application/vnd.ms-excel">
+															<input id="padf02" type="file" name="service_pdf2" accept="application/pdf,application/vnd.ms-excel">
 														</div>
 													</div>
 												</div>
@@ -1224,8 +1321,8 @@
 				$('.service_title-error').hide();
 			}else{
 				$.ajax({
-					url: "{{url('post_service')}}",
-					type: 'post',
+					url: "{{url('create-service/'.$getSingleData->id)}}",
+					type: 'PATCH',
 					data:{service_title:service_title,seo_title:seo_title,cat_id:cat_id,cat_child_id:cat_child_id,search_tags:search_tags,type:type},
 					success:function(data){
 						console.log(data);
@@ -1248,8 +1345,8 @@
 			var type = "3"
 			// alert(service_desc);
 			$.ajax({
-				url: "{{url('post_service')}}",
-				type: 'post',
+				url: "{{url('create-service/'.$getSingleData->id)}}",
+				type: 'PATCH',
 				data:{service_desc:service_desc,type:type},
 				success:function(data){
 					console.log(data);
@@ -1265,12 +1362,15 @@
 
 		$('#faq-form').on('submit', function(event){
 		  event.preventDefault();
+		  var title = $('#faq_title').val();
+		  var description = $('#faq_description').val();
+		  var type = "3";
 		  $.ajax({
-		   url:"{{ url('post_service') }}",
-		   method:"POST",
-		   data:new FormData(this),
-		   dataType:'JSON',
-		   contentType: false,
+		   url:"{{url('create-service/'.$getSingleData->id)}}",
+		   method:"PATCH",
+		   data:{title: title, description: description, type: type},
+		   // dataType:'JSON',
+		   // contentType: false,
 		   cache: false,
 		   processData: false,
 		   success:function(data){
@@ -1282,43 +1382,56 @@
 		  })
 	 });
 
-		$('#gallery-form').on('submit', function(event){
+		$('#gallery-submit').click(function(event){
 		  event.preventDefault();
+		  var service_img1 = $('#01').val();
+		  var service_img2 = $('#02').val();
+		  var service_img3 = $('#03').val();
+		  var service_video = $('#video01').val();
+		  var service_pdf1 = $('#pdf01').val();
+		  var service_pdf2 = $('#padf02').val();
+		  var type = "5";
+		  var formData = new FormData();
+		  formData.append('type', this.type);
+		  // alert(service_img1);
 		  $.ajax({
-		   url:"{{ url('post_service') }}",
-		   method:"POST",
-		   data:new FormData(this),
-		   dataType:'JSON',
-		   contentType: false,
-		   cache: false,
-		   processData: false,
+		   url:"{{ url('create-service/'.$getSingleData->id) }}",
+		   method:"PATCH",
+		   data:{service_img1:service_img1,service_img2:service_img2,service_img3:service_img3,service_pdf1:service_pdf1,service_pdf2:service_pdf2,service_video:service_video,type:type},
+		   // dataType:'JSON',
+		   // contentType: false,
+		   // cache: false,
+		   // processData: false,
 		   success:function(data){
-		    swal({
-		    type: 'success',
-		    text: '$text',
-		    timer: 2000,
-		    onOpen: function(){
-		    swal.showLoading()
-		    }
-		    }).then(function(){
-		    	window.open('profile','_self');
-		    });
+		    // swal({
+		    // type: 'success',
+		    // text: 'Your Service Updated Successfully',
+		    // timer: 2000,
+		    // onOpen: function(){
+		    // swal.showLoading()
+		    // }
+		    // }).then(function(){
+		    // 	window.open('../../profile','_self');
+		    // });
 		   }
 		  })
 	 });
 
 		$('#requirements-form').on('submit', function(event){
 		  event.preventDefault();
+		  var response = $('#response').val();
+		  var question = $('#question').val();
+		  var type = "4";
 		  $.ajax({
-		   url:"{{ url('post_service') }}",
-		   method:"POST",
-		   data:new FormData(this),
-		   dataType:'JSON',
-		   contentType: false,
+		   url:"{{url('create-service/'.$getSingleData->id)}}",
+		   method:"PATCH",
+		   data:{question:question, response:response, type:type},
+		   // dataType:'JSON',
+		   // contentType: false,
 		   cache: false,
 		   processData: false,
 		   success:function(data){
-		   	$('.added-questions').append(data);
+		   	$('#added-questions').append(data);
 		   	$('#requirements-form textarea').val('');
 		   }
 		  })
@@ -1326,6 +1439,8 @@
 
 		$('#package-form').on('submit', function(event){
 		  event.preventDefault();
+		  var createFormData = $('#package-form').serialize();
+		  // alert(createFormData);
 		  var items = $(".create-service .nav-link");
 		  var pane = $(".create-service .tab-pane");
 		  if($('.description1').val() == '' && $('.title1').val() == '' && $('#delivery_time1').val() == '' && $('#no_of_pages1').val() == '' && $('.revision1').val() == '')
@@ -1347,13 +1462,14 @@
 		    $('.revision1-error').hide();
 		    $('.price1-error').hide();
 		    $('.description1').removeClass('border-red');
+		    alert($('.description1').val());
 		  $.ajax({
-			  url:"{{ url('post_service') }}",
-			  method:"POST",
-			  data:new FormData(this),
-			  dataType:'JSON',
-			  contentType: false,
-			  cache: false,
+			  url:"{{url('create-service/'.$getSingleData->id)}}",
+			  method:"PATCH",
+			  data: createFormData,
+			  // dataType:'JSON',
+			  // contentType: false,
+			  // cache: false,
 			  processData: false,
 			  success:function(data){
 			  	console.log(data);

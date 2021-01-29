@@ -15,6 +15,10 @@ class Engezli {
 		$categories = Categories::where('parent_id', '==', 0)->get();
 		return $categories;
 	}
+	public function get_subcat($id){
+		$sub_cat = Categories::whereid($id)->first();
+		return $sub_cat;
+	}
 	public function get_optionName($id){
 		$option_name = PackagesOption::whereid($id)->get();
 		return $option_name;
