@@ -12,6 +12,7 @@ class OrderRequirement extends Model
     protected $fillable = [
     	'order_id',
     	'requirement',
+    	'image',
     ];
     public function orderInfo()
     {

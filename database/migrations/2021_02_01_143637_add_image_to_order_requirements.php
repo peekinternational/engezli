@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOrderRequirementsTable extends Migration
+class AddImageToOrderRequirements extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateOrderRequirementsTable extends Migration
      */
     public function up()
     {
-        Schema::create('order_requirements', function (Blueprint $table) {
-            $table->id();
-            $table->integer('order_id');
-            $table->string('requirement')->nullable();
-            $table->timestamps();
+        Schema::table('order_requirements', function (Blueprint $table) {
+            $table->string('image')->nullable()->after('requirement');
         });
     }
 
@@ -28,6 +25,8 @@ class CreateOrderRequirementsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('order_requirements');
+        Schema::table('order_requirements', function (Blueprint $table) {
+            //
+        });
     }
 }

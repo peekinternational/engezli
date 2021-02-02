@@ -68,13 +68,13 @@
                       <h5>Customize your package</h5>
                       <div class="inner-box">
                         <div class="box">
-                          <img src="images/s1.png" alt="" />
+                          <img src="{{asset('images/service_images/'.$package->serviceInfo->service_img1)}}" alt="" />
                         </div>
                         <div class="box">
-                          <h6 class="gig-title">digital agency website</h6>
+                          <h6 class="gig-title">{{$package->serviceInfo->service_title}}</h6>
                           <p>
                             by
-                            <span class="name">john william</span>
+                            <span class="name">{{$package->serviceInfo->sellerInfo->first_name}} {{$package->serviceInfo->sellerInfo->last_name}}</span>
                             <span class="rating">
                               <i class="fa fa-star"></i>
                               5
@@ -85,15 +85,15 @@
                         <div class="box">
                           <span class="qty-text">Qty</span>
                           <span class="quantity">
-                            <button class="btn">
+                            <button class="btn minus-btn">
                               <i class="fa fa-minus"></i>
                             </button>
-                            <input type="text" placeholder="5" />
-                            <button class="btn">
+                            <input type="text" name="quantity" value="1" form="order-form" />
+                            <button class="btn plus-btn">
                               <i class="fa fa-plus"></i>
                             </button>
                           </span>
-                          <span class="price"> $65 </span>
+                          <span class="price quantity-price"> ${{$package->price}} </span>
                         </div>
                       </div>
                     </div>
@@ -105,9 +105,9 @@
                           <div class="list-box">
                             <div class="form-check">
                               <input
-                                type="checkbox"
+                                type="checkbox" name="extra"
                                 class="form-check-input"
-                                id="exampleCheck1"
+                                id="exampleCheck1" value="5"
                               />
                               <label
                                 class="form-check-label"
@@ -122,9 +122,9 @@
                           <div class="list-box">
                             <div class="form-check">
                               <input
-                                type="checkbox"
+                                type="checkbox" name="extra"
                                 class="form-check-input"
-                                id="exampleCheck2"
+                                id="exampleCheck2" value="10"
                               />
                               <label
                                 class="form-check-label"
@@ -132,7 +132,7 @@
                                 >Extra fast 1 day delivery</label
                               >
                             </div>
-                            <div class="price">$5</div>
+                            <div class="price">$10</div>
                           </div>
                         </div>
                         <div class="list-item">
@@ -221,10 +221,14 @@
                     <div class="card">
                       <div class="card-body">
                         <h5>summary</h5>
+                        <?php
+                        $total_price = $package->price+5;
+                         ?>
+
                         <ul class="list-group">
                           <li>
                             <span>subtotal</span>
-                            <span>$65</span>
+                            <span class="package-price subtotal">${{$package->price}}</span>
                           </li>
                           <li>
                             <span>service fee</span>
@@ -234,14 +238,14 @@
                         <ul class="list-group">
                           <li>
                             <span>delivery time</span>
-                            <span>4 days</span>
+                            <span>{{$package->delivery_time}}</span>
                           </li>
                           <li>
                             <span><strong>total</strong></span>
-                            <span><strong>$70</strong></span>
+                            <span><strong class="total-price">${{$total_price}}</strong></span>
                           </li>
                         </ul>
-                        <a href="" class="btn custom-btn"> place order </a>
+                        <a href="javascript:void(0);" class="btn custom-btn" id="place_order"> place order </a>
                         <small>You won't be changed yet</small>
                       </div>
                     </div>
@@ -381,13 +385,12 @@
 
                         <div class="gig-details">
                           <div class="box">
-                            <img src="images/s1.png" alt="" />
+                            <img src="{{asset('images/service_images/'.$package->serviceInfo->service_img1)}}" alt="" />
                           </div>
                           <div class="box">
-                            <h6>Digital agency website</h6>
+                            <h6>{{$package->serviceInfo->service_title}}</h6>
                             <p>
-                              Lorem ipsum dolor sit amet consectetur,
-                              adipisicing elit. Voluptate, aliquam.
+                                {!! Str::limit($package->serviceInfo->service_desc,80) !!}
                             </p>
                           </div>
                         </div>
@@ -395,7 +398,7 @@
                         <ul class="list-group">
                           <li>
                             <span>subtotal</span>
-                            <span>$65</span>
+                            <span class="package-price subtotal">${{$package->price}}</span>
                           </li>
                           <li>
                             <span>service fee</span>
@@ -406,15 +409,25 @@
                         <ul class="list-group">
                           <li>
                             <span>delivery time</span>
-                            <span>4 days</span>
+                            <span>{{$package->delivery_time}}</span>
                           </li>
                           <li>
                             <span><strong>total</strong></span>
-                            <span><strong>$70</strong></span>
+                            <span><strong class="total-price">${{$total_price}}</strong></span>
                           </li>
                         </ul>
+                        <form class="" action="" method="post" id="order-form">
+                          {{csrf_field()}}
+                          <input type="hidden" name="package_price" class="package_price" value="{{$package->price}}">
+                          <input type="hidden" name="service_id" class="service_id" value="{{$package->services_id}}">
+                          <input type="hidden" name="seller_id" class="seller_id" value="{{$package->serviceInfo->seller_id}}">
+                          <input type="hidden" name="order_fee" class="total_price" value="{{$total_price}}">
+                          <input type="hidden" name="order_duration" class="order_duration" value="{{$package->delivery_time}}">
+                          <input type="hidden" name="service_fee" class="service_fee" value="5">
 
-                        <a href="" class="btn custom-btn"> confirm & pay </a>
+
+                        <button type="submit" class="btn custom-btn btn-block"> confirm & pay </button>
+                      </form>
 
                         <small
                           >By clicking Confirm and Pay you will be
@@ -433,7 +446,9 @@
               aria-labelledby="descriptionFaq-tab"
             >
               <div class="row">
+
                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-8">
+                  <form class="" action="" method="post" id="requirement-form">
                   <div class="submit-request">
                     <div class="confirm-purchase outer-box">
                       <div class="box">
@@ -453,24 +468,28 @@
                           working on your order
                         </p>
                       </div>
-
+                      <input type="text" name="order_id" class="order_id" value="22">
+                      @foreach($package->serviceInfo->serviceReq as $key => $req)
                       <div class="requirement-box">
                         <h6 class="mb-3">
-                          <span>1.</span> Logo in size 250*250
+                          <span>{{$key+1}}.</span>{{$req->question}}
                         </h6>
-
+                        @if($req->response == 'free text')
                         <textarea
                           class="form-control"
-                          name=""
-                          id=""
+                          name="desc[]"
+                          id="desc-{{$key}}"
                           rows="3"
                           placeholder="Write here..."
                         ></textarea>
+                        @endif
                         <p>
+                          @if($req->response == 'free text')
                           <span class="length">0/2050</span>
+                          @elseif($req->response == 'attachement')
                           <span class="form-field-file">
                             <label
-                              for="cv-arquivo"
+                              for="attachment-{{$key}}"
                               aria-label="Attach file"
                               class="btn1"
                             >
@@ -482,15 +501,18 @@
 
                             <input
                               type="file"
-                              name="cv-arquivo"
-                              id="cv-arquivo"
+                              name="attachment[]"
+                              id="attachment-{{$key}}"
                               class="field-file"
                             />
                           </span>
+                          @endif
+
                         </p>
                       </div>
+                      @endforeach
 
-                      <div class="requirement-box">
+                      <!-- <div class="requirement-box">
                         <h6 class="mb-3">
                           <span>2.</span> Description about new service
                         </h6>
@@ -560,7 +582,7 @@
                             />
                           </span>
                         </p>
-                      </div>
+                      </div> -->
                     </div>
 
                     <div class="request-btn-wrap mt-4">
@@ -582,10 +604,11 @@
                         <a href="" class="btn custom-btn"
                           >Reminde me later</a
                         >
-                        <a href="" class="btn custom-btn">Start Order</a>
+                        <button type="submit" class="btn custom-btn">Start Order</button>
                       </div>
                     </div>
                   </div>
+                  </form>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
                   <div class="summary-wrapper">
@@ -595,13 +618,12 @@
 
                         <div class="gig-details">
                           <div class="box">
-                            <img src="images/s1.png" alt="" />
+                            <img src="{{asset('images/service_images/'.$package->serviceInfo->service_img1)}}" alt="" />
                           </div>
                           <div class="box">
-                            <h6>Digital agency website</h6>
+                            <h6>{{$package->serviceInfo->service_title}}</h6>
                             <p>
-                              Lorem ipsum dolor sit amet consectetur,
-                              adipisicing elit. Voluptate, aliquam.
+                              {!! Str::limit($package->serviceInfo->service_desc,80) !!}
                             </p>
                           </div>
                         </div>
@@ -615,18 +637,18 @@
                           </li>
                           <li>
                             <span>order number</span>
-                            <span>98946546879897</span>
+                            <span class="order_number"></span>
                           </li>
                         </ul>
 
                         <ul class="list-group">
                           <li>
                             <span>order date</span>
-                            <span>12 June, 2020</span>
+                            <span class="order_date"></span>
                           </li>
                           <li>
                             <span><strong>price</strong></span>
-                            <span><strong>$70</strong></span>
+                            <span><strong class="order_price"></strong></span>
                           </li>
                         </ul>
                       </div>
@@ -644,4 +666,142 @@
 <!-- End Order -->
 @endsection
 @section('script')
+<script>
+$('.minus-btn').click(function () {
+  var $input = $(this).parent().find('input');
+  var price = "{{$package->price}}";
+  var count = parseInt($input.val()) - 1;
+  count = count < 1 ? 1 : count;
+  $input.val(count);
+  var new_price = $input.val()*price;
+  var quantity_price = $input.val()*price;
+  var extra = '';
+  $('.quantity-price').text('$'+quantity_price);
+  $('input[name="extra"]:checked').each(function() {
+    console.log(this.value);
+    if (extra == '') {
+      extra = this.value;
+    }else {
+      extra = parseFloat(extra)+parseFloat(this.value);
+    }
+});
+if (extra !='') {
+  new_price = parseFloat(new_price)+parseFloat(extra);
+}
+  var total_price = new_price+5;
+
+  $('.package_price').val(new_price);
+  $('.total_price').val(total_price);
+  $('.package-price').text('$'+new_price);
+  $('.total-price').text('$'+total_price);
+  $input.change();
+  return false;
+});
+$('.plus-btn').click(function () {
+  var $input = $(this).parent().find('input');
+  var price = "{{$package->price}}";
+  $input.val(parseInt($input.val()) + 1);
+  var new_price = $input.val()*price;
+  var extra = '';
+  $('.quantity-price').text('$'+new_price);
+  $('input[name="extra"]:checked').each(function() {
+    console.log(this.value);
+    if (extra == '') {
+      extra = this.value;
+    }else {
+      extra = parseFloat(extra)+parseFloat(this.value);
+    }
+});
+if (extra !='') {
+  new_price = parseFloat(new_price)+parseFloat(extra);
+}
+  console.log(new_price);
+  var total_price = new_price+5;
+  $('.package-price').text('$'+new_price);
+  $('.package_price').val(new_price);
+  $('.total_price').val(total_price);
+  $('.total-price').text('$'+total_price);
+  $input.change();
+  return false;
+});
+
+$('.form-check-input').on('change', function () {
+  if($(this).is(':checked')){
+    var extra = $(this).val();
+    var package_price = $('.package_price').val();
+    var subtotal = parseFloat(package_price)+parseFloat(extra);
+    var total = subtotal+5;
+  }else {
+    var extra = $(this).val();
+    var package_price = $('.package_price').val();
+    var subtotal = parseFloat(package_price)-parseFloat(extra);
+    var total = subtotal+5;
+  }
+  $('.subtotal').text('$'+subtotal);
+  $('.package_price').val(subtotal);
+  $('.total_price').val(total);
+  $('.total-price').text('$'+total);
+});
+
+$('#place_order').on('click',function () {
+  $('#overview-tab').removeClass('active');
+  $('#overview').removeClass('show active');
+  $('#pricing').addClass('show active');
+  $('#pricing').addClass('show active');
+  $('#pricing-tab').addClass('active');
+});
+
+$(document).ready(function () {
+  $.ajaxSetup({
+      headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+  });
+
+  $('#order-form').on('submit', function(event){
+    event.preventDefault();
+    $.ajax({
+     url:"{{ url('create_order') }}",
+     method:"POST",
+     data:new FormData(this),
+     dataType:'JSON',
+     contentType: false,
+     cache: false,
+     processData: false,
+     success:function(data){
+       console.log(data);
+       console.log(data.order_number);
+       $('.order_number').text(data.order_number);
+       $('.order_id').val(data.id);
+       $('.order_date').text(data.date);
+       $('.order_price').text('$'+data.order_fee);
+       $('#pricing-tab').removeClass('active');
+       $('#pricing').removeClass('active show');
+       $('#descriptionFaq-tab').addClass('active');
+       $('#descriptionFaq').addClass('active show');
+      // $('.added-questions').append(data);
+      // $('#requirements-form textarea').val('');
+     }
+    })
+ });
+
+  $('#requirement-form').on('submit', function(event){
+    event.preventDefault();
+    $.ajax({
+     url:"{{ url('save_requirement') }}",
+     method:"POST",
+     data:new FormData(this),
+     dataType:'JSON',
+     contentType: false,
+     cache: false,
+     processData: false,
+     success:function(data){
+      window.location.href = "{{url('manage-orders')}}"
+      // $('.added-questions').append(data);
+      // $('#requirements-form textarea').val('');
+     }
+    })
+ });
+});
+</script>
 @endsection

@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CreateServiceController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,7 +52,7 @@ Route::get('/faq', function () {
 Route::resource('/categories', CategoriesController::class);
 
 Route::match(['get','post'],'/register', [RegisterController::class, 'register']);
-Route::get('/login', [RegisterController::class, 'accountLogin']);
+Route::get('/login', [RegisterController::class, 'accountLogin'])->name('login');
 Route::post('/login', [RegisterController::class, 'checkLogin']);
 Route::get('/verify-account/{username}/{token}', [RegisterController::class, 'VerifyAccount'])->name('verify');
 Route::get('/logout', [RegisterController::class, 'logout'])->name('logout');
@@ -72,6 +73,7 @@ Route::get('login/google', [SocialAuthController::class, 'redirectToGoogle']);
 Route::get('google/callback', [SocialAuthController::class, 'GoogleProviderCallback']);
 
 
+Route::group(['middleware' => 'auth'], function() {
 // Profile
 Route::get('profile/{username}', [ProfileController::class, 'show']);
 Route::get('/profile', [ProfileController::class,'index']);
@@ -80,6 +82,7 @@ Route::post('edit_profile_info', [ProfileController::class,'edit_profile_info'])
 Route::get('/messages', function () {
     return view('frontend.messages');
 });
+Route::get('/manage-orders-ajax/{order}', [OrderController::class, 'manageOrders_ajax']);
 
 // Service Route
 Route::resource('/create-service', CreateServiceController::class);
@@ -96,12 +99,9 @@ Route::get('/get_services', [ServiceController::class, 'get_services']);
 Route::get('/search', [ServiceController::class, 'search_service']);
 Route::get('/{username}/{url}', [ServiceController::class, 'service_detail']);
 
-// Categories
-
-Route::get('/order', function () {
-    return view('frontend.order');
+// Orders
+Route::post('/order', [OrderController::class, 'order']);
+Route::post('/create_order', [OrderController::class, 'CreateOrder']);
+Route::post('/save_requirement', [OrderController::class, 'SaveRequirement']);
+Route::get('/manage-orders', [OrderController::class, 'manageOrders']);
 });
-Route::get('/manage-orders', function () {
-    return view('frontend.manage-orders');
-});
-

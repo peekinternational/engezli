@@ -43,15 +43,15 @@ class CreateServiceController extends Controller
         // dd($category_id);
         $subCategory = Categories::where('parent_id', $category_id)->get();
         // dd($subCategory);
-       
+
         return view('frontend.fetch_subcategory',compact('subCategory'));
-        
+
     }
 
     // Fetch Package Attribute Using id
     public function fetch_package_option(Request $request){
       $category_id = $request->input('category_id');
-      
+
       $packageOptions = PackagesOption::wherecat_id($category_id)->get();
       // dd($packageOptions);
       $packg1[] ='';
@@ -83,11 +83,11 @@ class CreateServiceController extends Controller
           '</div>';
         }
       }
-      
+
         return response()->json(['packg1'=>$packg1,'packg2'=>$packg2,'packg3'=>$packg3]);
-      
-      
-      
+
+
+
     }
     /**
      * Show the form for creating a new resource.
@@ -107,7 +107,7 @@ class CreateServiceController extends Controller
      */
     public function store(Request $request)
     {
-        
+
     }
 
     public function post_service(Request $request)
@@ -115,10 +115,11 @@ class CreateServiceController extends Controller
       $user_id = auth()->user()->id;
       $service = new Services;
       $type = $request->input('type');
+      // dd($type);
       $service->seller_id = $user_id;
       $service->service_status = "pending";
       $service->posted_date = date("Y-m-d");
-      
+
         if($type == 1){
           $service_id = 0;
           $this->validate($request,[
@@ -136,21 +137,22 @@ class CreateServiceController extends Controller
             'cat_child_id.required' => 'Please select sub category',
             'search_tags.required' => 'Enter search tags',
           ]);
-          
-          
+
+
           $service->service_title = $request->input('service_title');
           $service->service_url = Str::slug($request->input('service_title'), '-');
-         
+
           $service->seo_title = $request->input('seo_title');
           $service->cat_id = $request->input('cat_id');
           $service->cat_child_id = $request->input('cat_child_id');
           $service->search_tags = $request->input('search_tags');
-          
+
           $service->save();
           $service_id = $service->id;
           $request->session()->put('u_session', $service_id);
           // dd($session_id);
         }elseif($type == 2){
+          // dd($type);
           $service_id = Session::get('u_session');
           $package_type = $request->input('package_type');
 
@@ -181,13 +183,15 @@ class CreateServiceController extends Controller
                 "package_option_id" => $attr['package_option_id'],
                 "value" => $attr['value']
               ];
-              
+
               $insertOption = PackagesOptionService::insert($serviceAttr);
             }
           }
           return $insertPackage;
+          // return $service_id;
 
         }elseif ($type == 3) {
+          // dd($type);
           $service_id= Session::get('u_session');
           // $service->service_desc = $request->input('service_desc');
           $update = Services::where('id', $service_id)->update(['service_desc' => $request->input('service_desc')]);
@@ -248,7 +252,7 @@ class CreateServiceController extends Controller
           // dd($faqId);
           $request = ServiceRequirement::where('id',$requestId)->first();
 
-          $req_data = 
+          $req_data =
             '<div class="question-list-item">'.
               '<div class="inner-text">'.
                 '<p>'.$request->response.'</p>'.
@@ -379,11 +383,11 @@ class CreateServiceController extends Controller
 
       $service = Services::find($id);
       $type = $request->input('type');
-      
+
       $service->seller_id = $user_id;
       $service->service_status = "pending";
       $service->posted_date = date("Y-m-d");
-      
+
         if($type == 1){
           $service_id = 0;
           $this->validate($request,[
@@ -401,16 +405,16 @@ class CreateServiceController extends Controller
             'cat_child_id.required' => 'Please select sub category',
             'search_tags.required' => 'Enter search tags',
           ]);
-          
-          
+
+
           $service->service_title = $request->input('service_title');
           $service->service_url = Str::slug($request->input('service_title'), '-');
-         
+
           $service->seo_title = $request->input('seo_title');
           $service->cat_id = $request->input('cat_id');
           $service->cat_child_id = $request->input('cat_child_id');
           $service->search_tags = $request->input('search_tags');
-          
+
           $service->save();
           $service_id = $service->id;
           $request->session()->put('u_session', $service_id);
@@ -446,7 +450,7 @@ class CreateServiceController extends Controller
                 "package_option_id" => $attr['package_option_id'],
                 "value" => $attr['value']
               ];
-              
+
               $insertOption = PackagesOptionService::where('services_id',$id)->update($serviceAttr);
             }
           }
@@ -513,7 +517,7 @@ class CreateServiceController extends Controller
           // dd($faqId);
           $request = ServiceRequirement::where('id',$requestId)->first();
 
-          $req_data = 
+          $req_data =
             '<div class="question-list-item">'.
               '<div class="inner-text">'.
                 '<p>'.$request->response.'</p>'.
@@ -609,12 +613,12 @@ class CreateServiceController extends Controller
       $service = Services::find($id);
       $type = $request->input('type');
       dd($type);
-      
+
 
       $service->seller_id = $user_id;
       $service->service_status = "pending";
       $service->posted_date = date("Y-m-d");
-      
+
         if($type == 1){
           $service_id = 0;
           $this->validate($request,[
@@ -632,16 +636,16 @@ class CreateServiceController extends Controller
             'cat_child_id.required' => 'Please select sub category',
             'search_tags.required' => 'Enter search tags',
           ]);
-          
-          
+
+
           $service->service_title = $request->input('service_title');
           $service->service_url = Str::slug($request->input('service_title'), '-');
-         
+
           $service->seo_title = $request->input('seo_title');
           $service->cat_id = $request->input('cat_id');
           $service->cat_child_id = $request->input('cat_child_id');
           $service->search_tags = $request->input('search_tags');
-          
+
           $service->save();
           $service_id = $service->id;
           $request->session()->put('u_session', $service_id);
@@ -677,7 +681,7 @@ class CreateServiceController extends Controller
                 "package_option_id" => $attr['package_option_id'],
                 "value" => $attr['value']
               ];
-              
+
               $insertOption = PackagesOptionService::where('services_id',$id)->update($serviceAttr);
             }
           }
@@ -744,7 +748,7 @@ class CreateServiceController extends Controller
           // dd($faqId);
           $request = ServiceRequirement::where('id',$requestId)->first();
 
-          $req_data = 
+          $req_data =
             '<div class="question-list-item">'.
               '<div class="inner-text">'.
                 '<p>'.$request->response.'</p>'.

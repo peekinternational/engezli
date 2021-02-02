@@ -4412,7 +4412,7 @@ nav.breadcrumb-container .breadcrumb a {
   font-size: 15px;
 }
 
-.order-request .outer-content .summary-wrapper a.btn {
+.order-request .outer-content .summary-wrapper a.btn, .order-request .outer-content .summary-wrapper button.btn {
   display: block;
   background: #0099ff;
   color: #ffffff;
@@ -4489,7 +4489,7 @@ nav.breadcrumb-container .breadcrumb a {
   text-align: right !important;
 }
 
-.order-request .outer-content .submit-request .request-btn-wrap .btn-container a:last-child {
+.order-request .outer-content .submit-request .request-btn-wrap .btn-container a:last-child, .order-request .outer-content .submit-request .request-btn-wrap .btn-container button {
   color: #ffffff;
   background: #0099ff;
 }

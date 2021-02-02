@@ -26,13 +26,13 @@ class ServiceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    { 
+    {
         $cat_url = $request->segment(2);
         $child_url = $request->segment(3);
         if($cat_url == 'all'){
             $services = Services::with('sellerInfo','packageInfo')->paginate(15);
             $serviceCount = $services->count();
-            $cat_name = "All Categories";  
+            $cat_name = "All Categories";
         }else{
             $get_cat = Categories::wherecat_url($cat_url)->first();
 
@@ -44,7 +44,7 @@ class ServiceController extends Controller
         $languages = Language::get();
         $sellerLevels = SellerLevel::get();
         $sellerCountries = User::select('country')->where('country','!=', '')->distinct()->get();
-        
+
         return \View::make('frontend.services')->with(compact('services','serviceCount','cat_name','languages','sellerLevels','sellerCountries'));
     }
 
@@ -56,7 +56,7 @@ class ServiceController extends Controller
             $services = Services::paginate(15);
             $serviceCount = $services->count();
         }
-        $categories = Categories::where('parent_id', '==', 0)->get(); 
+        $categories = Categories::where('parent_id', '==', 0)->get();
         $languages = Language::get();
         $sellerLevels = SellerLevel::get();
         $sellerCountries = User::select('country')->where('country','!=', '')->distinct()->get();
@@ -95,7 +95,7 @@ class ServiceController extends Controller
             $seller_status = "offline";
             $services = Services::with('sellerInfo','packageInfo')->get();
           }
-          
+
           return view('frontend.ajax.category-service',compact('services'));
         }
         if($seller_country != null){
@@ -116,7 +116,7 @@ class ServiceController extends Controller
             $seller_country = "all";
             $services = Services::with('sellerInfo','packageInfo')->get();
           }
-          
+
           return view('frontend.ajax.category-service',compact('services'));
         }
 
@@ -128,7 +128,7 @@ class ServiceController extends Controller
           // dd($data);
           $query = Services::query();
           $query = $query->with('sellerInfo','packageInfo');
-          
+
           $query = $query->whereHas('packageInfo', function($q) use($min,$max) {
             $q->whereBetween('price',[(int)$min, (int)$max]);
           });
@@ -144,7 +144,7 @@ class ServiceController extends Controller
           if($delivery_time != 'all day'){
             $query = Services::query();
             $query = $query->with('sellerInfo','packageInfo');
-            
+
             $query = $query->whereHas('packageInfo', function($q) use($delivery_time) {
               $q->where('delivery_time','<=',$delivery_time);
             });
@@ -200,7 +200,7 @@ class ServiceController extends Controller
         if($reset != null){
             $services = Services::with('sellerInfo','packageInfo')->get();
             $serviceCount = $services->count();
-          
+
             return view('frontend.ajax.category-service',compact('services','serviceCount'));
         }
     }
@@ -211,7 +211,7 @@ class ServiceController extends Controller
       // dd($serviceData);
       $productCat = Categories::where('id',$serviceData->cat_id)->first();
       $productSubCat = Categories::where('id',$serviceData->cat_child_id)->first();
-      
+
       return view('frontend.service-detail',compact('serviceData','productCat','productSubCat'));
     }
     /**

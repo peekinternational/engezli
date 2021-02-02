@@ -322,12 +322,13 @@
                         <td>
 
                           <p class="price-label">${{$packg->price}}</p>
-                          <form>
+                          <form class="" action="{{url('order')}}" method="post">
+                            {{csrf_field()}}
                             <input type="hidden" name="service_id" value="{{$serviceData->id}}">
                             <input type="hidden" name="package_id" value="{{$packg->id}}">
                             <button type="submit" class="custom-btn">Select</button>
                           </form>
-                          
+
                         </td>
                         @endforeach
                       </tr>
@@ -659,11 +660,16 @@
               <div class="tab-content">
                 @foreach($serviceData->packageInfo as $key => $packg)
                 <div id="{{$packg->package_name}}" class="tab-pane fade @if($key == 0)show active @endif">
+
                   <div class="header">
                     <h3>
                       <b class="title">{{$packg->no_of_pages}} Screens</b
                       ><span class="price">${{$packg->price}}</span>
                     </h3>
+                    <form class="" action="{{url('order')}}" method="post">
+                    {{csrf_field()}}
+                    <input type="hidden" name="service_id" value="{{$packg->services_id}}">
+                    <input type="hidden" name="package_id" value="{{$packg->id}}">
                     <p>
                       {{$packg->description}}
                     </p>
@@ -694,7 +700,8 @@
                       </li>
                     </ul>
                   </article>
-                  <button>Continue (${{$packg->price}})</button>
+                  <button type="submit">Continue (${{$packg->price}})</button>
+                </form>
                 </div>
                 @endforeach
               </div>

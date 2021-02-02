@@ -24,7 +24,7 @@ class CreateOrdersTable extends Migration
             $table->string('order_qty');
             $table->string('order_fee');
             $table->string('order_active');
-            $table->string('complete_time');
+            $table->string('complete_time')->nullable();
             $table->string('order_status');
             $table->timestamps();
         });
