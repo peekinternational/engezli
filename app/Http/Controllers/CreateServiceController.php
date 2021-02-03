@@ -191,7 +191,6 @@ class CreateServiceController extends Controller
           // return $service_id;
 
         }elseif ($type == 3) {
-          // dd($type);
           $service_id= Session::get('u_session');
           // $service->service_desc = $request->input('service_desc');
           $update = Services::where('id', $service_id)->update(['service_desc' => $request->input('service_desc')]);
@@ -383,7 +382,7 @@ class CreateServiceController extends Controller
 
       $service = Services::find($id);
       $type = $request->input('type');
-
+      dd($request->all());
       $service->seller_id = $user_id;
       $service->service_status = "pending";
       $service->posted_date = date("Y-m-d");
@@ -606,13 +605,65 @@ class CreateServiceController extends Controller
         }
     }
 
+    public function createFaq(Request $request)
+    {
+      // dd($request->all());
+
+      $service_id= $request->input('service_id');
+      // $service->service_desc = $request->input('service_desc');
+      $update = Services::where('id', $service_id)->update(['service_desc' => $request->input('service_desc')]);
+      // dd($service_id);
+      $faqData =[
+        'services_id' => $service_id,
+        'title' => $request->input('title'),
+        'description' => $request->input('description')
+      ];
+      $inserFaq = ServiceFaq::create($faqData);
+      $faqId = $inserFaq->id;
+      // dd($faqId);
+      $faq = ServiceFaq::where('id',$faqId)->first();
+
+      $faq_data = '<div class="card"><div class="card-header" id="heading'.$faq->id.'">'.
+        '<h5 class="mb-0">'.
+          '<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse'.$faq->id.'" aria-expanded="false" aria-controls="collapse'.$faq->id.'">'.$faq->title.'</button>'.
+          '</h5>'.
+        '</div>'.
+        '<div id="collapse'.$faq->id.'" class="collapse" aria-labelledby="heading'.$faq->id.'" data-parent="#accordion">'.
+          '<div class="card-body">'.
+            '<div class="input-box-container">'.
+              '<div class="form-group">'.
+                '<input type="text" value="'.$faq->title.'" class="form-control" placeholder="Add a Question: i.e. Do you translate to English as well?" />'.
+              '</div>'.
+              '<div class="form-group">'.
+                '<textarea maxlength="300" class="form-control" rows="3" placeholder="Add an Answer: i.e. Yes, I also translate from English to Hebrew.">'.$faq->description.'</textarea>'.
+              '</div>'.
+
+              '<div class="btn-container-box">'.
+                '<div class="btns">'.
+                  '<button class="custom-btn delete-btn">'.
+                    '<i class="fa fa-times"></i> delete'.
+                  '</button>'.
+                '</div>'.
+                '<div class="btns">'.
+                  '<button class="custom-btn">cancle</button>'.
+                  '<button class="custom-btn">save</button>'.
+                '</div>'.
+              '</div>'.
+            '</div>'.
+          '</div>'.
+        '</div>'.
+        '</div>';
+      return json_encode($faq_data);
+
+    }
+
     public function update_service(Request $request, $id)
     {
       $user_id = auth()->user()->id;
 
       $service = Services::find($id);
       $type = $request->input('type');
-      dd($type);
+      // dd($type);
 
 
       $service->seller_id = $user_id;

@@ -406,7 +406,183 @@
 						role="tabpanel"
 						aria-labelledby="pills-security-tab"
 					>
-						{{ __('home.security')}}
+						<!-- {{ __('home.security')}} -->
+						<div class="outer-box security-tab">
+							<h5 class="text-uppercase">Change password</h5>
+							<div class="dropdown-divider mt-3 mb-4"></div>
+							@if(Session::has('password_success'))
+							<div class="alert alert-success">
+								{{ Session::get('password_success') }}
+								@php
+								Session::forget('password_success');
+								@endphp
+							</div>
+							@endif
+							@if(Session::has('password_danger'))
+							<div class="alert alert-danger">
+								{{ Session::get('password_danger') }}
+								@php
+								Session::forget('password_danger');
+								@endphp
+							</div>
+							@endif
+							<form class="" action="{{url('change-password')}}" method="post">
+								{{csrf_field()}}
+							<div class="form-group row">
+								<label for="inputPassword" class="col-sm-4 col-form-label"
+									><strong>Current Password</strong></label
+								>
+								<div class="col-sm-8">
+									<input
+										type="password"
+										name="old_password"
+										class="form-control"
+										id="inputPassword"
+										required
+									/>
+									<span class="text-danger">{{$errors->first('old_password')}}</span>
+								</div>
+							</div>
+
+							<div class="form-group row mt-3">
+								<label for="inputPassword" class="col-sm-4 col-form-label"
+									><strong>New Password</strong></label
+								>
+								<div class="col-sm-8">
+									<input
+										type="password"
+										name="new_password"
+										class="form-control"
+										id="inputPassword"
+										required
+									/>
+									<span class="text-danger">{{$errors->first('new_password')}}</span>
+								</div>
+							</div>
+
+							<div class="form-group row mt-3">
+								<label for="inputPassword" class="col-sm-4 col-form-label"
+									><strong>Confirm Password</strong></label
+								>
+								<div class="col-sm-8">
+									<input
+										type="password"
+										name="confirm_password"
+										class="form-control"
+										id="inputPassword"
+										required
+									/>
+								</div>
+							</div>
+
+							<!-- <div class="row mt-4">
+								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+									<div class="form-group">
+										<label for="">Current password</label>
+										<input type="text" class="form-control" />
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+									<div class="form-group">
+										<label for="">New password</label>
+										<input type="text" class="form-control" />
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+									<div class="form-group">
+										<label for="">Confirm password</label>
+										<input type="text" class="form-control" />
+									</div>
+								</div>
+							</div> -->
+
+							<div class="btn-container text-right mt-2">
+								<button type="submit" class="btn custom-btn btn-primary text-white">
+									save changes
+								</button>
+							</div>
+						</form>
+
+							<div class="dropdown-divider my-4"></div>
+
+							<div class="form-group row mt-5">
+								<label
+									for="staticEmail"
+									class="col-sm-4 col-form-label text-uppercase"
+									><strong>Email</strong>
+								</label>
+								<div class="col-sm-6">
+									<small>
+										Lorem ipsum dolor sit amet consectetur adipisicing elit.
+										Nemo, odit. Dolor, autem dolorum. Veritatis sequi, in
+										quisquam ipsum.
+									</small>
+								</div>
+								<div class="col-sm-2 btn-container text-right">
+									<button
+										class="btn btn-sm btn-primary text-white px-3"
+										data-toggle="modal"
+										data-target="#exampleModal"
+									>
+										Edit
+									</button>
+								</div>
+							</div>
+
+							<div class="form-group row mt-5">
+								<label
+									for="staticEmail"
+									class="col-sm-4 col-form-label text-uppercase"
+									><strong>security question</strong></label
+								>
+								<div class="col-sm-6">
+									<small>
+										Lorem ipsum dolor sit amet consectetur adipisicing elit.
+										Nemo, odit. Dolor, autem dolorum. Veritatis sequi, in
+										quisquam ipsum.
+									</small>
+								</div>
+								<div class="col-sm-2 btn-container text-right">
+									<button class="btn btn-sm btn-primary text-white px-3">
+										Edit
+									</button>
+								</div>
+							</div>
+
+							<div class="form-group row mt-5">
+								<label
+									for="staticEmail"
+									class="col-sm-4 col-form-label text-uppercase"
+									><strong>two factor authentication</strong>
+									<small class="d-block text-success text-uppercase"
+										><strong>recommended</strong></small
+									></label
+								>
+								<div class="col-sm-6">
+									<div class="custom-control custom-switch">
+										<input
+											type="checkbox"
+											class="custom-control-input"
+											id="customSwitch134545"
+										/>
+										<label
+											class="custom-control-label"
+											for="customSwitch134545"
+										></label>
+									</div>
+									<small>
+										Lorem ipsum dolor sit amet consectetur adipisicing elit.
+										Nemo, odit. Dolor, autem dolorum. Veritatis sequi, in
+										quisquam ipsum.
+									</small>
+								</div>
+								<div class="col-sm-2 btn-container text-right">
+									<button class="btn btn-sm btn-primary text-white px-3">
+										Edit
+									</button>
+								</div>
+							</div>
+						</div>
 					</div>
 					<div
 						class="tab-pane fade"
@@ -414,7 +590,286 @@
 						role="tabpanel"
 						aria-labelledby="pills-notifications-tab"
 					>
-						{{ __(home.notifications)}}
+						<!-- {{ __('home.notifications')}} -->
+						<div class="outer-box notification-tab">
+							@if(Session::has('notification_success'))
+							<div class="alert alert-success">
+								{{ Session::get('notification_success') }}
+								@php
+								Session::forget('notification_success');
+								@endphp
+							</div>
+							@endif
+						 <form class="" action="{{url('save-notificatoins-setting')}}" method="post">
+							 {{csrf_field()}}
+							<div class="table-responsive">
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th>notifications</th>
+											<th>type</th>
+											<th>email</th>
+											<th>mobile</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>
+												Lorem ipsum dolor sit, amet consectetur adipisicing
+												elit. Numquam sunt beatae ducimus nihil voluptatum
+												consequuntur corrupti perferendis repudiandae vitae
+												nulla.
+											</td>
+											<td>inbox messages</td>
+											<td>
+
+												<span class="form-check">
+													<input
+														type="checkbox"
+														class="form-check-input"
+														id="exampleCheck1"
+														name="email_inbox_message"
+														value="1" {{Engezli::getNotificationEmail($userData->id,'inbox message') == '1' ? 'checked="checked"' : ''}}
+													/>
+													<label
+														class="form-check-label"
+														for="exampleCheck1"
+													>
+													</label>
+												</span>
+											</td>
+											<td>
+												<span class="form-check">
+													<input
+														type="checkbox"
+														class="form-check-input"
+														id="exampleCheck122"
+														name="mobile_inbox_message"
+														value="1" {{Engezli::getNotificationMobile($userData->id,'inbox message') == '1' ? 'checked="checked"' : ''}}
+													/>
+													<label
+														class="form-check-label"
+														for="exampleCheck122"
+													></label>
+												</span>
+												<input type="hidden" name="type_inbox_message" value="inbox message">
+											</td>
+										</tr>
+										<tr>
+											<td></td>
+											<td>order messages</td>
+											<td>
+												<span class="form-check">
+													<input
+														type="checkbox"
+														class="form-check-input"
+														id="exampleCheck1565"
+														name="email_order_message"
+														value="1" {{Engezli::getNotificationEmail($userData->id,'order messages') == '1' ? 'checked="checked"' : ''}}
+													/>
+													<label
+														class="form-check-label"
+														for="exampleCheck1565"
+													>
+													</label>
+												</span>
+											</td>
+											<td>
+												<span class="form-check">
+													<input
+														type="checkbox"
+														class="form-check-input"
+														id="exampleCheck122654654"
+														name="mobile_order_message"
+														value="1" {{Engezli::getNotificationMobile($userData->id,'order messages') == '1' ? 'checked="checked"' : ''}}
+													/>
+													<label
+														class="form-check-label"
+														for="exampleCheck122654654"
+													></label>
+												</span>
+												<input type="hidden" name="type_order_message" value="order messages">
+											</td>
+										</tr>
+										<tr>
+											<td></td>
+											<td>order updates</td>
+											<td>
+												<span class="form-check">
+													<input
+														type="checkbox"
+														class="form-check-input"
+														id="exampleCheck1"
+														name="email_order_updates"
+														value="1" {{Engezli::getNotificationEmail($userData->id,'order updates') == '1' ? 'checked="checked"' : ''}}
+														/>
+													<label
+														class="form-check-label"
+														for="exampleCheck1"
+													>
+													</label>
+												</span>
+											</td>
+											<td>
+												<span class="form-check">
+													<input
+														type="checkbox"
+														class="form-check-input"
+														id="exampleCheck122"
+														name="mobile_order_updates"
+														value="1" {{Engezli::getNotificationMobile($userData->id,'order updates') == '1' ? 'checked="checked"' : ''}}
+														/>
+													<label
+														class="form-check-label"
+														for="exampleCheck122"
+													></label>
+												</span>
+												<input type="hidden" name="type_order_updates" value="order updates">
+											</td>
+										</tr>
+										<tr>
+											<td></td>
+											<td>buyer request</td>
+											<td></td>
+											<td>
+												<span class="form-check">
+													<input
+														type="checkbox"
+														class="form-check-input"
+														id="exampleCheck12234534"
+														name="mobile_buyer_request"
+														value="1" {{Engezli::getNotificationMobile($userData->id,'buyer request') == '1' ? 'checked="checked"' : ''}}
+														/>
+													<label
+														class="form-check-label"
+														for="exampleCheck12234534"
+													></label>
+												</span>
+												<input type="hidden" name="type_buyer_request" value="buyer request">
+											</td>
+										</tr>
+										<tr>
+											<td></td>
+											<td>my gigs</td>
+											<td></td>
+											<td>
+												<span class="form-check">
+													<input
+														type="checkbox"
+														class="form-check-input"
+														id="exampleCheck12202"
+														name="mobile_my_gigs"
+														value="1" {{Engezli::getNotificationMobile($userData->id,'my gigs') == '1' ? 'checked="checked"' : ''}}
+														/>
+													<label
+														class="form-check-label"
+														for="exampleCheck12202"
+													></label>
+												</span>
+												<input type="hidden" name="type_my_gigs" value="my gigs">
+											</td>
+										</tr>
+										<tr>
+											<td></td>
+											<td>my account</td>
+											<td></td>
+											<td>
+												<span class="form-check">
+													<input
+														type="checkbox"
+														class="form-check-input"
+														id="exampleCheck12268531"
+														name="mobile_my_account"
+														value="1" {{Engezli::getNotificationMobile($userData->id,'my account') == '1' ? 'checked="checked"' : ''}}
+														/>
+													<label
+														class="form-check-label"
+														for="exampleCheck12268531"
+													></label>
+												</span>
+												<input type="hidden" name="type_my_account" value="my account">
+											</td>
+										</tr>
+										<tr>
+											<td></td>
+											<td>to-dos</td>
+											<td></td>
+											<td>
+												<span class="form-check">
+													<input
+														type="checkbox"
+														class="form-check-input"
+														id="exampleCheck12268531"
+														name="mobile_to_dos"
+														value="1" {{Engezli::getNotificationMobile($userData->id,'to-dos') == '1' ? 'checked="checked"' : ''}}
+														/>
+													<label
+														class="form-check-label"
+														for="exampleCheck12268531"
+													></label>
+												</span>
+												<input type="hidden" name="type_to_dos" value="to-dos">
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<div class="real-time-notification">
+								<h6>
+									real-time notifications <i class="fa fa-info-circle"></i>
+								</h6>
+								<div class="inner-content mt-3">
+									<div class="box d-flex">
+										<p>Enable/Disable real-time notification</p>
+										<div class="custom-control custom-switch">
+											<input
+												type="checkbox"
+												class="custom-control-input"
+												id="customSwitch984"
+												data="off"
+												name="notification"
+												value="1"
+												{{$userData->notification == '1' ? 'checked="checked"' : ''}}
+											/>
+											<label
+												class="custom-control-label control-package text-primary ml-md-5"
+												for="customSwitch984"
+											>
+												<strong>Try me</strong>
+											</label>
+										</div>
+									</div>
+									<div class="box d-flex">
+										<p>Enable/Disable sound</p>
+										<div class="custom-control custom-switch">
+											<input
+												type="checkbox"
+												class="custom-control-input"
+												id="customSwitch1654"
+												name="sound"
+												data="off"
+												value="1"
+												{{$userData->sound == '1' ? 'checked="checked"' : ''}}
+											/>
+											<label
+												class="custom-control-label control-package text-secondary ml-md-5"
+												for="customSwitch1654"
+											>
+												<i class="fa fa-volume-up" aria-hidden="true"></i>
+											</label>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="btn-container text-right mt-4">
+								<button type="submit" class="btn custom-btn btn-primary text-white">
+									save changes
+								</button>
+							</form>
+							</div>
+						</div>
 					</div>
 					<div
 						class="tab-pane fade"
@@ -422,7 +877,126 @@
 						role="tabpanel"
 						aria-labelledby="pills-billing-information-tab"
 					>
-						{{ __('home.billing information')}}
+						<!-- {{ __('home.billing information')}} -->
+						<div class="outer-box">
+							@if(Session::has('billing_success'))
+							<div class="alert alert-success">
+								{{ Session::get('billing_success') }}
+								@php
+								Session::forget('billing_success');
+								@endphp
+							</div>
+							@endif
+							<form class="" action="{{url('save-billing-info')}}" method="post">
+								{{csrf_field()}}
+								<input type="hidden" name="billing_id" value="@if($userBillingData) {{$userBillingData->id}} @endif">
+							<div class="row">
+								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+									<div class="form-group">
+										<label for=""><strong>Full name</strong></label>
+										<input type="text" name="name" class="form-control"
+										value="@if($userBillingData) {{$userBillingData->name}} @endif"
+										 required />
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+									<div class="form-group">
+										<label for=""><strong>Company name</strong></label>
+										<input type="text" name="company_name" class="form-control"
+										value="@if($userBillingData) {{$userBillingData->company_name}} @endif"
+										 />
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+									<div class="form-group">
+										<label for=""><strong>Country</strong></label>
+										<div class="country">
+											<select class="form-control billing-country" name="country" id="" required>
+												<option value="">Select Country</option>
+												@foreach(Engezli::get_countries() as $country)
+												<option value="{{$country->id}}" @if($userBillingData) {{$userBillingData->country == $country->id ? 'selected="selected"' : ''}} @endif>{{$country->name}}</option>
+												@endforeach
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+									<div class="form-group">
+										<label for=""
+											><strong>State/Province/Territory</strong></label>
+										<select class="form-control billing-state" name="state" required>
+											@if($userBillingData)
+											@foreach(Engezli::getStates($userBillingData->country) as $state)
+											<option value="{{$state->id}}" @if($userBillingData) {{$userBillingData->state == $state->id ? 'selected="selected"' : ''}} @endif>{{$state->name}}</option>
+											@endforeach
+											@endif
+										</select>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+									<div class="form-group">
+										<label for=""><strong>City</strong></label>
+										<select class="form-control billing-city" name="city" required>
+											@if($userBillingData)
+											@foreach(Engezli::getCities($userBillingData->state) as $city)
+											<option value="{{$city->id}}" @if($userBillingData) {{$userBillingData->city == $city->id ? 'selected="selected"' : ''}} @endif>{{$city->name}}</option>
+											@endforeach
+											@endif
+										</select>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+									<div class="form-group">
+										<label for=""><strong>Address</strong></label>
+										<input type="text" name="address" class="form-control"
+										value="@if($userBillingData) {{$userBillingData->address}} @endif"
+										required />
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+									<div class="form-group">
+										<label for=""><strong>Postal code</strong></label>
+										<input type="text" name="post_code" class="form-control"
+										value="@if($userBillingData) {{$userBillingData->post_code}} @endif"
+										 required/>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+									<div class="form-group">
+										<label for=""><strong>VAT number</strong></label>
+										<input type="text" name="vat_number" class="form-control"
+										value="@if($userBillingData) {{$userBillingData->vat_number}} @endif"
+										 required/>
+									</div>
+								</div>
+								<div class="col-12">
+									<label for=""><strong>Invoices</strong></label>
+									<div class="form-group form-check">
+										<input
+											type="checkbox"
+											class="form-check-input"
+											id="exampleCheck16546546"
+											name="status"
+											value="1"
+											@if($userBillingData) {{$userBillingData->status == '1' ? 'checked="checked"' : ''}} @endif
+										/>
+										<label
+											class="form-check-label"
+											for="exampleCheck16546546"
+											>Yes, email my billing info and original
+											invoices.</label
+										>
+									</div>
+								</div>
+							</div>
+
+							<div class="btn-container text-right mt-4">
+								<button type="submit" class="btn custom-btn btn-primary text-white">
+									save changes
+								</button>
+							</div>
+						</form>
+						</div>
 					</div>
 					<div
 						class="tab-pane fade"
@@ -725,9 +1299,67 @@
 		</div>
 	</div>
 </div>
+
+<!-- Modal -->
+<div
+	class="modal fade"
+	id="exampleModal"
+	tabindex="-1"
+	aria-labelledby="exampleModalLabel"
+	aria-hidden="true"
+>
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-body p-4">
+				<h5 class="modal-title" id="exampleModalLabel">
+					Change Your Phone Number
+				</h5>
+				<small
+					>Please answer the security question so we can make sure it’s
+					you.</small
+				>
+
+				<div class="form-group mt-4">
+					<label for=""
+						><strong>What was your childhood nickname?</strong></label
+					>
+					<input type="text" class="form-control" />
+				</div>
+
+				<div class="btn-container">
+					<button
+						type="button"
+						class="btn custom-btn btn-primary text-white mt-3"
+						disabled
+					>
+						Save changes
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 @endsection
 @section('script')
 <script>
+var url = window.location.href;
+    var id = url.substring(url.lastIndexOf('?') + 1);
+		if (id == 'password') {
+			$('#pills-account-tab').removeClass('active');
+			$('#pills-account').removeClass('active show');
+			$('#pills-security-tab').addClass('active');
+			$('#pills-security').addClass('active show');
+		}else if (id == 'billing') {
+			$('#pills-account-tab').removeClass('active');
+			$('#pills-account').removeClass('active show');
+			$('#pills-billing-information-tab').addClass('active');
+			$('#pills-billing-information').addClass('active show');
+		}else if (id == 'notification') {
+			$('#pills-account-tab').removeClass('active');
+			$('#pills-account').removeClass('active show');
+			$('#pills-notifications-tab').addClass('active');
+			$('#pills-notifications').addClass('active show');
+		}
 	$('#cv-arquivo').change(function () {
 		// var id = $(this).attr("id");
 		var newimage = new FileReader();
@@ -738,6 +1370,38 @@
 	});
 	$('#delete_img').click(function(){
 		$('.uploadpreview').html('<img src="images/s1.png">');
+	});
+
+	$(document).ready(function () {
+		$('.billing-country').on('change',function(){
+			var countryId = $(this).val();
+			States(countryId,'billing-state')
+		})
+		function States(countryId,cType){
+			$.ajax({
+				url: "{{ url('get-state') }}/"+countryId,
+				success: function(response){
+					var currentState = $('.'+cType).attr('data-state');
+					$('.'+cType).html('').trigger('change');
+					$('.'+cType).append(response).trigger('change');
+				}
+			})
+		}
+		$('.billing-state').on('change',function(){
+			var stateId = $(this).val();
+				Cities(stateId,'billing-city');
+		})
+
+		function Cities(stateId,cType){
+			$.ajax({
+				url: "{{ url('get-city') }}/"+stateId,
+				success: function(response){
+					var currentState = $('.'+cType).attr('data-city');
+					$('.'+cType).html('').trigger('change');
+					$('.'+cType).append(response).trigger('change');
+				}
+			})
+		}
 	});
 </script>
 @endsection

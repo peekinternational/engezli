@@ -71,6 +71,8 @@ Route::get('facebook/callback', [SocialAuthController::class, 'FacebookProviderC
 // Route::get('twitter/callback', [SocialAuthController::class, 'TwitterProviderCallback']);
 Route::get('login/google', [SocialAuthController::class, 'redirectToGoogle']);
 Route::get('google/callback', [SocialAuthController::class, 'GoogleProviderCallback']);
+Route::get('get-city/{id}', [HomeController::class, 'getCities']);
+Route::get('get-state/{id}', [HomeController::class, 'getState']);
 
 
 Route::group(['middleware' => 'auth'], function() {
@@ -86,6 +88,7 @@ Route::get('/manage-orders-ajax/{order}', [OrderController::class, 'manageOrders
 
 // Service Route
 Route::resource('/create-service', CreateServiceController::class);
+Route::post('/create-faq', [CreateServiceController::class, 'createFaq']);
 // Route::post('/update-service/{id}', [CreateServiceController::class, 'update_service']);
 Route::post('/fetch_subcategory', [CreateServiceController::class, 'fetch_subcategory']);
 Route::post('/fetch_package_option', [CreateServiceController::class, 'fetch_package_option']);
@@ -104,4 +107,7 @@ Route::post('/order', [OrderController::class, 'order']);
 Route::post('/create_order', [OrderController::class, 'CreateOrder']);
 Route::post('/save_requirement', [OrderController::class, 'SaveRequirement']);
 Route::get('/manage-orders', [OrderController::class, 'manageOrders']);
+Route::post('/change-password', [ProfileController::class, 'ChangePassword']);
+Route::post('/save-billing-info', [ProfileController::class, 'SaveBilling']);
+Route::post('/save-notificatoins-setting', [ProfileController::class, 'SaveNotificationSetting']);
 });

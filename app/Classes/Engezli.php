@@ -4,7 +4,11 @@ use DB;
 use Session;
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Countries;
+use App\Models\States;
+use App\Models\Cities;
 use App\Models\Categories;
+use App\Models\NotificationSetting;
 use App\Models\PackagesOption;
 use App\Models\Language;
 use App\Models\Skills;
@@ -34,6 +38,32 @@ class Engezli {
 	public function get_language($id){
 		$langName = Language::whereid($id)->first();
 		return $langName;
+	}
+	public function get_countries(){
+		$countries = Countries::get();
+		return $countries;
+	}
+	public function getStates($id){
+		$states = States::where('country_id',$id)->get();
+		return $states;
+	}
+	public function getCities($id){
+		$cities = Cities::where('state_id',$id)->get();
+		return $cities;
+	}
+	public function getNotificationEmail($user_id,$type){
+		$notifications = NotificationSetting::where('user_id',$user_id)->where('type',$type)->first();
+		if ($notifications != null) {
+			$notifications = $notifications->email;
+		}
+		return $notifications;
+	}
+	public function getNotificationMobile($user_id,$type){
+		$notifications = NotificationSetting::where('user_id',$user_id)->where('type',$type)->first();
+		if ($notifications != null) {
+			$notifications = $notifications->mobile;
+		}
+		return $notifications;
 	}
 }
 ?>

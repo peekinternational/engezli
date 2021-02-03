@@ -111,7 +111,7 @@
 														<p class="max-char"><span class="descCount">0</span>/80 max</p>
 													</div>
 													<span class="display_error">{{ $errors->first('service_title') }}</span>
-													
+
 												</div>
 											</div>
 
@@ -137,7 +137,7 @@
 															<option value="{{$mainCat->id}}" {{$getSingleData->cat_id == $mainCat->id ? 'selected': ''}}>{{$mainCat->cat_title}}</option>
 															@endforeach
 														</select>
-														
+
 														<select name="cat_child_id" id="sub-category" class="custom-select">
 															<option value="{{$getSingleData->cat_child_id}}">{{Engezli::get_subcat($getSingleData->cat_child_id)->cat_title}}</option>
 														</select>
@@ -204,7 +204,7 @@
 														<input type="hidden" name="package_type" value="basic">
 														<input type="hidden" name="proposal_packages[1][package_title]" value="Basic">
 														<input type="hidden" name="proposal_packages[1][package_id]" value="<?= $package1->id; ?>">
-														
+
 														<textarea
 															name="proposal_packages[1][package_name]"
 															id=""
@@ -276,9 +276,9 @@
 													</div>
 														<span class="revision1-error text-danger"  style="display: none;">Revision is required</span>
 													<div class="extra-options packg-options1">
-														
+
 													</div>
-													
+
 													{{$package1->package_price}}
 													<div class="form-group price-dropdown">
 														<select name="proposal_packages[1][package_price]" id="package_price1" class="select2">
@@ -306,7 +306,7 @@
 														<input type="hidden" name="package_type" value="standard">
 														<input type="hidden" name="proposal_packages[2][package_title]" value="Standard">
 														<input type="hidden" name="proposal_packages[2][package_id]" value="<?= $package2->id; ?>">
-														
+
 														<textarea
 															name="proposal_packages[2][package_name]"
 															id=""
@@ -374,7 +374,7 @@
 													</div>
 
 													<div class="extra-options packg-options2">
-														
+
 													</div>
 
 													<div class="form-group price-dropdown">
@@ -469,7 +469,7 @@
 													</div>
 
 													<div class="extra-options packg-options3">
-														
+
 													</div>
 
 													<div class="form-group price-dropdown">
@@ -769,7 +769,7 @@
 								</div>
 								<div class="tab-pane fade descriptionFaq-tab" id="descriptionFaq" role="tabpanel"
 									aria-labelledby="descriptionFaq-tab">
-									
+
 									<div class="tab-pane-box">
 										<form id="description-form">
 											<div class="heading">
@@ -795,14 +795,15 @@
 													{{ __('home.Add Questions & Answers for Your Buyers.')}}
 												</p>
 												<form id="faq-form">
+													<input type="hidden" name="service_id" value="{{$getSingleData->id}}">
 													<div class="input-box-container d-none" id="input-box-content">
 														<div class="form-group">
 															<input type="hidden" name="type" value="3">
-															<input type="text" id="faq_title" name="title" class="form-control"
+															<input type="text" id="faq_title" name="title" class="form-control faq_title"
 																placeholder="Add a Question: i.e. Do you translate to English as well?" />
 														</div>
 														<div class="form-group">
-															<textarea maxlength="300" id="faq_description" name="description" class="form-control" rows="3"
+															<textarea maxlength="300" id="faq_description" name="description" class="form-control faq_desc" rows="3"
 																placeholder="Add an Answer: i.e. Yes, I also translate from English to Hebrew."></textarea>
 														</div>
 
@@ -817,8 +818,10 @@
 													</div>
 												</form>
 												<div class="added-faq-box-container">
-													
+
 													@foreach($getSingleFaq as $faq)
+													<form class="faq-form" method="post">
+
 													<div class="card">
 														<div class="card-header" id="heading{{$faq->id}}">
 															<h5 class="mb-0">
@@ -844,15 +847,16 @@
 
 																	<div class="btn-container-box">
 																		<div class="btns">
-																			<button class="custom-btn delete-btn">
+																			<a href="javascript:void(0);" onclick="deleteFaq({{$faq->id}});" class="custom-btn delete-btn">
 																				<i class="fa fa-times"></i> delete
-																			</button>
+																			</a>
 																		</div>
 																		<div class="btns">
-																			<button class="custom-btn">
-																				cancle
+																			<button class="custom-btn" data-toggle="collapse"
+																				data-target="#collapse{{$faq->id}}" aria-expanded="false" aria-controls="collapse{{$faq->id}}">
+																				cancel
 																			</button>
-																			<button class="custom-btn">
+																			<button type="submit" class="custom-btn">
 																				save
 																			</button>
 																		</div>
@@ -861,9 +865,10 @@
 															</div>
 														</div>
 													</div>
+												</form>
 													@endforeach
 													<div id="accordion" class="accordion">
-														
+
 													</div>
 												</div>
 											</div>
@@ -1164,7 +1169,7 @@
 								</div>
 							</div>
 
-							
+
 						</div>
 					</div>
 					<!-- <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
@@ -1188,7 +1193,7 @@
 			pane = $(".create-service .tab-pane");
 		// next
 		$(".nexttab").on("click", function () {
-			
+
 			for (i = 0; i < items.length; i++) {
 				if ($(items[i]).hasClass("active") == true) {
 					break;
@@ -1334,7 +1339,7 @@
 					}
 				});
 			}
-			
+
 
 		})
 
@@ -1350,7 +1355,7 @@
 				data:{service_desc:service_desc,type:type},
 				success:function(data){
 					console.log(data);
-					
+
 					$("#requirements-tab").removeClass("active");
 			    $("#descriptionFaq-tab").addClass("active");
 		    	$("#descriptionFaq").removeClass("show active");
@@ -1360,27 +1365,46 @@
 
 		})
 
-		$('#faq-form').on('submit', function(event){
-		  event.preventDefault();
-		  var title = $('#faq_title').val();
-		  var description = $('#faq_description').val();
-		  var type = "3";
-		  $.ajax({
-		   url:"{{url('create-service/'.$getSingleData->id)}}",
-		   method:"PATCH",
-		   data:{title: title, description: description, type: type},
-		   // dataType:'JSON',
-		   // contentType: false,
-		   cache: false,
-		   processData: false,
-		   success:function(data){
-		    console.log(data);
-		    $('.accordion').append(data);
-		    $("#faq-form input").val('');
-		    $("#faq-form textarea").val('');
-		   }
-		  })
-	 });
+		// $('#faq-form').on('submit', function(event){
+		//   event.preventDefault();
+		//   var title = $('#faq_title').val();
+		//   var description = $('#faq_description').val();
+		//   var type = "3";
+		//   $.ajax({
+		//    url:"{{url('create-service/'.$getSingleData->id)}}",
+		//    method:"PATCH",
+		//    data:{title: title, description: description, type: type},
+		//    // dataType:'JSON',
+		//    // contentType: false,
+		//    cache: false,
+		//    processData: false,
+		//    success:function(data){
+		//     console.log(data);
+		//     $('.accordion').append(data);
+		//     $("#faq-form faq_title").val('');
+		//     $("#faq-form faq_desc").val('');
+		//    }
+		//   })
+	 // });
+
+	 $('#faq-form').on('submit', function(event){
+		 event.preventDefault();
+		 $.ajax({
+			url:"{{url('create-faq')}}",
+			method:"POST",
+			data:new FormData(this),
+			dataType:'JSON',
+			contentType: false,
+			cache: false,
+			processData: false,
+			success:function(data){
+			 console.log(data);
+			 $('.accordion').append(data);
+			 $("#faq-form .faq_title").val('');
+			 $("#faq-form .faq_desc").val('');
+			}
+		 })
+	});
 
 		$('#gallery-submit').click(function(event){
 		  event.preventDefault();
@@ -1482,7 +1506,7 @@
 			}
 	 });
 
-		
+
 	});
 </script>
 
@@ -1496,7 +1520,7 @@
 
 <!-- image-upload -->
 <script>
-	
+
 	// Gig photos
 	$('.gig-photos input[type=file]').change(function () {
 		var id = $(this).attr("id");
@@ -1541,7 +1565,7 @@
 	});
 
 	$("#sub-category").change(function(){
-	  
+
 	  var category_id = $(this).val();
 	  // alert(category_id);
 	  $.ajax({
@@ -1559,12 +1583,12 @@
 
 	$("#service_title").keydown(function(){
 		var textarea = $("#service_title").val();
-		$(".descCount").text(textarea.length);  
+		$(".descCount").text(textarea.length);
 	});
 
 	$("#seo_title").keydown(function(){
 		var textarea = $("#seo_title").val();
-		$(".seoCount").text(textarea.length);  
+		$(".seoCount").text(textarea.length);
 	});
 </script>
 @endsection
