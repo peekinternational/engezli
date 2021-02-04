@@ -809,9 +809,9 @@
 
 														<div class="btn-container-box">
 															<div class="btns">
-																<button class="custom-btn cancle-btn">
+																<a class="custom-btn cancle-btn">
 																	{{ __('home.Cancel')}}
-																</button>
+																</a>
 																<button class="custom-btn" type="submit" id="faq-submit">{{ __('home.Save')}}</button>
 															</div>
 														</div>
@@ -820,14 +820,12 @@
 												<div class="added-faq-box-container">
 
 													@foreach($getSingleFaq as $faq)
-													<form class="faq-form" method="post">
-
 													<div class="card">
 														<div class="card-header" id="heading{{$faq->id}}">
 															<h5 class="mb-0">
-																<button class="btn btn-link collapsed" data-toggle="collapse"
+																<button class="btn btn-link collapsed" id="collapse-button{{$faq->id}}" data-toggle="collapse"
 																	data-target="#collapse{{$faq->id}}" aria-expanded="false" aria-controls="collapse{{$faq->id}}">
-																	{{$faq->title}}
+																	<span class="faq_heading{{$faq->id}}">{{$faq->title}}</span>
 																</button>
 															</h5>
 														</div>
@@ -837,26 +835,26 @@
 															<div class="card-body">
 																<div class="input-box-container">
 																	<div class="form-group">
-																		<input type="text" value="{{$faq->title}}" class="form-control"
+																		<input type="text" value="{{$faq->title}}" name="title" id="title-{{$faq->id}}"  class="form-control"
 																			placeholder="Add a Question: i.e. Do you translate to English as well?" />
 																	</div>
 																	<div class="form-group">
-																		<textarea maxlength="300" class="form-control" rows="3"
+																		<textarea maxlength="300" name="description" id="description-{{$faq->id}}" class="form-control" rows="3"
 																			placeholder="Add an Answer: i.e. Yes, I also translate from English to Hebrew.">{{$faq->description}}</textarea>
 																	</div>
 
 																	<div class="btn-container-box">
 																		<div class="btns">
-																			<a href="javascript:void(0);" onclick="deleteFaq({{$faq->id}});" class="custom-btn delete-btn">
+																			<button onclick="deleteFaq({{$faq->id}})" class="custom-btn delete-btn">
 																				<i class="fa fa-times"></i> delete
-																			</a>
+																			</button>
 																		</div>
 																		<div class="btns">
 																			<button class="custom-btn" data-toggle="collapse"
 																				data-target="#collapse{{$faq->id}}" aria-expanded="false" aria-controls="collapse{{$faq->id}}">
 																				cancel
 																			</button>
-																			<button type="submit" class="custom-btn">
+																			<button class="custom-btn faq_button" data-id="{{$faq->id}}">
 																				save
 																			</button>
 																		</div>
@@ -865,7 +863,6 @@
 															</div>
 														</div>
 													</div>
-												</form>
 													@endforeach
 													<div id="accordion" class="accordion">
 
@@ -880,15 +877,16 @@
 										</div>
 								</div>
 								<div class="tab-pane fade  requirements-tab" id="requirements" role="tabpanel" aria-labelledby="requirements-tab">
-									<form id="requirements-form">
-										<input type="hidden" name="type" value="4">
 										<div class="tab-pane-box">
+											<form id="requirements-form">
+												<input type="hidden" name="service_id" value="{{$getSingleData->id}}">
+												<input type="hidden" name="type" value="4">
 											<div class="require-text-title">
 												<h5>
 													<i class="fa fa-file"></i> {{ __('home.Here’s how buyers will see your questions. You can edit or remove questions anytime.')}}
 												</h5>
 											</div>
-											<div class="question-input-container d-none">
+											<div class="question-input-container add-requirment d-none">
 												<div class="add-ques-header">
 													<h6>{{ __('home.add question')}}</h6>
 													<div class="answer-type">
@@ -933,6 +931,7 @@
 													</div>
 												</div>
 											</div>
+										</form>
 											<div class="added-questions d-none" id="added-questions">
 												<!-- <div class="question-list-item">
 													<div class="inner-text">
@@ -968,7 +967,7 @@
 												@foreach($getSingleReq as $request)
 												<div class="question-list-item">
 													<div class="inner-text">
-														<p>{{$request->response}}</p>
+														<p class="requirement-response{{$request->id}}">{{$request->response}}</p>
 														<div class="dropdown">
 															<a
 																class="nav-link globe-icon"
@@ -985,14 +984,59 @@
 																class="dropdown-menu"
 																aria-labelledبواسطة="navbarDropdown"
 															>
-																<a class="dropdown-item" href="#">Edit</a>
+																<a class="dropdown-item" href="javascript:void(0);" onclick="showRequirement({{$request->id}})">Edit</a>
 																<a class="dropdown-item" href="#">Delete</a>
 															</div>
 														</div>
 													</div>
-													<h6>
+													<h6 class="requirement-heading{{$request->id}}">
 														{{$request->question}}
 													</h6>
+												</div>
+												<div class="question-input-container d-none" id="requirement{{$request->id}}">
+													<div class="add-ques-header">
+														<h6>{{ __('home.add question')}}</h6>
+														<div class="answer-type">
+															<span>{{ __('home.answer type')}}</span>
+															<select name="response" id="response{{$request->id}}" class="select2">
+																<option value="free text"{{$request->response == 'free text' ? 'selected="selected"' : ''}}>{{ __('home.free text')}}</option>
+																<option value="attachement"{{$request->response == 'attachement' ? 'selected="selected"' : ''}}>{{ __('home.Attachement')}}</option>
+															</select>
+														</div>
+													</div>
+
+													<textarea
+														name="question"
+														class="form-control question-textarea"
+														id="question{{$request->id}}"
+														rows="3"
+														placeholder="Request necessary details such as dimensions, brand guidelines, and more."
+													>{{$request->question}}</textarea>
+
+													<div class="sub-box">
+														<div class="form-check">
+															<input
+																type="checkbox"
+																class="form-check-input"
+																id="exampleCheck1"
+															/>
+															<label
+																class="form-check-label"
+																for="exampleCheck1"
+																>{{ __('home.Answer is mandatory')}}</label
+															>
+														</div>
+														<p class="max-char"><span>0</span>/450 max</p>
+													</div>
+
+													<div class="btn-container-box">
+														<div class="btns">
+															<button class="custom-btn btn-cancle">
+																{{ __('home.Cancel')}}
+															</button>
+															<button class="custom-btn btn-add requirement_button" data-id="{{$request->id}}"  id="requirements-btn">{{ __('home.add')}}</button>
+														</div>
+													</div>
 												</div>
 												@endforeach
 											</div>
@@ -1051,7 +1095,6 @@
 												<i class="fa fa-plus"></i> add new question
 											</button>
 										</div> -->
-									</form>
 
 									<div class="btns-group">
 										<!-- <button class="prevtab btn btn-primary">Prev</button> -->
@@ -1238,21 +1281,21 @@
 
 		// show question-input-container
 		$(".add-new-btn-ques").on("click", function (e) {
-			$(".question-input-container").removeClass("d-none");
+			$(".add-requirment").removeClass("d-none");
 			// $(".added-questions").removeClass("d-none");
 			$(this).addClass("d-none");
 		});
 
 		// hide question-input-container
-		$(".question-input-container .btn-cancle").on("click", function (e) {
-			$(".question-input-container").addClass("d-none");
+		$(".add-requirment .btn-cancle").on("click", function (e) {
+			$(".add-requirment").addClass("d-none");
 			$(".add-new-btn-ques").removeClass("d-none");
 		});
 
 		// show added-questions
-		$(".question-input-container .btn-add").on("click", function (e) {
+		$(".add-requirment .btn-add").on("click", function (e) {
 			$(".added-questions").removeClass("d-none");
-			$(".question-input-container").addClass("d-none");
+			$(".add-requirment").addClass("d-none");
 			$(".add-new-btn-ques").removeClass("d-none");
 		});
 
@@ -1381,30 +1424,50 @@
 		//    success:function(data){
 		//     console.log(data);
 		//     $('.accordion').append(data);
-		//     $("#faq-form faq_title").val('');
-		//     $("#faq-form faq_desc").val('');
+		//     $("#faq-form input").val('');
+		//     $("#faq-form textarea").val('');
 		//    }
 		//   })
 	 // });
 
 	 $('#faq-form').on('submit', function(event){
-		 event.preventDefault();
-		 $.ajax({
-			url:"{{url('create-faq')}}",
-			method:"POST",
-			data:new FormData(this),
-			dataType:'JSON',
-			contentType: false,
-			cache: false,
-			processData: false,
-			success:function(data){
-			 console.log(data);
-			 $('.accordion').append(data);
-			 $("#faq-form .faq_title").val('');
-			 $("#faq-form .faq_desc").val('');
-			}
-		 })
-	});
+		event.preventDefault();
+		$.ajax({
+		 url:"{{url('create-faq')}}",
+		 method:"POST",
+		 data:new FormData(this),
+		 dataType:'JSON',
+		 contentType: false,
+		 cache: false,
+		 processData: false,
+		 success:function(data){
+			// console.log(data);
+			$('.accordion').append(data);
+			$("#faq-form .faq_title").val('');
+			$("#faq-form .faq_desc").val('');
+		 }
+		})
+ });
+
+ $(document).on('click','.faq_button', function () {
+ 	var id = $(this).data('id');
+	var title = $('#title-'+id).val();
+	var description = $('#description-'+id).val();
+	console.log(id,title,description);
+	$.ajax({
+	 url:"{{url('update-faq')}}",
+	 method:"POST",
+	 data:{id:id,title:title,description:description},
+	 dataType:'JSON',
+	 success:function(data){
+		$('.faq_heading'+id).text(title);
+		$('#collapse-button'+id).addClass('collapsed');
+		$('#collapse'+id).removeClass('show');
+	 }
+	})
+ });
+
+
 
 		$('#gallery-submit').click(function(event){
 		  event.preventDefault();
@@ -1447,11 +1510,11 @@
 		  var question = $('#question').val();
 		  var type = "4";
 		  $.ajax({
-		   url:"{{url('create-service/'.$getSingleData->id)}}",
-		   method:"PATCH",
-		   data:{question:question, response:response, type:type},
-		   // dataType:'JSON',
-		   // contentType: false,
+		   url:"{{url('create-requirements')}}",
+		   method:"POST",
+		   data:new FormData(this),
+		   dataType:'JSON',
+		   contentType: false,
 		   cache: false,
 		   processData: false,
 		   success:function(data){
@@ -1459,6 +1522,24 @@
 		   	$('#requirements-form textarea').val('');
 		   }
 		  })
+	 });
+
+	 $(document).on('click','.requirement_button', function () {
+		 var id = $(this).data('id');
+	 var response = $('#response'+id).val();
+	 var question = $('#question'+id).val();
+	 console.log(id,response,question);
+	 $.ajax({
+		url:"{{url('update-requirement')}}",
+		method:"POST",
+		data:{id:id,response:response,question:question},
+		dataType:'JSON',
+		success:function(data){
+		 $('#requirement'+id).addClass('d-none');
+		 $('.requirement-response'+id).text(response);
+		 $('.requirement-heading'+id).text(question);
+		}
+	 })
 	 });
 
 		$('#package-form').on('submit', function(event){
@@ -1590,5 +1671,19 @@
 		var textarea = $("#seo_title").val();
 		$(".seoCount").text(textarea.length);
 	});
+
+	function deleteFaq(faq_id) {
+		$.ajax({
+		 url: "{{url('delete_faq')}}/"+faq_id,
+		 success:function(data){
+			 $('#heading'+faq_id).remove();
+			 $('#collapse'+faq_id).remove();
+		 }
+	 });
+	}
+
+	function showRequirement(req_id) {
+		$('#requirement'+req_id).removeClass('d-none');
+	}
 </script>
 @endsection

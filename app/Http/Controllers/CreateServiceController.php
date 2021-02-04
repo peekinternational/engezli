@@ -382,7 +382,7 @@ class CreateServiceController extends Controller
 
       $service = Services::find($id);
       $type = $request->input('type');
-      dd($request->all());
+      // dd($request->all());
       $service->seller_id = $user_id;
       $service->service_status = "pending";
       $service->posted_date = date("Y-m-d");
@@ -605,6 +605,8 @@ class CreateServiceController extends Controller
         }
     }
 
+
+
     public function createFaq(Request $request)
     {
       // dd($request->all());
@@ -625,28 +627,30 @@ class CreateServiceController extends Controller
 
       $faq_data = '<div class="card"><div class="card-header" id="heading'.$faq->id.'">'.
         '<h5 class="mb-0">'.
-          '<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse'.$faq->id.'" aria-expanded="false" aria-controls="collapse'.$faq->id.'">'.$faq->title.'</button>'.
+          '<button class="btn btn-link collapsed" id="collapse-button'.$faq->id.'" data-toggle="collapse" data-target="#collapse'.$faq->id.'" aria-expanded="false" aria-controls="collapse'.$faq->id.'">'.
+          '<span class="faq_heading'.$faq->id.'">'.$faq->title.'</span></button>'.
           '</h5>'.
         '</div>'.
         '<div id="collapse'.$faq->id.'" class="collapse" aria-labelledby="heading'.$faq->id.'" data-parent="#accordion">'.
           '<div class="card-body">'.
             '<div class="input-box-container">'.
               '<div class="form-group">'.
-                '<input type="text" value="'.$faq->title.'" class="form-control" placeholder="Add a Question: i.e. Do you translate to English as well?" />'.
+                '<input type="text" value="'.$faq->title.'" id="title-'.$faq->id.'" class="form-control" placeholder="Add a Question: i.e. Do you translate to English as well?" />'.
               '</div>'.
               '<div class="form-group">'.
-                '<textarea maxlength="300" class="form-control" rows="3" placeholder="Add an Answer: i.e. Yes, I also translate from English to Hebrew.">'.$faq->description.'</textarea>'.
+                '<textarea maxlength="300" class="form-control" id="description-'.$faq->id.'" rows="3" placeholder="Add an Answer: i.e. Yes, I also translate from English to Hebrew.">'.$faq->description.'</textarea>'.
               '</div>'.
 
               '<div class="btn-container-box">'.
                 '<div class="btns">'.
-                  '<button class="custom-btn delete-btn">'.
+                  '<button onclick="deleteFaq('.$faq->id.')" class="custom-btn delete-btn">'.
                     '<i class="fa fa-times"></i> delete'.
                   '</button>'.
                 '</div>'.
                 '<div class="btns">'.
-                  '<button class="custom-btn">cancle</button>'.
-                  '<button class="custom-btn">save</button>'.
+                  '<button class="custom-btn" data-toggle="collapse"
+                    data-target="#collapse'.$faq->id.'" aria-expanded="false" aria-controls="collapse'.$faq->id.'">cancel</button>'.
+                  '<button class="custom-btn faq_button" data-id="'.$faq->id.'">save</button>'.
                 '</div>'.
               '</div>'.
             '</div>'.
@@ -656,6 +660,106 @@ class CreateServiceController extends Controller
       return json_encode($faq_data);
 
     }
+
+    public function deleteFaq(Request $request, $id)
+    {
+      $faq = ServiceFaq::find($id);
+      $faq->delete();
+      echo "delete";
+    }
+
+    public function updateFaq(Request $request)
+    {
+      // dd($request->all());
+      $id = $request->input('id');
+      $faq = ServiceFaq::find($id);
+      $faq->title = $request->input('title');
+      $faq->description = $request->input('description');
+      $faq->update();
+      return $faq;
+    }
+
+    public function createRequirement(Request $request)
+    {
+      // dd($request->all());
+      $service_id = $request->input('service_id');
+      $requirementsData = [
+        'question' => $request->input('question'),
+        'response' => $request->input('response'),
+        'services_id' => $service_id
+      ];
+      $insertRequr = ServiceRequirement::create($requirementsData);
+
+      $requestId = $insertRequr->id;
+      // dd($faqId);
+      $request = ServiceRequirement::where('id',$requestId)->first();
+
+      $req_data =
+        '<div class="question-list-item">'.
+          '<div class="inner-text">'.
+            '<p>'.$request->response.'</p>'.
+            '<div class="dropdown">'.
+              '<a class="nav-link globe-icon" href="#" id="navbarDropdown'.$request->id.'" ="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'.
+                '<i class="fa fa-ellipsis-h"></i></a>'.
+              '<div class="dropdown-menu" aria-labelledبواسطة="navbarDropdown'.$request->id.'">'.
+                '<a class="dropdown-item" href="javascript:void(0);" onclick="showRequirement('.$request->id.')">Edit</a>'.
+                '<a class="dropdown-item" href="#">Delete</a>'.
+              '</div>'.
+            '</div>'.
+          '</div>'.
+          '<h6>'.$request->question.'</h6>'.
+        '</div>'.
+        '<div class="question-input-container d-none" id="requirement'.$request->id.'">'.
+          '<div class="add-ques-header">'.
+            '<h6>'. __("home.add question").'</h6>'.
+            '<div class="answer-type">'.
+              '<span>'. __("home.answer type").'</span>'.
+              '<select name="response" id="response'.$request->id.'" class="select2">'.
+                '<option value="free text"'.$request->response .' == "free text" ? "selected="selected"" : "">'. __("home.free text").'</option>'.
+                '<option value="attachement"'.$request->response .' == "attachement" ? "selected="selected"" : "">'. __('home.Attachement').'</option>'.
+              '</select>'.
+            '</div>'.
+          '</div>'.
+          '<textarea'.
+            'name="question"'.
+            'class="form-control question-textarea"'.
+            'id="question'.$request->id.'"'.
+            'rows="3"'.
+            'placeholder="Request necessary details such as dimensions, brand guidelines, and more">'.$request->question.'</textarea>'.
+          '<div class="sub-box">'.
+            '<div class="form-check">'.
+              '<input'.
+                'type="checkbox"'.
+                'class="form-check-input"'.
+                'id="exampleCheck1"'.
+              '/>'.
+              '<label'.
+                'class="form-check-label"'.
+                'for="exampleCheck1">'. __("home.Answer is mandatory").'</label>'.
+            '</div>'.
+            '<p class="max-char"><span>0</span>/450 max</p>'.
+          '</div>'.
+          '<div class="btn-container-box">'.
+            '<div class="btns">'.
+              '<button class="custom-btn btn-cancle">'. __("home.Cancel").'</button>'.
+              '<button class="custom-btn btn-add requirement_button" data-id="'.$request->id.'"  id="requirements-btn">'. __('home.add').'</button>'.
+            '</div>'.
+          '</div>'.
+        '</div>';
+      return json_encode($req_data);
+    }
+
+    public function updateRequirement(Request $request)
+    {
+      // dd($request->all());
+      $id = $request->input('id');
+      $requirement = ServiceRequirement::find($id);
+      $requirement->response = $request->input('response');
+      $requirement->question = $request->input('question');
+      $requirement->update();
+      return $requirement;
+    }
+
 
     public function update_service(Request $request, $id)
     {

@@ -89,6 +89,11 @@ Route::get('/manage-orders-ajax/{order}', [OrderController::class, 'manageOrders
 // Service Route
 Route::resource('/create-service', CreateServiceController::class);
 Route::post('/create-faq', [CreateServiceController::class, 'createFaq']);
+Route::post('/update-faq', [CreateServiceController::class, 'updateFaq']);
+Route::get('/delete_faq/{id}', [CreateServiceController::class, 'deleteFaq']);
+Route::post('/create-requirements', [CreateServiceController::class, 'createRequirement']);
+Route::post('/update-requirement', [CreateServiceController::class, 'updateRequirement']);
+
 // Route::post('/update-service/{id}', [CreateServiceController::class, 'update_service']);
 Route::post('/fetch_subcategory', [CreateServiceController::class, 'fetch_subcategory']);
 Route::post('/fetch_package_option', [CreateServiceController::class, 'fetch_package_option']);

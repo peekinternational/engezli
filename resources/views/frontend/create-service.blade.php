@@ -1252,8 +1252,7 @@
 				type: 'post',
 				data:{service_desc:service_desc,type:type},
 				success:function(data){
-					console.log(data);
-
+					// console.log(data);
 					$("#requirements-tab").removeClass("active");
 			    $("#descriptionFaq-tab").addClass("active");
 		    	$("#descriptionFaq").removeClass("show active");
@@ -1274,7 +1273,7 @@
 		   cache: false,
 		   processData: false,
 		   success:function(data){
-		    console.log(data);
+		    // console.log(data);
 		    $('.accordion').append(data);
 		    $("#faq-form .faq_title").val('');
 		    $("#faq-form .faq_desc").val('');
