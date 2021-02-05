@@ -19,6 +19,18 @@ class Engezli {
 		$categories = Categories::where('parent_id', '==', 0)->get();
 		return $categories;
 	}
+	public function get_subcategories($id){
+		$subcategories = Categories::where('parent_id', $id)->get();
+		return $subcategories;
+	}
+	public function check_child($id){
+		$subcategories = Categories::where('parent_id', $id)->first();
+		if ($subcategories !=null) {
+			return '1';
+		}else {
+			return '0';
+		}
+	}
 	public function get_subcat($id){
 		$sub_cat = Categories::whereid($id)->first();
 		return $sub_cat;

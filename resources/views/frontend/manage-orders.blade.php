@@ -129,7 +129,7 @@
                   @foreach($orders as $order)
                   <tr>
                     <td>
-                      <a href="">
+                      <a href="{{route('order-details',['number' => $order->order_number])}}">
                         <span
                           ><img src="{{asset('images/service_images/'.$order->serviceInfo->service_img1)}}" alt=""
                         /></span>

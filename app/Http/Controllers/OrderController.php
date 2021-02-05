@@ -95,6 +95,13 @@ class OrderController extends Controller
       return $save_requirement;
     }
 
+    public function OrderDetails(Request $request, $number)
+    {
+      $order = Order::with('serviceInfo','orderRequirement','sellerInfo')->where('order_number',$number)->first();
+      // dd($order);
+      return view('frontend.buyer-order',compact('order'));
+    }
+
     public function manageOrders(Request $request)
     {
       $user_id = auth()->user()->id;

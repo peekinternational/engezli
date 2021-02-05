@@ -88,7 +88,7 @@
 					</div>
 				</li>
 				<li class="nav-item {{ Request()->is('/order') ? 'active' : '' }}">
-					<a href="{{url('order')}}" class="nav-link">{{ __('home.Order')}}</a>
+					<a href="{{url('manage-orders')}}" class="nav-link">{{ __('home.Order')}}</a>
 				</li>
 				<li class="nav-item {{ Request()->is('/services/all') ? 'active' : '' }}">
 					<a href="{{url('services/all')}}" class="nav-link">{{ __('home.Service')}}</a>
@@ -109,7 +109,7 @@
 						aria-expanded="false">
 						<span> <i class="fa fa-globe"></i></span>
 					</a>
-					
+
 					<div class="dropdown-menu" aria-labelled="navbarDropdown">
 						<a class="dropdown-item  english-format"  data-info="en" style="cursor:pointer;" >English</a>
 						<a class="dropdown-item arabic-format" data-info="ar" style="cursor:pointer;" >Arabic</a>

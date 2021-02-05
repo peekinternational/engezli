@@ -85,6 +85,7 @@ Route::get('/messages', function () {
     return view('frontend.messages');
 });
 Route::get('/manage-orders-ajax/{order}', [OrderController::class, 'manageOrders_ajax']);
+Route::get('/order-details/{number}', [OrderController::class, 'OrderDetails'])->name('order-details');
 
 // Service Route
 Route::resource('/create-service', CreateServiceController::class);
@@ -93,6 +94,8 @@ Route::post('/update-faq', [CreateServiceController::class, 'updateFaq']);
 Route::get('/delete_faq/{id}', [CreateServiceController::class, 'deleteFaq']);
 Route::post('/create-requirements', [CreateServiceController::class, 'createRequirement']);
 Route::post('/update-requirement', [CreateServiceController::class, 'updateRequirement']);
+Route::get('/delete_requirement/{id}', [CreateServiceController::class, 'deleteRequirement']);
+Route::post('/update_gallery', [CreateServiceController::class, 'updateGallery']);
 
 // Route::post('/update-service/{id}', [CreateServiceController::class, 'update_service']);
 Route::post('/fetch_subcategory', [CreateServiceController::class, 'fetch_subcategory']);
@@ -105,7 +108,7 @@ Route::get('/services/{url}/{child_url}', [ServiceController::class, 'index']);
 
 Route::get('/get_services', [ServiceController::class, 'get_services']);
 Route::get('/search', [ServiceController::class, 'search_service']);
-Route::get('/{username}/{url}', [ServiceController::class, 'service_detail']);
+Route::get('/{username}/{url}', [ServiceController::class, 'service_detail'])->name('service-details');
 
 // Orders
 Route::post('/order', [OrderController::class, 'order']);

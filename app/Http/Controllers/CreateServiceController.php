@@ -239,33 +239,74 @@ class CreateServiceController extends Controller
 
         }elseif ($type == 4) {
           $service_id= Session::get('u_session');
-          // dd($service_id);
+          // dd($request->all());
           $requirementsData = [
             'question' => $request->input('question'),
             'response' => $request->input('response'),
             'services_id' => $service_id
           ];
+          $mandatory = $request->input('mandatory');
+          if ($mandatory !=null) {
+            $requirementsData['mandatory_status'] = $mandatory;
+          }
           $insertRequr = ServiceRequirement::create($requirementsData);
 
           $requestId = $insertRequr->id;
           // dd($faqId);
           $request = ServiceRequirement::where('id',$requestId)->first();
-
+          // dd($request);
           $req_data =
-            '<div class="question-list-item">'.
-              '<div class="inner-text">'.
-                '<p>'.$request->response.'</p>'.
-                '<div class="dropdown">'.
-                  '<a class="nav-link globe-icon" href="#" id="navbarDropdown'.$request->id.'" ="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'.
-                    '<i class="fa fa-ellipsis-h"></i></a>'.
-                  '<div class="dropdown-menu" aria-labelledبواسطة="navbarDropdown'.$request->id.'">'.
-                    '<a class="dropdown-item" href="#">Edit</a>'.
-                    '<a class="dropdown-item" href="#">Delete</a>'.
-                  '</div>'.
-                '</div>'.
-              '</div>'.
-              '<h6>'.$request->question.'</h6>'.
-            '</div>';
+          '<div class="question-list-item requiremet-question-'.$request->id.'">'.
+                        '<div class="inner-text">'.
+                          '<p class="requirement-response'.$request->id.'">'.$request->response.'</p>'.
+                          '<div class="dropdown">'.
+                            '<a class="nav-link globe-icon" href="#"id="navbarDropdown"'.
+                             'role="button" data-toggle="dropdown"aria-haspopup="true"'.
+                              'aria-expanded="false">'.
+                              '<i class="fa fa-ellipsis-h"></i></a>'.
+                            '<div class="dropdown-menu"'.
+                              'aria-labelledبواسطة="navbarDropdown">'.
+                              '<a class="dropdown-item" href="javascript:void(0);" onclick="showRequirement('.$request->id.')">Edit</a>'.
+                              '<a class="dropdown-item" href="javascript:void(0);" onclick="deleteRequirement('.$request->id.')">Delete</a>'.
+                            '</div>'.
+                          '</div>'.
+                        '</div>'.
+                        '<h6 class="requirement-heading'.$request->id.'">'.$request->question.'</h6>'.
+                      '</div>'.
+                      '<div class="question-input-container d-none requiremet-question-'.$request->id.'" id="requirement'.$request->id.'">'.
+                        '<div class="add-ques-header">'.
+                          '<h6>'. __("home.add question").'</h6>'.
+                          '<div class="answer-type">'.
+                            '<span>'. __("home.answer type").'</span>'.
+                            '<select name="response" id="response'.$request->id.'" class="select2">'.
+                              '<option value="free text"'.$request->response .' == "free text" ? "selected="selected"" : "">'. __("home.free text").'</option>'.
+                              '<option value="attachement"'.$request->response .' == "attachement" ? "selected="selected"" : "">'. __('home.Attachement').'</option>'.
+                            '</select>'.
+                          '</div>'.
+                        '</div>'.
+                        '<textarea name="question" class="form-control question-textarea"'.
+                          'id="question'.$request->id.'" rows="3"'.
+                          'placeholder="Request necessary details such as dimensions,'.
+                          'brand guidelines, and more">'.$request->question.'</textarea>'.
+                        '<div class="sub-box">'.
+                          '<div class="form-check">'.
+                            '<input type="checkbox"'.
+                              'class="form-check-input"'.
+                              'id="exampleCheck1"'.
+                              'name="mandatory"'.
+                              'value="1"'.$request->mandatory_status.' == "1" ? "checked" : ""/>'.
+                            '<label class="form-check-label"'.
+                              'for="exampleCheck1">'. __("home.Answer is mandatory").'</label>'.
+                          '</div>'.
+                          '<p class="max-char"><span>0</span>/450 max</p>'.
+                        '</div>'.
+                        '<div class="btn-container-box">'.
+                          '<div class="btns">'.
+                            '<button class="custom-btn btn-cancle cancel_button" data-id="'.$request->id.'">'. __("home.Cancel").'</button>'.
+                            '<button class="custom-btn btn-add requirement_button" data-id="'.$request->id.'"  id="requirements-btn">'. __('home.add').'</button>'.
+                          '</div>';
+                        '</div>';
+                      '</div>';
           return json_encode($req_data);
         }else{
           $data = [];
@@ -382,7 +423,7 @@ class CreateServiceController extends Controller
 
       $service = Services::find($id);
       $type = $request->input('type');
-      // dd($request->all());
+      dd($request->all());
       $service->seller_id = $user_id;
       $service->service_status = "pending";
       $service->posted_date = date("Y-m-d");
@@ -605,6 +646,100 @@ class CreateServiceController extends Controller
         }
     }
 
+    public function updateGallery(Request $request)
+    {
+      // dd($request->all());
+      $service_id = $request->input('service_id');
+      $service = Services::find($service_id);
+      $data = [];
+      $service_img1 = $request->file('service_img1');
+      if($service_img1 != ''){
+        $filename= $service_img1->getClientOriginalName();
+        $extension= $service_img1->getClientOriginalExtension();
+        $imagename= $filename;
+        $destinationpath= public_path('images/service_images');
+        $service_img1->move($destinationpath, $imagename);
+        $service_img1_old = $service->service_img1;
+        if($service_img1_old != ''){
+          @unlink(public_path('/images/service_images/'.$service_img1_old));
+        }
+        $service->service_img1 = $imagename;
+      }
+      $service_img2 = $request->file('service_img2');
+      if($service_img2 != ''){
+        $filename= $service_img2->getClientOriginalName();
+        // $imagename= 'message-'.rand(000000,999999).'.'.$service_img2->getClientOriginalExtension();
+        $extension= $service_img2->getClientOriginalExtension();
+        $imagename= $filename;
+        $destinationpath= public_path('images/service_images');
+        $service_img2->move($destinationpath, $imagename);
+        $service_img2_old = $service->service_img2;
+        if($service_img2_old != ''){
+          @unlink(public_path('/images/service_images/'.$service_img2_old));
+        }
+        $service->service_img2 = $imagename;
+      }
+      $service_img3 = $request->file('service_img3');
+      if($service_img3 != ''){
+        $filename= $service_img3->getClientOriginalName();
+        // $imagename= 'message-'.rand(000000,999999).'.'.$service_img3->getClientOriginalExtension();
+        $extension= $service_img3->getClientOriginalExtension();
+        $imagename= $filename;
+        $destinationpath= public_path('images/service_images');
+        $service_img3->move($destinationpath, $imagename);
+        $service_img3_old = $service->service_img3;
+        if($service_img3_old != ''){
+          @unlink(public_path('/images/service_images/'.$service_img3_old));
+        }
+        $service->service_img3 = $imagename;
+      }
+      $service_video = $request->file('service_video');
+      if($service_video != ''){
+        $filename= $service_video->getClientOriginalName();
+        // $imagename= 'message-'.rand(000000,999999).'.'.$service_video->getClientOriginalExtension();
+        $extension= $service_video->getClientOriginalExtension();
+        $imagename= $filename;
+        $destinationpath= public_path('images/service_images');
+        $service_video->move($destinationpath, $imagename);
+        $service_video_old = $service->service_video;
+        if($service_video_old != ''){
+          @unlink(public_path('/images/service_images/'.$service_video_old));
+        }
+        $service->service_video = $imagename;
+      }
+      $service_pdf1 = $request->file('service_pdf1');
+      if($service_pdf1 != ''){
+        $filename= $service_pdf1->getClientOriginalName();
+        // $imagename= 'message-'.rand(000000,999999).'.'.$service_pdf1->getClientOriginalExtension();
+        $extension= $service_pdf1->getClientOriginalExtension();
+        $imagename= $filename;
+        $destinationpath= public_path('images/service_images');
+        $service_pdf1->move($destinationpath, $imagename);
+        $service_pdf1_old = $service->service_pdf1;
+        if($service_pdf1_old != ''){
+          @unlink(public_path('/images/service_images/'.$service_pdf1_old));
+        }
+        $service->service_pdf1 = $imagename;
+      }
+      $service_pdf2 = $request->file('service_pdf2');
+      if($service_pdf2 != ''){
+        $filename= $service_pdf2->getClientOriginalName();
+        // $imagename= 'message-'.rand(000000,999999).'.'.$service_pdf2->getClientOriginalExtension();
+        $extension= $service_pdf2->getClientOriginalExtension();
+        $imagename= $filename;
+        $destinationpath= public_path('images/service_images');
+        $service_pdf2->move($destinationpath, $imagename);
+        $service_pdf2_old = $service->service_pdf2;
+        if($service_pdf2_old != ''){
+          @unlink(public_path('/images/service_images/'.$service_pdf2_old));
+        }
+        $service->service_pdf2 = $imagename;
+      }
+      $service->save();
+      $request->session()->flash('u_session');
+      return "1";
+    }
+
 
 
     public function createFaq(Request $request)
@@ -688,64 +823,68 @@ class CreateServiceController extends Controller
         'response' => $request->input('response'),
         'services_id' => $service_id
       ];
+      $mandatory = $request->input('mandatory');
+      if ($mandatory !=null) {
+        $requirementsData['mandatory_status'] = $mandatory;
+      }
+      // dd($requirementsData);
       $insertRequr = ServiceRequirement::create($requirementsData);
 
       $requestId = $insertRequr->id;
       // dd($faqId);
       $request = ServiceRequirement::where('id',$requestId)->first();
-
-      $req_data =
-        '<div class="question-list-item">'.
-          '<div class="inner-text">'.
-            '<p>'.$request->response.'</p>'.
-            '<div class="dropdown">'.
-              '<a class="nav-link globe-icon" href="#" id="navbarDropdown'.$request->id.'" ="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'.
-                '<i class="fa fa-ellipsis-h"></i></a>'.
-              '<div class="dropdown-menu" aria-labelledبواسطة="navbarDropdown'.$request->id.'">'.
-                '<a class="dropdown-item" href="javascript:void(0);" onclick="showRequirement('.$request->id.')">Edit</a>'.
-                '<a class="dropdown-item" href="#">Delete</a>'.
-              '</div>'.
-            '</div>'.
-          '</div>'.
-          '<h6>'.$request->question.'</h6>'.
-        '</div>'.
-        '<div class="question-input-container d-none" id="requirement'.$request->id.'">'.
-          '<div class="add-ques-header">'.
-            '<h6>'. __("home.add question").'</h6>'.
-            '<div class="answer-type">'.
-              '<span>'. __("home.answer type").'</span>'.
-              '<select name="response" id="response'.$request->id.'" class="select2">'.
-                '<option value="free text"'.$request->response .' == "free text" ? "selected="selected"" : "">'. __("home.free text").'</option>'.
-                '<option value="attachement"'.$request->response .' == "attachement" ? "selected="selected"" : "">'. __('home.Attachement').'</option>'.
-              '</select>'.
-            '</div>'.
-          '</div>'.
-          '<textarea'.
-            'name="question"'.
-            'class="form-control question-textarea"'.
-            'id="question'.$request->id.'"'.
-            'rows="3"'.
-            'placeholder="Request necessary details such as dimensions, brand guidelines, and more">'.$request->question.'</textarea>'.
-          '<div class="sub-box">'.
-            '<div class="form-check">'.
-              '<input'.
-                'type="checkbox"'.
-                'class="form-check-input"'.
-                'id="exampleCheck1"'.
-              '/>'.
-              '<label'.
-                'class="form-check-label"'.
-                'for="exampleCheck1">'. __("home.Answer is mandatory").'</label>'.
-            '</div>'.
-            '<p class="max-char"><span>0</span>/450 max</p>'.
-          '</div>'.
-          '<div class="btn-container-box">'.
-            '<div class="btns">'.
-              '<button class="custom-btn btn-cancle">'. __("home.Cancel").'</button>'.
-              '<button class="custom-btn btn-add requirement_button" data-id="'.$request->id.'"  id="requirements-btn">'. __('home.add').'</button>'.
-            '</div>'.
-          '</div>'.
-        '</div>';
+      // dd($request);
+      $req_data ='<div class="question-list-item requiremet-question-'.$request->id.'">'.
+                    '<div class="inner-text">'.
+                      '<p class="requirement-response'.$request->id.'">'.$request->response.'</p>'.
+                      '<div class="dropdown">'.
+                        '<a class="nav-link globe-icon" href="#"id="navbarDropdown"'.
+                         'role="button" data-toggle="dropdown"aria-haspopup="true"'.
+                          'aria-expanded="false">'.
+                          '<i class="fa fa-ellipsis-h"></i></a>'.
+                        '<div class="dropdown-menu"'.
+                          'aria-labelledبواسطة="navbarDropdown">'.
+                          '<a class="dropdown-item" href="javascript:void(0);" onclick="showRequirement('.$request->id.')">Edit</a>'.
+                          '<a class="dropdown-item" href="javascript:void(0);" onclick="deleteRequirement('.$request->id.')">Delete</a>'.
+                        '</div>'.
+                      '</div>'.
+                    '</div>'.
+                    '<h6 class="requirement-heading'.$request->id.'">'.$request->question.'</h6>'.
+                  '</div>'.
+                  '<div class="question-input-container d-none requiremet-question-'.$request->id.'" id="requirement'.$request->id.'">'.
+                    '<div class="add-ques-header">'.
+                      '<h6>'. __("home.add question").'</h6>'.
+                      '<div class="answer-type">'.
+                        '<span>'. __("home.answer type").'</span>'.
+                        '<select name="response" id="response'.$request->id.'" class="select2">'.
+                          '<option value="free text"'.$request->response .' == "free text" ? "selected="selected"" : "">'. __("home.free text").'</option>'.
+                          '<option value="attachement"'.$request->response .' == "attachement" ? "selected="selected"" : "">'. __('home.Attachement').'</option>'.
+                        '</select>'.
+                      '</div>'.
+                    '</div>'.
+                    '<textarea name="question" class="form-control question-textarea"'.
+                      'id="question'.$request->id.'" rows="3"'.
+                      'placeholder="Request necessary details such as dimensions,'.
+                      'brand guidelines, and more">'.$request->question.'</textarea>'.
+                    '<div class="sub-box">'.
+                      '<div class="form-check">'.
+                        '<input type="checkbox"'.
+                          'class="form-check-input"'.
+                          'id="exampleCheck1"'.
+                          'name="mandatory"'.
+                          'value="1"'.$request->mandatory_status.' == "1" ? "checked" : ""/>'.
+                        '<label class="form-check-label"'.
+                          'for="exampleCheck1">'. __("home.Answer is mandatory").'</label>'.
+                      '</div>'.
+                      '<p class="max-char"><span>0</span>/450 max</p>'.
+                    '</div>'.
+                    '<div class="btn-container-box">'.
+                      '<div class="btns">'.
+                        '<button class="custom-btn btn-cancle cancel_button" data-id="'.$request->id.'">'. __("home.Cancel").'</button>'.
+                        '<button class="custom-btn btn-add requirement_button" data-id="'.$request->id.'"  id="requirements-btn">'. __('home.add').'</button>'.
+                      '</div>';
+                    '</div>';
+                  '</div>';
       return json_encode($req_data);
     }
 
@@ -758,6 +897,13 @@ class CreateServiceController extends Controller
       $requirement->question = $request->input('question');
       $requirement->update();
       return $requirement;
+    }
+
+    public function deleteRequirement(Request $request, $id)
+    {
+      $requirement = ServiceRequirement::find($id);
+      $requirement->delete();
+      echo "delete";
     }
 
 
@@ -897,6 +1043,10 @@ class CreateServiceController extends Controller
             'response' => $request->input('response'),
             'services_id' => $service_id
           ];
+          $mandatory = $request->input('mandatory');
+          if ($mandatory !=null) {
+            $requirementsData['mandatory_status'] = $mandatory;
+          }
           $insertRequr = ServiceRequirement::create($requirementsData);
 
           $requestId = $insertRequr->id;

@@ -912,12 +912,10 @@
 															type="checkbox"
 															class="form-check-input"
 															id="exampleCheck1"
-														/>
-														<label
-															class="form-check-label"
-															for="exampleCheck1"
-															>{{ __('home.Answer is mandatory')}}</label
-														>
+															name="mandatory"
+															value="1" />
+														<label class="form-check-label"
+															for="exampleCheck1">{{ __('home.Answer is mandatory')}}</label>
 													</div>
 													<p class="max-char"><span>0</span>/450 max</p>
 												</div>
@@ -965,7 +963,7 @@
 											</div>
 											<div class="added-questions">
 												@foreach($getSingleReq as $request)
-												<div class="question-list-item">
+												<div class="question-list-item requiremet-question-{{$request->id}}">
 													<div class="inner-text">
 														<p class="requirement-response{{$request->id}}">{{$request->response}}</p>
 														<div class="dropdown">
@@ -985,7 +983,7 @@
 																aria-labelledبواسطة="navbarDropdown"
 															>
 																<a class="dropdown-item" href="javascript:void(0);" onclick="showRequirement({{$request->id}})">Edit</a>
-																<a class="dropdown-item" href="#">Delete</a>
+																<a class="dropdown-item" href="javascript:void(0);" onclick="deleteRequirement({{$request->id}})">Delete</a>
 															</div>
 														</div>
 													</div>
@@ -993,7 +991,7 @@
 														{{$request->question}}
 													</h6>
 												</div>
-												<div class="question-input-container d-none" id="requirement{{$request->id}}">
+												<div class="question-input-container d-none requiremet-question-{{$request->id}}" id="requirement{{$request->id}}">
 													<div class="add-ques-header">
 														<h6>{{ __('home.add question')}}</h6>
 														<div class="answer-type">
@@ -1019,7 +1017,8 @@
 																type="checkbox"
 																class="form-check-input"
 																id="exampleCheck1"
-															/>
+																name="mandatory"
+																value="1" {{$request->mandatory_status == '1' ? 'checked="checked"' : ''}} />
 															<label
 																class="form-check-label"
 																for="exampleCheck1"
@@ -1031,7 +1030,7 @@
 
 													<div class="btn-container-box">
 														<div class="btns">
-															<button class="custom-btn btn-cancle">
+															<button class="custom-btn btn-cancle cancel_button" data-id="{{$request->id}}">
 																{{ __('home.Cancel')}}
 															</button>
 															<button class="custom-btn btn-add requirement_button" data-id="{{$request->id}}"  id="requirements-btn">{{ __('home.add')}}</button>
@@ -1105,7 +1104,8 @@
 								<div class="tab-pane fade gallery-tab-container" id="gallery" role="tabpanel"
 									aria-labelledby="gallery-tab">
 									<form id="gallery-form" enctype="multipart/form-data">
-										<input type="hidden" name="type" form="gallery-form" value="5">
+										<input type="hidden" name="service_id" value="{{$getSingleData->id}}">
+										<input type="hidden" name="type" value="5">
 										<div class="tab-pane-box">
 
 											<div class="heading">
@@ -1467,42 +1467,31 @@
 	})
  });
 
+ $('#gallery-form').on('submit', function(event){
+	 event.preventDefault();
+	 $.ajax({
+		url:"{{ url('update_gallery') }}",
+		method:"POST",
+		data:new FormData(this),
+		dataType:'JSON',
+		contentType: false,
+		cache: false,
+		processData: false,
+		success:function(data){
+		 swal({
+		 type: 'success',
+		 text: 'Your Service Updated Successfully',
+		 timer: 2000,
+		 onOpen: function(){
+		 swal.showLoading()
+		 }
+		 }).then(function(){
+			 window.open('../../profile','_self');
+		 });
+		}
+	 })
+});
 
-
-		$('#gallery-submit').click(function(event){
-		  event.preventDefault();
-		  var service_img1 = $('#01').val();
-		  var service_img2 = $('#02').val();
-		  var service_img3 = $('#03').val();
-		  var service_video = $('#video01').val();
-		  var service_pdf1 = $('#pdf01').val();
-		  var service_pdf2 = $('#padf02').val();
-		  var type = "5";
-		  var formData = new FormData();
-		  formData.append('type', this.type);
-		  // alert(service_img1);
-		  $.ajax({
-		   url:"{{ url('create-service/'.$getSingleData->id) }}",
-		   method:"PATCH",
-		   data:{service_img1:service_img1,service_img2:service_img2,service_img3:service_img3,service_pdf1:service_pdf1,service_pdf2:service_pdf2,service_video:service_video,type:type},
-		   // dataType:'JSON',
-		   // contentType: false,
-		   // cache: false,
-		   // processData: false,
-		   success:function(data){
-		    // swal({
-		    // type: 'success',
-		    // text: 'Your Service Updated Successfully',
-		    // timer: 2000,
-		    // onOpen: function(){
-		    // swal.showLoading()
-		    // }
-		    // }).then(function(){
-		    // 	window.open('../../profile','_self');
-		    // });
-		   }
-		  })
-	 });
 
 		$('#requirements-form').on('submit', function(event){
 		  event.preventDefault();
@@ -1540,6 +1529,11 @@
 		 $('.requirement-heading'+id).text(question);
 		}
 	 })
+	 });
+
+	 $(document).on('click','.cancel_button', function () {
+		 var id = $(this).data('id');
+		 $('#requirement'+id).addClass('d-none');
 	 });
 
 		$('#package-form').on('submit', function(event){
@@ -1684,6 +1678,15 @@
 
 	function showRequirement(req_id) {
 		$('#requirement'+req_id).removeClass('d-none');
+	}
+
+	function deleteRequirement(req_id) {
+		$.ajax({
+		 url: "{{url('delete_requirement')}}/"+req_id,
+		 success:function(data){
+			 $('.requiremet-question-'+req_id).remove();
+		 }
+	 });
 	}
 </script>
 @endsection

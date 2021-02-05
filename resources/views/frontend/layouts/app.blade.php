@@ -10,10 +10,10 @@
     <!-- Favicon Icon -->
     <link rel="icon" type="image/png" href="images/fav.svg">
     <!-- Font Awesome-->
-    <link href="{{asset('frontend-assets/vendor/fontawesome/css/font-awesome.min.css')}}" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
-        integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous" />
-   
+    <link href="{{asset('css/fonts/fontawesome/css/font-awesome.min.css')}}" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+        integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous" /> -->
+
     <!-- Custom styles for this template -->
     <!-- Bootstrap core CSS -->
     <link href="{{asset('css/cdn/bootstrap.min.css')}}" rel="stylesheet">
@@ -26,7 +26,7 @@
     <link href="{{asset('css/arabic_style.css')}}" rel="stylesheet">
     <!-- Custom Css -->
     <link href="{{asset('css/responsive.css')}}" rel="stylesheet">
-     <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css"> 
+     <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
     <link href="{{asset('frontend-assets/css/sweat_alert.css')}}" rel="stylesheet">
      @yield('styling')
   </head>
@@ -50,9 +50,9 @@
     <script src="{{asset('js/custom.js')}}"></script>
     <script src="{{asset('frontend-assets/js/sweat_alert.js')}}"></script>
     <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
-    
+
     <!-- Contact form JavaScript -->
-    
+
     <script>
         var url = "{{ route('changeLang') }}";
         $(document).ready(function () {
@@ -64,7 +64,7 @@
                 e.preventDefault();
                 $("body").addClass("arabic").attr("dir", "rtl");
                 window.location.href = url + "?lang="+ $(this).data('info');
-                
+
             });
             // Change to noramal style
             $(".english-format").on("click", function (e) {

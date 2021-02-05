@@ -32,4 +32,12 @@ class Order extends Model
     {
       return $this->belongsTo(User::class, 'buyer_id');
     }
+    public function sellerInfo()
+    {
+      return $this->belongsTo(User::class, 'seller_id');
+    }
+    public function orderRequirement()
+    {
+      return $this->hasMany(OrderRequirement::class, 'order_id');
+    }
 }

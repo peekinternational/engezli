@@ -235,7 +235,7 @@
                             <span>$5</span>
                           </li>
                         </ul>
-                        <ul class="list-group">
+                        <ul class="list-group border-top mt-2 pt-2">
                           <li>
                             <span>delivery time</span>
                             <span>{{$package->delivery_time}}</span>
@@ -406,7 +406,7 @@
                           </li>
                         </ul>
 
-                        <ul class="list-group">
+                        <ul class="list-group border-top mt-2 pt-2">
                           <li>
                             <span>delivery time</span>
                             <span>{{$package->delivery_time}}</span>

@@ -810,9 +810,9 @@
 										</div>
 								</div>
 								<div class="tab-pane fade  requirements-tab" id="requirements" role="tabpanel" aria-labelledby="requirements-tab">
-									<form id="requirements-form">
-										<input type="hidden" name="type" value="4">
 										<div class="tab-pane-box">
+											<form id="requirements-form">
+												<input type="hidden" name="type" value="4">
 											<div class="require-text-title">
 												<h5>
 													<i class="fa fa-file"></i> {{ __('home.Here’s how buyers will see your questions. You can edit or remove questions anytime.')}}
@@ -832,7 +832,7 @@
 
 												<textarea
 													name="question"
-													id=""
+													id="question"
 													class="form-control question-textarea"
 													rows="3"
 													placeholder="Request necessary details such as dimensions, brand guidelines, and more."
@@ -844,7 +844,8 @@
 															type="checkbox"
 															class="form-check-input"
 															id="exampleCheck1"
-														/>
+															name="mandatory"
+															value="1" />
 														<label
 															class="form-check-label"
 															for="exampleCheck1"
@@ -863,6 +864,7 @@
 													</div>
 												</div>
 											</div>
+										</form>
 											<div class="added-questions d-none">
 												<!-- <div class="question-list-item">
 													<div class="inner-text">
@@ -949,7 +951,6 @@
 												<i class="fa fa-plus"></i> add new question
 											</button>
 										</div> -->
-									</form>
 
 									<div class="btns-group">
 										<!-- <button class="prevtab btn btn-primary">Prev</button> -->
@@ -1449,5 +1450,36 @@
 		var textarea = $("#seo_title").val();
 		$(".seoCount").text(textarea.length);
 	});
+
+	$(document).on('click','.requirement_button', function () {
+		var id = $(this).data('id');
+	var response = $('#response'+id).val();
+	var question = $('#question'+id).val();
+	console.log(id,response,question);
+	$.ajax({
+	 url:"{{url('update-requirement')}}",
+	 method:"POST",
+	 data:{id:id,response:response,question:question},
+	 dataType:'JSON',
+	 success:function(data){
+		$('#requirement'+id).addClass('d-none');
+		$('.requirement-response'+id).text(response);
+		$('.requirement-heading'+id).text(question);
+	 }
+	})
+	});
+
+	function showRequirement(req_id) {
+		$('#requirement'+req_id).removeClass('d-none');
+	}
+
+	function deleteRequirement(req_id) {
+		$.ajax({
+		 url: "{{url('delete_requirement')}}/"+req_id,
+		 success:function(data){
+			 $('.requiremet-question-'+req_id).remove();
+		 }
+	 });
+	}
 </script>
 @endsection
