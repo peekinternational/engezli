@@ -11,11 +11,16 @@ class OrderRequirement extends Model
 
     protected $fillable = [
     	'order_id',
+    	'requirement_id',
     	'requirement',
     	'image',
     ];
     public function orderInfo()
     {
       return $this->belongsTo(Order::class, 'order_id');
+    }
+    public function requirementInfo()
+    {
+      return $this->belongsTo(ServiceRequirement::class, 'requirement_id');
     }
 }

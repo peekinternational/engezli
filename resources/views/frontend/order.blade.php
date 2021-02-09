@@ -468,20 +468,23 @@
                           working on your order
                         </p>
                       </div>
-                      <input type="text" name="order_id" class="order_id" value="22">
+                      <input type="hidden" name="order_id" class="order_id" value="22">
                       @foreach($package->serviceInfo->serviceReq as $key => $req)
+                      <input type="hidden" name="requirement_id[]" value="{{$req->id}}">
                       <div class="requirement-box">
                         <h6 class="mb-3">
-                          <span>{{$key+1}}.</span>{{$req->question}}
+                          <span>{{$key+1}}.</span>{{$req->question}}@if($req->mandatory_status == '1')<span class="text-danger">*</span> @endif
                         </h6>
                         @if($req->response == 'free text')
                         <textarea
-                          class="form-control"
-                          name="desc[]"
+                          class="form-control @if($req->mandatory_status == '1') required @endif"
+                          name="desc-{{$req->id}}"
                           id="desc-{{$key}}"
                           rows="3"
-                          placeholder="Write here..."
-                        ></textarea>
+                          placeholder="Write here..."></textarea>
+                          @if($req->mandatory_status == '1')
+                          <span class="asterisk text-danger"  style="display:none;">{{ __('home.Field Required')}}</span>
+                          @endif
                         @endif
                         <p>
                           @if($req->response == 'free text')
@@ -491,8 +494,7 @@
                             <label
                               for="attachment-{{$key}}"
                               aria-label="Attach file"
-                              class="btn1"
-                            >
+                              class="btn1">
                               <i
                                 class="fa fa-paperclip"
                                 aria-hidden="true"
@@ -501,10 +503,10 @@
 
                             <input
                               type="file"
-                              name="attachment[]"
+                              name="attachment-{{$req->id}}"
                               id="attachment-{{$key}}"
-                              class="field-file"
-                            />
+                              class="field-file @if($req->mandatory_status == '1') required @endif"/>
+                              <span class="asterisk text-danger"  style="display:none;">{{ __('home.Field Required')}}</span>
                           </span>
                           @endif
 
@@ -589,15 +591,14 @@
                       <div class="mb-3 form-check">
                         <input
                           type="checkbox"
-                          class="form-check-input"
-                          id="exampleCheck1"
-                        />
-                        <label class="form-check-label" for="exampleCheck1"></label>
-                          <small
-                            >Lorem ipsum dolor sit amet consectetur
-                            adipisicing elit. Et, deleniti.</small
-                          >
-                        </label>
+                          name="agreed"
+                          class="form-check-input required"
+                          id="agreed"
+                          checked />
+                        <label class="form-check-label" for="agreed"></label>
+                          <small>I agree with terms and conditions</small>
+                          <br>
+                        <span class="asterisk2 text-danger"  style="display:none;">{{ __('home.Field Required')}}</span>
                       </div>
 
                       <div class="btn-container">
@@ -787,6 +788,16 @@ $(document).ready(function () {
 
   $('#requirement-form').on('submit', function(event){
     event.preventDefault();
+    $(".asterisk").hide();
+      var empty = $(".required").filter(function() { return !this.value; })
+                .next(".asterisk").show();
+    if(empty.length) return false;   //uh oh, one was empty!
+    $('.right').stop().animate({scrollTop: 0}, { duration: 1500, easing: 'easeOutQuart'});
+    if($('#agreed').prop('checked') == false){
+      $('.asterisk2').show();
+      return false;
+    }
+
     $.ajax({
      url:"{{ url('save_requirement') }}",
      method:"POST",

@@ -64,7 +64,8 @@
             </div>
             <div class="buttons-wrapper">
               <a
-                href="#"
+                href="javascript:void(0);"
+                onclick="addFriend({{$user->id}})"
                 class="btn-lrg-standard btn-contact-me js-contact-me js-open-popup-join"
                 >Contact Me</a
               >
@@ -445,4 +446,20 @@
 </div>
 @endsection
 @section('script')
+<script>
+  function addFriend(user_id) {
+    var sender_id  = "{{auth()->user()->id}}";
+    // alert(user_id+'/'+sender_id);
+    $.ajax({
+		 type: 'POST',
+     url: "{{url('/api/add-friend')}}",
+     data:{receiver_id:user_id,sender_id:sender_id},
+     xhrFields: {withCredentials: true},
+		 success:function(data){
+       console.log(data);
+       window.location.href = "{{url('messages?conversation=')}}"+data;
+		 }
+	 });
+  }
+</script>
 @endsection

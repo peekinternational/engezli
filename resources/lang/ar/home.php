@@ -1,5 +1,5 @@
 <?php
- 
+
 return [
 	"Welcome Back" => "مرحبا بعودتك" ,
 	"Home Banner Title" => "اعثر على الخدمات المثالية مع Engezly لعملك" ,
@@ -160,6 +160,7 @@ return [
 	"add a new payment options" => "",
 	"transaction history" => "",
 	"receipt" => "",
+  "Field Required" => "",
 
 
 ];

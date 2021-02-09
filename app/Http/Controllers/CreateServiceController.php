@@ -892,9 +892,13 @@ class CreateServiceController extends Controller
     {
       // dd($request->all());
       $id = $request->input('id');
+      $mandatory = $request->input('mandatory');
       $requirement = ServiceRequirement::find($id);
       $requirement->response = $request->input('response');
       $requirement->question = $request->input('question');
+      if ($mandatory !=null) {
+        $requirement->mandatory_status = $mandatory;
+      }
       $requirement->update();
       return $requirement;
     }

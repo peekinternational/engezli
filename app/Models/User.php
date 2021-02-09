@@ -47,6 +47,11 @@ class User extends Authenticatable
         'google_id',
     ];
 
+    public function messages()
+    {
+      return $this->hasMany(ChatMessages::class, 'id');
+    }
+
     /**
      * The attributes that should be hidden for arrays.
      *

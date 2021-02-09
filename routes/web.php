@@ -9,6 +9,7 @@ use App\Http\Controllers\CreateServiceController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ChatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,17 +74,19 @@ Route::get('login/google', [SocialAuthController::class, 'redirectToGoogle']);
 Route::get('google/callback', [SocialAuthController::class, 'GoogleProviderCallback']);
 Route::get('get-city/{id}', [HomeController::class, 'getCities']);
 Route::get('get-state/{id}', [HomeController::class, 'getState']);
+Route::get('profile/{username}', [ProfileController::class, 'show']);
 
 
 Route::group(['middleware' => 'auth'], function() {
 // Profile
-Route::get('profile/{username}', [ProfileController::class, 'show']);
 Route::get('/profile', [ProfileController::class,'index']);
 Route::get('settings', [ProfileController::class,'edit_profile']);
 Route::post('edit_profile_info', [ProfileController::class,'edit_profile_info']);
-Route::get('/messages', function () {
-    return view('frontend.messages');
-});
+Route::get('messages', [ChatController::class,'messages']);
+
+// Route::get('/messages', function () {
+//     return view('frontend.messages');
+// });
 Route::get('/manage-orders-ajax/{order}', [OrderController::class, 'manageOrders_ajax']);
 Route::get('/order-details/{number}', [OrderController::class, 'OrderDetails'])->name('order-details');
 
@@ -103,12 +106,8 @@ Route::post('/fetch_package_option', [CreateServiceController::class, 'fetch_pac
 Route::match(['get','post'],'/post_service', [CreateServiceController::class, 'post_service']);
 
 Route::get('/services/{url}', [ServiceController::class, 'index']);
-Route::get('/services/{url}/{child_url}', [ServiceController::class, 'index']);
 
 
-Route::get('/get_services', [ServiceController::class, 'get_services']);
-Route::get('/search', [ServiceController::class, 'search_service']);
-Route::get('/{username}/{url}', [ServiceController::class, 'service_detail'])->name('service-details');
 
 // Orders
 Route::post('/order', [OrderController::class, 'order']);
@@ -119,3 +118,7 @@ Route::post('/change-password', [ProfileController::class, 'ChangePassword']);
 Route::post('/save-billing-info', [ProfileController::class, 'SaveBilling']);
 Route::post('/save-notificatoins-setting', [ProfileController::class, 'SaveNotificationSetting']);
 });
+Route::get('/get_services', [ServiceController::class, 'get_services']);
+Route::get('/{username}/{url}', [ServiceController::class, 'service_detail'])->name('service-details');
+Route::get('/search', [ServiceController::class, 'search_service']);
+Route::get('/services/{url}/{child_url}', [ServiceController::class, 'index']);

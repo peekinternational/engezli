@@ -65,34 +65,39 @@ class OrderController extends Controller
     public function SaveRequirement(Request $request)
     {
       // dd($request->all());
+      $requirement_id = $request->input('requirement_id');
       $order_id = $request->input('order_id');
-      $description = $request->input('desc');
-      $attachment = $request->file('attachment');
-      if ($description != null) {
-        foreach ($description as $key => $desc) {
-          $descData['order_id'] = $order_id;
-          // dd($desc);
-          $descData['requirement'] = $desc;
-          $save_requirement = OrderRequirement::create($descData);
-        }
-      }
-      if ($attachment != null) {
-        foreach ($attachment as $key => $attch) {
-          // dd($attch);
-          if($attch != ''){
-            $filename= $attch->getClientOriginalName();
-            // $imagename= 'message-'.rand(000000,999999).'.'.$attch->getClientOriginalExtension();
-            $extension= $attch->getClientOriginalExtension();
-            $imagename= $filename;
-            $destinationpath= public_path('images/order_requirements');
-            $attch->move($destinationpath, $imagename);
-            $attchData['image'] = $imagename;
+      if ($requirement_id !=null) {
+        foreach ($requirement_id as $key => $req_id) {
+          $desc = $request->input('desc-'.$req_id);
+          $attachment = $request->file('attachment-'.$req_id);
+          if ($desc != null) {
+            $descData['order_id'] = $order_id;
+            $descData['requirement_id'] = $req_id;
+            $descData['requirement'] = $desc;
+            $save_requirement = OrderRequirement::create($descData);
+          }elseif ($attachment != null) {
+            if($attachment != ''){
+              // $filename= $attachment->getClientOriginalName();
+              // $imagename= 'order-requirement-'.rand(000000,999999).'.'.$attachment->getClientOriginalExtension();
+              // $imagename= $filename;
+              // $extension= $attachment->getClientOriginalExtension();
+              $imagename = 'order-requirement-'.time().'-'.rand(000000,999999).'.'.$attachment->getClientOriginalExtension();
+              $destinationpath= public_path('images/order_requirements');
+              $attachment->move($destinationpath, $imagename);
+              $attchData['image'] = $imagename;
+              $attchData['order_id'] = $order_id;
+              $attchData['requirement_id'] = $req_id;
+              $save_requirement = OrderRequirement::create($attchData);
+            }
           }
-          $attchData['order_id'] = $order_id;
-          $save_requirements = OrderRequirement::create($attchData);
         }
       }
-      return $save_requirement;
+      $order = Order::find($order_id);
+      $order->order_status = 'started';
+      $order->update();
+      return '1';
+
     }
 
     public function OrderDetails(Request $request, $number)

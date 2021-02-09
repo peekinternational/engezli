@@ -507,60 +507,29 @@
                   aria-labelledby="requirements-tab"
                 >
                   <div class="requirement-tab-container card p-4">
+                    @foreach($order->orderRequirement as $key => $req)
                     <div class="requrement-list-item">
-                      <h6><span>1</span> Topic</h6>
+                      <h6><span>{{$key+1}}</span> {{$req->requirementInfo->question}}</h6>
+                      @if($req->requirement !=null)
                       <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing
-                        elit. Itaque fuga ut veritatis voluptatum eos
-                        mollitia laboriosam temporibus quaerat tenetur? Ut
-                        ratione in quos accusantium tempore minima quaerat
-                        iure reiciendis eum!
+                        {{$req->requirement}}
                       </p>
+                      @else
+                      <div class="gig-details">
+                        <div class="box">
+                          <a target="_blank" href="{{asset('images/order_requirements/'.$req->image)}}"><img src="{{asset('images/order_requirements/'.$req->image)}}" style="width:250px; height:200px;" alt=""></a>
+                        </div>
+                      </div>
+                      @endif
                     </div>
-                    <div class="requrement-list-item">
-                      <h6><span>2</span> Lorem, ipsum dolor.</h6>
-                      <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing
-                        elit. Itaque fuga ut veritatis voluptatum eos
-                        mollitia laboriosam temporibus quaerat tenetur? Ut
-                        ratione in quos accusantium tempore minima quaerat
-                        iure reiciendis eum!
-                      </p>
-                    </div>
-                    <div class="requrement-list-item">
-                      <h6><span>3</span> Lorem ipsum dolor sit amet.</h6>
-                      <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing
-                        elit. Itaque fuga ut veritatis voluptatum eos
-                        mollitia laboriosam temporibus
-                      </p>
-                    </div>
-                    <div class="requrement-list-item">
-                      <h6>
-                        <span>4</span> Lorem ipsum dolor sit amet
-                        consectetur adipisicing.
-                      </h6>
-                      <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing
-                        elit. Itaque fuga ut veritatis
-                      </p>
-                    </div>
-                    <div class="requrement-list-item">
-                      <h6><span>5</span> Lorem ipsum dolor sit.</h6>
-                      <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing
-                        elit. Itaque fuga ut veritatis voluptatum eos
-                        mollitia laboriosam temporibus quaerat tenetur?
-                      </p>
-                    </div>
+                    @endforeach
                   </div>
                 </div>
                 <div
                   class="tab-pane fade delivery-tab"
                   id="delivery"
                   role="tabpanel"
-                  aria-labelledby="delivery-tab"
-                >
+                  aria-labelledby="delivery-tab">
                   <div class="delivery-tab-container card p-4">
                     <div class="delivery-list-item border rounded">
                       <div class="content-header">

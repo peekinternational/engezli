@@ -1016,12 +1016,12 @@
 															<input
 																type="checkbox"
 																class="form-check-input"
-																id="exampleCheck1"
+																id="mandatory{{$request->id}}"
 																name="mandatory"
 																value="1" {{$request->mandatory_status == '1' ? 'checked="checked"' : ''}} />
 															<label
 																class="form-check-label"
-																for="exampleCheck1"
+																for="mandatory{{$request->id}}"
 																>{{ __('home.Answer is mandatory')}}</label
 															>
 														</div>
@@ -1517,11 +1517,15 @@
 		 var id = $(this).data('id');
 	 var response = $('#response'+id).val();
 	 var question = $('#question'+id).val();
+	 var mandatory = '';
+	 if($('#mandatory'+id).is(':checked')){
+		  mandatory = $('#mandatory'+id).val();
+	 }
 	 console.log(id,response,question);
 	 $.ajax({
 		url:"{{url('update-requirement')}}",
 		method:"POST",
-		data:{id:id,response:response,question:question},
+		data:{id:id,response:response,question:question,mandatory:mandatory},
 		dataType:'JSON',
 		success:function(data){
 		 $('#requirement'+id).addClass('d-none');
