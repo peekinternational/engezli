@@ -15,6 +15,7 @@ class ChatMessages extends Model
       'message_offer_id',
       'message_desc',
       'message_file',
+      'message_type',
       'message_date',
       'message_status'
     ];

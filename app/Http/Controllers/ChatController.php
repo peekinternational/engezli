@@ -44,15 +44,18 @@ class ChatController extends Controller
     }
 
     public function friendsList(Request $request, $id){
-      $getfriends = ChatFriends::with('senderInfo','receiverInfo')->orWhere('sender_id',$id)
+      $getfriends = ChatFriends::with('senderInfo','receiverInfo','lastMessage')->orWhere('sender_id',$id)
       ->orWhere('receiver_id',$id)->orderBy('id', 'DESC')->get();
+      // dd($getfriends);
       return $getfriends;
     }
 
     public function messages(Request $request)
     {
       $user = auth()->user();
-      return view('frontend.messages', compact('user'));
+      $conversation_id = $request->input('conversation');
+      // dd($conversation_id);
+      return view('frontend.messages', compact('user','conversation_id'));
     }
 
     public function singleChat(Request $request){
@@ -71,6 +74,52 @@ class ChatController extends Controller
       // dd($getsingleChat);
       return $getsingleChat;
 
+    }
+
+    public function send(Request $request)
+    {
+    // dd($request->all());
+      $type = 0;
+      $file = $request->file('file');
+      if($file != ''){
+        $type = 1;
+      }else{
+        $type = 0;
+      }
+
+      $message_status = 'unread';
+      $conversation_id = $request->input('conversation_id');
+
+      $data = [
+        'message_sender' => $request->input('message_sender'),
+        'message_receiver' => $request->input('message_receiver'),
+        'message_desc' => $request->input('message'),
+        'message_status' => $message_status,
+        'conversation_id' => $request->input('conversation_id'),
+        'message_date' => Carbon::now(),
+      ];
+      $data['message_type'] = '0';
+      if($file != ''){
+        $filename= $file->getClientOriginalName();
+        // $imagename= 'message-'.rand(000000,999999).'.'.$file->getClientOriginalExtension();
+        $extension = $file->getClientOriginalExtension();
+        if ($extension == 'png' || $extension == 'jpg'|| $extension == 'jpeg') {
+          $data['message_type'] = '1';
+        }else {
+          $data['message_type'] = '2';
+        }
+        $imagename= $filename;
+        $destinationpath= public_path('images/chat_images');
+        $file->move($destinationpath, $imagename);
+        $data['message_file'] = $imagename;
+      }
+      //dd($data);
+      if($file != '' || $request->input('message') != ''){
+        $Insert = ChatMessages::create($data);
+        $friendData['message_id'] = $Insert->id;
+        $friendData['message_status'] = $Insert->message_status;
+        $updateFriend = ChatFriends::where('conversation_id', $conversation_id)->update($friendData);
+      }
     }
 
     /**

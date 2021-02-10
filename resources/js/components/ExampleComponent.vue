@@ -25,19 +25,38 @@
                   class="user-list-item d-flex align-items-center p-3 border-bottom"
                   :id="friends.conversation_id" v-for="friends in friendList" @click="getSingleChat(friends)">
                   <div class="box">
+                  <template v-if="userdata.id == friends.sender_id">
                     <template v-if="friends.receiver_info.profile_image != null">
-                    <img :src="'/images/user_images/'+friends.receiver_info.profile_image" alt="" />
+                      <img :src="'/images/user_images/'+friends.receiver_info.profile_image" alt="" />
+                    </template>
+                    <template v-else>
+                      <img src="images/s1.png" alt="" />
+                    </template>
                   </template>
                   <template v-else>
-                    <img src="images/s1.png" alt="" />
+                    <template v-if="friends.sender_info.profile_image != null">
+                      <img :src="'/images/user_images/'+friends.sender_info.profile_image" alt="" />
+                    </template>
+                    <template v-else>
+                      <img src="images/s1.png" alt="" />
+                    </template>
                   </template>
                   </div>
                   <div class="box w-100 pl-3">
                     <div class="inner-box d-flex justify-content-between mb-1">
-                      <h6 class="">{{friends.receiver_info.first_name}} {{friends.receiver_info.last_name}}</h6>
-                      <small class="text-muted text-uppercase">12:15 PM</small>
+                      <template v-if="userdata.id == friends.sender_id">
+                        <h6 class="">{{friends.receiver_info.first_name}} {{friends.receiver_info.last_name}}</h6>
+                      </template>
+                      <template v-else>
+                        <h6 class="">{{friends.sender_info.first_name}} {{friends.sender_info.last_name}}</h6>
+                      </template>
+                      <div :class="'lastMessageDate-'+friends.conversation_id">
+                        <small class="text-muted text-uppercase" v-if="friends.message_id != 0">{{istoday(friends.last_message.message_date)}}</small>
+                      </div>
                     </div>
-                    <p>Lorem, ipsum dolor...</p>
+                    <div :class="'lastMessage-'+friends.conversation_id">
+                      <p v-if="friends.message_id != 0">{{friends.last_message.message_desc}}</p>
+                    </div>
                   </div>
                 </div>
                 <!-- <div class="user-list-item d-flex align-items-center p-3 border-bottom ">
@@ -60,8 +79,7 @@
                 <h3 class="mt-3 empty-heading" style="font-weight:410;">Select a Conversation</h3>
                 <p class="lead">Try selecting a conversation or searching for someone specific.</p>
               </center>
-              <div id="startchat" style="display: none;">
-
+              <div id="startchat" class="m-box" style="display: none;">
               <div class="msg-header sticky">
                 <div class="user-info">
                   <h6>{{friendName}}</h6>
@@ -95,22 +113,30 @@
                 </div> -->
               </div>
 
-              <div class="msg-body">
+              <div class="msg-body chat-widget-conversation">
                 <div class="msg-text-box" v-for=" chat in singleChate">
                   <div class="panel d-flex align-items-start">
                     <div class="box">
-                      <template v-if="chat.sender_info.profile_image !=null">
+                      <template v-if="chat.sender_info.profile_image">
                         <img :src="'/images/user_images/'+chat.sender_info.profile_image" alt="" />
                       </template>
                       <template v-else>
-                        <img src="images/avatar (2).svg" alt="" />
+                        <img src="images/s1.png" alt="" />
                       </template>
                     </div>
                     <div class="box rounded w-100">
                       <div class="d-flex justify-content-between">
                         <h6>{{chat.sender_info.first_name}} {{chat.sender_info.last_name}}</h6>
-                        <small class="text-uppercase">12:15 PM</small>
+                        <small class="text-uppercase">{{istoday(chat.message_date)}}</small>
                       </div>
+                      <template v-if="chat.message_file">
+                        <div v-if="chat.message_type == 1">
+                          <img :src="'images/chat_images/'+chat.message_file" alt="..." class="img-thumbnail" width="100">
+                        </div>
+                        <a :href="'images/chat_images/'+chat.message_file" download class="d-block mt-2 ml-1"  style="color: rgb(0 153 255);">
+                        <i class="fa fa-download"></i> message-{{chat.message_file}}
+                        </a>
+                        </template>
                       <p>{{chat.message_desc}}</p>
                       <!-- <p>
                         Lorem ipsum, dolor sit amet consectetur adipisicing
@@ -157,16 +183,17 @@
                     <input
                       type="file"
                       name="cv-arquivo"
+                      ref="msg_file"
                       id="cv-arquivo"
                       class="field-file"
                     />
                   </span>
                 </div>
                 <div class="footer-box">
-                  <input type="text" class="form-control" />
+                  <input type="text" v-model="message" class="form-control" @keyup.enter="sendMessage()" />
                 </div>
                 <div class="footer-box">
-                  <button class="btn custom-btn">send</button>
+                  <button class="btn custom-btn" @click="sendMessage()">send</button>
                 </div>
               </div>
             </div>
@@ -245,6 +272,8 @@
 <script>
 import VueSocketio from 'vue-socket.io';
 import socketio from 'socket.io-client';
+import moment from 'moment';
+
     export default {
       props: [
         'userdata',
@@ -254,34 +283,83 @@ import socketio from 'socket.io-client';
             friendList: [],
             singleChate: {},
             friendName:"",
+            post:"",
+            message:"",
+            friendId:"",
+            conversation_id:"",
           }
       },
-        mounted() {
-          this.user_id =  this.userdata.id;
-          this.user_names =  this.userdata.username;
-          this.friendlistss();
-            // console.log('Component mounted.')
-            var socket = socketio('https://peekvideochat.com:22000');
-            // var socket = socketio('http://192.168.100.17:3000');
-            socket.on('userCount', function (data) {
-                this.users = data.userCount;
-            }.bind(this));
-            socket.on("news-action:App\\Events\\TestEvent", function(data){
-                this.dataMessages.push(data.nickname + ' : ' + data.message);
-            }.bind(this));
-        },
+      mounted() {
+        this.user_id =  this.userdata.id;
+        this.profile_image = this.userdata.profile_image;
+        this.first_name = this.userdata.first_name;
+        this.last_name = this.userdata.last_name;
+        this.user_names =  this.userdata.username;
+        this.friendlistss();
+
+
+          // console.log('Component mounted.')
+          var socket = socketio('https://peekvideochat.com:22000');
+          // var socket = socketio('http://192.168.100.17:3000');
+          socket.on("birdsreceivemsg", function(data){
+          console.log(data);
+          if(data.message_receiver == this.userdata.id){
+              if (this.conversation_id == data.conversation_id) {
+                this.singleChate.push(data);
+              }
+              var dt = new Date();
+              var time = moment().format('hh:mm A');
+              $('.lastMessageDate-'+data.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT '+time+'</small>');
+              console.log(data.conversation_id);
+              $('.lastMessage-'+data.conversation_id).html('<p>'+data.message_desc+'</p>');
+              var height = 0;
+              $(".chat-widget-conversation").each(function(i, value){
+                height += parseInt($(this).height());
+              });
+              height += 20000;
+              $(".chat-widget-conversation").animate({scrollTop: height});
+            }
+          }.bind(this));
+
+      },
         methods: {
+          istoday: function (date) {
+            return moment(date).calendar();
+          },
           friendlistss: function(){
             axios.get('http://localhost:8000/api/friendsList/'+this.user_id)
-             .then(responce => {
-              // console.log(responce.data);
-             this.friendList = responce.data;
-             console.log(this.friendList);
+            .then(responce => {
+              this.friendList = responce.data;
+              // console.log(this.friendList);
+              var url = window.location.href;
+              var conversation_id = url.substring(url.lastIndexOf('=') + 1);
+              if (conversation_id) {
+                const post = this.friendList.filter((obj) => {
+                  return conversation_id == obj.conversation_id;
+                }).pop();
+                if (post) {
+                  console.log(post.conversation_id);
+                  $('#'+post.conversation_id).addClass('active');
+                  // $('#1212577981').addClass('active');
+                  this.getSingleChat(post);
+                  var height = 0;
+                  // var container = this.$el.querySelector("#startchat");
+                  // $("#startchat").animate({ scrollTop: container.scrollHeight + 7020}, "fast");
+                  // console.log(container);
+                  $(".chat-widget-conversation").each(function(i, value){
+                    height += parseInt($(this).height());
+                    console.log(height);
+                  });
+                  height += 20000;
+                  $(".chat-widget-conversation").animate({scrollTop: height});
+
+                }
+              }
             })
           },
           getSingleChat: function(single){
             this.singleChatUser = single;
-            console.log(this.singleChatUser);
+            // console.log(this.singleChatUser);
             $('.user-list-item.active').removeClass('active');
             $('#'+this.singleChatUser.conversation_id).addClass('active');
             $('#selectConversation').hide();
@@ -294,33 +372,26 @@ import socketio from 'socket.io-client';
             height += 20000;
             $(".chat-widget-conversation").animate({scrollTop: height});
 
-            console.log(this.singleChatUser);
+            // console.log(this.singleChatUser);
             if(this.singleChatUser.sender_id == this.user_id){
               // this.userImage=this.singleChatUser.sender_info.profileimage;
               this.friendName=this.singleChatUser.receiver_info.first_name+" "+this.singleChatUser.receiver_info.last_name;
-              // this.friendId=this.singleChatUser.receiver_id;
+              this.conversation_id=this.singleChatUser.conversation_id;
+              this.friendId=this.singleChatUser.receiver_id;
               // this.friendImage=this.singleChatUser.receiver_info.profileimage;
-              // this.message_group_id=this.singleChatUser.message_group_id;
               // this.message_status=this.singleChatUser.message_status;
             //console.log(this.friendImage);
             }else{
               this.friendName=this.singleChatUser.sender_info.first_name+" "+this.singleChatUser.sender_info.last_name;
-              // this.friendId=this.singleChatUser.sender_id;
+              this.conversation_id=this.singleChatUser.conversation_id;
+              this.friendId=this.singleChatUser.sender_id;
               // this.friendImage=this.singleChatUser.sender_info.profileimage;
               // this.userImage=this.singleChatUser.receiver_info.profileimage;
               // this.message_group_id=this.singleChatUser.message_group_id;
               // this.message_status=this.singleChatUser.message_status;
                   //console.log(this.friendImage);
             }
-            // axios.post('http://localhost:8000/api/singleChat',{'sender_id':single.sender_id,'receiver_id':single.receiver_id})
-            //  .then(responce => {
-            //   console.log(responce.data);
-            //
-            //  this.singleChate = responce.data;
-            // })
             axios.post('http://localhost:8000/api/singleChat',{'sender_id':single.sender_id,'receiver_id':single.receiver_id}).then(responce => {
-
-              // socket.emit('sendgroupmsg', this.groupmsgObj);
               this.singleChate = responce.data;
               // console.log(responce.data);
 
@@ -329,13 +400,91 @@ import socketio from 'socket.io-client';
               alert('error');
             })
           },
-        }
+          sendMessage: function() {
+          var socket = socketio.connect('https://peekvideochat.com:22000/');
+
+          var config = {
+            header: {
+              'Content-Type': 'multipart/form-data'
+            }
+          }
+        // console.log(this.friendId);
+          let meeting_file =  this.$refs.msg_file.files;
+              //console.log(meeting_file+',,,,');
+
+            var meetingformDatas = new FormData();
+                meetingformDatas.append('file',meeting_file[0]);
+                meetingformDatas.append('message_sender',this.user_id);
+                meetingformDatas.append('message_receiver',this.friendId);
+                meetingformDatas.append('message',this.message);
+                meetingformDatas.append('conversation_id',this.conversation_id);
+                // meetingformDatas.append('message_status',this.message_status);
+
+
+            var d = new Date($.now());
+            var time = d.getFullYear()+"-"+(d.getMonth() + 1)+"-"+d.getDate()+" "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+          var  message_type = 0;
+          var filename = '';
+            if(meeting_file.length > 0){
+               var message_type = 1;
+               filename = meeting_file[0].name;
+            }
+            var profile_image = '';
+            if (this.profile_image  != null) {
+              profile_image = this.profile_image;
+            }
+
+            var obj ={
+              message_sender: this.user_id,
+              message_receiver: this.friendId,
+              message_desc: this.message,
+              message_file: filename,
+              sender_info: {profile_image:profile_image,first_name:this.first_name, last_name:this.last_name},
+              // message_type: message_type,
+              conversation_id: this.conversation_id,
+              // message_status: this.message_status,
+              created_at: time,
+            }
+            //console.log(filename+'hghghgh');
+            // meetingformDatas.append('meetingformDatas', obj);
+            console.log(obj);
+            // socket.emit('message', obj);
+
+                axios.post('http://localhost:8000/api/chat/send-message',meetingformDatas,config)
+                 .then(responce => {
+                  this.singleChate.push(obj);
+                  var height = 0;
+                  $(".chat-widget-conversation").each(function(i, value){
+                    height += parseInt($(this).height());
+                  });
+                  height += 20000;
+                  $(".chat-widget-conversation").animate({scrollTop: height});
+                  socket.emit('message', obj);
+
+                 this.message = "";
+                 this.$refs.msg_file.value=null;
+
+                })
+
+
+          },
+        },
+
     }
 </script>
 <style>
   .user-list-item {
     cursor: pointer;
   }
+  .img-thumbnail {
+    padding: .25rem;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: .25rem !important;
+    /* max-width: 100%; */
+    height: 100px !important;
+    width: 100px !important;
+}
     /* .msg-body .msg-text-box.right .panel {
       -webkit-box-orient: horizontal;
       -webkit-box-direction: reverse;

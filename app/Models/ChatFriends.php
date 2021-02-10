@@ -17,7 +17,7 @@ class ChatFriends extends Model
       'time',
       'message_status'
     ];
-    
+
     public function senderInfo()
     {
       return $this->belongsTo(User::class, 'sender_id');
@@ -25,5 +25,9 @@ class ChatFriends extends Model
     public function receiverInfo()
     {
       return $this->belongsTo(User::class, 'receiver_id');
+    }
+    public function lastMessage()
+    {
+      return $this->belongsTo(ChatMessages::class, 'message_id');
     }
 }
