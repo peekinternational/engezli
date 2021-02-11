@@ -9,7 +9,13 @@ import VueSocketio from 'vue-socket.io';
 import socketio from 'socket.io-client';
 
 window.Vue = require('vue').default;
-// window.Vue.use(VueSocketio,socketio('http://localhost:6998'));
+window.Vue.prototype.$socket = socketio.connect('https://peekvideochat.com:22000');
+// window.Vue.use(VueSocketio,socketio('https://peekvideochat.com:22000'));
+Vue.use(new VueSocketio({
+    debug: true,
+    connection: 'https://peekvideochat.com:22000',
+}))
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

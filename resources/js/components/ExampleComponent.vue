@@ -10,20 +10,70 @@
             <div class="m-box sidebar scrollable">
               <div class="msg-header sticky">
                 <form action="" class="form">
+                  <!-- Searh -->
                   <div class="form-group">
                     <i class="fa fa-search"></i>
                     <input
                       type="text"
                       class="form-control"
                       placeholder="Search"
+                      v-model="searchFriend"
                     />
                   </div>
+                  <!-- Searh -->
                 </form>
               </div>
               <div class="user-lists">
-                <div
-                  class="user-list-item d-flex align-items-center p-3 border-bottom"
-                  :id="friends.conversation_id" v-for="friends in friendList" @click="getSingleChat(friends)">
+                <!-- show User -->
+                <div class="" v-if="showUsers">
+                  <div class="user-list-item d-flex align-items-center p-3 border-bottom"
+                    :id="friends.conversation_id" v-for="friends in friendList" @click="getSingleChat(friends)">
+                    <div class="box">
+                    <template v-if="userdata.id == friends.sender_id">
+                      <template v-if="friends.receiver_info.profile_image != null">
+                        <img :src="'/images/user_images/'+friends.receiver_info.profile_image" alt="" />
+                      </template>
+                      <template v-else>
+                        <img src="images/s1.png" alt="" />
+                      </template>
+                    </template>
+                    <template v-else>
+                      <template v-if="friends.sender_info.profile_image != null">
+                        <img :src="'/images/user_images/'+friends.sender_info.profile_image" alt="" />
+                      </template>
+                      <template v-else>
+                        <img src="images/s1.png" alt="" />
+                      </template>
+                    </template>
+                    </div>
+                    <div class="box w-100 pl-3">
+                      <div class="inner-box d-flex justify-content-between mb-1">
+                        <template v-if="userdata.id == friends.sender_id">
+                          <h6 class="">{{friends.receiver_info.first_name}} {{friends.receiver_info.last_name}}</h6>
+                        </template>
+                        <template v-else>
+                          <h6 class="">{{friends.sender_info.first_name}} {{friends.sender_info.last_name}}</h6>
+                        </template>
+                        <div :class="'lastMessageDate-'+friends.conversation_id">
+                          <small class="text-muted text-uppercase" v-if="friends.message_id != 0">{{istoday(friends.last_message.message_date)}}</small>
+                        </div>
+                      </div>
+                      <div :class="'lastMessage-'+friends.conversation_id">
+                        <template v-if="userdata.id == friends.sender_id">
+                          <p :id="'f_typing'+friends.receiver_id" v-if="friends.message_id != 0">{{friends.last_message.message_desc}}</p>
+                        </template>
+                        <template v-else>
+                          <p :id="'f_typing'+friends.sender_id" v-if="friends.message_id != 0">{{friends.last_message.message_desc}}</p>
+                        </template>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- /Show User -->
+                <!-- Search User -->
+                <div class="" v-if="searchUser">
+                <div class="user-list-item d-flex align-items-center p-3 border-bottom"
+                  :id="friends.conversation_id" v-for="friends in filteredUserlist" @click="getSingleChat(friends)">
                   <div class="box">
                   <template v-if="userdata.id == friends.sender_id">
                     <template v-if="friends.receiver_info.profile_image != null">
@@ -55,22 +105,17 @@
                       </div>
                     </div>
                     <div :class="'lastMessage-'+friends.conversation_id">
-                      <p v-if="friends.message_id != 0">{{friends.last_message.message_desc}}</p>
+                      <template v-if="userdata.id == friends.sender_id">
+                        <p :id="'f_typing'+friends.receiver_id" v-if="friends.message_id != 0">{{friends.last_message.message_desc}}</p>
+                      </template>
+                      <template v-else>
+                        <p :id="'f_typing'+friends.sender_id" v-if="friends.message_id != 0">{{friends.last_message.message_desc}}</p>
+                      </template>
                     </div>
                   </div>
                 </div>
-                <!-- <div class="user-list-item d-flex align-items-center p-3 border-bottom ">
-                  <div class="box">
-                    <img src="images/avatar (2).svg" alt="" />
-                  </div>
-                  <div class="box w-100 pl-3">
-                    <div class="inner-box d-flex justify-content-between mb-1">
-                      <h6 class="">User name</h6>
-                      <small class="text-muted text-uppercase">12:15 PM</small>
-                    </div>
-                    <p>Lorem, ipsum dolor...</p>
-                  </div>
-                </div> -->
+              </div>
+              <!-- /Search User -->
               </div>
             </div>
             <div class="m-box main-area" id="single_chat">
@@ -83,7 +128,7 @@
               <div class="msg-header sticky">
                 <div class="user-info">
                   <h6>{{friendName}}</h6>
-                  <p>Last Seen At 12:00 Pm, 12 Jul 2020</p>
+                  <p>{{friendStatus}}</p>
                 </div>
                 <!-- <div class="other d-flex align-items-center">
                   <button class="btn"><i class="fa fa-phone"></i></button>
@@ -170,31 +215,32 @@
               </div>
 
               <div class="msg-footer align-items-center p-3">
-                <div class="footer-box">
-                  <span class="form-field-file">
-                    <label
-                      for="cv-arquivo"
-                      aria-label="Attach file"
-                      class="btn1"
-                    >
-                      <i class="fa fa-paperclip" aria-hidden="true"></i>
-                    </label>
+                  <!-- <span v-show="typing" class="">{{ friendName }} is typing ...</span> -->
+                  <div class="footer-box">
+                    <span class="form-field-file">
+                      <label
+                        for="cv-arquivo"
+                        aria-label="Attach file"
+                        class="btn1"
+                      >
+                        <i class="fa fa-paperclip" aria-hidden="true"></i>
+                      </label>
 
-                    <input
-                      type="file"
-                      name="cv-arquivo"
-                      ref="msg_file"
-                      id="cv-arquivo"
-                      class="field-file"
-                    />
-                  </span>
-                </div>
-                <div class="footer-box">
-                  <input type="text" v-model="message" class="form-control" @keyup.enter="sendMessage()" />
-                </div>
-                <div class="footer-box">
-                  <button class="btn custom-btn" @click="sendMessage()">send</button>
-                </div>
+                      <input
+                        type="file"
+                        name="cv-arquivo"
+                        ref="msg_file"
+                        id="cv-arquivo"
+                        class="field-file"
+                      />
+                    </span>
+                  </div>
+                  <div class="footer-box">
+                    <input type="text" v-model="message" v-on:keyup="removecross()" class="form-control" @keyup.enter="sendMessage()" />
+                  </div>
+                  <div class="footer-box">
+                    <button class="btn custom-btn" @click="sendMessage()">send</button>
+                  </div>
               </div>
             </div>
             </div>
@@ -204,11 +250,16 @@
               </div> -->
               <div class="details-pane-body">
                 <div class="avatar">
-                  <img src="images/avatar (2).svg" alt="" />
+                  <template v-if="friendImage">
+                    <img :src="'/images/user_images/'+friendImage" alt="" />
+                  </template>
+                  <template v-else>
+                    <img src="images/s1.png" alt="" />
+                  </template>
                 </div>
 
                 <div class="name-and-text">
-                  <h5>john William</h5>
+                  <h5>{{friendName}}</h5>
                   <p>top buyer | top rated seller</p>
                 </div>
 
@@ -225,39 +276,25 @@
                   </tr>
                   <tr>
                     <td>from</td>
-                    <td>france</td>
+                    <td>{{friendCountry}}</td>
                   </tr>
-                  <tr>
-                    <td>english</td>
-                    <td>basic</td>
-                  </tr>
-                  <tr>
-                    <td>french</td>
-                    <td>native</td>
+                  <tr v-for="(lang,index) in friendLanguage">
+                    <td>{{lang.language_title}}</td>
+                    <td v-if="index == 0">basic</td>
+                    <td v-else="index == 0">native</td>
                   </tr>
                 </table>
 
-                <div class="all-doc-lists">
+                <div class="all-doc-lists" v-if="check_image == 1">
                   <h5>All documents</h5>
                   <div class="doc-list-item">
-                    <a href="" class="doc-item">
-                      <img src="images/card (1).png" alt="" />
-                    </a>
-                    <a href="" class="doc-item">
-                      <img src="images/card (2).png" alt="" />
-                    </a>
-                    <a href="" class="doc-item">
-                      <img src="images/card (3).png" alt="" />
-                    </a>
-                    <a href="" class="doc-item">
-                      <img src="images/card (4).png" alt="" />
-                    </a>
-                    <a href="" class="doc-item">
-                      <img src="images/card (1).png" alt="" />
-                    </a>
-                    <a href="" class="doc-item">
-                      <img src="images/card (2).png" alt="" />
-                    </a>
+                    <template v-for="chat in singleChate">
+                      <template v-if="chat.message_type == '1'">
+                        <a target="_blank" :href="'images/chat_images/'+chat.message_file" class="doc-item">
+                          <img :src="'images/chat_images/'+chat.message_file" alt="" />
+                        </a>
+                      </template>
+                    </template>
                   </div>
                 </div>
               </div>
@@ -282,13 +319,55 @@ import moment from 'moment';
           return {
             friendList: [],
             singleChate: {},
+            friendId:"",
             friendName:"",
+            friendImage:"",
+            friendCountry:"",
+            friendLanguage:"",
+            friendStatus:"",
+            searchFriend:"",
             post:"",
             message:"",
-            friendId:"",
+            check_image:"",
             conversation_id:"",
+            showUsers:true,
+            searchUser:false,
+            typing:false,
           }
       },
+      sockets: {
+          connect: function() {
+            console.log('socket connected successfully')
+          },
+
+          disconnect() {
+            console.log('socket disconnected')
+          },
+
+          alphastarttyping(data) {
+            // this.typing = true;
+            console.log(data);
+            if (data.selectFrienddata == this.user_id) {
+              this.typing = true;
+              $('#f_typing'+data.UserId).html('<span style="color: green;"> is typing ...</span>');
+            }
+          },
+
+          alphastoptyping(data) {
+            if (data.friendId == this.user_id) {
+              this.typing = false;
+              console.log("stop typing",data);
+
+            if(data.selectFrienddata.last_message.message_desc){
+              $('#f_typing'+data.UserId).html(data.selectFrienddata.last_message.message_desc);
+            }
+            else{
+              $('#f_typing'+data.UserId).html('');
+            }
+          }
+          },
+
+        },
       mounted() {
         this.user_id =  this.userdata.id;
         this.profile_image = this.userdata.profile_image;
@@ -302,15 +381,14 @@ import moment from 'moment';
           var socket = socketio('https://peekvideochat.com:22000');
           // var socket = socketio('http://192.168.100.17:3000');
           socket.on("birdsreceivemsg", function(data){
-          console.log(data);
+          // console.log(data);
           if(data.message_receiver == this.userdata.id){
               if (this.conversation_id == data.conversation_id) {
                 this.singleChate.push(data);
+
               }
-              var dt = new Date();
               var time = moment().format('hh:mm A');
               $('.lastMessageDate-'+data.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT '+time+'</small>');
-              console.log(data.conversation_id);
               $('.lastMessage-'+data.conversation_id).html('<p>'+data.message_desc+'</p>');
               var height = 0;
               $(".chat-widget-conversation").each(function(i, value){
@@ -322,10 +400,40 @@ import moment from 'moment';
           }.bind(this));
 
       },
+      watch: {
+        searchFriend(){
+          if (this.searchFriend.length > 0) {
+            this.showUsers = false;
+            this.searchUser = true;
+          }else {
+            this.showUsers = true;
+            this.searchUser = false;
+          }
+        },
+        message: _.debounce(function () {
+            console.log('check message');
+                this.$socket.emit('alphastopTyping', { selectFrienddata:this.singleChatUser,friendId:this.friendId, UserId:this.user_id});
+            }, 1500),
+      },
+      computed: {
+        filteredUserlist() {
+          return this.friendList.filter(post => {
+            // console.log(post.sender_info.first_name.toLowerCase().includes(this.searchFriend.toLowerCase()));
+            if (post.sender_id == this.user_id) {
+              return post.receiver_info.first_name.toLowerCase().includes(this.searchFriend.toLowerCase())
+            }else {
+              return post.sender_info.first_name.toLowerCase().includes(this.searchFriend.toLowerCase())
+            }
+          })
+        },
+      },
         methods: {
           istoday: function (date) {
             return moment(date).calendar();
           },
+          removecross() {
+              this.$socket.emit('alphamsgtyping', { selectFrienddata:this.friendId, UserId:this.user_id});
+            },
           friendlistss: function(){
             axios.get('http://localhost:8000/api/friendsList/'+this.user_id)
             .then(responce => {
@@ -338,7 +446,6 @@ import moment from 'moment';
                   return conversation_id == obj.conversation_id;
                 }).pop();
                 if (post) {
-                  console.log(post.conversation_id);
                   $('#'+post.conversation_id).addClass('active');
                   // $('#1212577981').addClass('active');
                   this.getSingleChat(post);
@@ -348,7 +455,6 @@ import moment from 'moment';
                   // console.log(container);
                   $(".chat-widget-conversation").each(function(i, value){
                     height += parseInt($(this).height());
-                    console.log(height);
                   });
                   height += 20000;
                   $(".chat-widget-conversation").animate({scrollTop: height});
@@ -378,22 +484,40 @@ import moment from 'moment';
               this.friendName=this.singleChatUser.receiver_info.first_name+" "+this.singleChatUser.receiver_info.last_name;
               this.conversation_id=this.singleChatUser.conversation_id;
               this.friendId=this.singleChatUser.receiver_id;
-              // this.friendImage=this.singleChatUser.receiver_info.profileimage;
+              this.friendImage=this.singleChatUser.receiver_info.profile_image;
+              this.friendCountry=this.singleChatUser.receiver_info.country;
+              this.friendStatus=this.singleChatUser.receiver_info.user_status;
               // this.message_status=this.singleChatUser.message_status;
             //console.log(this.friendImage);
             }else{
               this.friendName=this.singleChatUser.sender_info.first_name+" "+this.singleChatUser.sender_info.last_name;
               this.conversation_id=this.singleChatUser.conversation_id;
               this.friendId=this.singleChatUser.sender_id;
-              // this.friendImage=this.singleChatUser.sender_info.profileimage;
+              this.friendImage=this.singleChatUser.sender_info.profile_image;
+              this.friendCountry=this.singleChatUser.sender_info.country;
+              this.friendStatus=this.singleChatUser.sender_info.user_status;
               // this.userImage=this.singleChatUser.receiver_info.profileimage;
-              // this.message_group_id=this.singleChatUser.message_group_id;
               // this.message_status=this.singleChatUser.message_status;
                   //console.log(this.friendImage);
             }
             axios.post('http://localhost:8000/api/singleChat',{'sender_id':single.sender_id,'receiver_id':single.receiver_id}).then(responce => {
-              this.singleChate = responce.data;
               // console.log(responce.data);
+              this.singleChate = responce.data;
+              var checkimage = responce.data.filter((obj) => {
+                return '1' == obj.message_type;
+              }).pop();
+              if (checkimage != undefined) {
+                this.check_image = '1';
+              }else {
+                this.check_image = '0';
+              }
+              axios.get('http://localhost:8000/api/friendData/'+this.friendId).then(responce => {
+                this.friendLanguage = responce.data.languages;
+
+              }, function(err) {
+                console.log('err', err);
+                alert('error');
+              })
 
             }, function(err) {
               console.log('err', err);
@@ -410,8 +534,6 @@ import moment from 'moment';
           }
         // console.log(this.friendId);
           let meeting_file =  this.$refs.msg_file.files;
-              //console.log(meeting_file+',,,,');
-
             var meetingformDatas = new FormData();
                 meetingformDatas.append('file',meeting_file[0]);
                 meetingformDatas.append('message_sender',this.user_id);
@@ -447,7 +569,7 @@ import moment from 'moment';
             }
             //console.log(filename+'hghghgh');
             // meetingformDatas.append('meetingformDatas', obj);
-            console.log(obj);
+            // console.log(obj);
             // socket.emit('message', obj);
 
                 axios.post('http://localhost:8000/api/chat/send-message',meetingformDatas,config)
@@ -460,6 +582,11 @@ import moment from 'moment';
                   height += 20000;
                   $(".chat-widget-conversation").animate({scrollTop: height});
                   socket.emit('message', obj);
+                  socket.emit('alphastopTyping', { selectFrienddata:this.friendId, UserId:this.user_id});
+                  var time = moment().format('hh:mm A');
+                  $('.lastMessageDate-'+this.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT '+time+'</small>');
+                  console.log(this.conversation_id);
+                  $('.lastMessage-'+this.conversation_id).html('<p>'+this.message+'</p>');
 
                  this.message = "";
                  this.$refs.msg_file.value=null;

@@ -9,19 +9,12 @@ use Carbon\Carbon;
 use App\Models\ChatFriends;
 use App\Models\ChatMessages;
 use App\Models\User;
+use Engezli;
 use DB;
 
 class ChatController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+
 
     public function addfriend(Request $request)
     {
@@ -122,69 +115,19 @@ class ChatController extends Controller
       }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function friendData(Request $request, $id)
     {
-        //
+      $user = User::whereid($id)->first();
+      $all_languege = json_decode($user->language_id);
+      $language = [];
+      foreach ($all_languege as  $lang) {
+        $get_lang = Engezli::get_language($lang);
+        array_push($language,$get_lang);
+      }
+      $user->languages = $language;
+      return $user;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

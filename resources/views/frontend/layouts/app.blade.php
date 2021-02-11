@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Engezli | @yield('title')</title>
     <!-- Favicon Icon -->
-    <link rel="icon" type="image/png" href="images/fav.svg">
+    <!-- <link rel="icon" type="image/png" href="{{asset('images/fav.svg')}}"> -->
     <!-- Font Awesome-->
     <link href="{{asset('css/fonts/fontawesome/css/font-awesome.min.css')}}" rel="stylesheet">
     <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"

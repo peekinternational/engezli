@@ -2199,6 +2199,43 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2208,12 +2245,50 @@ __webpack_require__.r(__webpack_exports__);
     return {
       friendList: [],
       singleChate: {},
+      friendId: "",
       friendName: "",
+      friendImage: "",
+      friendCountry: "",
+      friendLanguage: "",
+      friendStatus: "",
+      searchFriend: "",
       post: "",
       message: "",
-      friendId: "",
-      conversation_id: ""
+      check_image: "",
+      conversation_id: "",
+      showUsers: true,
+      searchUser: false,
+      typing: false
     };
+  },
+  sockets: {
+    connect: function connect() {
+      console.log('socket connected successfully');
+    },
+    disconnect: function disconnect() {
+      console.log('socket disconnected');
+    },
+    alphastarttyping: function alphastarttyping(data) {
+      // this.typing = true;
+      console.log(data);
+
+      if (data.selectFrienddata == this.user_id) {
+        this.typing = true;
+        $('#f_typing' + data.UserId).html('<span style="color: green;"> is typing ...</span>');
+      }
+    },
+    alphastoptyping: function alphastoptyping(data) {
+      if (data.friendId == this.user_id) {
+        this.typing = false;
+        console.log("stop typing", data);
+
+        if (data.selectFrienddata.last_message.message_desc) {
+          $('#f_typing' + data.UserId).html(data.selectFrienddata.last_message.message_desc);
+        } else {
+          $('#f_typing' + data.UserId).html('');
+        }
+      }
+    }
   },
   mounted: function mounted() {
     this.user_id = this.userdata.id;
@@ -2226,17 +2301,14 @@ __webpack_require__.r(__webpack_exports__);
     var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default()('https://peekvideochat.com:22000'); // var socket = socketio('http://192.168.100.17:3000');
 
     socket.on("birdsreceivemsg", function (data) {
-      console.log(data);
-
+      // console.log(data);
       if (data.message_receiver == this.userdata.id) {
         if (this.conversation_id == data.conversation_id) {
           this.singleChate.push(data);
         }
 
-        var dt = new Date();
         var time = moment__WEBPACK_IMPORTED_MODULE_2___default()().format('hh:mm A');
         $('.lastMessageDate-' + data.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT ' + time + '</small>');
-        console.log(data.conversation_id);
         $('.lastMessage-' + data.conversation_id).html('<p>' + data.message_desc + '</p>');
         var height = 0;
         $(".chat-widget-conversation").each(function (i, value) {
@@ -2249,29 +2321,67 @@ __webpack_require__.r(__webpack_exports__);
       }
     }.bind(this));
   },
+  watch: {
+    searchFriend: function searchFriend() {
+      if (this.searchFriend.length > 0) {
+        this.showUsers = false;
+        this.searchUser = true;
+      } else {
+        this.showUsers = true;
+        this.searchUser = false;
+      }
+    },
+    message: _.debounce(function () {
+      console.log('check message');
+      this.$socket.emit('alphastopTyping', {
+        selectFrienddata: this.singleChatUser,
+        friendId: this.friendId,
+        UserId: this.user_id
+      });
+    }, 1500)
+  },
+  computed: {
+    filteredUserlist: function filteredUserlist() {
+      var _this = this;
+
+      return this.friendList.filter(function (post) {
+        // console.log(post.sender_info.first_name.toLowerCase().includes(this.searchFriend.toLowerCase()));
+        if (post.sender_id == _this.user_id) {
+          return post.receiver_info.first_name.toLowerCase().includes(_this.searchFriend.toLowerCase());
+        } else {
+          return post.sender_info.first_name.toLowerCase().includes(_this.searchFriend.toLowerCase());
+        }
+      });
+    }
+  },
   methods: {
     istoday: function istoday(date) {
       return moment__WEBPACK_IMPORTED_MODULE_2___default()(date).calendar();
     },
+    removecross: function removecross() {
+      this.$socket.emit('alphamsgtyping', {
+        selectFrienddata: this.friendId,
+        UserId: this.user_id
+      });
+    },
     friendlistss: function friendlistss() {
-      var _this = this;
+      var _this2 = this;
 
       axios.get('http://localhost:8000/api/friendsList/' + this.user_id).then(function (responce) {
-        _this.friendList = responce.data; // console.log(this.friendList);
+        _this2.friendList = responce.data; // console.log(this.friendList);
 
         var url = window.location.href;
         var conversation_id = url.substring(url.lastIndexOf('=') + 1);
 
         if (conversation_id) {
-          var post = _this.friendList.filter(function (obj) {
+          var post = _this2.friendList.filter(function (obj) {
             return conversation_id == obj.conversation_id;
           }).pop();
 
           if (post) {
-            console.log(post.conversation_id);
             $('#' + post.conversation_id).addClass('active'); // $('#1212577981').addClass('active');
 
-            _this.getSingleChat(post);
+            _this2.getSingleChat(post);
 
             var height = 0; // var container = this.$el.querySelector("#startchat");
             // $("#startchat").animate({ scrollTop: container.scrollHeight + 7020}, "fast");
@@ -2279,7 +2389,6 @@ __webpack_require__.r(__webpack_exports__);
 
             $(".chat-widget-conversation").each(function (i, value) {
               height += parseInt($(this).height());
-              console.log(height);
             });
             height += 20000;
             $(".chat-widget-conversation").animate({
@@ -2290,7 +2399,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     getSingleChat: function getSingleChat(single) {
-      var _this2 = this;
+      var _this3 = this;
 
       this.singleChatUser = single; // console.log(this.singleChatUser);
 
@@ -2312,15 +2421,18 @@ __webpack_require__.r(__webpack_exports__);
         // this.userImage=this.singleChatUser.sender_info.profileimage;
         this.friendName = this.singleChatUser.receiver_info.first_name + " " + this.singleChatUser.receiver_info.last_name;
         this.conversation_id = this.singleChatUser.conversation_id;
-        this.friendId = this.singleChatUser.receiver_id; // this.friendImage=this.singleChatUser.receiver_info.profileimage;
-        // this.message_status=this.singleChatUser.message_status;
+        this.friendId = this.singleChatUser.receiver_id;
+        this.friendImage = this.singleChatUser.receiver_info.profile_image;
+        this.friendCountry = this.singleChatUser.receiver_info.country;
+        this.friendStatus = this.singleChatUser.receiver_info.user_status; // this.message_status=this.singleChatUser.message_status;
         //console.log(this.friendImage);
       } else {
         this.friendName = this.singleChatUser.sender_info.first_name + " " + this.singleChatUser.sender_info.last_name;
         this.conversation_id = this.singleChatUser.conversation_id;
-        this.friendId = this.singleChatUser.sender_id; // this.friendImage=this.singleChatUser.sender_info.profileimage;
-        // this.userImage=this.singleChatUser.receiver_info.profileimage;
-        // this.message_group_id=this.singleChatUser.message_group_id;
+        this.friendId = this.singleChatUser.sender_id;
+        this.friendImage = this.singleChatUser.sender_info.profile_image;
+        this.friendCountry = this.singleChatUser.sender_info.country;
+        this.friendStatus = this.singleChatUser.sender_info.user_status; // this.userImage=this.singleChatUser.receiver_info.profileimage;
         // this.message_status=this.singleChatUser.message_status;
         //console.log(this.friendImage);
       }
@@ -2329,14 +2441,31 @@ __webpack_require__.r(__webpack_exports__);
         'sender_id': single.sender_id,
         'receiver_id': single.receiver_id
       }).then(function (responce) {
-        _this2.singleChate = responce.data; // console.log(responce.data);
+        // console.log(responce.data);
+        _this3.singleChate = responce.data;
+        var checkimage = responce.data.filter(function (obj) {
+          return '1' == obj.message_type;
+        }).pop();
+
+        if (checkimage != undefined) {
+          _this3.check_image = '1';
+        } else {
+          _this3.check_image = '0';
+        }
+
+        axios.get('http://localhost:8000/api/friendData/' + _this3.friendId).then(function (responce) {
+          _this3.friendLanguage = responce.data.languages;
+        }, function (err) {
+          console.log('err', err);
+          alert('error');
+        });
       }, function (err) {
         console.log('err', err);
         alert('error');
       });
     },
     sendMessage: function sendMessage() {
-      var _this3 = this;
+      var _this4 = this;
 
       var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('https://peekvideochat.com:22000/');
       var config = {
@@ -2345,8 +2474,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       }; // console.log(this.friendId);
 
-      var meeting_file = this.$refs.msg_file.files; //console.log(meeting_file+',,,,');
-
+      var meeting_file = this.$refs.msg_file.files;
       var meetingformDatas = new FormData();
       meetingformDatas.append('file', meeting_file[0]);
       meetingformDatas.append('message_sender', this.user_id);
@@ -2386,11 +2514,11 @@ __webpack_require__.r(__webpack_exports__);
         created_at: time
       }; //console.log(filename+'hghghgh');
       // meetingformDatas.append('meetingformDatas', obj);
-
-      console.log(obj); // socket.emit('message', obj);
+      // console.log(obj);
+      // socket.emit('message', obj);
 
       axios.post('http://localhost:8000/api/chat/send-message', meetingformDatas, config).then(function (responce) {
-        _this3.singleChate.push(obj);
+        _this4.singleChate.push(obj);
 
         var height = 0;
         $(".chat-widget-conversation").each(function (i, value) {
@@ -2401,8 +2529,16 @@ __webpack_require__.r(__webpack_exports__);
           scrollTop: height
         });
         socket.emit('message', obj);
-        _this3.message = "";
-        _this3.$refs.msg_file.value = null;
+        socket.emit('alphastopTyping', {
+          selectFrienddata: _this4.friendId,
+          UserId: _this4.user_id
+        });
+        var time = moment__WEBPACK_IMPORTED_MODULE_2___default()().format('hh:mm A');
+        $('.lastMessageDate-' + _this4.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT ' + time + '</small>');
+        console.log(_this4.conversation_id);
+        $('.lastMessage-' + _this4.conversation_id).html('<p>' + _this4.message + '</p>');
+        _this4.message = "";
+        _this4.$refs.msg_file.value = null;
       });
     }
   }
@@ -2431,8 +2567,13 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
-window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js").default; // window.Vue.use(VueSocketio,socketio('http://localhost:6998'));
+window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js").default;
+window.Vue.prototype.$socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('https://peekvideochat.com:22000'); // window.Vue.use(VueSocketio,socketio('https://peekvideochat.com:22000'));
 
+Vue.use(new (vue_socket_io__WEBPACK_IMPORTED_MODULE_0___default())({
+  debug: true,
+  connection: 'https://peekvideochat.com:22000'
+}));
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -68887,147 +69028,445 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "outer-content" }, [
             _c("div", { staticClass: "m-box sidebar scrollable" }, [
-              _vm._m(1),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "user-lists" },
-                _vm._l(_vm.friendList, function(friends) {
-                  return _c(
-                    "div",
-                    {
-                      staticClass:
-                        "user-list-item d-flex align-items-center p-3 border-bottom",
-                      attrs: { id: friends.conversation_id },
+              _c("div", { staticClass: "msg-header sticky" }, [
+                _c("form", { staticClass: "form", attrs: { action: "" } }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("i", { staticClass: "fa fa-search" }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.searchFriend,
+                          expression: "searchFriend"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", placeholder: "Search" },
+                      domProps: { value: _vm.searchFriend },
                       on: {
-                        click: function($event) {
-                          return _vm.getSingleChat(friends)
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.searchFriend = $event.target.value
                         }
                       }
-                    },
-                    [
-                      _c(
-                        "div",
-                        { staticClass: "box" },
-                        [
-                          _vm.userdata.id == friends.sender_id
-                            ? [
-                                friends.receiver_info.profile_image != null
-                                  ? [
-                                      _c("img", {
-                                        attrs: {
-                                          src:
-                                            "/images/user_images/" +
-                                            friends.receiver_info.profile_image,
-                                          alt: ""
-                                        }
-                                      })
-                                    ]
-                                  : [
-                                      _c("img", {
-                                        attrs: { src: "images/s1.png", alt: "" }
-                                      })
-                                    ]
-                              ]
-                            : [
-                                friends.sender_info.profile_image != null
-                                  ? [
-                                      _c("img", {
-                                        attrs: {
-                                          src:
-                                            "/images/user_images/" +
-                                            friends.sender_info.profile_image,
-                                          alt: ""
-                                        }
-                                      })
-                                    ]
-                                  : [
-                                      _c("img", {
-                                        attrs: { src: "images/s1.png", alt: "" }
-                                      })
-                                    ]
-                              ]
-                        ],
-                        2
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "box w-100 pl-3" }, [
-                        _c(
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "user-lists" }, [
+                _vm.showUsers
+                  ? _c(
+                      "div",
+                      {},
+                      _vm._l(_vm.friendList, function(friends) {
+                        return _c(
                           "div",
                           {
                             staticClass:
-                              "inner-box d-flex justify-content-between mb-1"
+                              "user-list-item d-flex align-items-center p-3 border-bottom",
+                            attrs: { id: friends.conversation_id },
+                            on: {
+                              click: function($event) {
+                                return _vm.getSingleChat(friends)
+                              }
+                            }
                           },
                           [
-                            _vm.userdata.id == friends.sender_id
-                              ? [
-                                  _c("h6", {}, [
-                                    _vm._v(
-                                      _vm._s(friends.receiver_info.first_name) +
-                                        " " +
-                                        _vm._s(friends.receiver_info.last_name)
-                                    )
-                                  ])
-                                ]
-                              : [
-                                  _c("h6", {}, [
-                                    _vm._v(
-                                      _vm._s(friends.sender_info.first_name) +
-                                        " " +
-                                        _vm._s(friends.sender_info.last_name)
-                                    )
-                                  ])
-                                ],
-                            _vm._v(" "),
                             _c(
                               "div",
-                              {
-                                class:
-                                  "lastMessageDate-" + friends.conversation_id
-                              },
+                              { staticClass: "box" },
                               [
-                                friends.message_id != 0
-                                  ? _c(
-                                      "small",
-                                      {
-                                        staticClass: "text-muted text-uppercase"
-                                      },
-                                      [
-                                        _vm._v(
-                                          _vm._s(
-                                            _vm.istoday(
-                                              friends.last_message.message_date
-                                            )
+                                _vm.userdata.id == friends.sender_id
+                                  ? [
+                                      friends.receiver_info.profile_image !=
+                                      null
+                                        ? [
+                                            _c("img", {
+                                              attrs: {
+                                                src:
+                                                  "/images/user_images/" +
+                                                  friends.receiver_info
+                                                    .profile_image,
+                                                alt: ""
+                                              }
+                                            })
+                                          ]
+                                        : [
+                                            _c("img", {
+                                              attrs: {
+                                                src: "images/s1.png",
+                                                alt: ""
+                                              }
+                                            })
+                                          ]
+                                    ]
+                                  : [
+                                      friends.sender_info.profile_image != null
+                                        ? [
+                                            _c("img", {
+                                              attrs: {
+                                                src:
+                                                  "/images/user_images/" +
+                                                  friends.sender_info
+                                                    .profile_image,
+                                                alt: ""
+                                              }
+                                            })
+                                          ]
+                                        : [
+                                            _c("img", {
+                                              attrs: {
+                                                src: "images/s1.png",
+                                                alt: ""
+                                              }
+                                            })
+                                          ]
+                                    ]
+                              ],
+                              2
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "box w-100 pl-3" }, [
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "inner-box d-flex justify-content-between mb-1"
+                                },
+                                [
+                                  _vm.userdata.id == friends.sender_id
+                                    ? [
+                                        _c("h6", {}, [
+                                          _vm._v(
+                                            _vm._s(
+                                              friends.receiver_info.first_name
+                                            ) +
+                                              " " +
+                                              _vm._s(
+                                                friends.receiver_info.last_name
+                                              )
                                           )
-                                        )
+                                        ])
                                       ]
-                                    )
-                                  : _vm._e()
-                              ]
-                            )
-                          ],
-                          2
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          { class: "lastMessage-" + friends.conversation_id },
-                          [
-                            friends.message_id != 0
-                              ? _c("p", [
-                                  _vm._v(
-                                    _vm._s(friends.last_message.message_desc)
+                                    : [
+                                        _c("h6", {}, [
+                                          _vm._v(
+                                            _vm._s(
+                                              friends.sender_info.first_name
+                                            ) +
+                                              " " +
+                                              _vm._s(
+                                                friends.sender_info.last_name
+                                              )
+                                          )
+                                        ])
+                                      ],
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    {
+                                      class:
+                                        "lastMessageDate-" +
+                                        friends.conversation_id
+                                    },
+                                    [
+                                      friends.message_id != 0
+                                        ? _c(
+                                            "small",
+                                            {
+                                              staticClass:
+                                                "text-muted text-uppercase"
+                                            },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.istoday(
+                                                    friends.last_message
+                                                      .message_date
+                                                  )
+                                                )
+                                              )
+                                            ]
+                                          )
+                                        : _vm._e()
+                                    ]
                                   )
-                                ])
-                              : _vm._e()
+                                ],
+                                2
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  class:
+                                    "lastMessage-" + friends.conversation_id
+                                },
+                                [
+                                  _vm.userdata.id == friends.sender_id
+                                    ? [
+                                        friends.message_id != 0
+                                          ? _c(
+                                              "p",
+                                              {
+                                                attrs: {
+                                                  id:
+                                                    "f_typing" +
+                                                    friends.receiver_id
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  _vm._s(
+                                                    friends.last_message
+                                                      .message_desc
+                                                  )
+                                                )
+                                              ]
+                                            )
+                                          : _vm._e()
+                                      ]
+                                    : [
+                                        friends.message_id != 0
+                                          ? _c(
+                                              "p",
+                                              {
+                                                attrs: {
+                                                  id:
+                                                    "f_typing" +
+                                                    friends.sender_id
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  _vm._s(
+                                                    friends.last_message
+                                                      .message_desc
+                                                  )
+                                                )
+                                              ]
+                                            )
+                                          : _vm._e()
+                                      ]
+                                ],
+                                2
+                              )
+                            ])
                           ]
                         )
-                      ])
-                    ]
-                  )
-                }),
-                0
-              )
+                      }),
+                      0
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.searchUser
+                  ? _c(
+                      "div",
+                      {},
+                      _vm._l(_vm.filteredUserlist, function(friends) {
+                        return _c(
+                          "div",
+                          {
+                            staticClass:
+                              "user-list-item d-flex align-items-center p-3 border-bottom",
+                            attrs: { id: friends.conversation_id },
+                            on: {
+                              click: function($event) {
+                                return _vm.getSingleChat(friends)
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "div",
+                              { staticClass: "box" },
+                              [
+                                _vm.userdata.id == friends.sender_id
+                                  ? [
+                                      friends.receiver_info.profile_image !=
+                                      null
+                                        ? [
+                                            _c("img", {
+                                              attrs: {
+                                                src:
+                                                  "/images/user_images/" +
+                                                  friends.receiver_info
+                                                    .profile_image,
+                                                alt: ""
+                                              }
+                                            })
+                                          ]
+                                        : [
+                                            _c("img", {
+                                              attrs: {
+                                                src: "images/s1.png",
+                                                alt: ""
+                                              }
+                                            })
+                                          ]
+                                    ]
+                                  : [
+                                      friends.sender_info.profile_image != null
+                                        ? [
+                                            _c("img", {
+                                              attrs: {
+                                                src:
+                                                  "/images/user_images/" +
+                                                  friends.sender_info
+                                                    .profile_image,
+                                                alt: ""
+                                              }
+                                            })
+                                          ]
+                                        : [
+                                            _c("img", {
+                                              attrs: {
+                                                src: "images/s1.png",
+                                                alt: ""
+                                              }
+                                            })
+                                          ]
+                                    ]
+                              ],
+                              2
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "box w-100 pl-3" }, [
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "inner-box d-flex justify-content-between mb-1"
+                                },
+                                [
+                                  _vm.userdata.id == friends.sender_id
+                                    ? [
+                                        _c("h6", {}, [
+                                          _vm._v(
+                                            _vm._s(
+                                              friends.receiver_info.first_name
+                                            ) +
+                                              " " +
+                                              _vm._s(
+                                                friends.receiver_info.last_name
+                                              )
+                                          )
+                                        ])
+                                      ]
+                                    : [
+                                        _c("h6", {}, [
+                                          _vm._v(
+                                            _vm._s(
+                                              friends.sender_info.first_name
+                                            ) +
+                                              " " +
+                                              _vm._s(
+                                                friends.sender_info.last_name
+                                              )
+                                          )
+                                        ])
+                                      ],
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    {
+                                      class:
+                                        "lastMessageDate-" +
+                                        friends.conversation_id
+                                    },
+                                    [
+                                      friends.message_id != 0
+                                        ? _c(
+                                            "small",
+                                            {
+                                              staticClass:
+                                                "text-muted text-uppercase"
+                                            },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.istoday(
+                                                    friends.last_message
+                                                      .message_date
+                                                  )
+                                                )
+                                              )
+                                            ]
+                                          )
+                                        : _vm._e()
+                                    ]
+                                  )
+                                ],
+                                2
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  class:
+                                    "lastMessage-" + friends.conversation_id
+                                },
+                                [
+                                  _vm.userdata.id == friends.sender_id
+                                    ? [
+                                        friends.message_id != 0
+                                          ? _c(
+                                              "p",
+                                              {
+                                                attrs: {
+                                                  id:
+                                                    "f_typing" +
+                                                    friends.receiver_id
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  _vm._s(
+                                                    friends.last_message
+                                                      .message_desc
+                                                  )
+                                                )
+                                              ]
+                                            )
+                                          : _vm._e()
+                                      ]
+                                    : [
+                                        friends.message_id != 0
+                                          ? _c(
+                                              "p",
+                                              {
+                                                attrs: {
+                                                  id:
+                                                    "f_typing" +
+                                                    friends.sender_id
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  _vm._s(
+                                                    friends.last_message
+                                                      .message_desc
+                                                  )
+                                                )
+                                              ]
+                                            )
+                                          : _vm._e()
+                                      ]
+                                ],
+                                2
+                              )
+                            ])
+                          ]
+                        )
+                      }),
+                      0
+                    )
+                  : _vm._e()
+              ])
             ]),
             _vm._v(" "),
             _c(
@@ -69079,7 +69518,7 @@ var render = function() {
                       _c("div", { staticClass: "user-info" }, [
                         _c("h6", [_vm._v(_vm._s(_vm.friendName))]),
                         _vm._v(" "),
-                        _c("p", [_vm._v("Last Seen At 12:00 Pm, 12 Jul 2020")])
+                        _c("p", [_vm._v(_vm._s(_vm.friendStatus))])
                       ])
                     ]),
                     _vm._v(" "),
@@ -69214,7 +69653,7 @@ var render = function() {
                       [
                         _c("div", { staticClass: "footer-box" }, [
                           _c("span", { staticClass: "form-field-file" }, [
-                            _vm._m(2),
+                            _vm._m(1),
                             _vm._v(" "),
                             _c("input", {
                               ref: "msg_file",
@@ -69242,21 +69681,26 @@ var render = function() {
                             attrs: { type: "text" },
                             domProps: { value: _vm.message },
                             on: {
-                              keyup: function($event) {
-                                if (
-                                  !$event.type.indexOf("key") &&
-                                  _vm._k(
-                                    $event.keyCode,
-                                    "enter",
-                                    13,
-                                    $event.key,
-                                    "Enter"
-                                  )
-                                ) {
-                                  return null
+                              keyup: [
+                                function($event) {
+                                  return _vm.removecross()
+                                },
+                                function($event) {
+                                  if (
+                                    !$event.type.indexOf("key") &&
+                                    _vm._k(
+                                      $event.keyCode,
+                                      "enter",
+                                      13,
+                                      $event.key,
+                                      "Enter"
+                                    )
+                                  ) {
+                                    return null
+                                  }
+                                  return _vm.sendMessage()
                                 }
-                                return _vm.sendMessage()
-                              },
+                              ],
                               input: function($event) {
                                 if ($event.target.composing) {
                                   return
@@ -69289,7 +69733,108 @@ var render = function() {
               1
             ),
             _vm._v(" "),
-            _vm._m(3)
+            _c("div", { staticClass: "m-box inner-content details-pane" }, [
+              _c("div", { staticClass: "details-pane-body" }, [
+                _c(
+                  "div",
+                  { staticClass: "avatar" },
+                  [
+                    _vm.friendImage
+                      ? [
+                          _c("img", {
+                            attrs: {
+                              src: "/images/user_images/" + _vm.friendImage,
+                              alt: ""
+                            }
+                          })
+                        ]
+                      : [
+                          _c("img", {
+                            attrs: { src: "images/s1.png", alt: "" }
+                          })
+                        ]
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "name-and-text" }, [
+                  _c("h5", [_vm._v(_vm._s(_vm.friendName))]),
+                  _vm._v(" "),
+                  _c("p", [_vm._v("top buyer | top rated seller")])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "table",
+                  { staticClass: "table" },
+                  [
+                    _vm._m(2),
+                    _vm._v(" "),
+                    _vm._m(3),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("td", [_vm._v("from")]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.friendCountry))])
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.friendLanguage, function(lang, index) {
+                      return _c("tr", [
+                        _c("td", [_vm._v(_vm._s(lang.language_title))]),
+                        _vm._v(" "),
+                        index == 0
+                          ? _c("td", [_vm._v("basic")])
+                          : _c("td", [_vm._v("native")])
+                      ])
+                    })
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _vm.check_image == 1
+                  ? _c("div", { staticClass: "all-doc-lists" }, [
+                      _c("h5", [_vm._v("All documents")]),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "doc-list-item" },
+                        [
+                          _vm._l(_vm.singleChate, function(chat) {
+                            return [
+                              chat.message_type == "1"
+                                ? [
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass: "doc-item",
+                                        attrs: {
+                                          target: "_blank",
+                                          href:
+                                            "images/chat_images/" +
+                                            chat.message_file
+                                        }
+                                      },
+                                      [
+                                        _c("img", {
+                                          attrs: {
+                                            src:
+                                              "images/chat_images/" +
+                                              chat.message_file,
+                                            alt: ""
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                : _vm._e()
+                            ]
+                          })
+                        ],
+                        2
+                      )
+                    ])
+                  : _vm._e()
+              ])
+            ])
           ])
         ])
       ])
@@ -69303,23 +69848,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "heading px-3 py-3 border-bottom" }, [
       _c("h3", [_vm._v("Messages")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "msg-header sticky" }, [
-      _c("form", { staticClass: "form", attrs: { action: "" } }, [
-        _c("div", { staticClass: "form-group" }, [
-          _c("i", { staticClass: "fa fa-search" }),
-          _vm._v(" "),
-          _c("input", {
-            staticClass: "form-control",
-            attrs: { type: "text", placeholder: "Search" }
-          })
-        ])
-      ])
     ])
   },
   function() {
@@ -69344,86 +69872,23 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "m-box inner-content details-pane" }, [
-      _c("div", { staticClass: "details-pane-body" }, [
-        _c("div", { staticClass: "avatar" }, [
-          _c("img", { attrs: { src: "images/avatar (2).svg", alt: "" } })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "name-and-text" }, [
-          _c("h5", [_vm._v("john William")]),
-          _vm._v(" "),
-          _c("p", [_vm._v("top buyer | top rated seller")])
-        ]),
-        _vm._v(" "),
-        _c("table", { staticClass: "table" }, [
-          _c("tr", [
-            _c("td", [_vm._v("Reviews")]),
-            _vm._v(" "),
-            _c("td", [
-              _c("span", [
-                _c("i", { staticClass: "fa fa-star" }),
-                _vm._v(" 5.0")
-              ]),
-              _vm._v(" (1k+)\n                  ")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c("td", [_vm._v("avg response time")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("1 hr")])
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c("td", [_vm._v("from")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("france")])
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c("td", [_vm._v("english")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("basic")])
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c("td", [_vm._v("french")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("native")])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "all-doc-lists" }, [
-          _c("h5", [_vm._v("All documents")]),
-          _vm._v(" "),
-          _c("div", { staticClass: "doc-list-item" }, [
-            _c("a", { staticClass: "doc-item", attrs: { href: "" } }, [
-              _c("img", { attrs: { src: "images/card (1).png", alt: "" } })
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "doc-item", attrs: { href: "" } }, [
-              _c("img", { attrs: { src: "images/card (2).png", alt: "" } })
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "doc-item", attrs: { href: "" } }, [
-              _c("img", { attrs: { src: "images/card (3).png", alt: "" } })
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "doc-item", attrs: { href: "" } }, [
-              _c("img", { attrs: { src: "images/card (4).png", alt: "" } })
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "doc-item", attrs: { href: "" } }, [
-              _c("img", { attrs: { src: "images/card (1).png", alt: "" } })
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "doc-item", attrs: { href: "" } }, [
-              _c("img", { attrs: { src: "images/card (2).png", alt: "" } })
-            ])
-          ])
-        ])
+    return _c("tr", [
+      _c("td", [_vm._v("Reviews")]),
+      _vm._v(" "),
+      _c("td", [
+        _c("span", [_c("i", { staticClass: "fa fa-star" }), _vm._v(" 5.0")]),
+        _vm._v(" (1k+)\n                  ")
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("td", [_vm._v("avg response time")]),
+      _vm._v(" "),
+      _c("td", [_vm._v("1 hr")])
     ])
   }
 ]
