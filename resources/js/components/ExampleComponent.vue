@@ -214,8 +214,9 @@
 
               </div>
 
-              <div class="msg-footer align-items-center p-3">
-                  <!-- <span v-show="typing" class="">{{ friendName }} is typing ...</span> -->
+              <div class="msg-footer align-items-center py-4 px-3">
+                <span v-show="typing" class="typing">{{ friendName }} is typing ...</span>
+                <div class="d-flex w-100">
                   <div class="footer-box">
                     <span class="form-field-file">
                       <label
@@ -236,6 +237,7 @@
                     </span>
                   </div>
                   <div class="footer-box">
+
                     <input type="text" v-model="message" v-on:keyup="removecross()" class="form-control" @keyup.enter="sendMessage()" />
                   </div>
                   <div class="footer-box">
@@ -244,11 +246,12 @@
               </div>
             </div>
             </div>
+            </div>
             <div class="m-box inner-content details-pane">
               <!-- <div class="inner-header">
                 <h4>about</h4>
               </div> -->
-              <div class="details-pane-body">
+              <div class="details-pane-body" v-if="showDetails">
                 <div class="avatar">
                   <template v-if="friendImage">
                     <img :src="'/images/user_images/'+friendImage" alt="" />
@@ -333,6 +336,7 @@ import moment from 'moment';
             showUsers:true,
             searchUser:false,
             typing:false,
+            showDetails:false,
           }
       },
       sockets: {
@@ -346,9 +350,23 @@ import moment from 'moment';
 
           alphastarttyping(data) {
             // this.typing = true;
-            console.log(data);
+            // console.log(data);
             if (data.selectFrienddata == this.user_id) {
-              this.typing = true;
+              const post2 = this.friendList.filter((obj) => {
+                  if (data.selectFrienddata === obj.sender_id) {
+                    return data.selectFrienddata === obj.sender_id;
+                  }else {
+                    return data.selectFrienddata === obj.receiver_id;
+                  }
+               }).pop();
+               // console.log("post2",post2);
+               if (post2) {
+                 if (this.friendId == data.UserId && post2.sender_id == data.selectFrienddata) {
+                   this.typing = true;
+                 }else if (this.friendId == data.UserId && post2.receiver_id == data.selectFrienddata) {
+                   this.typing = true;
+                 }
+               }
               $('#f_typing'+data.UserId).html('<span style="color: green;"> is typing ...</span>');
             }
           },
@@ -356,7 +374,7 @@ import moment from 'moment';
           alphastoptyping(data) {
             if (data.friendId == this.user_id) {
               this.typing = false;
-              console.log("stop typing",data);
+              // console.log("stop typing",data);
 
             if(data.selectFrienddata.last_message.message_desc){
               $('#f_typing'+data.UserId).html(data.selectFrienddata.last_message.message_desc);
@@ -390,6 +408,8 @@ import moment from 'moment';
               var time = moment().format('hh:mm A');
               $('.lastMessageDate-'+data.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT '+time+'</small>');
               $('.lastMessage-'+data.conversation_id).html('<p>'+data.message_desc+'</p>');
+              
+              console.log("check notfication",$('.notificationMessage-'+data.conversation_id).text());
               var height = 0;
               $(".chat-widget-conversation").each(function(i, value){
                 height += parseInt($(this).height());
@@ -411,7 +431,6 @@ import moment from 'moment';
           }
         },
         message: _.debounce(function () {
-            console.log('check message');
                 this.$socket.emit('alphastopTyping', { selectFrienddata:this.singleChatUser,friendId:this.friendId, UserId:this.user_id});
             }, 1500),
       },
@@ -465,6 +484,7 @@ import moment from 'moment';
           },
           getSingleChat: function(single){
             this.singleChatUser = single;
+            this.showDetails = true;
             // console.log(this.singleChatUser);
             $('.user-list-item.active').removeClass('active');
             $('#'+this.singleChatUser.conversation_id).addClass('active');
@@ -585,7 +605,7 @@ import moment from 'moment';
                   socket.emit('alphastopTyping', { selectFrienddata:this.friendId, UserId:this.user_id});
                   var time = moment().format('hh:mm A');
                   $('.lastMessageDate-'+this.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT '+time+'</small>');
-                  console.log(this.conversation_id);
+                  // console.log(this.conversation_id);
                   $('.lastMessage-'+this.conversation_id).html('<p>'+this.message+'</p>');
 
                  this.message = "";
@@ -608,9 +628,13 @@ import moment from 'moment';
     background-color: #fff;
     border: 1px solid #dee2e6;
     border-radius: .25rem !important;
-    /* max-width: 100%; */
     height: 100px !important;
     width: 100px !important;
+}
+.typing {
+  position: absolute;
+  top:-1px;
+  left: 50px;
 }
     /* .msg-body .msg-text-box.right .panel {
       -webkit-box-orient: horizontal;

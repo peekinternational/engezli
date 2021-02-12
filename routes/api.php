@@ -17,6 +17,7 @@ use App\Http\Controllers\ChatController;
 
 Route::post('add-friend',[ChatController::class, 'addfriend']);
 Route::get('friendsList/{id}',[ChatController::class, 'friendsList']);
+Route::get('friendlist/friendsList2/{id}',[ChatController::class, 'friendsListUser']);
 Route::post('singleChat',[ChatController::class, 'singleChat']);
 Route::post('chat/send-message',[ChatController::class, 'send']);
 Route::get('friendData/{id}',[ChatController::class, 'friendData']);

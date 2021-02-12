@@ -43,6 +43,15 @@ class ChatController extends Controller
       return $getfriends;
     }
 
+    public function friendsListUser(Request $request, $id){
+      $getfriends = ChatFriends::with('senderInfo','receiverInfo','lastMessage')->orWhere('sender_id',$id)
+      ->orWhere('receiver_id',$id)->orderBy('id', 'DESC')->get();
+      // dd($getfriends);
+      $user_id = $id;
+      return view('frontend.notifications',compact('getfriends','user_id'));
+      // return $getfriends;
+    }
+
     public function messages(Request $request)
     {
       $user = auth()->user();

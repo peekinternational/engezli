@@ -18,74 +18,14 @@
 						aria-expanded="false">
 						{{ __('home.Message')}}
 					</a>
+					@if(auth()->user())
 					<div class="dropdown-menu notification" aria-labelled="navbarDropdown">
-						<a class="dropdown-item" href="#">
-							<div class="contacts-list-item">
-								<div class="avatar">
-									<img src="{{asset('images/avatar (1).svg')}}" alt="" />
-								</div>
-								<div class="text">
-									<h4>sohanur rahman <span class="time">12:00 pm</span></h4>
-									<p>Lorem ipsum dolor sit amet.</p>
-								</div>
-							</div>
-						</a>
-						<a class="dropdown-item" href="#">
-							<div class="contacts-list-item">
-								<div class="avatar">
-									<img src="{{asset('images/avatar (1).svg')}}" alt="" />
-								</div>
-								<div class="text">
-									<h4>sohanur rahman <span class="time">12:00 pm</span></h4>
-									<p>Lorem ipsum dolor sit amet.</p>
-								</div>
-							</div>
-						</a>
-						<a class="dropdown-item" href="#">
-							<div class="contacts-list-item">
-								<div class="avatar">
-									<img src="{{asset('images/avatar (1).svg')}}" alt="" />
-								</div>
-								<div class="text">
-									<h4>sohanur rahman <span class="time">12:00 pm</span></h4>
-									<p>Lorem ipsum dolor sit amet.</p>
-								</div>
-							</div>
-						</a>
-						<a class="dropdown-item" href="#">
-							<div class="contacts-list-item">
-								<div class="avatar">
-									<img src="{{asset('images/avatar (1).svg')}}" alt="" />
-								</div>
-								<div class="text">
-									<h4>sohanur rahman <span class="time">12:00 pm</span></h4>
-									<p>Lorem ipsum dolor sit amet.</p>
-								</div>
-							</div>
-						</a>
-						<a class="dropdown-item" href="#">
-							<div class="contacts-list-item">
-								<div class="avatar">
-									<img src="{{asset('images/avatar (1).svg')}}" alt="" />
-								</div>
-								<div class="text">
-									<h4>sohanur rahman <span class="time">12:00 pm</span></h4>
-									<p>Lorem ipsum dolor sit amet.</p>
-								</div>
-							</div>
-						</a>
-						<a class="dropdown-item" href="#">
-							<div class="contacts-list-item">
-								<div class="avatar">
-									<img src="{{asset('images/avatar (1).svg')}}" alt="" />
-								</div>
-								<div class="text">
-									<h4>sohanur rahman <span class="time">12:00 pm</span></h4>
-									<p>Lorem ipsum dolor sit amet.</p>
-								</div>
-							</div>
-						</a>
+						<div id="app">
+							<notification-component :userdata="{{auth()->user()}}"></notification-component>
+						</div>
+
 					</div>
+					@endif
 				</li>
 				<li class="nav-item {{ Request()->is('/order') ? 'active' : '' }}">
 					<a href="{{url('manage-orders')}}" class="nav-link">{{ __('home.Order')}}</a>

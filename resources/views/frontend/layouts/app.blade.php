@@ -28,6 +28,7 @@
     <link href="{{asset('css/responsive.css')}}" rel="stylesheet">
      <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
     <link href="{{asset('frontend-assets/css/sweat_alert.css')}}" rel="stylesheet">
+    <script src="{{ asset('js/app.js') }}" defer></script>
      @yield('styling')
   </head>
   <body>
@@ -42,7 +43,7 @@
     <!-- Bootstrap core JavaScript -->
     <script src="{{asset('js/cdn/jquery-3.4.1.min.js')}}"></script>
     <script src="{{asset('js/cdn/popper.min.js')}}"></script>
-    <script src="{{asset('js/cdn/bootstrap.min.js')}}"></script>
+    <!-- <script src="{{asset('js/cdn/bootstrap.min.js')}}"></script> -->
     <script src="{{asset('js/cdn/swiper-bundle.min.js')}}"></script>
     <script src="{{asset('js/cdn/bootstrap-tagsinput.min.js')}}"></script>
     <script src="{{asset('js/cdn/select2.min.js')}}"></script>
@@ -53,7 +54,25 @@
 
     <!-- Contact form JavaScript -->
 
+    <script src="https://peekvideochat.com:22000/socket.io/socket.io.js"></script>
     <script>
+    // @if(auth()->user() != '')
+    // const socket = io.connect('https://peekvideochat.com:22000');
+    // console.log('check 1', socket.connected);
+    // socket.on('birdsreceivemsg', function(data) {
+    //   var user_id = "{{auth()->user()->id}}";
+    //   var dt = new Date();
+    //   var time = dt.getHours() + ":" + dt.getMinutes()
+    //   console.log(data);
+    //   if( user_id == data.message_receiver){
+    //     $('.notificationTime-'+data.conversation_id).html(time);
+    //     $('.notificationMessage-'+data.conversation_id).html(data.message_desc);
+    //   }
+    // });
+    // @endif
+
+
+
         var url = "{{ route('changeLang') }}";
         $(document).ready(function () {
             var url = "{{ route('changeLang') }}";
@@ -78,6 +97,27 @@
             }else{
                 $("body").removeClass("arabic").removeAttr("dir", "rtl");
             }
+
+          // @if(auth()->user() != '')
+          //   var user_id = "{{auth()->user()->id}}";
+          //
+          //   $.ajaxSetup({
+          //       headers: {
+          //           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          //       }
+          //   });
+          //   $.ajax({
+          //    url:"http://localhost:8000/api/friendlist/friendsList2/"+user_id,
+          //    // method:"POST",
+          //    success:function(data){
+          //      $('.show-notification').html(data);
+          //     // $('.added-questions').append(data);
+          //     // $('#requirements-form textarea').val('');
+          //    }
+          //   })
+          // @endif
+
+
         });
     </script>
     @yield('script')
