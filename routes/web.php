@@ -113,7 +113,7 @@ Route::get('/services/{url}', [ServiceController::class, 'index']);
 Route::post('/order', [OrderController::class, 'order']);
 Route::post('/create_order', [OrderController::class, 'CreateOrder']);
 Route::post('/save_requirement', [OrderController::class, 'SaveRequirement']);
-Route::post('/order_conversation', [OrderController::class, 'SendOrderMessage']);
+Route::match(['get','post'],'/order_conversation', [OrderController::class, 'SendOrderMessage']);
 Route::get('/manage-orders', [OrderController::class, 'manageOrders']);
 
 Route::post('/change-password', [ProfileController::class, 'ChangePassword']);
@@ -121,6 +121,7 @@ Route::post('/save-billing-info', [ProfileController::class, 'SaveBilling']);
 Route::post('/save-notificatoins-setting', [ProfileController::class, 'SaveNotificationSetting']);
 
 Route::get('/help-center', [OrderController::class, 'HelpCenter']);
+Route::post('/request-help', [OrderController::class, 'RequestHelp']);
 
 });
 Route::get('/get_services', [ServiceController::class, 'get_services']);

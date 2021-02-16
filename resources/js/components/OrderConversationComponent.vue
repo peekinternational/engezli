@@ -22,16 +22,13 @@
         </div>
       </div>
       <div class="t-body">
-        <div
-          class="accordion custom-accordion"
-          id="accordionExamplesd46"
-        >
+        <div class="accordion custom-accordion"
+          id="accordionExamplesd46">
           <div class="card">
             <div
               id="collapseOne561"
               class="collapse show"
-              data-parent="#accordionExamplesd46"
-            >
+              data-parent="#accordionExamplesd46">
               <div class="card-body">
                 <p>Lorem ipsum dolor sit amet.</p>
                 <p>
@@ -48,7 +45,7 @@
         </div>
       </div>
     </div>
-    <div class="tab-list-item">
+    <!-- <div class="tab-list-item">
       <div class="t-header">
         <div class="box-item">
           <img src="images/s1.png" alt="" />
@@ -90,9 +87,9 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- ////////////////////////// -->
-    <div class="tab-list-item delivered-order">
+    <!-- <div class="tab-list-item delivered-order">
       <div class="t-header">
         <div class="box-item">
           <img src="images/s1.png" alt="" />
@@ -331,9 +328,9 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- ////////////////////////// -->
-    <div class="user-info-content d-flex order-completed border-top align-items-center p-3 px-4 mt-3">
+    <!-- <div class="user-info-content d-flex order-completed border-top align-items-center p-3 px-4 mt-3">
       <div class="box user-img">
         <img src="images/s1.png" alt="" />
       </div>
@@ -341,7 +338,7 @@
         <h6>Me</h6>
         <p class="mb-0">Thanks</p>
       </div>
-    </div>
+    </div> -->
 
 </div>
 

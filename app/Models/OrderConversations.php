@@ -17,4 +17,9 @@ class OrderConversations extends Model
     	'reason',
     	'status',
     ];
+
+    public function userInfo()
+    {
+      return $this->belongsTo(User::class, 'sender_id');
+    }
 }

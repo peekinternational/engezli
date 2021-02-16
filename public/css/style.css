@@ -6766,3 +6766,6 @@ nav.breadcrumb-container .breadcrumb a {
 .service-details .service-wrapper .outer-content .left .review-container {
     margin-top: 50px;
 }
+.pagination-container .hidden {
+  display: none;
+}

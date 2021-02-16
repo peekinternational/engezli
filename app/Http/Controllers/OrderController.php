@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Categories;
+use App\Models\HelpCenter;
 use App\Models\User;
 use App\Models\Services;
 use App\Models\Packages;
 use App\Models\Language;
 use App\Models\Order;
+use App\Models\OrderConversations;
 use App\Models\OrderRequirement;
 use App\Models\SellerLevel;
 use App\Facade\Engezli;
@@ -132,64 +134,71 @@ class OrderController extends Controller
     public function SendOrderMessage(Request $request)
     {
       dd($request->all());
+      $message = $request->input('message');
+      $user_id = auth()->user()->id;
+      $conversationData['sender_id'] = $user_id;
+      $conversationData['order_id'] = $request->input('order_id');
+      $conversationData['message'] = $request->input('message');
+      $conversationData['date'] = Carbon::now();
+      $conversationData['status'] = 'message';
+      $file = $request->file('file');
+      if($file != ''){
+        // $filename= $file->getClientOriginalName();
+        $imagename= 'orderconversation-'.rand(000000,999999).'.'.$file->getClientOriginalExtension();
+        $extension = $file->getClientOriginalExtension();
+        $imagename= $imagename;
+        $destinationpath= public_path('images/order_conversation');
+        $file->move($destinationpath, $imagename);
+        $conversationData['file'] = $imagename;
+      }
+      $Order_conversation = OrderConversations::create($conversationData);
+      $conversation = OrderConversations::with('userInfo')->where('id',$Order_conversation->id)->first();
+      // dd($conversation);
+      return view('frontend.order-conversation-ajax',compact('conversation'));
+
     }
 
-
-
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function HelpCenter(Request $request)
     {
-        //
+      return view('frontend.help-center');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function RequestHelp(Request $request)
     {
-        //
+      // dd($request->all());
+      $user_id = auth()->user()->id;
+      $order_number = $request->input('order_number');
+      $check_order = Order::whereorder_number($order_number)->first();
+      if ($check_order != null) {
+        $order_id = $check_order->id;
+      }else {
+        return redirect()->back()->with('danger', 'Invalid Order Number');
+      }
+      // dd($check_order);
+      $helpData['order_id'] = $order_id;
+      $helpData['order_number'] = $order_number;
+      $helpData['user_id'] = $user_id;
+      $helpData['issue'] = $request->input('issue');
+      $helpData['order_issue'] = $request->input('order_issue');
+      $helpData['type'] = $request->input('type');
+      $helpData['problem'] = $request->input('problem');
+      $helpData['subject'] = $request->input('subject');
+      $helpData['description'] = $request->input('description');
+      $file = $request->file('file');
+      if($file != ''){
+        // $filename= $file->getClientOriginalName();
+        $imagename= 'helpcenter-'.rand(000000,999999).'.'.$file->getClientOriginalExtension();
+        $extension = $file->getClientOriginalExtension();
+        $imagename= $imagename;
+        $destinationpath= public_path('images/help_center');
+        $file->move($destinationpath, $imagename);
+        $helpData['file'] = $imagename;
+      }
+
+      $helpCenter = HelpCenter::create($helpData);
+      return redirect('/manage-orders')->with('success', 'Request send successfully');
+
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

@@ -114,6 +114,14 @@
             role="tabpanel"
             aria-labelledby="pills-all-tab"
           >
+          @if(Session::has('success'))
+          <div class="alert alert-success">
+            {{ Session::get('success') }}
+            @php
+            Session::forget('success');
+            @endphp
+          </div>
+          @endif
             <div class="inner-tab-container table-responsive show-orders">
               <table class="table table-bordered">
                 <thead>

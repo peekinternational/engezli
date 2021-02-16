@@ -1,9 +1,10 @@
 @extends('frontend.layouts.app')
 @section('title', 'Order  ')
 @section('styling')
+<!-- <script src="{{ asset('js/app.js') }}" defer></script> -->
 @endsection
 @section('content')
-<div class="create-service order-request buyer-order">
+<div class="create-service order-request buyer-order order-seller">
   <div class="create-service-tabs">
     <div class="container">
       <div class="inner-service-content-box">
@@ -66,7 +67,7 @@
       <div class="inner-content">
         <div class="service-tab-content">
           <div class="row">
-            <div class="col-8">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
               <div class="tab-content" id="myTabContent">
                 <div
                   class="tab-pane fade show active"
@@ -138,85 +139,372 @@
 
                     <!-- ////////////////////////// -->
 
-                  <orderconversation></orderconversation>
+                    <div class="tab-list-item user-reply">
+                      <div class="t-header">
+                        <div class="box-item">
+                          <img src="images/s1.png" alt="" />
+                        </div>
+                        <div class="box-item">
+                          <button
+                            class="btn btn-link btn-block pl-0"
+                            type="button"
+                            data-toggle="collapse"
+                            data-target="#collapseOne561"
+                            aria-expanded="true"
+                            aria-controls="collapseOne561">
+                            <h6 class="text-primary">
+                              Amnawrites
+                              <span class="time">10:54 PM</span>
+                            </h6>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="t-body">
+                        <div
+                          class="accordion custom-accordion"
+                          id="accordionExamplesd46">
+                          <div class="card">
+                            <div
+                              id="collapseOne561"
+                              class="collapse show"
+                              data-parent="#accordionExamplesd46">
+                              <div class="card-body">
+                                <p>Lorem ipsum dolor sit amet.</p>
+                                <p>
+                                  Lorem ipsum dolor sit amet consectetur
+                                  adipisicing elit. Et, voluptas!
+                                </p>
+                                <a href="" class="report-btn">
+                                  <i class="fa fa-flag"></i>
+                                  report
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="tab-list-item">
+                      <div class="t-header">
+                        <div class="box-item">
+                          <img src="images/s1.png" alt="" />
+                        </div>
+                        <div class="box-item">
+                          <button
+                            class="btn btn-link btn-block pl-0"
+                            type="button"
+                            data-toggle="collapse"
+                            data-target="#collapseOne5616546"
+                            aria-expanded="true"
+                            aria-controls="collapseOne5616546">
+                            <h6 class="text-primary">
+                              me
+                              <span class="time">10:54 PM</span>
+                            </h6>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="t-body">
+                        <div
+                          class="accordion custom-accordion"
+                          id="accordionExamplesd466516">
+                          <div class="card">
+                            <div
+                              id="collapseOne5616546"
+                              class="collapse show"
+                              data-parent="#accordionExamplesd466516">
+                              <div class="card-body">
+                                <p>Lorem ipsum dolor sit amet.</p>
+                                <p>
+                                  Lorem ipsum dolor sit amet consectetur
+                                  adipisicing elit. Et, voluptas!
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- ////////////////////////// -->
+                    <div class="tab-list-item delivered-order">
+                      <div class="t-header">
+                        <div class="box-item">
+                          <img src="images/s1.png" alt="" />
+                        </div>
+                        <div class="box-item">
+                          <button
+                            class="btn btn-link btn-block pl-0"
+                            type="button"
+                            data-toggle="collapse"
+                            data-target="#collapseOne5616546sd"
+                            aria-expanded="true"
+                            aria-controls="collapseOne5616546sd">
+                            <h6 class="text-primary">
+                              Amnawrites
+                              <span class="delivered-text">delivered your order</span>
+                              <span class="time">10:54 PM</span>
+                            </h6>
+
+                            <span class="form-field-file">
+                              <label
+                                for="cv-arquivo"
+                                aria-label="Attach file"
+                                class="btn1">
+                                <i class="fa fa-paperclip"
+                                  aria-hidden="true"></i>
+                              </label>
+
+                              <input type="file"
+                                name="cv-arquivo"
+                                id="cv-arquivo"
+                                class="field-file" />
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="t-body">
+                        <div
+                          class="accordion custom-accordion"
+                          id="accordionExamplesd466516s">
+                          <div class="card">
+                            <div
+                              id="collapseOne5616546sd"
+                              class="collapse show"
+                              data-parent="#accordionExamplesd466516s">
+                              <div class="delivery-list-item rounded">
+                                <div class="content-header">
+                                  <h6>delivery #1</h6>
+                                </div>
+                                <div class="content-body">
+                                  <div class="user-info-content d-flex">
+                                    <div class="box user-img">
+                                      <img src="images/s1.png" alt="" />
+                                    </div>
+                                    <div class="box user-details">
+                                      <h6 class="user-name">
+                                        amnawrites'
+                                        <span> message</span>
+                                      </h6>
+                                      <p>Hello</p>
+                                      <p>Lorem ipsum dolor sit amet.</p>
+                                      <p>
+                                        Lorem ipsum dolor sit amet
+                                        consectetur, adipisicing elit.
+                                        Molestias architecto optio, dolorum
+                                        corporis dolor reprehenderit?
+                                      </p>
+
+                                      <div class="attachments">
+                                        <h6>attachment</h6>
+                                        <div class="attachment-lists">
+                                          <div class="list-item-box">
+                                            <img src="images/s1.png" alt="" />
+                                            <div
+                                              class="attachment-info d-flex justify-content-between align-items-center">
+                                              <p>
+                                                logo.jpg
+                                                <span>(173 kb)</span>
+                                              </p>
+                                              <a href=""><i class="fa fa-download"></i></a>
+                                            </div>
+                                          </div>
+
+                                          <div class="list-item-box">
+                                            <img src="images/s1.png" alt="" />
+
+                                            <div
+                                              class="attachment-info d-flex justify-content-between align-items-center">
+                                              <p>
+                                                logo.jpg
+                                                <span>(173 kb)</span>
+                                              </p>
+                                              <a href=""><i class="fa fa-download"></i></a>
+                                            </div>
+                                          </div>
+                                          <div class="list-item-box">
+                                            <img src="images/s1.png" alt="" />
+
+                                            <div class="attachment-info d-flex justify-content-between align-items-center">
+                                              <p>
+                                                logo.jpg
+                                                <span>(173 kb)</span>
+                                              </p>
+                                              <a href="" ><i class="fa fa-download"></i></a>
+                                            </div>
+                                          </div>
+                                          <div class="list-item-box">
+                                            <img src="images/s1.png" alt="" />
+
+                                            <div
+                                              class="attachment-info d-flex justify-content-between align-items-center">
+                                              <p>
+                                                logo.jpg
+                                                <span>(173 kb)</span>
+                                              </p>
+                                              <a href=""><i class="fa fa-download"></i></a>
+                                            </div>
+                                          </div>
+                                          <div class="list-item-box">
+                                            <img src="images/s1.png" alt="" />
+
+                                            <div
+                                              class="attachment-info d-flex justify-content-between align-items-center">
+                                              <p>
+                                                logo.jpg
+                                                <span>(173 kb)</span>
+                                              </p>
+                                              <a href=""><i class="fa fa-download"></i></a>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div
+                                        class="attachments source-file-container">
+                                        <h6>source file</h6>
+                                        <div class="source-file">
+                                          <a href="" class="source-list-item">
+                                            <p>
+                                              logo_s...zip
+                                              <span>(3 mb)</span>
+                                            </p>
+                                            <i class="fa fa-download"></i>
+                                          </a>
+                                          <a href="" class="source-list-item">
+                                            <p>
+                                              logo_s...zip
+                                              <span>(3 mb)</span>
+                                            </p>
+                                            <i class="fa fa-download"></i>
+                                          </a>
+                                          <a href="" class="source-list-item">
+                                            <p>
+                                              logo_s...zip
+                                              <span>(3 mb)</span>
+                                            </p>
+                                            <i class="fa fa-download"></i>
+                                          </a>
+                                          <a href="" class="source-list-item">
+                                            <p>
+                                              logo_s...zip
+                                              <span>(3 mb)</span>
+                                            </p>
+                                            <i class="fa fa-download"></i>
+                                          </a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- ////////////////////////// -->
+                    <div
+                      class="user-info-content d-flex order-completed border-top align-items-center p-3 px-4 mt-3">
+                      <div class="box user-img">
+                        <img src="images/s1.png" alt="" />
+                      </div>
+                      <div class="box user-details">
+                        <h6>Me</h6>
+                        <p class="mb-0">Thanks</p>
+                      </div>
+                    </div>
                   </div>
 
-                  <div class="btn-container text-center d-block my-4">
-                    <div class="">
-                      <a
-                        href=""
-                        class="btn btn-primary"
-                        data-toggle="modal"
-                        data-target="#exampleModal"
-                        >deliver now</a
-                      >
-                      <h6 class="small font-weight-bold mt-3">- OR -</h6>
-                    </div>
+                  <div
+                    class="delivery-btn-wrapper btn-container text-center d-block my-4"
+                  >
+                    <a
+                      href=""
+                      class="btn btn-primary"
+                      data-toggle="modal"
+                      data-target="#exampleModal"
+                      >deliver now</a
+                    >
+                    <h6 class="small font-weight-bold d-sm-none mt-3">
+                      - OR -
+                    </h6>
                   </div>
 
                   <div class="seller-reply-box text-capitalize">
                     <div class="card">
-                      <form class="" id="message-form">
-                        <div class="card-header d-flex justify-content-between align-items-center p-3">
-                          <div class="select-box">
-                            <select name="" id="" class="select2">
-                              <option value="">usee a quick response</option>
-                              <option value="">option 1</option>
-                              <option value="">option 2</option>
-                              <option value="">option 3</option>
-                              <option value="">option 4</option>
-                            </select>
-                          </div>
-                          <div class="d-flex">
-                            <small class="pr-2 mr-2 border-right">
-                              last seen <strong>4 days ago</strong>
-                            </small>
-                            <small>local time <strong>mon 06:32</strong></small>
-                          </div>
+                      <form class="" id="message-form" enctype="multipart/form-data">
+                      <div class="card-header d-flex justify-content-between align-items-center p-3">
+                        <div class="select-box">
+                          <select name="" id="" class="select2">
+                            <option value="">usee a quick response</option>
+                            <option value="">option 1</option>
+                            <option value="">option 2</option>
+                            <option value="">option 3</option>
+                            <option value="">option 4</option>
+                          </select>
                         </div>
-                        <div class="card-body">
-                          <textarea
+                        <div class="d-flex">
+                          <small class="pr-2 mr-2 border-right">
+                            last seen <strong>4 days ago</strong>
+                          </small>
+                          <small
+                            >local time <strong>mon 06:32</strong></small
+                          >
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <textarea
                           name="message"
                           id=""
                           class="form-control"
                           rows="4"
-                          placeholder="Type your message here..."></textarea>
+                          placeholder="Type your message here..."
+                        ></textarea>
 
-                          <div class="d-flex justify-content-between align-items-center mt-2">
-                            <p>
-                              <a href="" class="text-primary">
-                                <i class="fa fa-plus-circle"></i> offer more extras</a>
-                                <a href="" class="text-muted">
-                                  <i class="fa fa-eraser ml-3"></i> clear message</a>
-                                </p>
-                                <p>
-                                  <span>0 / 2500</span>
-                                  <a href="" class="mx-2"><i class="fa fa-smile-o"></i></a>
-                                  <span class="form-field-file">
-                                    <label
-                                    for="cv-arquivo"
-                                    aria-label="Attach file"
-                                    class="btn1">
-                                    <i class="fa fa-paperclip"
-                                    aria-hidden="true"></i>
-                                  </label>
+                        <div
+                          class="d-flex justify-content-between align-items-center mt-2"
+                        >
+                          <p>
+                            <a href="" class="text-primary"
+                              ><i class="fa fa-plus-circle"></i> offer more
+                              extras</a
+                            >
+                            <a href="" class="text-muted"
+                              ><i class="fa fa-eraser ml-3"></i> clear
+                              message</a
+                            >
+                          </p>
+                          <p>
+                            <span>0 / 2500</span>
+                            <a href="" class="mx-2"
+                              ><i class="fa fa-smile-o"></i
+                            ></a>
+                            <span class="form-field-file">
+                              <label
+                                for="message_image"
+                                aria-label="Attach file"
+                                class="btn1"
+                              >
+                                <i
+                                  class="fa fa-paperclip"
+                                  aria-hidden="true"
+                                ></i>
+                              </label>
 
-                                  <input
-                                  type="file"
-                                  name="cv-arquivo"
-                                  ref="msg_file"
-                                  id="cv-arquivo"
-                                  class="field-file" />
-                                </span>
-                              </p>
-                            </div>
+                              <input
+                                type="file"
+                                name="file"
+                                id="message_image"
+                                class="field-file"/>
+                            </span>
+                          </p>
+                        </div>
 
-                            <div class="d-block text-right mt-3">
-                              <button type="submit" class="btn btn-primary">send</button>
-                            </div>
-                          </div>
-                        </form>
+                        <div class="d-block text-right mt-3">
+                          <button type="submit" class="btn btn-primary">send</button>
+                        </div>
                       </div>
+                    </form>
+                    </div>
                   </div>
                 </div>
                 <div
@@ -371,7 +659,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-4">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
               <div class="summary-wrapper">
                 <div class="card p-3">
                   <div
@@ -404,8 +692,8 @@
                   </div>
 
                   <div class="gig-details">
-                    <div class="box">
-                      <img src="{{asset('images/s1.png')}}" alt="" />
+                    <div class="box box-img">
+                      <img src="images/s1.png" alt="" />
                     </div>
                     <div class="box">
                       <h6>Digital agency website</h6>
@@ -472,28 +760,31 @@ $(document).ready(function () {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
   });
-var meeting_file =  this.$refs.msg_file.files;
 
   $('#message-form').on('submit', function(event){
     event.preventDefault();
-    var meetingformDatas = new FormData();
-        meetingformDatas.append('file',meeting_file[0]);
+    // var image = $('#message_image')[0].files[0];
+    // console.log(image);
+    var order_id = "{{$order->id}}"
+    var formData = new FormData(this);
+    formData.append('order_id', order_id);
+    // formData.append('image', $('.message_image')[0].files[0]);
     $.ajax({
      url:"{{ url('order_conversation') }}",
      method:"POST",
-     data:meetingformDatas,
-     dataType:'JSON',
+     data:formData,
+     // dataType:'JSON',
      contentType: false,
      cache: false,
      processData: false,
      success:function(data){
       // console.log(data);
-      // $('.accordion').append(data);
+      $('.show_messages').append(data);
       // $("#faq-form .faq_title").val('');
       // $("#faq-form .faq_desc").val('');
      }
-    })
+   });
  });
-})
+});
 </script>
 @endsection
