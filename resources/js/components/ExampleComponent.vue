@@ -27,7 +27,7 @@
                 <!-- show User -->
                 <div class="" v-if="showUsers">
                   <div class="user-list-item d-flex align-items-center p-3 border-bottom"
-                    :id="friends.conversation_id" v-for="friends in friendList" @click="getSingleChat(friends)">
+                    :id="friends.conversation_id" v-for="friends in orderedUsers" @click="getSingleChat(friends)">
                     <div class="box">
                     <template v-if="userdata.id == friends.sender_id">
                       <template v-if="friends.receiver_info.profile_image != null">
@@ -313,11 +313,16 @@
 import VueSocketio from 'vue-socket.io';
 import socketio from 'socket.io-client';
 import moment from 'moment';
+import notificaiton from './NotificationComponent'
 
     export default {
       props: [
         'userdata',
       ],
+      name: 'App',
+      components: {
+        notificaiton
+      },
       data: function() {
           return {
             friendList: [],
@@ -374,6 +379,8 @@ import moment from 'moment';
           alphastoptyping(data) {
             if (data.friendId == this.user_id) {
               this.typing = false;
+              console.log("stop typing",data.friendId);
+              // alert("chenck");
               // console.log("stop typing",data);
 
             if(data.selectFrienddata.last_message.message_desc){
@@ -399,17 +406,27 @@ import moment from 'moment';
           var socket = socketio('https://peekvideochat.com:22000');
           // var socket = socketio('http://192.168.100.17:3000');
           socket.on("birdsreceivemsg", function(data){
-          // console.log(data);
+          // console.log("socket data",data);
           if(data.message_receiver == this.userdata.id){
               if (this.conversation_id == data.conversation_id) {
                 this.singleChate.push(data);
 
               }
-              var time = moment().format('hh:mm A');
-              $('.lastMessageDate-'+data.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT '+time+'</small>');
-              $('.lastMessage-'+data.conversation_id).html('<p>'+data.message_desc+'</p>');
-              
-              console.log("check notfication",$('.notificationMessage-'+data.conversation_id).text());
+              //   this.userdec = this.friendList.filter((obj_friend) => {
+              //     console.log(data.conversation_id,obj_friend.conversation_id);
+              //     return data.conversation_id === obj_friend.conversation_id;
+              // }).pop();
+              // // console.log("filter_user",this.userdec);
+              // this.userdec.time = new Date().toISOString();
+              // var time2 = moment().format('hh:mm A');
+              // setTimeout(function(){   $('.lastMessageDate-'+data.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT '+time2+'</small>');
+              //   $('.lastMessage-'+data.conversation_id).html('<p>'+data.message_desc+'</p>'); }, 5000);
+
+              var time2 = moment().format('hh:mm A');
+                $('.lastMessageDate-'+data.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT '+time2+'</small>');
+                 $('.lastMessage-'+data.conversation_id).html('<p>'+data.message_desc+'</p>');
+
+              // console.log("check notfication",$('.notificationMessage-'+data.conversation_id).text());
               var height = 0;
               $(".chat-widget-conversation").each(function(i, value){
                 height += parseInt($(this).height());
@@ -445,6 +462,9 @@ import moment from 'moment';
             }
           })
         },
+        orderedUsers: function() {
+	      return _.orderBy(this.friendList, 'time', 'desc')
+	    },
       },
         methods: {
           istoday: function (date) {
@@ -603,10 +623,26 @@ import moment from 'moment';
                   $(".chat-widget-conversation").animate({scrollTop: height});
                   socket.emit('message', obj);
                   socket.emit('alphastopTyping', { selectFrienddata:this.friendId, UserId:this.user_id});
-                  var time = moment().format('hh:mm A');
-                  $('.lastMessageDate-'+this.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT '+time+'</small>');
+                  // var time = moment().format('hh:mm A');
+
+                  // this.userdec = this.friendList.filter((obj_friend) => {
+                  //   // console.log(obj_friend.sender_id);
+                  // if (obj_friend.sender_id == this.userdata.id) {
+                  //   return this.friendId === obj_friend.receiver_id;
+                  // }else {
+                  //   return this.friendId === obj_friend.sender_id;
+                  // }
+                  // if (obj_friend.receiver_id == this.userdata.id) {
+                  //   return this.friendId === obj_friend.sender_id;
+                  // }else {
+                  //   return this.friendId === obj_friend.receiver_id;
+                  // }
+                  // }).pop();
+                  // // console.log(this.userdec);
+                  // this.userdec.time = new Date().toISOString();
+                  // $('.lastMessageDate-'+this.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT '+time+'</small>');
                   // console.log(this.conversation_id);
-                  $('.lastMessage-'+this.conversation_id).html('<p>'+this.message+'</p>');
+                  // $('.lastMessage-'+this.conversation_id).html('<p>'+this.message+'</p>');
 
                  this.message = "";
                  this.$refs.msg_file.value=null;

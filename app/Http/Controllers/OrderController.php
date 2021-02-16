@@ -103,14 +103,17 @@ class OrderController extends Controller
     public function OrderDetails(Request $request, $number)
     {
       $order = Order::with('serviceInfo','orderRequirement','sellerInfo')->where('order_number',$number)->first();
-      // dd($order);
-      return view('frontend.buyer-order',compact('order'));
+      if ($order->buyer_id == auth()->user()->id) {
+        return view('frontend.buyer-order',compact('order'));
+      }else {
+        return view('frontend.seller-order',compact('order'));
+      }
     }
 
     public function manageOrders(Request $request)
     {
       $user_id = auth()->user()->id;
-      $orders = Order::with('serviceInfo')->wherebuyer_id($user_id)->orderby('id','desc')->paginate(10);
+      $orders = Order::with('serviceInfo')->wherebuyer_id($user_id)->orWhere('seller_id',$user_id)->orderby('id','desc')->paginate(10);
       return view('frontend.manage-orders',compact('orders'));
     }
 
@@ -126,15 +129,13 @@ class OrderController extends Controller
       return view('frontend.manage-orders-ajax',compact('orders'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function SendOrderMessage(Request $request)
     {
-        //
+      dd($request->all());
     }
+
+
+
 
     /**
      * Store a newly created resource in storage.

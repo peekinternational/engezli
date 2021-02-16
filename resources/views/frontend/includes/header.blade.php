@@ -20,9 +20,7 @@
 					</a>
 					@if(auth()->user())
 					<div class="dropdown-menu notification" aria-labelled="navbarDropdown">
-						<div id="app">
-							<notification-component :userdata="{{auth()->user()}}"></notification-component>
-						</div>
+							<notification :userdata="{{auth()->user()}}"></notification>
 
 					</div>
 					@endif

@@ -77,18 +77,20 @@
                 >
                   <div class="activity-tab-container card pt-4">
                     <div class="without-attachment">
-                      <span class="date">nov 15</span>
+                      <?php
+                      $order_date = date('M d, h:i A',strtotime($order->order_time));
+                      $duratoin = $order->order_duration;
+                      $delivery_date = date('M d, h:i A',strtotime('+ '.$duratoin,strtotime($order->order_time)));
+                      $requirements_date = date('M d, h:i A',strtotime($order->orderRequirement[0]->created_at));
+                      $only_date = date('M d',strtotime($order->order_time));
+                       ?>
+                      <span class="date">{{$only_date}}</span>
                       <div class="list-item">
                         <div class="box-item">
                           <i class="fa fa-file-o"></i>
                         </div>
                         <div class="box-item">
-                          <?php
-                          $order_date = date('M d, h:i A',strtotime($order->order_time));
-                          $duratoin = $order->order_duration;
-                          $delivery_date = date('M d, h:i A',strtotime('+ '.$duratoin,strtotime($order->order_time)));
-                          $requirements_date = date('M d, h:i A',strtotime($order->orderRequirement[0]->created_at));
-                           ?>
+
                           <h6>
                             you placed the order
                             <span>{{$order_date}}</span>

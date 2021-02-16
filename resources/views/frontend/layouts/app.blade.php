@@ -28,18 +28,21 @@
     <link href="{{asset('css/responsive.css')}}" rel="stylesheet">
      <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
     <link href="{{asset('frontend-assets/css/sweat_alert.css')}}" rel="stylesheet">
-    <script src="{{ asset('js/app.js') }}" defer></script>
      @yield('styling')
   </head>
   <body>
+
     @if(Request::path() != 'login' && Request::path() != 'register' && Request::path() != 'forgot-password')
+    <div id="app">
     @include('frontend.includes.header')
     @endif
 
     @yield('content')
+  </div>
     @if(Request::path() != 'login' && Request::path() != 'register' && Request::path() != 'forgot-password')
     @include('frontend.includes.footer1')
     @endif
+    <script src="{{ asset('js/app.js') }}" defer></script>
     <!-- Bootstrap core JavaScript -->
     <script src="{{asset('js/cdn/jquery-3.4.1.min.js')}}"></script>
     <script src="{{asset('js/cdn/popper.min.js')}}"></script>

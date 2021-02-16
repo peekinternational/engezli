@@ -4,9 +4,7 @@
 <!-- <script src="{{ asset('js/app.js') }}" defer></script> -->
 @endsection
 @section('content')
-<div id="app">
-  <example-component :userdata="{{$user}}"></example-component>
-</div>
+  <messages :userdata="{{$user}}"></messages>
 
 @endsection
 @section('script')

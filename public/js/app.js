@@ -1928,6 +1928,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(socket_io_client__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _NotificationComponent__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./NotificationComponent */ "./resources/js/components/NotificationComponent.vue");
 //
 //
 //
@@ -2239,11 +2240,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['userdata'],
+  name: 'App',
+  components: {
+    notificaiton: _NotificationComponent__WEBPACK_IMPORTED_MODULE_3__.default
+  },
   data: function data() {
     return {
       friendList: [],
@@ -2297,7 +2303,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     alphastoptyping: function alphastoptyping(data) {
       if (data.friendId == this.user_id) {
-        this.typing = false; // console.log("stop typing",data);
+        this.typing = false;
+        console.log("stop typing", data.friendId); // alert("chenck");
+        // console.log("stop typing",data);
 
         if (data.selectFrienddata.last_message.message_desc) {
           $('#f_typing' + data.UserId).html(data.selectFrienddata.last_message.message_desc);
@@ -2318,16 +2326,25 @@ __webpack_require__.r(__webpack_exports__);
     var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default()('https://peekvideochat.com:22000'); // var socket = socketio('http://192.168.100.17:3000');
 
     socket.on("birdsreceivemsg", function (data) {
-      // console.log(data);
+      // console.log("socket data",data);
       if (data.message_receiver == this.userdata.id) {
         if (this.conversation_id == data.conversation_id) {
           this.singleChate.push(data);
-        }
+        } //   this.userdec = this.friendList.filter((obj_friend) => {
+        //     console.log(data.conversation_id,obj_friend.conversation_id);
+        //     return data.conversation_id === obj_friend.conversation_id;
+        // }).pop();
+        // // console.log("filter_user",this.userdec);
+        // this.userdec.time = new Date().toISOString();
+        // var time2 = moment().format('hh:mm A');
+        // setTimeout(function(){   $('.lastMessageDate-'+data.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT '+time2+'</small>');
+        //   $('.lastMessage-'+data.conversation_id).html('<p>'+data.message_desc+'</p>'); }, 5000);
 
-        var time = moment__WEBPACK_IMPORTED_MODULE_2___default()().format('hh:mm A');
-        $('.lastMessageDate-' + data.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT ' + time + '</small>');
-        $('.lastMessage-' + data.conversation_id).html('<p>' + data.message_desc + '</p>');
-        console.log("check notfication", $('.notificationMessage-' + data.conversation_id).text());
+
+        var time2 = moment__WEBPACK_IMPORTED_MODULE_2___default()().format('hh:mm A');
+        $('.lastMessageDate-' + data.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT ' + time2 + '</small>');
+        $('.lastMessage-' + data.conversation_id).html('<p>' + data.message_desc + '</p>'); // console.log("check notfication",$('.notificationMessage-'+data.conversation_id).text());
+
         var height = 0;
         $(".chat-widget-conversation").each(function (i, value) {
           height += parseInt($(this).height());
@@ -2369,6 +2386,9 @@ __webpack_require__.r(__webpack_exports__);
           return post.sender_info.first_name.toLowerCase().includes(_this.searchFriend.toLowerCase());
         }
       });
+    },
+    orderedUsers: function orderedUsers() {
+      return _.orderBy(this.friendList, 'time', 'desc');
     }
   },
   methods: {
@@ -2550,11 +2570,26 @@ __webpack_require__.r(__webpack_exports__);
         socket.emit('alphastopTyping', {
           selectFrienddata: _this4.friendId,
           UserId: _this4.user_id
-        });
-        var time = moment__WEBPACK_IMPORTED_MODULE_2___default()().format('hh:mm A');
-        $('.lastMessageDate-' + _this4.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT ' + time + '</small>'); // console.log(this.conversation_id);
+        }); // var time = moment().format('hh:mm A');
+        // this.userdec = this.friendList.filter((obj_friend) => {
+        //   // console.log(obj_friend.sender_id);
+        // if (obj_friend.sender_id == this.userdata.id) {
+        //   return this.friendId === obj_friend.receiver_id;
+        // }else {
+        //   return this.friendId === obj_friend.sender_id;
+        // }
+        // if (obj_friend.receiver_id == this.userdata.id) {
+        //   return this.friendId === obj_friend.sender_id;
+        // }else {
+        //   return this.friendId === obj_friend.receiver_id;
+        // }
+        // }).pop();
+        // // console.log(this.userdec);
+        // this.userdec.time = new Date().toISOString();
+        // $('.lastMessageDate-'+this.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT '+time+'</small>');
+        // console.log(this.conversation_id);
+        // $('.lastMessage-'+this.conversation_id).html('<p>'+this.message+'</p>');
 
-        $('.lastMessage-' + _this4.conversation_id).html('<p>' + _this4.message + '</p>');
         _this4.message = "";
         _this4.$refs.msg_file.value = null;
       });
@@ -2581,7 +2616,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(socket_io_client__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
-//
 //
 //
 //
@@ -2682,16 +2716,17 @@ __webpack_require__.r(__webpack_exports__);
     socket.on("birdsreceivemsg", function (data) {
       // console.log(data);
       if (data.message_receiver == this.userdata.id) {
-        if (this.conversation_id == data.conversation_id) {
-          this.singleChate.push(data);
-        }
-
         var time = moment__WEBPACK_IMPORTED_MODULE_2___default()().format('hh:mm A');
         $('.lastMessageDate-' + data.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT ' + time + '</small>');
         $('.lastMessage-' + data.conversation_id).html('<p>' + data.message_desc + '</p>');
         console.log("check notfication", $('.notificationMessage-' + data.conversation_id).text());
       }
     }.bind(this));
+  },
+  computed: {
+    orderedUsers: function orderedUsers() {
+      return _.orderBy(this.friendList, 'time', 'desc');
+    }
   },
   methods: {
     istoday: function istoday(date) {
@@ -2736,6 +2771,425 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/OrderConversationComponent.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/OrderConversationComponent.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue_socket_io__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-socket.io */ "./node_modules/vue-socket.io/dist/vue-socketio.js");
+/* harmony import */ var vue_socket_io__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_socket_io__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js");
+/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(socket_io_client__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  // props: [
+  //   'userdata',
+  // ],
+  data: function data() {
+    return {
+      friendList: [],
+      singleChate: {},
+      friendId: "",
+      friendName: "",
+      friendImage: "",
+      friendCountry: "",
+      friendLanguage: "",
+      friendStatus: "",
+      searchFriend: "",
+      post: "",
+      message: "",
+      check_image: "",
+      conversation_id: "",
+      showUsers: true,
+      searchUser: false,
+      typing: false,
+      showDetails: false
+    };
+  },
+  sockets: {
+    connect: function connect() {
+      console.log('socket connected successfully');
+    },
+    disconnect: function disconnect() {
+      console.log('socket disconnected');
+    }
+  },
+  mounted: function mounted() {
+    // this.user_id =  this.userdata.id;
+    // this.profile_image = this.userdata.profile_image;
+    // this.first_name = this.userdata.first_name;
+    // this.last_name = this.userdata.last_name;
+    // this.user_names =  this.userdata.username;
+    var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default()('https://peekvideochat.com:22000'); // var socket = socketio('http://192.168.100.17:3000');
+  },
+  methods: {
+    istoday: function istoday(date) {
+      return moment__WEBPACK_IMPORTED_MODULE_2___default()(date).calendar();
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -2774,8 +3228,9 @@ Vue.use(new (vue_socket_io__WEBPACK_IMPORTED_MODULE_0___default())({
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue").default);
-Vue.component('notification-component', __webpack_require__(/*! ./components/NotificationComponent.vue */ "./resources/js/components/NotificationComponent.vue").default);
+Vue.component('messages', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue").default);
+Vue.component('notification', __webpack_require__(/*! ./components/NotificationComponent.vue */ "./resources/js/components/NotificationComponent.vue").default);
+Vue.component('orderconversation', __webpack_require__(/*! ./components/OrderConversationComponent.vue */ "./resources/js/components/OrderConversationComponent.vue").default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -69188,6 +69643,45 @@ component.options.__file = "resources/js/components/NotificationComponent.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/OrderConversationComponent.vue":
+/*!****************************************************************!*\
+  !*** ./resources/js/components/OrderConversationComponent.vue ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _OrderConversationComponent_vue_vue_type_template_id_60f689b7___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./OrderConversationComponent.vue?vue&type=template&id=60f689b7& */ "./resources/js/components/OrderConversationComponent.vue?vue&type=template&id=60f689b7&");
+/* harmony import */ var _OrderConversationComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./OrderConversationComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/OrderConversationComponent.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _OrderConversationComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _OrderConversationComponent_vue_vue_type_template_id_60f689b7___WEBPACK_IMPORTED_MODULE_0__.render,
+  _OrderConversationComponent_vue_vue_type_template_id_60f689b7___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/OrderConversationComponent.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js&":
 /*!*******************************************************************************!*\
   !*** ./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js& ***!
@@ -69217,6 +69711,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_NotificationComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./NotificationComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/NotificationComponent.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_NotificationComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
+/***/ "./resources/js/components/OrderConversationComponent.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/components/OrderConversationComponent.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_OrderConversationComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./OrderConversationComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/OrderConversationComponent.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_OrderConversationComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
 
 /***/ }),
 
@@ -69263,6 +69773,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_NotificationComponent_vue_vue_type_template_id_307ad1f7___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_NotificationComponent_vue_vue_type_template_id_307ad1f7___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./NotificationComponent.vue?vue&type=template&id=307ad1f7& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/NotificationComponent.vue?vue&type=template&id=307ad1f7&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/OrderConversationComponent.vue?vue&type=template&id=60f689b7&":
+/*!***********************************************************************************************!*\
+  !*** ./resources/js/components/OrderConversationComponent.vue?vue&type=template&id=60f689b7& ***!
+  \***********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_OrderConversationComponent_vue_vue_type_template_id_60f689b7___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_OrderConversationComponent_vue_vue_type_template_id_60f689b7___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_OrderConversationComponent_vue_vue_type_template_id_60f689b7___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./OrderConversationComponent.vue?vue&type=template&id=60f689b7& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/OrderConversationComponent.vue?vue&type=template&id=60f689b7&");
 
 
 /***/ }),
@@ -69326,7 +69853,7 @@ var render = function() {
                   ? _c(
                       "div",
                       {},
-                      _vm._l(_vm.friendList, function(friends) {
+                      _vm._l(_vm.orderedUsers, function(friends) {
                         return _c(
                           "div",
                           {
@@ -70202,8 +70729,8 @@ var render = function() {
   return _c(
     "div",
     {},
-    _vm._l(_vm.friendList, function(friends) {
-      return _c("div", {}, [
+    _vm._l(_vm.orderedUsers, function(friends) {
+      return _c("div", [
         _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
           _c(
             "div",
@@ -70246,7 +70773,7 @@ var render = function() {
                         _c(
                           "span",
                           {
-                            class: "notificationTime-" + friends.conversation_id
+                            class: "lastMessageDate-" + friends.conversation_id
                           },
                           [
                             _vm._v(
@@ -70260,10 +70787,7 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "p",
-                        {
-                          class:
-                            "notificationMessage-" + friends.conversation_id
-                        },
+                        { class: "lastMessage-" + friends.conversation_id },
                         [_vm._v(_vm._s(friends.last_message.message_desc))]
                       )
                     ])
@@ -70301,18 +70825,27 @@ var render = function() {
                             _vm._s(friends.sender_info.last_name) +
                             " "
                         ),
-                        _c("span", { staticClass: "time" }, [
-                          _vm._v(
-                            _vm._s(
-                              _vm.istoday(friends.last_message.message_date)
+                        _c(
+                          "span",
+                          {
+                            staticClass:
+                              "time 'lastMessageDate-'+friends.conversation_id"
+                          },
+                          [
+                            _vm._v(
+                              _vm._s(
+                                _vm.istoday(friends.last_message.message_date)
+                              )
                             )
-                          )
-                        ])
+                          ]
+                        )
                       ]),
                       _vm._v(" "),
-                      _c("p", [
-                        _vm._v(_vm._s(friends.last_message.message_desc))
-                      ])
+                      _c(
+                        "p",
+                        { class: "lastMessage-" + friends.conversation_id },
+                        [_vm._v(_vm._s(friends.last_message.message_desc))]
+                      )
                     ])
                   ]
             ],
@@ -70325,6 +70858,545 @@ var render = function() {
   )
 }
 var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/OrderConversationComponent.vue?vue&type=template&id=60f689b7&":
+/*!**************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/OrderConversationComponent.vue?vue&type=template&id=60f689b7& ***!
+  \**************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", {}, [
+      _c("div", { staticClass: "tab-list-item user-reply" }, [
+        _c("div", { staticClass: "t-header" }, [
+          _c("div", { staticClass: "box-item" }, [
+            _c("img", { attrs: { src: "images/s1.png", alt: "" } })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "box-item" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-link btn-block pl-0",
+                attrs: {
+                  type: "button",
+                  "data-toggle": "collapse",
+                  "data-target": "#collapseOne561",
+                  "aria-expanded": "true",
+                  "aria-controls": "collapseOne561"
+                }
+              },
+              [
+                _c("h6", { staticClass: "text-primary" }, [
+                  _vm._v("\n              Amnawrites\n              "),
+                  _c("span", { staticClass: "time" }, [_vm._v("10:54 PM")])
+                ])
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "t-body" }, [
+          _c(
+            "div",
+            {
+              staticClass: "accordion custom-accordion",
+              attrs: { id: "accordionExamplesd46" }
+            },
+            [
+              _c("div", { staticClass: "card" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "collapse show",
+                    attrs: {
+                      id: "collapseOne561",
+                      "data-parent": "#accordionExamplesd46"
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "card-body" }, [
+                      _c("p", [_vm._v("Lorem ipsum dolor sit amet.")]),
+                      _vm._v(" "),
+                      _c("p", [
+                        _vm._v(
+                          "\n                  Lorem ipsum dolor sit amet consectetur\n                  adipisicing elit. Et, voluptas!\n                "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        { staticClass: "report-btn", attrs: { href: "" } },
+                        [
+                          _c("i", { staticClass: "fa fa-flag" }),
+                          _vm._v("\n                  report\n                ")
+                        ]
+                      )
+                    ])
+                  ]
+                )
+              ])
+            ]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "tab-list-item" }, [
+        _c("div", { staticClass: "t-header" }, [
+          _c("div", { staticClass: "box-item" }, [
+            _c("img", { attrs: { src: "images/s1.png", alt: "" } })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "box-item" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-link btn-block pl-0",
+                attrs: {
+                  type: "button",
+                  "data-toggle": "collapse",
+                  "data-target": "#collapseOne5616546",
+                  "aria-expanded": "true",
+                  "aria-controls": "collapseOne5616546"
+                }
+              },
+              [
+                _c("h6", { staticClass: "text-primary" }, [
+                  _vm._v("\n              me\n              "),
+                  _c("span", { staticClass: "time" }, [_vm._v("10:54 PM")])
+                ])
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "t-body" }, [
+          _c(
+            "div",
+            {
+              staticClass: "accordion custom-accordion",
+              attrs: { id: "accordionExamplesd466516" }
+            },
+            [
+              _c("div", { staticClass: "card" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "collapse show",
+                    attrs: {
+                      id: "collapseOne5616546",
+                      "data-parent": "#accordionExamplesd466516"
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "card-body" }, [
+                      _c("p", [_vm._v("Lorem ipsum dolor sit amet.")]),
+                      _vm._v(" "),
+                      _c("p", [
+                        _vm._v(
+                          "\n                  Lorem ipsum dolor sit amet consectetur\n                  adipisicing elit. Et, voluptas!\n                "
+                        )
+                      ])
+                    ])
+                  ]
+                )
+              ])
+            ]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "tab-list-item delivered-order" }, [
+        _c("div", { staticClass: "t-header" }, [
+          _c("div", { staticClass: "box-item" }, [
+            _c("img", { attrs: { src: "images/s1.png", alt: "" } })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "box-item" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-link btn-block pl-0",
+                attrs: {
+                  type: "button",
+                  "data-toggle": "collapse",
+                  "data-target": "#collapseOne5616546sd",
+                  "aria-expanded": "true",
+                  "aria-controls": "collapseOne5616546sd"
+                }
+              },
+              [
+                _c("h6", { staticClass: "text-primary" }, [
+                  _vm._v("\n              Amnawrites\n              "),
+                  _c("span", { staticClass: "delivered-text" }, [
+                    _vm._v("delivered your order")
+                  ]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "time" }, [_vm._v("10:54 PM")])
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "form-field-file" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "btn1",
+                      attrs: { for: "cv-arquivo", "aria-label": "Attach file" }
+                    },
+                    [
+                      _c("i", {
+                        staticClass: "fa fa-paperclip",
+                        attrs: { "aria-hidden": "true" }
+                      })
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    staticClass: "field-file",
+                    attrs: {
+                      type: "file",
+                      name: "cv-arquivo",
+                      id: "cv-arquivo"
+                    }
+                  })
+                ])
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "t-body" }, [
+          _c(
+            "div",
+            {
+              staticClass: "accordion custom-accordion",
+              attrs: { id: "accordionExamplesd466516s" }
+            },
+            [
+              _c("div", { staticClass: "card" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "collapse show",
+                    attrs: {
+                      id: "collapseOne5616546sd",
+                      "data-parent": "#accordionExamplesd466516s"
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "delivery-list-item rounded" }, [
+                      _c("div", { staticClass: "content-header" }, [
+                        _c("h6", [_vm._v("delivery #1")])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "content-body" }, [
+                        _c("div", { staticClass: "user-info-content d-flex" }, [
+                          _c("div", { staticClass: "box user-img" }, [
+                            _c("img", {
+                              attrs: { src: "images/s1.png", alt: "" }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "box user-details" }, [
+                            _c("h6", { staticClass: "user-name" }, [
+                              _vm._v(
+                                "\n                        amnawrites'\n                        "
+                              ),
+                              _c("span", [_vm._v(" message")])
+                            ]),
+                            _vm._v(" "),
+                            _c("p", [_vm._v("Hello")]),
+                            _vm._v(" "),
+                            _c("p", [_vm._v("Lorem ipsum dolor sit amet.")]),
+                            _vm._v(" "),
+                            _c("p", [
+                              _vm._v(
+                                "\n                        Lorem ipsum dolor sit amet\n                        consectetur, adipisicing elit.\n                        Molestias architecto optio, dolorum\n                        corporis dolor reprehenderit?\n                      "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "attachments" }, [
+                              _c("h6", [_vm._v("attachment")]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "attachment-lists" }, [
+                                _c("div", { staticClass: "list-item-box" }, [
+                                  _c("img", {
+                                    attrs: { src: "images/s1.png", alt: "" }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "attachment-info d-flex justify-content-between align-items-center"
+                                    },
+                                    [
+                                      _c("p", [
+                                        _vm._v(
+                                          "\n                                logo.jpg\n                                "
+                                        ),
+                                        _c("span", [_vm._v("(173 kb)")])
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("a", { attrs: { href: "" } }, [
+                                        _c("i", {
+                                          staticClass: "fa fa-download"
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "list-item-box" }, [
+                                  _c("img", {
+                                    attrs: { src: "images/s1.png", alt: "" }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "attachment-info d-flex justify-content-between align-items-center"
+                                    },
+                                    [
+                                      _c("p", [
+                                        _vm._v(
+                                          "\n                                logo.jpg\n                                "
+                                        ),
+                                        _c("span", [_vm._v("(173 kb)")])
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("a", { attrs: { href: "" } }, [
+                                        _c("i", {
+                                          staticClass: "fa fa-download"
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "list-item-box" }, [
+                                  _c("img", {
+                                    attrs: { src: "images/s1.png", alt: "" }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "attachment-info d-flex justify-content-between align-items-center"
+                                    },
+                                    [
+                                      _c("p", [
+                                        _vm._v(
+                                          "\n                                logo.jpg\n                                "
+                                        ),
+                                        _c("span", [_vm._v("(173 kb)")])
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("a", { attrs: { href: "" } }, [
+                                        _c("i", {
+                                          staticClass: "fa fa-download"
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "list-item-box" }, [
+                                  _c("img", {
+                                    attrs: { src: "images/s1.png", alt: "" }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "attachment-info d-flex justify-content-between align-items-center"
+                                    },
+                                    [
+                                      _c("p", [
+                                        _vm._v(
+                                          "\n                                logo.jpg\n                                "
+                                        ),
+                                        _c("span", [_vm._v("(173 kb)")])
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("a", { attrs: { href: "" } }, [
+                                        _c("i", {
+                                          staticClass: "fa fa-download"
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "list-item-box" }, [
+                                  _c("img", {
+                                    attrs: { src: "images/s1.png", alt: "" }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "attachment-info d-flex justify-content-between align-items-center"
+                                    },
+                                    [
+                                      _c("p", [
+                                        _vm._v(
+                                          "\n                                logo.jpg\n                                "
+                                        ),
+                                        _c("span", [_vm._v("(173 kb)")])
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("a", { attrs: { href: "" } }, [
+                                        _c("i", {
+                                          staticClass: "fa fa-download"
+                                        })
+                                      ])
+                                    ]
+                                  )
+                                ])
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "attachments source-file-container"
+                              },
+                              [
+                                _c("h6", [_vm._v("source file")]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "source-file" }, [
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass: "source-list-item",
+                                      attrs: { href: "" }
+                                    },
+                                    [
+                                      _c("p", [
+                                        _vm._v(
+                                          "\n                              logo_s...zip\n                              "
+                                        ),
+                                        _c("span", [_vm._v("(3 mb)")])
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("i", { staticClass: "fa fa-download" })
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass: "source-list-item",
+                                      attrs: { href: "" }
+                                    },
+                                    [
+                                      _c("p", [
+                                        _vm._v(
+                                          "\n                              logo_s...zip\n                              "
+                                        ),
+                                        _c("span", [_vm._v("(3 mb)")])
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("i", { staticClass: "fa fa-download" })
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass: "source-list-item",
+                                      attrs: { href: "" }
+                                    },
+                                    [
+                                      _c("p", [
+                                        _vm._v(
+                                          "\n                              logo_s...zip\n                              "
+                                        ),
+                                        _c("span", [_vm._v("(3 mb)")])
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("i", { staticClass: "fa fa-download" })
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass: "source-list-item",
+                                      attrs: { href: "" }
+                                    },
+                                    [
+                                      _c("p", [
+                                        _vm._v(
+                                          "\n                              logo_s...zip\n                              "
+                                        ),
+                                        _c("span", [_vm._v("(3 mb)")])
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("i", { staticClass: "fa fa-download" })
+                                    ]
+                                  )
+                                ])
+                              ]
+                            )
+                          ])
+                        ])
+                      ])
+                    ])
+                  ]
+                )
+              ])
+            ]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass:
+            "user-info-content d-flex order-completed border-top align-items-center p-3 px-4 mt-3"
+        },
+        [
+          _c("div", { staticClass: "box user-img" }, [
+            _c("img", { attrs: { src: "images/s1.png", alt: "" } })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "box user-details" }, [
+            _c("h6", [_vm._v("Me")]),
+            _vm._v(" "),
+            _c("p", { staticClass: "mb-0" }, [_vm._v("Thanks")])
+          ])
+        ]
+      )
+    ])
+  }
+]
 render._withStripped = true
 
 

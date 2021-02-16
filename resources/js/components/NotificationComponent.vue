@@ -1,55 +1,54 @@
 <template>
   <div class="">
-    <div class="" v-for="friends in friendList">
-
-    <a class="dropdown-item" href="#">
-      <div class="contacts-list-item">
-        <template v-if="userdata.id == friends.sender_id">
-        <div class="avatar">
-          <template v-if="friends.receiver_info.profile_image != null">
-            <img :src="'/images/user_images/'+friends.receiver_info.profile_image" alt="" />
+    <div v-for="friends in orderedUsers">
+      <a class="dropdown-item" href="#">
+        <div class="contacts-list-item">
+          <template v-if="userdata.id == friends.sender_id">
+            <div class="avatar">
+              <template v-if="friends.receiver_info.profile_image != null">
+                <img :src="'/images/user_images/'+friends.receiver_info.profile_image" alt="" />
+              </template>
+              <template v-else>
+                <img src="images/s1.png" alt="" />
+              </template>
+              <!-- <img src="images/avatar (1).svg" alt="" /> -->
+            </div>
+            <div class="text">
+              <h4>{{friends.receiver_info.first_name}} {{friends.receiver_info.last_name}} <span :class="'lastMessageDate-'+friends.conversation_id">{{istoday(friends.last_message.message_date)}}</span></h4>
+              <p :class="'lastMessage-'+friends.conversation_id">{{friends.last_message.message_desc}}</p>
+            </div>
           </template>
           <template v-else>
-            <img src="images/s1.png" alt="" />
+            <div class="avatar">
+              <template v-if="friends.sender_info.profile_image != null">
+                <img :src="'/images/user_images/'+friends.sender_info.profile_image" alt="" />
+              </template>
+              <template v-else>
+                <img src="images/s1.png" alt="" />
+              </template>
+            </div>
+            <div class="text">
+              <h4>{{friends.sender_info.first_name}} {{friends.sender_info.last_name}} <span class="time 'lastMessageDate-'+friends.conversation_id">{{istoday(friends.last_message.message_date)}}</span></h4>
+              <p :class="'lastMessage-'+friends.conversation_id">{{friends.last_message.message_desc}}</p>
+            </div>
           </template>
-          <!-- <img src="images/avatar (1).svg" alt="" /> -->
-        </div>
-        <div class="text">
-          <h4>{{friends.receiver_info.first_name}} {{friends.receiver_info.last_name}} <span :class="'notificationTime-'+friends.conversation_id">{{istoday(friends.last_message.message_date)}}</span></h4>
-          <p :class="'notificationMessage-'+friends.conversation_id">{{friends.last_message.message_desc}}</p>
-        </div>
-      </template>
-      <template v-else>
-        <div class="avatar">
-          <template v-if="friends.sender_info.profile_image != null">
-            <img :src="'/images/user_images/'+friends.sender_info.profile_image" alt="" />
-          </template>
-          <template v-else>
-            <img src="images/s1.png" alt="" />
-          </template>
-        </div>
-        <div class="text">
-          <h4>{{friends.sender_info.first_name}} {{friends.sender_info.last_name}} <span class="time">{{istoday(friends.last_message.message_date)}}</span></h4>
-          <p>{{friends.last_message.message_desc}}</p>
-        </div>
-      </template>
 
-      </div>
-    </a>
-  </div>
+        </div>
+      </a>
+    </div>
     <!-- <a class="dropdown-item" href="#">
-      <div class="contacts-list-item">
-        <div class="avatar">
-          <img src="images/avatar (1).svg" alt="" />
-        </div>
-        <div class="text">
-          <h4>sohanur rahman <span class="time">12:00 pm</span></h4>
-          <p>Lorem ipsum dolor sit amet.</p>
-        </div>
-      </div>
-    </a> -->
-
+    <div class="contacts-list-item">
+    <div class="avatar">
+    <img src="images/avatar (1).svg" alt="" />
   </div>
+  <div class="text">
+  <h4>sohanur rahman <span class="time">12:00 pm</span></h4>
+  <p>Lorem ipsum dolor sit amet.</p>
+</div>
+</div>
+</a> -->
+
+</div>
 
 </template>
 
@@ -105,10 +104,7 @@ import moment from 'moment';
         socket.on("birdsreceivemsg", function(data){
         // console.log(data);
         if(data.message_receiver == this.userdata.id){
-            if (this.conversation_id == data.conversation_id) {
-              this.singleChate.push(data);
 
-            }
             var time = moment().format('hh:mm A');
             $('.lastMessageDate-'+data.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT '+time+'</small>');
             $('.lastMessage-'+data.conversation_id).html('<p>'+data.message_desc+'</p>');
@@ -117,6 +113,11 @@ import moment from 'moment';
 
           }
         }.bind(this));
+    },
+    computed:{
+      orderedUsers: function() {
+      return _.orderBy(this.friendList, 'time', 'desc')
+    },
     },
     methods: {
       istoday: function (date) {
