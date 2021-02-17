@@ -190,7 +190,7 @@
 }
 
 .message-wrapper .message-box .main-area .msg-body .msg-text-box.right .panel .box:last-child {
-  background: #0099ff;
+  background: #007bff;
 }
 
 .message-wrapper .message-box .main-area .msg-body .msg-text-box.right .panel .box:last-child small,
@@ -224,7 +224,7 @@
 
 .message-wrapper .message-box .main-area .msg-footer .footer-box .btn {
   color: #ffffff;
-  background: #0099ff;
+  background: #007bff;
   height: 40px;
 }
 
@@ -232,5 +232,4 @@
   right: 10px;
   left: unset;
 }
-
 /*# sourceMappingURL=message.css.map */

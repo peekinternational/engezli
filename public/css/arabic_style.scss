@@ -514,6 +514,24 @@ body.arabic {
 		}
 	}
 	/////////////////////////////////////
+	.settings-container {
+		.transaction-history .transaction-lists .list-item .receipt,
+		.payment-tab-container .lists-item .inner-box a {
+			margin-left: unset !important;
+			margin-right: auto;
+		}
+
+		.receipt .custom-btn i {
+			margin-right: 0 !important;
+			margin-left: 10px;
+		}
+
+		.transaction-history .transaction-lists .list-item .price {
+			margin-right: 0 !important;
+			margin-left: 15px;
+		}
+	}
+	/////////////////////////////////////
 
 	////////////////// Responsive Design //////////////////
 	@media (min-width: 1024px) {
@@ -563,6 +581,17 @@ body.arabic {
 		}
 		.profile-container .seller-profile .skills li {
 			margin: 0 0 7px 3px;
+		}
+		//////////////////////////
+		.settings-container {
+			ul.nav-pills {
+				padding: 5px !important;
+			}
+
+			.notification-tab .real-time-notification label {
+				cursor: pointer;
+				min-width: 60px;
+			}
 		}
 		//////////////////////////
 	}

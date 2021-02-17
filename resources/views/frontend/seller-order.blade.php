@@ -138,296 +138,24 @@
                     </div>
 
                     <!-- ////////////////////////// -->
+                    <!-- component -->
+                    <orderconversation :orderdata="{{$order}}" :userdata="{{auth()->user()}}"></orderconversation>
+                    <!-- /component -->
 
-                    <div class="tab-list-item user-reply">
-                      <div class="t-header">
-                        <div class="box-item">
-                          <img src="images/s1.png" alt="" />
-                        </div>
-                        <div class="box-item">
-                          <button
-                            class="btn btn-link btn-block pl-0"
-                            type="button"
-                            data-toggle="collapse"
-                            data-target="#collapseOne561"
-                            aria-expanded="true"
-                            aria-controls="collapseOne561">
-                            <h6 class="text-primary">
-                              Amnawrites
-                              <span class="time">10:54 PM</span>
-                            </h6>
-                          </button>
-                        </div>
-                      </div>
-                      <div class="t-body">
-                        <div
-                          class="accordion custom-accordion"
-                          id="accordionExamplesd46">
-                          <div class="card">
-                            <div
-                              id="collapseOne561"
-                              class="collapse show"
-                              data-parent="#accordionExamplesd46">
-                              <div class="card-body">
-                                <p>Lorem ipsum dolor sit amet.</p>
-                                <p>
-                                  Lorem ipsum dolor sit amet consectetur
-                                  adipisicing elit. Et, voluptas!
-                                </p>
-                                <a href="" class="report-btn">
-                                  <i class="fa fa-flag"></i>
-                                  report
-                                </a>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="tab-list-item">
-                      <div class="t-header">
-                        <div class="box-item">
-                          <img src="images/s1.png" alt="" />
-                        </div>
-                        <div class="box-item">
-                          <button
-                            class="btn btn-link btn-block pl-0"
-                            type="button"
-                            data-toggle="collapse"
-                            data-target="#collapseOne5616546"
-                            aria-expanded="true"
-                            aria-controls="collapseOne5616546">
-                            <h6 class="text-primary">
-                              me
-                              <span class="time">10:54 PM</span>
-                            </h6>
-                          </button>
-                        </div>
-                      </div>
-                      <div class="t-body">
-                        <div
-                          class="accordion custom-accordion"
-                          id="accordionExamplesd466516">
-                          <div class="card">
-                            <div
-                              id="collapseOne5616546"
-                              class="collapse show"
-                              data-parent="#accordionExamplesd466516">
-                              <div class="card-body">
-                                <p>Lorem ipsum dolor sit amet.</p>
-                                <p>
-                                  Lorem ipsum dolor sit amet consectetur
-                                  adipisicing elit. Et, voluptas!
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- ////////////////////////// -->
-                    <div class="tab-list-item delivered-order">
-                      <div class="t-header">
-                        <div class="box-item">
-                          <img src="images/s1.png" alt="" />
-                        </div>
-                        <div class="box-item">
-                          <button
-                            class="btn btn-link btn-block pl-0"
-                            type="button"
-                            data-toggle="collapse"
-                            data-target="#collapseOne5616546sd"
-                            aria-expanded="true"
-                            aria-controls="collapseOne5616546sd">
-                            <h6 class="text-primary">
-                              Amnawrites
-                              <span class="delivered-text">delivered your order</span>
-                              <span class="time">10:54 PM</span>
-                            </h6>
+                    <!-- <div class="delivery-btn-wrapper btn-container text-center d-block my-4">
+                      <a href=""
+                        class="btn btn-primary"
+                        data-toggle="modal"
+                        data-target="#exampleModal"
+                        >deliver now</a>
+                      <h6 class="small font-weight-bold d-sm-none mt-3">
+                        - OR -
+                      </h6>
+                    </div> -->
 
-                            <span class="form-field-file">
-                              <label
-                                for="cv-arquivo"
-                                aria-label="Attach file"
-                                class="btn1">
-                                <i class="fa fa-paperclip"
-                                  aria-hidden="true"></i>
-                              </label>
-
-                              <input type="file"
-                                name="cv-arquivo"
-                                id="cv-arquivo"
-                                class="field-file" />
-                            </span>
-                          </button>
-                        </div>
-                      </div>
-                      <div class="t-body">
-                        <div
-                          class="accordion custom-accordion"
-                          id="accordionExamplesd466516s">
-                          <div class="card">
-                            <div
-                              id="collapseOne5616546sd"
-                              class="collapse show"
-                              data-parent="#accordionExamplesd466516s">
-                              <div class="delivery-list-item rounded">
-                                <div class="content-header">
-                                  <h6>delivery #1</h6>
-                                </div>
-                                <div class="content-body">
-                                  <div class="user-info-content d-flex">
-                                    <div class="box user-img">
-                                      <img src="images/s1.png" alt="" />
-                                    </div>
-                                    <div class="box user-details">
-                                      <h6 class="user-name">
-                                        amnawrites'
-                                        <span> message</span>
-                                      </h6>
-                                      <p>Hello</p>
-                                      <p>Lorem ipsum dolor sit amet.</p>
-                                      <p>
-                                        Lorem ipsum dolor sit amet
-                                        consectetur, adipisicing elit.
-                                        Molestias architecto optio, dolorum
-                                        corporis dolor reprehenderit?
-                                      </p>
-
-                                      <div class="attachments">
-                                        <h6>attachment</h6>
-                                        <div class="attachment-lists">
-                                          <div class="list-item-box">
-                                            <img src="images/s1.png" alt="" />
-                                            <div
-                                              class="attachment-info d-flex justify-content-between align-items-center">
-                                              <p>
-                                                logo.jpg
-                                                <span>(173 kb)</span>
-                                              </p>
-                                              <a href=""><i class="fa fa-download"></i></a>
-                                            </div>
-                                          </div>
-
-                                          <div class="list-item-box">
-                                            <img src="images/s1.png" alt="" />
-
-                                            <div
-                                              class="attachment-info d-flex justify-content-between align-items-center">
-                                              <p>
-                                                logo.jpg
-                                                <span>(173 kb)</span>
-                                              </p>
-                                              <a href=""><i class="fa fa-download"></i></a>
-                                            </div>
-                                          </div>
-                                          <div class="list-item-box">
-                                            <img src="images/s1.png" alt="" />
-
-                                            <div class="attachment-info d-flex justify-content-between align-items-center">
-                                              <p>
-                                                logo.jpg
-                                                <span>(173 kb)</span>
-                                              </p>
-                                              <a href="" ><i class="fa fa-download"></i></a>
-                                            </div>
-                                          </div>
-                                          <div class="list-item-box">
-                                            <img src="images/s1.png" alt="" />
-
-                                            <div
-                                              class="attachment-info d-flex justify-content-between align-items-center">
-                                              <p>
-                                                logo.jpg
-                                                <span>(173 kb)</span>
-                                              </p>
-                                              <a href=""><i class="fa fa-download"></i></a>
-                                            </div>
-                                          </div>
-                                          <div class="list-item-box">
-                                            <img src="images/s1.png" alt="" />
-
-                                            <div
-                                              class="attachment-info d-flex justify-content-between align-items-center">
-                                              <p>
-                                                logo.jpg
-                                                <span>(173 kb)</span>
-                                              </p>
-                                              <a href=""><i class="fa fa-download"></i></a>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div
-                                        class="attachments source-file-container">
-                                        <h6>source file</h6>
-                                        <div class="source-file">
-                                          <a href="" class="source-list-item">
-                                            <p>
-                                              logo_s...zip
-                                              <span>(3 mb)</span>
-                                            </p>
-                                            <i class="fa fa-download"></i>
-                                          </a>
-                                          <a href="" class="source-list-item">
-                                            <p>
-                                              logo_s...zip
-                                              <span>(3 mb)</span>
-                                            </p>
-                                            <i class="fa fa-download"></i>
-                                          </a>
-                                          <a href="" class="source-list-item">
-                                            <p>
-                                              logo_s...zip
-                                              <span>(3 mb)</span>
-                                            </p>
-                                            <i class="fa fa-download"></i>
-                                          </a>
-                                          <a href="" class="source-list-item">
-                                            <p>
-                                              logo_s...zip
-                                              <span>(3 mb)</span>
-                                            </p>
-                                            <i class="fa fa-download"></i>
-                                          </a>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- ////////////////////////// -->
-                    <div
-                      class="user-info-content d-flex order-completed border-top align-items-center p-3 px-4 mt-3">
-                      <div class="box user-img">
-                        <img src="images/s1.png" alt="" />
-                      </div>
-                      <div class="box user-details">
-                        <h6>Me</h6>
-                        <p class="mb-0">Thanks</p>
-                      </div>
-                    </div>
                   </div>
 
-                  <div
-                    class="delivery-btn-wrapper btn-container text-center d-block my-4"
-                  >
-                    <a
-                      href=""
-                      class="btn btn-primary"
-                      data-toggle="modal"
-                      data-target="#exampleModal"
-                      >deliver now</a
-                    >
-                    <h6 class="small font-weight-bold d-sm-none mt-3">
-                      - OR -
-                    </h6>
-                  </div>
+
 
                   <div class="seller-reply-box text-capitalize">
                     <div class="card">
@@ -520,16 +248,16 @@
                       class="details-header d-flex justify-content-between align-items-center"
                     >
                       <div class="box">
-                        <h5>i will do modern web UI Design</h5>
+                        <h5>{{$order->serviceInfo->service_title}}</h5>
                         <div class="order-info d-flex">
                           <p>
                             order info
-                            <strong class="text-primary">amnawrites</strong>
+                            <strong class="text-primary">{{$order->sellerInfo->first_name}} {{$order->sellerInfo->last_name}}</strong>
                           </p>
                           <p>
                             delivery date
                             <span class="font-weight-bold"
-                              >nov 22, 01:21 PM</span
+                              >{{$delivery_date}}</span
                             >
                           </p>
                         </div>
@@ -538,7 +266,7 @@
                         <p class="text-uppercase font-weight-bold mb-1">
                           total price
                         </p>
-                        <h4>$78</h4>
+                        <h4>${{$order->order_fee}}</h4>
                       </div>
                     </div>
 
@@ -547,7 +275,7 @@
                     >
                       <p>
                         order number
-                        <strong class="order-number">#d0f9gdf0gfg</strong>
+                        <strong class="order-number">#{{$order->order_number}}</strong>
                       </p>
                       <a href="" class="text-primary text-capitalize"
                         ><strong>view invoice</strong></a
@@ -559,11 +287,7 @@
                         description
                       </h6>
                       <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing
-                        elit. Optio, quas eveniet distinctio necessitatibus
-                        aperiam, velit incidunt, placeat nemo aliquam soluta
-                        reiciendis! Eum earum inventore amet corrupti,
-                        necessitatibus deserunt tempore reprehenderit.
+                        {{$order->serviceInfo->service_desc}}
                       </p>
                     </div>
 
@@ -574,7 +298,7 @@
                         <p>
                           <i class="fa fa-file"></i>
                           <strong>your order </strong>
-                          <small>nov 10, 12:34PM</small>
+                          <small>{{$order_date}}</small>
                         </p>
                         <p>paid with credit card</p>
                       </div>
@@ -587,22 +311,25 @@
                             <th>price</th>
                           </tr>
                           <tr class="bg-white">
-                            <td>Lorem ipsum dolor sit, amet consectetur</td>
-                            <td>1</td>
-                            <td>3 days</td>
-                            <td>$60</td>
+                            <?php
+                            $original_free = $order->order_fee-$order->service_fee;
+                             ?>
+                            <td>{{$order->serviceInfo->service_title}}</td>
+                            <td>{{$order->order_qty}}</td>
+                            <td>{{$order->order_duration}}</td>
+                            <td>${{$original_free}}</td>
                           </tr>
                           <tr>
                             <td colspan="3">sub total</td>
-                            <td>$60</td>
+                            <td>${{$original_free}}</td>
                           </tr>
                           <tr>
                             <td colspan="3">service fee</td>
-                            <td>$4</td>
+                            <td>${{$order->service_fee}}</td>
                           </tr>
                           <tr>
                             <td colspan="3">total</td>
-                            <td>$63</td>
+                            <td>${{$order->order_fee}}</td>
                           </tr>
                         </table>
                       </div>
@@ -625,11 +352,29 @@
                 >
                   <div class="requirement-tab-container card empty-box p-4">
                     <div class="inner-content">
+                      @if(count($order->orderRequirement) > 0)
+                      @foreach($order->orderRequirement as $key => $req)
+                      <div class="requrement-list-item">
+                        <h6><span>{{$key+1}}</span> {{$req->requirementInfo->question}}</h6>
+                        @if($req->requirement !=null)
+                        <p>
+                          {{$req->requirement}}
+                        </p>
+                        @else
+                        <div class="gig-details">
+                          <div class="box">
+                            <a target="_blank" href="{{asset('images/order_requirements/'.$req->image)}}"><img src="{{asset('images/order_requirements/'.$req->image)}}" style="width:250px; height:200px;" alt=""></a>
+                          </div>
+                        </div>
+                        @endif
+                      </div>
+                      @endforeach
+                      @else
                       <img src="images/requirements.svg" alt="" />
                       <h6>Submit the requirements</h6>
                       <p>
                         Please submit the requirements so that
-                        <strong class="text-primary">Seormitu</strong>
+                        <strong class="text-primary">{{$order->sellerInfo->first_name}}</strong>
                         can start working on your order.
                       </p>
                       <button
@@ -637,6 +382,7 @@
                       >
                         submit requirement
                       </button>
+                      @endif
                     </div>
                   </div>
                 </div>
@@ -693,15 +439,20 @@
 
                   <div class="gig-details">
                     <div class="box box-img">
-                      <img src="images/s1.png" alt="" />
+                      <img src="{{asset('images/service_images/'.$order->serviceInfo->service_img1)}}" alt="" />
                     </div>
                     <div class="box">
-                      <h6>Digital agency website</h6>
+                      <h6>{{$order->serviceInfo->service_title}}</h6>
                       <p class="mt-3">
+                        @if($order->order_status == 'completed')
                         <span
                           class="bg-success text-white text-capitalize font-weight-bold px-2 py-1 rounded"
-                          >completed</span
-                        >
+                          >{{$order->order_status}}</span>
+                        @else
+                        <span
+                          class="bg-warning text-white text-capitalize font-weight-bold px-2 py-1 rounded"
+                          >{{$order->order_status}}</span>
+                        @endif
                       </p>
                     </div>
                   </div>
@@ -709,26 +460,26 @@
                   <ul class="list-group">
                     <li>
                       <span>order from</span>
-                      <span class="text-primary">amnawrites</span>
+                      <span class="text-primary">{{$order->sellerInfo->first_name}}</span>
                     </li>
                     <li>
                       <span>delivery date</span>
-                      <span>nov 22, 01:21 PM</span>
+                      <span>{{$delivery_date}}</span>
                     </li>
                   </ul>
 
                   <ul class="list-group">
                     <li>
                       <span>total price</span>
-                      <span>$43</span>
+                      <span>${{$order->order_fee}}</span>
                     </li>
                     <li>
                       <span>order number</span>
-                      <span class="text-uppercase">#98a7df97dfg</span>
+                      <span class="text-uppercase">#{{$order->order_number}}</span>
                     </li>
                   </ul>
 
-                  <a href="" class="btn custom-btn"> order again </a>
+                  <a href="{{route('service-details',['username' => $order->sellerInfo->username,'url'=>$order->serviceInfo->service_url])}}" class="btn custom-btn"> order again </a>
 
                   <div class="have-questions text-capitalize text-center">
                     <small
@@ -748,6 +499,90 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header text-dark">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Deliver completed work
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form class="" action="{{url('deliver-work')}}" method="post" enctype="multipart/form-data">
+        {{csrf_field()}}
+        <input type="hidden" name="order_id" value="{{$order->id}}">
+       <div class="modal-body">
+        <div class="upload">
+          <span class="form-field-file">
+            <label
+              for="work_file"
+              aria-label="Attach file"
+              class="btn1 border py-1 px-2 rounded text-capitalize"
+            >
+              <i class="fa fa-paperclip" aria-hidden="true"></i>
+              <small>upload work</small>
+            </label>
+
+            <input
+              type="file"
+              name="work_file[]"
+              id="work_file"
+              multiple="multiple"
+              class="field-file"
+            />
+          </span>
+          <p class="text-muted small mt-2">Max size 1GB</p>
+        </div>
+        <div class="select-box mt-3">
+          <select name="" id="" class="select2">
+            <option value="">usee a quick response</option>
+            <option value="">option 1</option>
+            <option value="">option 2</option>
+            <option value="">option 3</option>
+            <option value="">option 4</option>
+          </select>
+        </div>
+        <div class="textarea-box mt-2">
+          <textarea
+            name="message"
+            id=""
+            class="form-control"
+            rows="4"
+            placeholder="Describe your delivery in details..."
+          ></textarea>
+          <p class="small text-uppercase text-muted mt-2">
+            0/2500 chars max
+          </p>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <!-- <button
+          type="button"
+          class="btn btn-outline text-primary px-0"
+          data-dismiss="modal">
+          save draft
+        </button> -->
+        <button type="sumit" class="btn btn-primary">deliver work</button>
+      </div>
+    </form>
     </div>
   </div>
 </div>
@@ -778,10 +613,24 @@ $(document).ready(function () {
      cache: false,
      processData: false,
      success:function(data){
+       var form = document.getElementById("message-form");
+       form.reset();
       // console.log(data);
-      $('.show_messages').append(data);
-      // $("#faq-form .faq_title").val('');
-      // $("#faq-form .faq_desc").val('');
+      // $('.show_messages').append(data);
+      const socket = io.connect('https://peekvideochat.com:22000');
+      console.log('check 1', socket.connected);
+      socket.emit('message', data);
+      // socket.on('birdsreceivemsg', function(data) {
+      //   var user_id = "{{auth()->user()->id}}";
+      //   var dt = new Date();
+      //   var time = dt.getHours() + ":" + dt.getMinutes()
+      //   console.log(data);
+      //   if( user_id == data.message_receiver){
+      //     $('.notificationTime-'+data.conversation_id).html(time);
+      //     $('.notificationMessage-'+data.conversation_id).html(data.message_desc);
+      //   }
+      // });
+
      }
    });
  });

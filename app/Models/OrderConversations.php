@@ -13,6 +13,8 @@ class OrderConversations extends Model
     	'sender_id',
     	'message',
     	'file',
+    	'file_name',
+    	'message_type',
     	'date',
     	'reason',
     	'status',
@@ -21,5 +23,10 @@ class OrderConversations extends Model
     public function userInfo()
     {
       return $this->belongsTo(User::class, 'sender_id');
+    }
+
+    public function delivery()
+    {
+      return $this->hasMany(OrderDelivery::class, 'conversation_id');
     }
 }

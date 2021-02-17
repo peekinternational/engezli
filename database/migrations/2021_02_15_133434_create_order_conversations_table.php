@@ -19,6 +19,8 @@ class CreateOrderConversationsTable extends Migration
             $table->integer('sender_id');
             $table->string('message')->nullable();
             $table->string('file')->nullable();
+            $table->string('file_name')->nullable();
+            $table->enum('message_type',['message','image','file','delivery'])->default('message');
             $table->date('date');
             $table->longText('reason')->nullable();
             $table->string('status')->nullable();

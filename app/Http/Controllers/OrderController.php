@@ -12,6 +12,7 @@ use App\Models\Packages;
 use App\Models\Language;
 use App\Models\Order;
 use App\Models\OrderConversations;
+use App\Models\OrderDelivery;
 use App\Models\OrderRequirement;
 use App\Models\SellerLevel;
 use App\Facade\Engezli;
@@ -104,7 +105,7 @@ class OrderController extends Controller
 
     public function OrderDetails(Request $request, $number)
     {
-      $order = Order::with('serviceInfo','orderRequirement','sellerInfo')->where('order_number',$number)->first();
+      $order = Order::with('serviceInfo','orderRequirement','sellerInfo','buyerInfo')->where('order_number',$number)->first();
       if ($order->buyer_id == auth()->user()->id) {
         return view('frontend.buyer-order',compact('order'));
       }else {
@@ -133,7 +134,7 @@ class OrderController extends Controller
 
     public function SendOrderMessage(Request $request)
     {
-      dd($request->all());
+      // dd($request->all());
       $message = $request->input('message');
       $user_id = auth()->user()->id;
       $conversationData['sender_id'] = $user_id;
@@ -142,10 +143,18 @@ class OrderController extends Controller
       $conversationData['date'] = Carbon::now();
       $conversationData['status'] = 'message';
       $file = $request->file('file');
+      $conversationData['message_type'] = 'message';
       if($file != ''){
-        // $filename= $file->getClientOriginalName();
+        $filename= $file->getClientOriginalName();
         $imagename= 'orderconversation-'.rand(000000,999999).'.'.$file->getClientOriginalExtension();
         $extension = $file->getClientOriginalExtension();
+        if ($extension == 'png' || $extension == 'jpg'|| $extension == 'jpeg') {
+          $conversationData['message_type'] = 'image';
+        }else {
+          $conversationData['message_type'] = 'file';
+        }
+        $conversationData['file_name'] = $filename;
+
         $imagename= $imagename;
         $destinationpath= public_path('images/order_conversation');
         $file->move($destinationpath, $imagename);
@@ -153,9 +162,49 @@ class OrderController extends Controller
       }
       $Order_conversation = OrderConversations::create($conversationData);
       $conversation = OrderConversations::with('userInfo')->where('id',$Order_conversation->id)->first();
-      // dd($conversation);
-      return view('frontend.order-conversation-ajax',compact('conversation'));
+      return $conversation;
+      // return view('frontend.order-conversation-ajax',compact('conversation'));
 
+    }
+
+    public function DeliverWork(Request $request)
+    {
+      // dd($request->all());
+      $user_id = auth()->user()->id;
+      $conversationData['sender_id'] = $user_id;
+      $conversationData['order_id'] = $request->input('order_id');
+      $conversationData['message'] = $request->input('message');
+      $conversationData['date'] = Carbon::now();
+      $conversationData['status'] = 'delivery';
+      $conversationData['message_type'] = 'delivery';
+      $Order_conversation = OrderConversations::create($conversationData);
+      $conversation_id = $Order_conversation->id;
+      $files = $request->file('work_file');
+      if($files != ''){
+        foreach ($files as $file) {
+          $deliveryData['conversation_id'] = $conversation_id;
+          $deliveryData['order_id'] = $request->input('order_id');
+          $deliveryData['sender_id'] = $user_id;
+          $deliveryData['date'] = Carbon::now();
+
+          $filename= $file->getClientOriginalName();
+          $imagename= 'delivery-'.rand(000000,999999).'.'.$file->getClientOriginalExtension();
+          $extension = $file->getClientOriginalExtension();
+          if ($extension == 'png' || $extension == 'jpg'|| $extension == 'jpeg') {
+            $deliveryData['type'] = 'image';
+          }else {
+            $deliveryData['type'] = 'file';
+          }
+          $deliveryData['file_name'] = $filename;
+
+          $imagename= $imagename;
+          $destinationpath= public_path('images/order_delivery');
+          $file->move($destinationpath, $imagename);
+          $deliveryData['file'] = $imagename;
+          $delivery = OrderDelivery::create($deliveryData);
+        }
+      }
+      return redirect()->back();
     }
 
     public function HelpCenter(Request $request)
@@ -198,6 +247,13 @@ class OrderController extends Controller
       $helpCenter = HelpCenter::create($helpData);
       return redirect('/manage-orders')->with('success', 'Request send successfully');
 
+    }
+
+    public function getConversation(Request $request, $id)
+    {
+      $conversation = OrderConversations::with('userInfo','delivery')->where('order_id',$id)->get();
+      // dd($conversation);
+      return $conversation;
     }
 
 

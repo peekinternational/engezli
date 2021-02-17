@@ -122,6 +122,7 @@ Route::post('/save-notificatoins-setting', [ProfileController::class, 'SaveNotif
 
 Route::get('/help-center', [OrderController::class, 'HelpCenter']);
 Route::post('/request-help', [OrderController::class, 'RequestHelp']);
+Route::post('/deliver-work', [OrderController::class, 'DeliverWork']);
 
 });
 Route::get('/get_services', [ServiceController::class, 'get_services']);

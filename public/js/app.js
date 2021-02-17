@@ -3134,18 +3134,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  // props: [
-  //   'userdata',
-  // ],
+  props: ['orderdata', 'userdata'],
   data: function data() {
     return {
+      getConversation: [],
+      user_id: "",
+      seller_id: "",
+      buyer_id: "",
       friendList: [],
       singleChate: {},
-      friendId: "",
       friendName: "",
       friendImage: "",
       friendCountry: "",
@@ -3171,16 +3188,38 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    // this.user_id =  this.userdata.id;
-    // this.profile_image = this.userdata.profile_image;
+    this.user_id = this.userdata.id;
+    this.seller_id = this.orderdata.seller_id;
+    this.buyer_id = this.orderdata.buyer_id;
+    this.order_id = this.orderdata.id; // this.profile_image = this.userdata.profile_image;
     // this.first_name = this.userdata.first_name;
     // this.last_name = this.userdata.last_name;
     // this.user_names =  this.userdata.username;
+
+    this.orderConversation();
     var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default()('https://peekvideochat.com:22000'); // var socket = socketio('http://192.168.100.17:3000');
+
+    socket.on("birdsreceivemsg", function (data) {
+      // console.log("socket data",data);
+      if (data.order_id == this.order_id) {
+        this.getConversation.push(data);
+      }
+    }.bind(this));
   },
   methods: {
     istoday: function istoday(date) {
       return moment__WEBPACK_IMPORTED_MODULE_2___default()(date).calendar();
+    },
+    orderConversation: function orderConversation() {
+      var _this = this;
+
+      axios.get('http://localhost:8000/api/getOrderConversation/' + this.order_id).then(function (responce) {
+        _this.getConversation = responce.data;
+        console.log(_this.getConversation);
+      }, function (err) {
+        console.log('err', err);
+        alert('error');
+      });
     }
   }
 });
@@ -10316,6 +10355,30 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "\n.user-list-item {\n    cursor: pointer;\n}\n.img-thumbnail {\n    padding: .25rem;\n    background-color: #fff;\n    border: 1px solid #dee2e6;\n    border-radius: .25rem !important;\n    height: 100px !important;\n    width: 100px !important;\n}\n.typing {\n  position: absolute;\n  top:-1px;\n  left: 50px;\n}\n    /* .msg-body .msg-text-box.right .panel {\n      -webkit-box-orient: horizontal;\n      -webkit-box-direction: reverse;\n      -ms-flex-direction: row-reverse;\n      flex-direction: row-reverse;\n  }\n  .msg-body .msg-text-box.right .panel .box:first-child {\n    margin-left: 15px;\n}\n.msg-body .msg-text-box.right .panel .box {\n    max-width: 450px;\n}\n.msg-body .msg-text-box.right .panel .box:last-child {\n    background: #007bff;\n}\n.msg-body .msg-text-box.right .panel .box:last-child p, .msg-body .msg-text-box.right .panel .box:last-child h6 {\n    color: #ffffff;\n}\n.message-container .outer-content .main-area .msg-body .msg-text-box.right .box small {\n    color: #ffffff;\n} */\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/OrderConversationComponent.vue?vue&type=style&index=0&lang=css&":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/OrderConversationComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.source-file {\r\n    display: -ms-grid;\r\n    display: grid;\r\n    -ms-grid-columns: (1fr)[3];\r\n    grid-template-columns: repeat(3, 1fr);\r\n    grid-gap: 15px;\n}\n.source-list-item {\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: space-between;\r\n  padding: 10px;\r\n  border: 1px solid rgba(0, 0, 0, 0.1);\r\n  border-left: 3px solid #007bff;\r\n  border-radius: 4px;\n}\n.source-file .source-list-item i.fa {\r\n    color: #007bff;\r\n    margin-left: 5px;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -68911,6 +68974,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/OrderConversationComponent.vue?vue&type=style&index=0&lang=css&":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/OrderConversationComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_OrderConversationComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./OrderConversationComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/OrderConversationComponent.vue?vue&type=style&index=0&lang=css&");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_OrderConversationComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_OrderConversationComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js":
 /*!****************************************************************************!*\
   !*** ./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js ***!
@@ -69306,15 +69399,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _OrderConversationComponent_vue_vue_type_template_id_60f689b7___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./OrderConversationComponent.vue?vue&type=template&id=60f689b7& */ "./resources/js/components/OrderConversationComponent.vue?vue&type=template&id=60f689b7&");
 /* harmony import */ var _OrderConversationComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./OrderConversationComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/OrderConversationComponent.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _OrderConversationComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./OrderConversationComponent.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/OrderConversationComponent.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
+;
 
 
 /* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__.default)(
   _OrderConversationComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
   _OrderConversationComponent_vue_vue_type_template_id_60f689b7___WEBPACK_IMPORTED_MODULE_0__.render,
   _OrderConversationComponent_vue_vue_type_template_id_60f689b7___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
@@ -69389,6 +69484,19 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ExampleComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=style&index=0&lang=css&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/OrderConversationComponent.vue?vue&type=style&index=0&lang=css&":
+/*!*************************************************************************************************!*\
+  !*** ./resources/js/components/OrderConversationComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \*************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_OrderConversationComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./OrderConversationComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/OrderConversationComponent.vue?vue&type=style&index=0&lang=css&");
 
 
 /***/ }),
@@ -70530,88 +70638,751 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    {},
+    [
+      _vm._l(_vm.getConversation, function(conversation) {
+        return [
+          conversation.message_type != "delivery"
+            ? _c("div", { staticClass: "tab-list-item" }, [
+                _c("div", { staticClass: "t-header" }, [
+                  _c(
+                    "div",
+                    { staticClass: "box-item" },
+                    [
+                      conversation.user_info.profile_image
+                        ? [
+                            _c("img", {
+                              attrs: {
+                                src:
+                                  "/images/user_images/" +
+                                  conversation.user_info.profile_image,
+                                alt: ""
+                              }
+                            })
+                          ]
+                        : [
+                            _c("img", {
+                              attrs: { src: "/../images/s1.png", alt: "" }
+                            })
+                          ]
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "box-item" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-link btn-block pl-0",
+                        attrs: {
+                          type: "button",
+                          "data-toggle": "collapse",
+                          "data-target": "#collapseOne" + conversation.id,
+                          "aria-expanded": "true",
+                          "aria-controls": "collapseOne561"
+                        }
+                      },
+                      [
+                        _c(
+                          "h6",
+                          { staticClass: "text-primary" },
+                          [
+                            conversation.sender_id == _vm.user_id
+                              ? [_vm._v("\n                Me\n              ")]
+                              : [
+                                  _vm._v(
+                                    "\n                " +
+                                      _vm._s(
+                                        conversation.user_info.first_name
+                                      ) +
+                                      " " +
+                                      _vm._s(conversation.user_info.last_name) +
+                                      "\n              "
+                                  )
+                                ],
+                            _vm._v(" "),
+                            _c("span", { staticClass: "time" }, [
+                              _vm._v(
+                                _vm._s(_vm.istoday(conversation.created_at))
+                              )
+                            ])
+                          ],
+                          2
+                        )
+                      ]
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "t-body" }, [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "accordion custom-accordion",
+                      attrs: { id: "accordionExamplesd46" }
+                    },
+                    [
+                      _c("div", { staticClass: "card" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "collapse show",
+                            attrs: {
+                              id: "collapseOne" + conversation.id,
+                              "data-parent": "#accordionExamplesd46"
+                            }
+                          },
+                          [
+                            _c(
+                              "div",
+                              { staticClass: "card-body" },
+                              [
+                                _c("p", [_vm._v(_vm._s(conversation.message))]),
+                                _vm._v(" "),
+                                conversation.message_type == "image"
+                                  ? [
+                                      _c(
+                                        "div",
+                                        { staticClass: "attachments" },
+                                        [
+                                          _c("h6", [_vm._v("attachment")]),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "attachment-lists" },
+                                            [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass: "list-item-box"
+                                                },
+                                                [
+                                                  _c("img", {
+                                                    attrs: {
+                                                      src:
+                                                        "/images/order_conversation/" +
+                                                        conversation.file,
+                                                      alt: ""
+                                                    }
+                                                  }),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "div",
+                                                    {
+                                                      staticClass:
+                                                        "attachment-info d-flex justify-content-between align-items-center"
+                                                    },
+                                                    [
+                                                      _c("p", [
+                                                        _vm._v(
+                                                          "\n                          " +
+                                                            _vm._s(
+                                                              conversation.file_name
+                                                            ) +
+                                                            "\n                          "
+                                                        )
+                                                      ]),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "a",
+                                                        {
+                                                          attrs: {
+                                                            href:
+                                                              "/images/order_conversation/" +
+                                                              conversation.file,
+                                                            download: ""
+                                                          }
+                                                        },
+                                                        [
+                                                          _c("i", {
+                                                            staticClass:
+                                                              "fa fa-download"
+                                                          })
+                                                        ]
+                                                      )
+                                                    ]
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                conversation.message_type == "file"
+                                  ? [
+                                      _c(
+                                        "div",
+                                        { staticClass: "delivered-order" },
+                                        [
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "attachments source-file-container"
+                                            },
+                                            [
+                                              _c("h6", [_vm._v("source file")]),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                { staticClass: "source-file" },
+                                                [
+                                                  _c(
+                                                    "a",
+                                                    {
+                                                      staticClass:
+                                                        "source-list-item",
+                                                      attrs: {
+                                                        href:
+                                                          "/images/order_conversation/" +
+                                                          conversation.file,
+                                                        download: ""
+                                                      }
+                                                    },
+                                                    [
+                                                      _c("p", [
+                                                        _vm._v(
+                                                          "\n                          " +
+                                                            _vm._s(
+                                                              conversation.file_name
+                                                            ) +
+                                                            "\n                          "
+                                                        )
+                                                      ]),
+                                                      _vm._v(" "),
+                                                      _c("i", {
+                                                        staticClass:
+                                                          "fa fa-download"
+                                                      })
+                                                    ]
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  : _vm._e()
+                              ],
+                              2
+                            )
+                          ]
+                        )
+                      ])
+                    ]
+                  )
+                ])
+              ])
+            : _c("div", { staticClass: "tab-list-item delivered-order" }, [
+                _c("div", { staticClass: "t-header" }, [
+                  _c(
+                    "div",
+                    { staticClass: "box-item" },
+                    [
+                      conversation.user_info.profile_image
+                        ? [
+                            _c("img", {
+                              attrs: {
+                                src:
+                                  "/images/user_images/" +
+                                  conversation.user_info.profile_image,
+                                alt: ""
+                              }
+                            })
+                          ]
+                        : [
+                            _c("img", {
+                              attrs: { src: "/../images/s1.png", alt: "" }
+                            })
+                          ]
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "box-item" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-link btn-block pl-0",
+                        attrs: {
+                          type: "button",
+                          "data-toggle": "collapse",
+                          "data-target": "#collapseOne" + conversation.id,
+                          "aria-expanded": "true",
+                          "aria-controls": "collapseOne5616546sd"
+                        }
+                      },
+                      [
+                        _c(
+                          "h6",
+                          { staticClass: "text-primary" },
+                          [
+                            conversation.sender_id == _vm.user_id
+                              ? [
+                                  _vm._v("\n              Me\n              "),
+                                  _c(
+                                    "span",
+                                    { staticClass: "delivered-text" },
+                                    [_vm._v("delivered an order")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("span", { staticClass: "time" }, [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm.istoday(conversation.created_at)
+                                      )
+                                    )
+                                  ])
+                                ]
+                              : [
+                                  _vm._v(
+                                    "\n              " +
+                                      _vm._s(
+                                        conversation.user_info.first_name
+                                      ) +
+                                      " " +
+                                      _vm._s(
+                                        conversation.user_info.first_name
+                                      ) +
+                                      "\n              "
+                                  ),
+                                  _c(
+                                    "span",
+                                    { staticClass: "delivered-text" },
+                                    [_vm._v("delivered your order")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("span", { staticClass: "time" }, [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm.istoday(conversation.created_at)
+                                      )
+                                    )
+                                  ])
+                                ]
+                          ],
+                          2
+                        ),
+                        _vm._v(" "),
+                        _vm._m(0, true)
+                      ]
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "t-body" }, [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "accordion custom-accordion",
+                      attrs: { id: "accordionExamplesd466516s" }
+                    },
+                    [
+                      _c("div", { staticClass: "card" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "collapse show",
+                            attrs: {
+                              id: "collapseOne" + conversation.id,
+                              "data-parent": "#accordionExamplesd466516s"
+                            }
+                          },
+                          [
+                            _c(
+                              "div",
+                              { staticClass: "delivery-list-item rounded" },
+                              [
+                                _vm._m(1, true),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "content-body" },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass: "user-info-content d-flex"
+                                      },
+                                      [
+                                        _c(
+                                          "div",
+                                          { staticClass: "box user-img" },
+                                          [
+                                            conversation.user_info.profile_image
+                                              ? [
+                                                  _c("img", {
+                                                    attrs: {
+                                                      src:
+                                                        "/images/user_images/" +
+                                                        conversation.user_info
+                                                          .profile_image,
+                                                      alt: ""
+                                                    }
+                                                  })
+                                                ]
+                                              : [
+                                                  _c("img", {
+                                                    attrs: {
+                                                      src: "/../images/s1.png",
+                                                      alt: ""
+                                                    }
+                                                  })
+                                                ]
+                                          ],
+                                          2
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "box user-details" },
+                                          [
+                                            _c(
+                                              "h6",
+                                              { staticClass: "user-name" },
+                                              [
+                                                _vm._v(
+                                                  "\n                        " +
+                                                    _vm._s(
+                                                      conversation.user_info
+                                                        .first_name
+                                                    ) +
+                                                    "'\n                        "
+                                                ),
+                                                _c("span", [_vm._v(" message")])
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c("p", [
+                                              _vm._v(
+                                                _vm._s(conversation.message)
+                                              )
+                                            ]),
+                                            _vm._v(" "),
+                                            _c(
+                                              "div",
+                                              { staticClass: "attachments" },
+                                              [
+                                                _c("h6", [
+                                                  _vm._v("attachment")
+                                                ]),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "attachment-lists"
+                                                  },
+                                                  [
+                                                    _vm._l(
+                                                      conversation.delivery,
+                                                      function(
+                                                        delivery,
+                                                        index
+                                                      ) {
+                                                        return [
+                                                          delivery.type ==
+                                                          "image"
+                                                            ? _c(
+                                                                "div",
+                                                                {
+                                                                  staticClass:
+                                                                    "list-item-box"
+                                                                },
+                                                                [
+                                                                  _c("img", {
+                                                                    attrs: {
+                                                                      src:
+                                                                        "/images/order_delivery/" +
+                                                                        delivery.file,
+                                                                      alt: ""
+                                                                    }
+                                                                  }),
+                                                                  _vm._v(" "),
+                                                                  _c(
+                                                                    "div",
+                                                                    {
+                                                                      staticClass:
+                                                                        "attachment-info d-flex justify-content-between align-items-center"
+                                                                    },
+                                                                    [
+                                                                      _c("p", [
+                                                                        _vm._v(
+                                                                          "\n                                " +
+                                                                            _vm._s(
+                                                                              delivery.file_name
+                                                                            ) +
+                                                                            "\n                                "
+                                                                        )
+                                                                      ]),
+                                                                      _vm._v(
+                                                                        " "
+                                                                      ),
+                                                                      _c(
+                                                                        "a",
+                                                                        {
+                                                                          attrs: {
+                                                                            href:
+                                                                              "/images/order_delivery/" +
+                                                                              delivery.file,
+                                                                            download:
+                                                                              ""
+                                                                          }
+                                                                        },
+                                                                        [
+                                                                          _c(
+                                                                            "i",
+                                                                            {
+                                                                              staticClass:
+                                                                                "fa fa-download"
+                                                                            }
+                                                                          )
+                                                                        ]
+                                                                      )
+                                                                    ]
+                                                                  )
+                                                                ]
+                                                              )
+                                                            : [
+                                                                index == 0
+                                                                  ? [
+                                                                      _c("p", [
+                                                                        _vm._v(
+                                                                          "No Source File Found"
+                                                                        )
+                                                                      ])
+                                                                    ]
+                                                                  : _vm._e()
+                                                              ]
+                                                        ]
+                                                      }
+                                                    )
+                                                  ],
+                                                  2
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "attachments source-file-container"
+                                              },
+                                              [
+                                                _c("h6", [
+                                                  _vm._v("source file")
+                                                ]),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass: "source-file"
+                                                  },
+                                                  [
+                                                    _vm._l(
+                                                      conversation.delivery,
+                                                      function(
+                                                        delivery,
+                                                        index
+                                                      ) {
+                                                        return [
+                                                          delivery.type ==
+                                                          "file"
+                                                            ? _c(
+                                                                "a",
+                                                                {
+                                                                  staticClass:
+                                                                    "source-list-item",
+                                                                  attrs: {
+                                                                    href:
+                                                                      "/images/order_delivery/" +
+                                                                      delivery.file,
+                                                                    download: ""
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _c("p", [
+                                                                    _vm._v(
+                                                                      "\n                              " +
+                                                                        _vm._s(
+                                                                          delivery.file
+                                                                        ) +
+                                                                        "\n                              "
+                                                                    )
+                                                                  ]),
+                                                                  _vm._v(" "),
+                                                                  _c("i", {
+                                                                    staticClass:
+                                                                      "fa fa-download"
+                                                                  })
+                                                                ]
+                                                              )
+                                                            : [
+                                                                index == 0
+                                                                  ? [
+                                                                      _c("p", [
+                                                                        _vm._v(
+                                                                          "No Source File Found"
+                                                                        )
+                                                                      ])
+                                                                    ]
+                                                                  : _vm._e()
+                                                              ]
+                                                        ]
+                                                      }
+                                                    )
+                                                  ],
+                                                  2
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _vm.buyer_id == _vm.user_id
+                                      ? [
+                                          conversation.status == "delivery"
+                                            ? _c(
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "confirm-order border-top mt-4 pt-4"
+                                                },
+                                                [_vm._m(2, true)]
+                                              )
+                                            : _vm._e()
+                                        ]
+                                      : _vm._e()
+                                  ],
+                                  2
+                                )
+                              ]
+                            )
+                          ]
+                        )
+                      ])
+                    ]
+                  )
+                ])
+              ])
+        ]
+      }),
+      _vm._v(" "),
+      _vm.seller_id == _vm.user_id ? [_vm._m(3)] : _vm._e()
+    ],
+    2
+  )
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", {}, [
-      _c("div", { staticClass: "tab-list-item user-reply" }, [
-        _c("div", { staticClass: "t-header" }, [
-          _c("div", { staticClass: "box-item" }, [
-            _c("img", { attrs: { src: "images/s1.png", alt: "" } })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "box-item" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-link btn-block pl-0",
-                attrs: {
-                  type: "button",
-                  "data-toggle": "collapse",
-                  "data-target": "#collapseOne561",
-                  "aria-expanded": "true",
-                  "aria-controls": "collapseOne561"
-                }
-              },
-              [
-                _c("h6", { staticClass: "text-primary" }, [
-                  _vm._v("\n              Amnawrites\n              "),
-                  _c("span", { staticClass: "time" }, [_vm._v("10:54 PM")])
-                ])
-              ]
-            )
-          ])
+    return _c("span", { staticClass: "form-field-file" }, [
+      _c(
+        "label",
+        {
+          staticClass: "btn1",
+          attrs: { for: "cv-arquivo", "aria-label": "Attach file" }
+        },
+        [
+          _c("i", {
+            staticClass: "fa fa-paperclip",
+            attrs: { "aria-hidden": "true" }
+          })
+        ]
+      ),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "field-file",
+        attrs: { type: "file", name: "cv-arquivo", id: "cv-arquivo" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "content-header" }, [
+      _c("h6", [_vm._v("delivery #1")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "user-info-content d-flex" }, [
+      _c("div", { staticClass: "box user-img" }, [
+        _c("img", { attrs: { src: "/../images/s1.png", alt: "" } })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "box user-details" }, [
+        _c("h6", [
+          _vm._v(
+            "\n                          You received your delivery from\n                          Amnawrites.\n                        "
+          )
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "t-body" }, [
+        _c("h6", [
+          _vm._v(
+            "\n                          Are you pleased with the delivery\n                          and ready to approve it?\n                        "
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "btn-container mt-3" }, [
           _c(
-            "div",
-            {
-              staticClass: "accordion custom-accordion",
-              attrs: { id: "accordionExamplesd46" }
-            },
-            [
-              _c("div", { staticClass: "card" }, [
-                _c(
-                  "div",
-                  {
-                    staticClass: "collapse show",
-                    attrs: {
-                      id: "collapseOne561",
-                      "data-parent": "#accordionExamplesd46"
-                    }
-                  },
-                  [
-                    _c("div", { staticClass: "card-body" }, [
-                      _c("p", [_vm._v("Lorem ipsum dolor sit amet.")]),
-                      _vm._v(" "),
-                      _c("p", [
-                        _vm._v(
-                          "\n                  Lorem ipsum dolor sit amet consectetur\n                  adipisicing elit. Et, voluptas!\n                "
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        { staticClass: "report-btn", attrs: { href: "" } },
-                        [
-                          _c("i", { staticClass: "fa fa-flag" }),
-                          _vm._v("\n                  report\n                ")
-                        ]
-                      )
-                    ])
-                  ]
-                )
-              ])
-            ]
+            "a",
+            { staticClass: "btn btn-primary px-3 pr-0", attrs: { href: "" } },
+            [_vm._v("yes, i approve delivery")]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            { staticClass: "btn btn-primary px-3 pr-0", attrs: { href: "" } },
+            [_vm._v("i'm not ready yet")]
           )
         ])
       ])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "delivery-btn-wrapper btn-container text-center d-block my-4"
+      },
+      [
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-primary",
+            attrs: {
+              href: "",
+              "data-toggle": "modal",
+              "data-target": "#exampleModal"
+            }
+          },
+          [_vm._v("deliver now")]
+        ),
+        _vm._v(" "),
+        _c("h6", { staticClass: "small font-weight-bold d-sm-none mt-3" }, [
+          _vm._v("\n        - OR -\n      ")
+        ])
+      ]
+    )
   }
 ]
 render._withStripped = true

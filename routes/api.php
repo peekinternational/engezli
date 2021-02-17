@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,7 @@ use App\Http\Controllers\ChatController;
 Route::post('add-friend',[ChatController::class, 'addfriend']);
 Route::get('friendsList/{id}',[ChatController::class, 'friendsList']);
 Route::get('friendlist/friendsList2/{id}',[ChatController::class, 'friendsListUser']);
+Route::get('getOrderConversation/{id}',[OrderController::class, 'getConversation']);
 Route::post('singleChat',[ChatController::class, 'singleChat']);
 Route::post('chat/send-message',[ChatController::class, 'send']);
 Route::get('friendData/{id}',[ChatController::class, 'friendData']);
