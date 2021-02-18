@@ -74,6 +74,7 @@
                   id="acitvity"
                   role="tabpanel"
                   aria-labelledby="acitvity-tab">
+                  @if(count($order->orderRequirement) == 0)
                   <div class="submit-requirements card p-4 mb-4">
                     <div class="rqm-box-container">
                       <div class="rqm-box">
@@ -92,6 +93,7 @@
                       </div>
                     </div>
                   </div>
+                  @endif
 
                   <div class="gig-extras card p-4 mb-4">
                     <div class="header">
@@ -221,7 +223,7 @@
                     <div class="tab-list-item">
                       <div class="t-header">
                         <div class="box-item">
-                          <i class="fa fa-file-o"></i>
+                          <i class="fa fa-clock-o"></i>
                         </div>
                         <div class="box-item">
                           <h6>
@@ -241,7 +243,7 @@
                     <!-- ///////////////////////////////////// -->
 
                     <div
-                      class="accordion custom-accordion buyer-reply"
+                      class="accordion custom-accordion buyer-reply message_area"
                       id="accordionExample"
                     >
                       <div class="card p-3">
@@ -259,8 +261,8 @@
                                 class="share-info d-flex align-items-center"
                               >
                                 <div class="box">
-                                  @if($order->sellerInfo->profile_image)
-                                  <img src="{{asset('/images/user_images/'.$order->sellerInfo->profile_image)}}" alt="" />
+                                  @if($order->buyerInfo->profile_image)
+                                  <img src="{{asset('/images/user_images/'.$order->buyerInfo->profile_image)}}" alt="" />
                                   @else
                                   <img src="../images/s1.png" alt="" />
                                   @endif
@@ -288,7 +290,7 @@
 
                         <div
                           id="collapseOne"
-                          class="collapse show"
+                          class="collapse show "
                           aria-labelledby="headingOne"
                           data-parent="#accordionExample">
                         <form class="" id="message-form" enctype="multipart/form-data">
@@ -345,16 +347,16 @@
                       class="details-header d-flex justify-content-between align-items-center"
                     >
                       <div class="box">
-                        <h5>i will do modern web UI Design</h5>
+                        <h5>{{$order->serviceInfo->service_title}}</h5>
                         <div class="order-info d-flex">
                           <p>
                             order info
-                            <strong class="text-primary">amnawrites</strong>
+                            <strong class="text-primary">{{$order->sellerInfo->first_name}} {{$order->sellerInfo->last_name}}</strong>
                           </p>
                           <p>
                             delivery date
                             <span class="font-weight-bold"
-                              >nov 22, 01:21 PM</span
+                              >{{$delivery_date}}</span
                             >
                           </p>
                         </div>
@@ -363,7 +365,7 @@
                         <p class="text-uppercase font-weight-bold mb-1">
                           total price
                         </p>
-                        <h4>$78</h4>
+                        <h4>${{$order->order_fee}}</h4>
                       </div>
                     </div>
 
@@ -372,7 +374,7 @@
                     >
                       <p>
                         order number
-                        <strong class="order-number">#d0f9gdf0gfg</strong>
+                        <strong class="order-number">#{{$order->order_number}}</strong>
                       </p>
                       <a href="" class="text-primary text-capitalize"
                         ><strong>view invoice</strong></a
@@ -384,11 +386,7 @@
                         description
                       </h6>
                       <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing
-                        elit. Optio, quas eveniet distinctio necessitatibus
-                        aperiam, velit incidunt, placeat nemo aliquam soluta
-                        reiciendis! Eum earum inventore amet corrupti,
-                        necessitatibus deserunt tempore reprehenderit.
+                        {{$order->serviceInfo->service_desc}}
                       </p>
                     </div>
 
@@ -399,7 +397,7 @@
                         <p>
                           <i class="fa fa-file"></i>
                           <strong>your order </strong>
-                          <small>nov 10, 12:34PM</small>
+                          <small>{{$order_date}}</small>
                         </p>
                         <p>paid with credit card</p>
                       </div>
@@ -412,22 +410,25 @@
                             <th>price</th>
                           </tr>
                           <tr class="bg-white">
-                            <td>Lorem ipsum dolor sit, amet consectetur</td>
-                            <td>1</td>
-                            <td>3 days</td>
-                            <td>$60</td>
+                            <?php
+                            $original_free = $order->order_fee-$order->service_fee;
+                             ?>
+                            <td>{{$order->serviceInfo->service_title}}</td>
+                            <td>{{$order->order_qty}}</td>
+                            <td>{{$order->order_duration}}</td>
+                            <td>${{$original_free}}</td>
                           </tr>
                           <tr>
                             <td colspan="3">sub total</td>
-                            <td>$60</td>
+                            <td>${{$original_free}}</td>
                           </tr>
                           <tr>
                             <td colspan="3">service fee</td>
-                            <td>$4</td>
+                            <td>${{$order->service_fee}}</td>
                           </tr>
                           <tr>
                             <td colspan="3">total</td>
-                            <td>$63</td>
+                            <td>${{$order->order_fee}}</td>
                           </tr>
                         </table>
                       </div>
@@ -446,22 +447,39 @@
                   class="tab-pane fade requirements-tab"
                   id="requirements"
                   role="tabpanel"
-                  aria-labelledby="requirements-tab"
-                >
-                  <div class="requirement-tab-container card empty-box p-4">
+                  aria-labelledby="requirements-tab">
+                  <div class="requirement-tab-container card @if(count($order->orderRequirement) == 0) empty-box @endif p-4">
                     <div class="inner-content">
+                      @if(count($order->orderRequirement) > 0)
+                      @foreach($order->orderRequirement as $key => $req)
+                      <div class="requrement-list-item">
+                        <h6><span>{{$key+1}}</span> {{$req->requirementInfo->question}}</h6>
+                        @if($req->requirement !=null)
+                        <p>
+                          {{$req->requirement}}
+                        </p>
+                        @else
+                        <div class="gig-details">
+                          <div class="box">
+                            <a target="_blank" href="{{asset('images/order_requirements/'.$req->image)}}"><img src="{{asset('images/order_requirements/'.$req->image)}}" style="width:250px; height:200px;" alt=""></a>
+                          </div>
+                        </div>
+                        @endif
+                      </div>
+                      @endforeach
+                      @else
                       <img src="../images/requirements.svg" alt="" />
                       <h6>Submit the requirements</h6>
                       <p>
                         Please submit the requirements so that
-                        <strong class="text-primary">Seormitu</strong>
+                        <strong class="text-primary">{{$order->sellerInfo->first_name}}</strong>
                         can start working on your order.
                       </p>
                       <button
-                        class="btn btn-primary custom-btn text-white mt-3"
-                      >
+                        class="btn btn-primary custom-btn text-white mt-3">
                         submit requirement
                       </button>
+                      @endif
                     </div>
                   </div>
                 </div>
@@ -521,15 +539,20 @@
 
                     <div class="gig-details">
                       <div class="box box-img">
-                        <img src="../images/s1.png" alt="" />
+                        <img src="{{asset('images/service_images/'.$order->serviceInfo->service_img1)}}" alt="" />
                       </div>
                       <div class="box">
-                        <h6>Digital agency website</h6>
+                        <h6>{{$order->serviceInfo->service_title}}</h6>
                         <p class="mt-3">
+                          @if($order->order_status == 'completed')
                           <span
-                            class="bg-info text-white text-capitalize font-weight-bold px-2 py-1 rounded"
-                            >in progress</span
-                          >
+                            class="bg-success text-white text-capitalize font-weight-bold px-2 py-1 rounded"
+                            >{{$order->order_status}}</span>
+                          @else
+                          <span
+                            class="bg-warning text-white text-capitalize font-weight-bold px-2 py-1 rounded"
+                            >{{$order->order_status}}</span>
+                          @endif
                         </p>
                       </div>
                     </div>
@@ -537,22 +560,22 @@
                     <ul class="list-group">
                       <li>
                         <span>order from</span>
-                        <span class="text-primary">amnawrites</span>
+                        <span class="text-primary">{{$order->sellerInfo->first_name}}</span>
                       </li>
                       <li>
                         <span>delivery date</span>
-                        <span>nov 22, 01:21 PM</span>
+                        <span>{{$delivery_date}}</span>
                       </li>
                     </ul>
 
                     <ul class="list-group">
                       <li>
                         <span>total price</span>
-                        <span>$43</span>
+                        <span>${{$order->order_fee}}</span>
                       </li>
                       <li>
                         <span>order number</span>
-                        <span class="text-uppercase">#98a7df97dfg</span>
+                        <span class="text-uppercase">#{{$order->order_number}}</span>
                       </li>
                     </ul>
                   </div>
@@ -660,5 +683,20 @@ $(document).ready(function () {
    });
  });
 });
+
+function addFriend(user_id) {
+  var sender_id  = "{{auth()->user()->id}}";
+  // alert(user_id+'/'+sender_id);
+  $.ajax({
+   type: 'POST',
+   url: "{{url('/api/add-friend')}}",
+   data:{receiver_id:user_id,sender_id:sender_id},
+   xhrFields: {withCredentials: true},
+   success:function(data){
+     console.log(data);
+     window.location.href = "{{url('messages?conversation=')}}"+data;
+   }
+ });
+}
 </script>
 @endsection

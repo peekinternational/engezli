@@ -21,6 +21,9 @@ class ChatController extends Controller
       $sender_id = $request->input('sender_id');
       $receiver_id = $request->input('receiver_id');
       $check_friend = ChatFriends::where('sender_id',$sender_id)->where('receiver_id',$receiver_id)->first();
+      if ($check_friend == null) {
+        $check_friend = ChatFriends::where('sender_id',$receiver_id)->where('receiver_id',$sender_id)->first();
+      }
       if ($check_friend != null) {
         $conversation_id = $check_friend->conversation_id;
       }else {

@@ -157,7 +157,7 @@
 
 
 
-                  <div class="seller-reply-box text-capitalize">
+                  <div class="seller-reply-box text-capitalize message_area">
                     <div class="card">
                       <form class="" id="message-form" enctype="multipart/form-data">
                       <div class="card-header d-flex justify-content-between align-items-center p-3">
@@ -339,9 +339,7 @@
                       >Lorem ipsum, dolor sit amet consectetur adipisicing
                       elit. Rerum, fugit
                       <a href="" class="text-primary"
-                        >customer support sepecialists.</a
-                      ></small
-                    >
+                        >customer support sepecialists.</a></small>
                   </div>
                 </div>
                 <div
@@ -378,8 +376,7 @@
                         can start working on your order.
                       </p>
                       <button
-                        class="btn btn-primary custom-btn text-white mt-3"
-                      >
+                        class="btn btn-primary custom-btn text-white mt-3">
                         submit requirement
                       </button>
                       @endif
@@ -526,7 +523,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form class="" action="{{url('deliver-work')}}" method="post" enctype="multipart/form-data">
+      <form class="" id="delivery-form" enctype="multipart/form-data">
         {{csrf_field()}}
         <input type="hidden" name="order_id" value="{{$order->id}}">
        <div class="modal-body">
@@ -634,6 +631,52 @@ $(document).ready(function () {
      }
    });
  });
+
+  $('#delivery-form').on('submit', function(event){
+    event.preventDefault();
+    // var image = $('#message_image')[0].files[0];
+    // console.log(image);
+    var order_id = "{{$order->id}}"
+    var formData = new FormData(this);
+    formData.append('order_id', order_id);
+    // formData.append('image', $('.message_image')[0].files[0]);
+    $.ajax({
+     url:"{{ url('deliver-work') }}",
+     method:"POST",
+     data:formData,
+     // dataType:'JSON',
+     contentType: false,
+     cache: false,
+     processData: false,
+     success:function(data){
+       var form = document.getElementById("delivery-form");
+       form.reset();
+       $('#exampleModal').modal('hide');
+      // console.log(data);
+      // $('.show_messages').append(data);
+      const socket = io.connect('https://peekvideochat.com:22000');
+      console.log('check 1', socket.connected);
+      socket.emit('message', data);
+
+
+     }
+   });
+ });
 });
+
+function addFriend(user_id) {
+  var sender_id  = "{{auth()->user()->id}}";
+  // alert(user_id+'/'+sender_id);
+  $.ajax({
+   type: 'POST',
+   url: "{{url('/api/add-friend')}}",
+   data:{receiver_id:user_id,sender_id:sender_id},
+   xhrFields: {withCredentials: true},
+   success:function(data){
+     console.log(data);
+     window.location.href = "{{url('messages?conversation=')}}"+data;
+   }
+ });
+}
 </script>
 @endsection

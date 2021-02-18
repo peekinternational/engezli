@@ -24,6 +24,10 @@ Route::post('singleChat',[ChatController::class, 'singleChat']);
 Route::post('chat/send-message',[ChatController::class, 'send']);
 Route::get('friendData/{id}',[ChatController::class, 'friendData']);
 
+Route::post('approveDelivery',[OrderController::class, 'approveDelivery']);
+Route::post('rejectDelivery',[OrderController::class, 'rejectDelivery']);
+
+
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

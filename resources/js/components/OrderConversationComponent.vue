@@ -84,7 +84,7 @@
       </div>
     </div>
     <!-- ////////////////////////// -->
-    <div class="tab-list-item delivered-order" v-else>
+    <div :class="'tab-list-item delivered-order delivery'+conversation.id" v-else>
       <div class="t-header">
         <div class="box-item">
           <template v-if="conversation.user_info.profile_image">
@@ -109,7 +109,7 @@
               <span class="time">{{istoday(conversation.created_at)}}</span>
             </template>
             <template v-else>
-              {{conversation.user_info.first_name}} {{conversation.user_info.first_name}}
+              {{conversation.user_info.first_name}} {{conversation.user_info.last_name}}
               <span class="delivered-text">delivered your order</span>
               <span class="time">{{istoday(conversation.created_at)}}</span>
             </template>
@@ -178,11 +178,11 @@
                               <a :href="'/images/order_delivery/'+delivery.file" download><i class="fa fa-download"></i></a>
                             </div>
                           </div>
-                          <template v-else>
+                          <!-- <template v-else>
                             <template v-if="index == 0">
                               <p>No Source File Found</p>
                             </template>
-                          </template>
+                          </template> -->
                         </template>
                         </div>
                       </div>
@@ -197,11 +197,11 @@
                             </p>
                             <i class="fa fa-download"></i>
                           </a>
-                          <template v-else>
+                          <!-- <template v-else>
                             <template v-if="index == 0">
                               <p>No Source File Found</p>
                             </template>
-                          </template>
+                          </template> -->
                         </template>
 
                         </div>
@@ -293,32 +293,83 @@
                   </div> -->
                   <!-- ////////////////// -->
                   <template v-if="buyer_id == user_id">
-                  <div class="confirm-order border-top mt-4 pt-4" v-if="conversation.status == 'delivery'">
+                  <div class="confirm-order border-top mt-4 pt-4" id="'deliver-review'.conversation.id" v-if="conversation.status == 'delivery'">
                     <div class="user-info-content d-flex">
                       <div class="box user-img">
-                        <img
-                          src="/../images/s1.png"
-                          alt=""/>
+                        <template v-if="conversation.user_info.profile_image">
+                          <img :src="'/images/user_images/'+conversation.user_info.profile_image" alt="" />
+                        </template>
+                        <template v-else>
+                          <img src="/../images/s1.png" alt="" />
+                        </template>
                       </div>
                       <div class="box user-details">
                         <h6>
                           You received your delivery from
-                          Amnawrites.
+                          {{conversation.user_info.first_name}} {{conversation.user_info.last_name}}.
                         </h6>
                         <h6>
                           Are you pleased with the delivery
                           and ready to approve it?
                         </h6>
+                        <template v-if="conversation.status == 'delivery'">
                         <div class="btn-container mt-3">
-                          <a href=""
-                            class="btn btn-primary px-3 pr-0">yes, i approve delivery</a>
-                          <a href=""
+                          <a href="javascript:void(0);" @click="approveDelivery(conversation)"
+                          class="btn btn-primary px-3 pr-0">yes, i approve delivery</a>
+                          <a href="javascript:void(0);" @click="rejectDelivery(conversation)"
                             class="btn btn-primary px-3 pr-0">i'm not ready yet</a>
                         </div>
+                      </template>
                       </div>
                     </div>
                   </div>
                 </template>
+                <div class="confirm-order border-top mt-4 pt-4" v-if="conversation.status == 'approved'">
+                  <div class="user-info-content d-flex">
+                    <div class="box user-img">
+                      <template v-if="buyer_image">
+                        <img :src="'/images/user_images/'+buyer_image" alt="" />
+                      </template>
+                      <template v-else>
+                        <img src="/../images/s1.png" alt="" />
+                      </template>
+                    </div>
+                    <div class="box user-details">
+                      <h6>
+                        <template v-if="buyer_id == user_id">
+                          You approved the delivery from {{conversation.user_info.first_name}} {{conversation.user_info.last_name}}
+                        </template>
+                        <template v-else>
+                          {{buyer_name}}
+                          has approved your delivery
+                        </template>
+                      </h6>
+                    </div>
+                  </div>
+                </div>
+                <div class="confirm-order border-top mt-4 pt-4" v-if="conversation.status == 'reject'">
+                  <div class="user-info-content d-flex">
+                    <div class="box user-img">
+                      <template v-if="buyer_image">
+                        <img :src="'/images/user_images/'+buyer_image" alt="" />
+                      </template>
+                      <template v-else>
+                        <img src="/../images/s1.png" alt="" />
+                      </template>
+                    </div>
+                    <div class="box user-details">
+                      <h6>
+                        <template v-if="buyer_id == user_id">
+                          You reject the delivery from {{conversation.user_info.first_name}} {{conversation.user_info.last_name}}
+                        </template>
+                        <template v-else>
+                          {{buyer_name}}
+                          has reject your delivery
+                        </template>
+                      </h6>
+                    </div>
+                  </div>
+                </div>
                   <!-- ////////////////// -->
                 </div>
 
@@ -332,6 +383,7 @@
   </template>
   <!-- ///////////////////// -->
   <template v-if="seller_id == user_id">
+    <template v-if="notDeliver">
     <div class="delivery-btn-wrapper btn-container text-center d-block my-4">
       <a href=""
       class="btn btn-primary"
@@ -342,6 +394,19 @@
         - OR -
       </h6>
     </div>
+  </template>
+  <template v-if="reject">
+  <div class="delivery-btn-wrapper btn-container text-center d-block my-4">
+    <a href=""
+    class="btn btn-primary"
+    data-toggle="modal"
+    data-target="#exampleModal"
+    >deliver Again</a>
+    <h6 class="small font-weight-bold d-sm-none mt-3">
+      - OR -
+    </h6>
+  </div>
+</template>
   </template>
   <!-- ///////////////////// -->
 
@@ -355,6 +420,50 @@
         <p class="mb-0">Thanks</p>
       </div>
     </div> -->
+
+    <template v-if="approved">
+
+    <div class="tab-list-item">
+      <div class="t-header">
+        <div class="box-item">
+          <i class="fa fa-clock-o"></i>
+        </div>
+        <div class="box-item">
+          <h6>
+            your order was completed
+            <span class="time">{{istoday(approveDate)}}</span>
+          </h6>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="user-info-content d-flex order-completed border-top p-3 px-4">
+      <div class="box user-img">
+        <template v-if="buyer_image">
+          <img :src="'/images/user_images/'+buyer_image" alt="" />
+        </template>
+        <template v-else>
+          <img src="/../images/s1.png" alt="" />
+        </template>
+      </div>
+      <div class="box user-details">
+        <h6>
+          your order is completed. if you need to contact
+          the
+          <template v-if="seller_id == user_id">
+            Buyer
+          , <a href="javascript:void(0);" :onclick="'addFriend('+buyer_id+')'">go to inbox</a>
+        </template>
+          <template v-else>
+            Seller
+            , <a href="javascript:void(0);" :onclick="'addFriend('+seller_id+')'">go to inbox</a>
+          </template>
+
+        </h6>
+      </div>
+    </div>
+  </template>
 
 </div>
 
@@ -376,7 +485,12 @@ import moment from 'moment';
             user_id:"",
             seller_id:"",
             buyer_id:"",
-            friendList: [],
+            buyer_image:"",
+            buyer_name: "",
+            approved:false,
+            reject:false,
+            notDeliver:true,
+            approveDate:"",
             singleChate: {},
             friendName:"",
             friendImage:"",
@@ -409,6 +523,8 @@ import moment from 'moment';
         this.seller_id =  this.orderdata.seller_id;
         this.buyer_id =  this.orderdata.buyer_id;
         this.order_id =  this.orderdata.id;
+        this.buyer_image = this.orderdata.buyer_info.profile_image;
+        this.buyer_name = this.orderdata.buyer_info.first_name+" "+this.orderdata.buyer_info.last_name;
         // this.profile_image = this.userdata.profile_image;
         // this.first_name = this.userdata.first_name;
         // this.last_name = this.userdata.last_name;
@@ -420,6 +536,20 @@ import moment from 'moment';
         socket.on("birdsreceivemsg", function(data){
         // console.log("socket data",data);
         if (data.order_id == this.order_id) {
+          if (data.status == "approved") {
+            $('.delivery'+data.id).remove();
+            $('.message_area').hide();
+            this.approved = true;
+            this.approveDate = data.updated_at;
+          }
+          if (data.status == "reject") {
+            $('.delivery'+data.id).remove();
+            this.reject = true;
+          }
+          if (data.status == "delivery") {
+            this.notDeliver = false;
+            this.reject = false;
+          }
           this.getConversation.push(data);
 
         }
@@ -437,11 +567,67 @@ import moment from 'moment';
           axios.get('http://localhost:8000/api/getOrderConversation/'+this.order_id).then(responce => {
             this.getConversation = responce.data;
             console.log(this.getConversation);
+            const post = this.getConversation.filter((obj) => {
+                  return obj.status == 'approved'
+                }).pop();
+            if (post) {
+              this.approved = true;
+              $('.message_area').hide();
+              this.approveDate = post.updated_at;
+            }
+            const check_deliver = this.getConversation.filter((obj) => {
+                  return obj.status == 'delivery'
+                }).pop();
+              console.log("check_deliver",check_deliver);
+              if (check_deliver) {
+                this.notDeliver = false;
+                this.reject = false;
+              }
+              const check_reject = this.getConversation.filter((obj) => {
+                    return obj.status == 'reject'
+                  }).pop();
+                  if (check_reject) {
+                    this.notDeliver = false;
+                    this.reject = false;
+
+                  }
+
           }, function(err) {
             console.log('err', err);
             alert('error');
           })
 
+      },
+      approveDelivery: function(conversation) {
+        // console.log(conversation);
+        var socket = socketio.connect('https://peekvideochat.com:22000/');
+        axios.post('http://localhost:8000/api/approveDelivery',{'conversation':conversation}).then(responce => {
+          // console.log(responce.data);
+          $('.delivery'+responce.data.id).remove();
+          // this.getConversation = responce.data;
+          socket.emit('message', responce.data);
+          // console.log(responce.data);
+
+        }, function(err) {
+          console.log('err', err);
+          alert('error');
+        })
+      },
+
+      rejectDelivery: function(conversation) {
+        // console.log(conversation);
+        var socket = socketio.connect('https://peekvideochat.com:22000/');
+        axios.post('http://localhost:8000/api/rejectDelivery',{'conversation':conversation}).then(responce => {
+          // console.log(responce.data);
+          $('.delivery'+responce.data.id).remove();
+          // this.getConversation = responce.data;
+          socket.emit('message', responce.data);
+          // console.log(responce.data);
+
+        }, function(err) {
+          console.log('err', err);
+          alert('error');
+        })
       },
 
     },
@@ -474,5 +660,11 @@ import moment from 'moment';
 .source-file .source-list-item i.fa {
     color: #007bff;
     margin-left: 5px;
+}
+.delivery-btn-wrapper{
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+.delivery-btn-wrapper a{
+      margin-top: 20px;
 }
 </style>

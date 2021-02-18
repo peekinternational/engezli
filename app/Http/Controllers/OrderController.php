@@ -204,7 +204,36 @@ class OrderController extends Controller
           $delivery = OrderDelivery::create($deliveryData);
         }
       }
-      return redirect()->back();
+      $conversation = OrderConversations::with('userInfo','delivery')->where('id',$conversation_id)->first();
+      return $conversation;
+    }
+
+    public function approveDelivery(Request $request)
+    {
+      $data = $request->input('conversation');
+      $conversation_id = $data['id'];
+      $conversation = OrderConversations::find($conversation_id);
+      $conversation->status = 'approved';
+      $conversation->update();
+      $getconversation = OrderConversations::with('userInfo','delivery')->where('id',$conversation_id)->first();
+      return $getconversation;
+    }
+
+    public function rejectDelivery(Request $request)
+    {
+      $data = $request->input('conversation');
+      $conversation_id = $data['id'];
+      $conversation = OrderConversations::find($conversation_id);
+      $conversation->status = 'reject';
+      $conversation->update();
+      $getconversation = OrderConversations::with('userInfo','delivery')->where('id',$conversation_id)->first();
+      return $getconversation;
+    }
+
+    public function getConversation(Request $request, $id)
+    {
+      $conversation = OrderConversations::with('userInfo','delivery')->where('order_id',$id)->get();
+      return $conversation;
     }
 
     public function HelpCenter(Request $request)
@@ -249,12 +278,7 @@ class OrderController extends Controller
 
     }
 
-    public function getConversation(Request $request, $id)
-    {
-      $conversation = OrderConversations::with('userInfo','delivery')->where('order_id',$id)->get();
-      // dd($conversation);
-      return $conversation;
-    }
+
 
 
 }
