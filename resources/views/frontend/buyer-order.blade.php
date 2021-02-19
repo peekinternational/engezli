@@ -604,27 +604,35 @@
                         <div
                           id="collapseOnes98"
                           class="collapse show"
-                          data-parent="#accordionExamples42"
-                        >
+                          data-parent="#accordionExamples42">
+                          <?php
+                            $order_requirements = count($order->orderRequirement);
+                            $order_progress = Engezli::getorderDelivery($order->id,'delivery');
+                            $order_delivery = Engezli::getorderDelivery($order->id,'delivery');
+                            $order_completed = Engezli::getorderDelivery($order->id,'approved');
+                           ?>
                           <div class="card-body">
                             <div class="track-order-lists">
                               <div class="list-item completed">
                                 <span>order placed</span>
                                 <div class="status"></div>
                               </div>
-                              <div class="list-item completed">
+                              <div class="list-item @if($order_requirements > 0) completed
+                                @else in-progress  @endif">
                                 <span>requirements submitted</span>
                                 <div class="status"></div>
                               </div>
-                              <div class="list-item in-progress">
+                              <div class="list-item @if($order_completed == '1') completed
+                              @else @if($order_progress == '0') in-progress @else completed @endif @endif">
                                 <span>order in progress</span>
                                 <div class="status"></div>
                               </div>
-                              <div class="list-item">
+                              <div class="list-item @if($order_completed == '1') completed
+                              @else @if($order_delivery == '1') completed @elseif($order_delivery == '1') in-progress @endif @endif">
                                 <span>review delivery</span>
                                 <div class="status"></div>
                               </div>
-                              <div class="list-item">
+                              <div class="list-item @if($order_completed == '1') completed @endif">
                                 <span>complete order</span>
                                 <div class="status"></div>
                               </div>

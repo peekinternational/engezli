@@ -324,7 +324,7 @@
                     </div>
                   </div>
                 </template>
-                <div class="confirm-order border-top mt-4 pt-4" v-if="conversation.status == 'approved'">
+                <div class="confirm-order border-top mt-4 pt-4" v-if="conversation.status == 'approved' || conversation.status == 'completed' ">
                   <div class="user-info-content d-flex">
                     <div class="box user-img">
                       <template v-if="buyer_image">
@@ -525,6 +525,7 @@ import moment from 'moment';
         this.order_id =  this.orderdata.id;
         this.buyer_image = this.orderdata.buyer_info.profile_image;
         this.buyer_name = this.orderdata.buyer_info.first_name+" "+this.orderdata.buyer_info.last_name;
+        this.order_number = this.orderdata.order_number;
         // this.profile_image = this.userdata.profile_image;
         // this.first_name = this.userdata.first_name;
         // this.last_name = this.userdata.last_name;
@@ -575,6 +576,14 @@ import moment from 'moment';
               $('.message_area').hide();
               this.approveDate = post.updated_at;
             }
+            const check_completed = this.getConversation.filter((obj) => {
+                  return obj.status == 'completed'
+                }).pop();
+            if (check_completed) {
+              this.approved = true;
+              $('.message_area').hide();
+              this.approveDate = post.updated_at;
+            }
             const check_deliver = this.getConversation.filter((obj) => {
                   return obj.status == 'delivery'
                 }).pop();
@@ -606,6 +615,7 @@ import moment from 'moment';
           $('.delivery'+responce.data.id).remove();
           // this.getConversation = responce.data;
           socket.emit('message', responce.data);
+          window.location.href = '/../rating/'+this.order_number;
           // console.log(responce.data);
 
         }, function(err) {

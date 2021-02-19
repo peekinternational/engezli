@@ -155,8 +155,8 @@
                     <td>{{$order_date}}</td>
                     <td>{{$due_date}}</td>
                     <td>${{$order->order_fee}}</td>
-                    @if($order->order_status == 'complete')
-                    <td><span class="status complete">complete</span></td>
+                    @if($order->order_status == 'completed')
+                    <td><span class="status complete">completed</span></td>
                     @else
                     <td><span class="status incomplete">{{$order->order_status}}</span></td>
                     @endif

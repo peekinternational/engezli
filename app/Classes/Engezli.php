@@ -9,7 +9,8 @@ use App\Models\States;
 use App\Models\Cities;
 use App\Models\Categories;
 use App\Models\NotificationSetting;
-use App\Models\PackagesOption;
+use App\Models\Order;
+use App\Models\OrderConversations;
 use App\Models\Language;
 use App\Models\Skills;
 use Str;
@@ -76,6 +77,15 @@ class Engezli {
 			$notifications = $notifications->mobile;
 		}
 		return $notifications;
+	}
+	public function getorderDelivery($order_id,$status){
+		$delivery = OrderConversations::where('order_id',$order_id)->where('status',$status)->first();
+		if ($delivery !=null) {
+			return '1';
+		}else {
+			return '0';
+		}
+		return $delivery;
 	}
 }
 ?>

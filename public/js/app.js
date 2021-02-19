@@ -3307,7 +3307,8 @@ __webpack_require__.r(__webpack_exports__);
     this.buyer_id = this.orderdata.buyer_id;
     this.order_id = this.orderdata.id;
     this.buyer_image = this.orderdata.buyer_info.profile_image;
-    this.buyer_name = this.orderdata.buyer_info.first_name + " " + this.orderdata.buyer_info.last_name; // this.profile_image = this.userdata.profile_image;
+    this.buyer_name = this.orderdata.buyer_info.first_name + " " + this.orderdata.buyer_info.last_name;
+    this.order_number = this.orderdata.order_number; // this.profile_image = this.userdata.profile_image;
     // this.first_name = this.userdata.first_name;
     // this.last_name = this.userdata.last_name;
     // this.user_names =  this.userdata.username;
@@ -3360,6 +3361,16 @@ __webpack_require__.r(__webpack_exports__);
           _this.approveDate = post.updated_at;
         }
 
+        var check_completed = _this.getConversation.filter(function (obj) {
+          return obj.status == 'completed';
+        }).pop();
+
+        if (check_completed) {
+          _this.approved = true;
+          $('.message_area').hide();
+          _this.approveDate = post.updated_at;
+        }
+
         var check_deliver = _this.getConversation.filter(function (obj) {
           return obj.status == 'delivery';
         }).pop();
@@ -3385,6 +3396,8 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     approveDelivery: function approveDelivery(conversation) {
+      var _this2 = this;
+
       // console.log(conversation);
       var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('https://peekvideochat.com:22000/');
       axios.post('http://localhost:8000/api/approveDelivery', {
@@ -3393,7 +3406,8 @@ __webpack_require__.r(__webpack_exports__);
         // console.log(responce.data);
         $('.delivery' + responce.data.id).remove(); // this.getConversation = responce.data;
 
-        socket.emit('message', responce.data); // console.log(responce.data);
+        socket.emit('message', responce.data);
+        window.location.href = '/../rating/' + _this2.order_number; // console.log(responce.data);
       }, function (err) {
         console.log('err', err);
         alert('error');
@@ -71616,7 +71630,8 @@ var render = function() {
                                           ]
                                         : _vm._e(),
                                       _vm._v(" "),
-                                      conversation.status == "approved"
+                                      conversation.status == "approved" ||
+                                      conversation.status == "completed"
                                         ? _c(
                                             "div",
                                             {

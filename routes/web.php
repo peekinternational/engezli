@@ -105,6 +105,10 @@ Route::post('/fetch_subcategory', [CreateServiceController::class, 'fetch_subcat
 Route::post('/fetch_package_option', [CreateServiceController::class, 'fetch_package_option']);
 Route::match(['get','post'],'/post_service', [CreateServiceController::class, 'post_service']);
 
+// Rating
+Route::get('/rating/{number}', [OrderController::class, 'Rating']);
+Route::post('/buyer_review', [OrderController::class, 'BuyerReview']);
+
 Route::get('/services/{url}', [ServiceController::class, 'index']);
 
 
@@ -115,6 +119,9 @@ Route::post('/create_order', [OrderController::class, 'CreateOrder']);
 Route::post('/save_requirement', [OrderController::class, 'SaveRequirement']);
 Route::match(['get','post'],'/order_conversation', [OrderController::class, 'SendOrderMessage']);
 Route::get('/manage-orders', [OrderController::class, 'manageOrders']);
+
+
+
 
 Route::post('/change-password', [ProfileController::class, 'ChangePassword']);
 Route::post('/save-billing-info', [ProfileController::class, 'SaveBilling']);

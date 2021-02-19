@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Models\BuyerReviews;
 use App\Models\Categories;
 use App\Models\HelpCenter;
 use App\Models\User;
@@ -276,6 +277,40 @@ class OrderController extends Controller
       $helpCenter = HelpCenter::create($helpData);
       return redirect('/manage-orders')->with('success', 'Request send successfully');
 
+    }
+
+    public function Rating(Request $request,$order_number)
+    {
+      $order = Order::with('serviceInfo')->whereorder_number($order_number)->first();
+      return view('frontend.rating',compact('order'));
+    }
+
+    public function BuyerReview(Request $request)
+    {
+      // dd($request->all());
+      $order_id = $request->input('order_id');
+      $order = Order::find($order_id);
+      $reviewData['order_id'] = $request->input('order_id');
+      $reviewData['service_id'] = $request->input('service_id');
+      $reviewData['buyer_id'] = $order->buyer_id;
+      $reviewData['seller_id'] = $order->seller_id;
+      $reviewData['communication_rating'] = $request->input('communication_rating');
+      $reviewData['service_rating'] = $request->input('service_rating');
+      $reviewData['recommend_rating'] = $request->input('recommend_rating');
+      $total_rating =  $request->input('communication_rating')+$request->input('service_rating')+$request->input('recommend_rating');
+      $overall_rating = $total_rating/3;
+      // dd($overall_rating);
+      $reviewData['overall_rating'] = $overall_rating;
+      $reviewData['review'] = $request->input('review');
+      $reviewData['date'] = Carbon::now();
+      $show_work = $request->input('show_work');
+      if ($show_work != null) {
+        $reviewData['show_work'] = $show_work;
+      }
+      $review = BuyerReviews::create($reviewData);
+      $order->order_status = 'completed';
+      $order->update();
+      return redirect('/manage-orders')->with('success', 'Order completed successfully');
     }
 
 

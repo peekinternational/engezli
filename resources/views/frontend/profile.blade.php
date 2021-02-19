@@ -27,14 +27,22 @@
                 <h2 class="name">{{$user->first_name}} {{$user->last_name}}</h2>
                 <p class="designation">{{$user->occuption}}</p>
                 <div class="rating">
-                  <ul>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                  </ul>
-                  <div class="no-of-rating">5.0 <span>(1k+)</span></div>
+                  <?php
+                    $total_reviews = count($user->userReviews);
+                    $starAvg     = ($user->userReviews != null) ? round($user->userReviews->avg('overall_rating')) : 0;
+                    $comunicationAvg     = ($user->userReviews != null) ? round($user->userReviews->avg('communication_rating')) : 0;
+                    $recommentAvg     = ($user->userReviews != null) ? round($user->userReviews->avg('recommend_rating')) : 0;
+                    $serviceAvg     = ($user->userReviews != null) ? round($user->userReviews->avg('service_rating')) : 0;
+
+                   ?>
+                   <ul>
+                     <li><i class="fa fa-star avg-star-1 {{($starAvg >= 1) ? 'yellow-star' : 'grey-star'}}"></i></li>
+                     <li><i class="fa fa-star avg-star-2 {{($starAvg >= 2) ? 'yellow-star' : 'grey-star'}}"></i></li>
+                     <li><i class="fa fa-star avg-star-3 {{($starAvg >= 3) ? 'yellow-star' : 'grey-star'}}"></i></li>
+                     <li><i class="fa fa-star avg-star-4 {{($starAvg >= 4) ? 'yellow-star' : 'grey-star'}}"></i></li>
+                     <li><i class="fa fa-star avg-star-5 {{($starAvg >= 5) ? 'yellow-star' : 'grey-star'}}"></i></li>
+                   </ul>
+                  <div class="no-of-rating">{{number_format($starAvg, '1', '.','')}} <span>({{$total_reviews}})</span></div>
                 </div>
               </div>
 
@@ -108,7 +116,7 @@
                 role="tab"
                 aria-controls="review"
                 aria-selected="false"
-                >review 200</a
+                >review {{$total_reviews}}</a
               >
             </li>
           </ul>
@@ -170,12 +178,16 @@
                       <a href="{{url('/'.$service->sellerInfo->username.'/'.$service->service_url)}}" class="gig-title">
                         {{$service->service_title}}
                       </a>
+                      <?php
+                      $totalgig_reviews = count($service->serviceRating);
+                      $gigAvg     = ($service->serviceRating != null) ? round($service->serviceRating->avg('overall_rating')) : 0;
+                       ?>
                       <div class="content-info">
                         <div class="rating-wrapper">
                           <span class="gig-rating text-body-2">
                             <i class="fa fa-star"></i>
-                            5.0
-                            <span>(7)</span>
+                            {{number_format($gigAvg, '1', '.','')}}
+                            <span>({{$totalgig_reviews}})</span>
                           </span>
                         </div>
                       </div>
@@ -321,283 +333,69 @@
               role="tabpanel"
               aria-labelledby="review-tab"
             >
+
               <div class="review-headers">
                 <div class="inner-box">
-                  <h5>200 reviews</h5>
+                  <h5>{{$total_reviews}} @if($total_reviews > 1) reviews @else review @endif</h5>
                   <div class="rating">
                     <ul>
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
-                      <li><i class="fa fa-star"></i></li>
+                      <li><i class="fa fa-star avg-star-1 {{($starAvg >= 1) ? 'yellow-star' : 'grey-star'}}"></i></li>
+                      <li><i class="fa fa-star avg-star-2 {{($starAvg >= 2) ? 'yellow-star' : 'grey-star'}}"></i></li>
+                      <li><i class="fa fa-star avg-star-3 {{($starAvg >= 3) ? 'yellow-star' : 'grey-star'}}"></i></li>
+                      <li><i class="fa fa-star avg-star-4 {{($starAvg >= 4) ? 'yellow-star' : 'grey-star'}}"></i></li>
+                      <li><i class="fa fa-star avg-star-5 {{($starAvg >= 5) ? 'yellow-star' : 'grey-star'}}"></i></li>
                     </ul>
-                    <div class="no-of-rating">4.8</div>
+                    <div class="no-of-rating">{{number_format($starAvg, '1', '.','')}}</div>
                   </div>
                 </div>
                 <div class="review-category">
                   <div class="box">
                     <h6>seller communication level</h6>
-                    <p>4.8 <i class="fa fa-star"></i></p>
+                    <p>{{number_format($comunicationAvg, '1', '.','')}} <i class="fa fa-star"></i></p>
                   </div>
                   <div class="box">
                     <h6>recommend to a friend</h6>
-                    <p>4.8 <i class="fa fa-star"></i></p>
+                    <p>{{number_format($recommentAvg, '1', '.','')}} <i class="fa fa-star"></i></p>
                   </div>
                   <div class="box">
                     <h6>service as described</h6>
-                    <p>4.8 <i class="fa fa-star"></i></p>
+                    <p>{{number_format($serviceAvg, '1', '.','')}} <i class="fa fa-star"></i></p>
                   </div>
                 </div>
               </div>
 
               <div class="review-list-group">
+                @foreach($user->userReviews as $review)
                 <div class="review-list-item">
                   <div class="user-img">
                     <div class="avatar">
-                      <img src="images/avatar (1).svg" alt="" />
+                      @if($review->buyerInfo->profile_image != null)
+                      <img src="{{asset('images/user_images/'.$review->buyerInfo->profile_image)}}" alt="" />
+                      @else
+                      <img src="{{asset('images/s1.png')}}" alt="" />
+                      @endif
                     </div>
                   </div>
                   <div class="comments">
                     <div class="review-inner-content">
-                      <a href="" class="name"
-                        >Ali ahmed
-                        <span> <i class="fa fa-star"></i> 5.0</span></a
-                      >
+                      <a href="" class="name">
+                        {{$review->buyerInfo->first_name}} {{$review->buyerInfo->last_name}}
+                        <span> <i class="fa fa-star"></i>{{number_format($review->overall_rating, '1', '.','')}}</span></a>
                       <p class="desc">
-                        Lorem ipsum dolor sit amet consectetur adipisicing
-                        elit. Beatae, placeat delectus esse illo
-                        necessitatibus adipisci fugiat? Ipsum, architecto
-                        molestiae ratione deleniti fuga cumque excepturi,
-                        inventore autem facilis incidunt consectetur
-                        voluptatum?
+                      {{$review->review}}
                       </p>
-
-                      <p class="posted-time">14 hours ago</p>
-
-                      <div class="btns-group">
-                        <a href="" class="thumbs-up active"
-                          ><i class="fa fa-thumbs-up"> </i>helpful</a
-                        >
-                        <a href="" class="thumbs-down"
-                          ><i class="fa fa-thumbs-down"> </i>not helpful</a
-                        >
-                      </div>
-                    </div>
-
-                    <div class="sub-comments">
-                      <div class="user-img">
-                        <div class="avatar">
-                          <img src="images/avatar (3).svg" alt="" />
-                        </div>
-                      </div>
-                      <div class="review-inner-content">
-                        <a href="" class="name"
-                          >john william <span>(seller)</span></a
-                        >
-                        <p class="desc">
-                          Lorem ipsum dolor sit amet consectetur adipisicing
-                          elit. Beatae, placeat delectus
-                        </p>
-                      </div>
+                      <?php
+                      $date = date('d M, Y', strtotime($review->date))
+                       ?>
+                      <p class="posted-time">{{$date}}</p>
                     </div>
                   </div>
                 </div>
+                @endforeach
 
-                <div class="review-list-item">
-                  <div class="user-img">
-                    <div class="avatar">
-                      <img src="images/avatar (2).svg" alt="" />
-                    </div>
-                  </div>
-                  <div class="comments">
-                    <div class="review-inner-content">
-                      <a href="" class="name"
-                        >Ali ahmed
-                        <span> <i class="fa fa-star"></i> 5.0</span></a
-                      >
-                      <p class="desc">
-                        Lorem ipsum dolor sit amet consectetur adipisicing
-                        elit. Beatae, placeat delectus esse illo
-                        necessitatibus adipisci fugiat? Ipsum, architecto
-                        molestiae ratione deleniti fuga cumque excepturi,
-                        inventore autem facilis incidunt consectetur
-                        voluptatum?
-                      </p>
-
-                      <p class="posted-time">14 hours ago</p>
-
-                      <div class="btns-group">
-                        <a href="" class="thumbs-up"
-                          ><i class="fa fa-thumbs-up"> </i>helpful</a
-                        >
-                        <a href="" class="thumbs-down"
-                          ><i class="fa fa-thumbs-down"> </i>not helpful</a
-                        >
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="review-list-item">
-                  <div class="user-img">
-                    <div class="avatar">
-                      <img src="images/avatar (3).svg" alt="" />
-                    </div>
-                  </div>
-                  <div class="comments">
-                    <div class="review-inner-content">
-                      <a href="" class="name"
-                        >Ali ahmed
-                        <span> <i class="fa fa-star"></i> 5.0</span></a
-                      >
-                      <p class="desc">
-                        Lorem ipsum dolor sit amet consectetur adipisicing
-                        elit. Beatae, placeat delectus esse illo
-                        necessitatibus adipisci fugiat? Ipsum, architecto
-                        molestiae ratione deleniti fuga cumque excepturi,
-                        inventore autem facilis incidunt consectetur
-                        voluptatum?
-                      </p>
-
-                      <p class="posted-time">14 hours ago</p>
-
-                      <div class="btns-group">
-                        <a href="" class="thumbs-up"
-                          ><i class="fa fa-thumbs-up"> </i>helpful</a
-                        >
-                        <a href="" class="thumbs-down"
-                          ><i class="fa fa-thumbs-down"> </i>not helpful</a
-                        >
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="review-list-item">
-                  <div class="user-img">
-                    <div class="avatar">
-                      <img src="images/avatar (1).svg" alt="" />
-                    </div>
-                  </div>
-                  <div class="comments">
-                    <div class="review-inner-content">
-                      <a href="" class="name"
-                        >Ali ahmed
-                        <span> <i class="fa fa-star"></i> 5.0</span></a
-                      >
-                      <p class="desc">
-                        Lorem ipsum dolor sit amet consectetur adipisicing
-                        elit. Beatae, placeat delectus esse illo
-                        necessitatibus adipisci fugiat? Ipsum, architecto
-                        molestiae ratione deleniti fuga cumque excepturi,
-                        inventore autem facilis incidunt consectetur
-                        voluptatum?
-                      </p>
-
-                      <p class="posted-time">14 hours ago</p>
-
-                      <div class="btns-group">
-                        <a href="" class="thumbs-up"
-                          ><i class="fa fa-thumbs-up"> </i>helpful</a
-                        >
-                        <a href="" class="thumbs-down"
-                          ><i class="fa fa-thumbs-down"> </i>not helpful</a
-                        >
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="review-list-item">
-                  <div class="user-img">
-                    <div class="avatar">
-                      <img src="images/avatar (2).svg" alt="" />
-                    </div>
-                  </div>
-                  <div class="comments">
-                    <div class="review-inner-content">
-                      <a href="" class="name"
-                        >Ali ahmed
-                        <span> <i class="fa fa-star"></i> 5.0</span></a
-                      >
-                      <p class="desc">
-                        Lorem ipsum dolor sit amet consectetur adipisicing
-                        elit. Beatae, placeat delectus esse illo
-                        necessitatibus adipisci fugiat? Ipsum, architecto
-                        molestiae ratione deleniti fuga cumque excepturi,
-                        inventore autem facilis incidunt consectetur
-                        voluptatum?
-                      </p>
-
-                      <p class="posted-time">14 hours ago</p>
-
-                      <div class="btns-group">
-                        <a href="" class="thumbs-up"
-                          ><i class="fa fa-thumbs-up"> </i>helpful</a
-                        >
-                        <a href="" class="thumbs-down"
-                          ><i class="fa fa-thumbs-down"> </i>not helpful</a
-                        >
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="review-list-item">
-                  <div class="user-img">
-                    <div class="avatar">
-                      <img src="images/avatar (3).svg" alt="" />
-                    </div>
-                  </div>
-                  <div class="comments">
-                    <div class="review-inner-content">
-                      <a href="" class="name"
-                        >Ali ahmed
-                        <span> <i class="fa fa-star"></i> 5.0</span></a
-                      >
-                      <p class="desc">
-                        Lorem ipsum dolor sit amet consectetur adipisicing
-                        elit. Beatae, placeat delectus esse illo
-                        necessitatibus adipisci fugiat? Ipsum, architecto
-                        molestiae ratione deleniti fuga cumque excepturi,
-                        inventore autem facilis incidunt consectetur
-                        voluptatum?
-                      </p>
-
-                      <p class="posted-time">14 hours ago</p>
-
-                      <div class="btns-group">
-                        <a href="" class="thumbs-up active"
-                          ><i class="fa fa-thumbs-up"> </i>helpful</a
-                        >
-                        <a href="" class="thumbs-down"
-                          ><i class="fa fa-thumbs-down"> </i>not helpful</a
-                        >
-                      </div>
-                    </div>
-
-                    <div class="sub-comments">
-                      <div class="user-img">
-                        <div class="avatar">
-                          <img src="images/avatar (1).svg" alt="" />
-                        </div>
-                      </div>
-                      <div class="review-inner-content">
-                        <a href="" class="name"
-                          >john william <span>(seller)</span></a
-                        >
-                        <p class="desc">
-                          Lorem ipsum dolor sit amet consectetur adipisicing
-                          elit. Beatae, placeat delectus
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
 
-              <nav class="pagination-container">
+              <!-- <nav class="pagination-container">
                 <ul class="pagination">
                   <li class="page-item disabled">
                     <a class="page-link" href="#" tabindex="-1">
@@ -621,7 +419,7 @@
                     </a>
                   </li>
                 </ul>
-              </nav>
+              </nav> -->
             </div>
           </div>
         </div>

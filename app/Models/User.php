@@ -52,6 +52,11 @@ class User extends Authenticatable
       return $this->hasMany(ChatMessages::class, 'id');
     }
 
+    public function userReviews()
+    {
+      return $this->hasMany(BuyerReviews::class, 'seller_id');
+    }
+
     /**
      * The attributes that should be hidden for arrays.
      *

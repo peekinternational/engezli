@@ -28,6 +28,8 @@
     <link href="{{asset('css/responsive.css')}}" rel="stylesheet">
      <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
     <link href="{{asset('frontend-assets/css/sweat_alert.css')}}" rel="stylesheet">
+    <!-- Rating css -->
+    <link href="{{asset('frontend-assets/css/rating-style.css')}}" rel="stylesheet">
      @yield('styling')
   </head>
   <body>

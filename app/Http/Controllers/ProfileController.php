@@ -31,12 +31,12 @@ class ProfileController extends Controller
     public function index()
     {
         $user_id = auth()->user()->id;
-        $user = User::where('id', $user_id)->first();
-        $userServices = Services::where('seller_id', $user_id)->with('sellerInfo','packageInfo')->paginate(16);
+        $user = User::with('userReviews')->where('id', $user_id)->first();
+        $userServices = Services::with('serviceRating')->where('seller_id', $user_id)->with('sellerInfo','packageInfo')->paginate(16);
         $userExp = UserExperience::where('user_id',$user_id)->first();
         $userEdu = UserEducation::where('user_id',$user_id)->first();
         $serviceCount = $userServices->count();
-
+        // dd($user);
         return \View::make('frontend.profile')->with(compact('user','userServices','serviceCount','userExp','userEdu'));
     }
 
