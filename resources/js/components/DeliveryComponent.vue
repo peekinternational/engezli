@@ -1,90 +1,10 @@
 <template>
   <div class="">
+    <template v-if="show_delivery">
+
     <template v-for="(conversation,index) in getConversation">
-    <div class="tab-list-item" v-if="conversation.message_type != 'delivery'">
-      <div class="t-header">
-        <div class="box-item">
-          <template v-if="conversation.user_info.profile_image">
-            <img :src="'/images/user_images/'+conversation.user_info.profile_image" alt="" />
-          </template>
-          <template v-else>
-            <img src="/../images/s1.png" alt="" />
-          </template>
-        </div>
-        <div class="box-item">
-          <button
-            class="btn btn-link btn-block pl-0"
-            type="button"
-            data-toggle="collapse"
-            :data-target="'#collapseOne'+conversation.id"
-            aria-expanded="true"
-            aria-controls="collapseOne561">
-            <h6 class="text-primary">
-              <template v-if="conversation.sender_id == user_id">
-                Me
-              </template>
-              <template v-else>
-                {{conversation.user_info.first_name}} {{conversation.user_info.last_name}}
-              </template>
-              <span class="time">{{istoday(conversation.created_at)}}</span>
-            </h6>
-          </button>
-        </div>
-      </div>
-      <div class="t-body">
-        <div
-          class="accordion custom-accordion"
-          id="accordionExamplesd46">
-          <div class="card">
-            <div
-              :id="'collapseOne'+conversation.id"
-              class="collapse show"
-              data-parent="#accordionExamplesd46">
-              <div class="card-body">
-                <p>{{conversation.message}}</p>
-                <template v-if="conversation.message_type == 'image'">
-                <div class="attachments">
-                  <h6>attachment</h6>
-                  <div class="attachment-lists">
-                    <div class="list-item-box">
-                      <img :src="'/images/order_conversation/'+conversation.file" alt="" />
-                      <div
-                        class="attachment-info d-flex justify-content-between align-items-center">
-                        <p>
-                          <!-- {{conversation.file}} -->
-                          {{conversation.file_name}}
-                          <!-- <span>(173 kb)</span> -->
-                        </p>
-                        <a :href="'/images/order_conversation/'+conversation.file" download><i class="fa fa-download"></i></a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </template>
-              <template v-if="conversation.message_type == 'file'">
-                <div class="delivered-order">
-                  <div class="attachments source-file-container">
-                    <h6>source file</h6>
-                    <div class="source-file">
-                      <a :href="'/images/order_conversation/'+conversation.file" download class="source-list-item">
-                        <p>
-                          {{conversation.file_name}}
-                          <!-- <span>(3 mb)</span> -->
-                        </p>
-                        <i class="fa fa-download"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </template>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
     <!-- ////////////////////////// -->
-    <div :class="'tab-list-item delivered-order delivery'+conversation.id" v-else>
+    <div :class="'tab-list-item delivered-order delivery'+conversation.id">
       <div class="t-header">
         <div class="box-item">
           <template v-if="conversation.user_info.profile_image">
@@ -145,7 +65,7 @@
               <div class="delivery-list-item rounded">
                 <div class="content-header">
 
-                  <h6>delivery</h6>
+                  <h6>delivery # {{index+1}}</h6>
                 </div>
                 <div class="content-body">
                   <div class="user-info-content d-flex">
@@ -382,6 +302,7 @@
       </div>
     </div>
   </template>
+</template>
   <!-- ///////////////////// -->
   <template v-if="seller_id == user_id">
     <template v-if="notDeliver">
@@ -493,7 +414,7 @@ import moment from 'moment';
             notDeliver:true,
             approveDate:"",
             delivery_number: 0,
-            friendName:"",
+            show_delivery:false,
             friendImage:"",
             friendCountry:"",
             friendLanguage:"",
@@ -536,7 +457,7 @@ import moment from 'moment';
         var socket = socketio('https://peekvideochat.com:22000');
         // var socket = socketio('http://192.168.100.17:3000');
         socket.on("birdsreceivemsg", function(data){
-        // console.log("socket data",data);
+        console.log("socket data",data);
         if (data.order_id == this.order_id) {
           if (data.status == "approved") {
             $('.delivery'+data.id).remove();
@@ -552,7 +473,9 @@ import moment from 'moment';
             this.notDeliver = false;
             this.reject = false;
           }
-          this.getConversation.push(data);
+          if (data.message_type == 'delivery') {
+            this.getConversation.push(data);
+          }
 
         }
 
@@ -566,14 +489,16 @@ import moment from 'moment';
       },
 
       orderConversation: function(){
-          axios.get('http://localhost:8000/api/getOrderConversation/'+this.order_id).then(responce => {
+          axios.get('http://localhost:8000/api/getOrderDelivery/'+this.order_id).then(responce => {
             this.getConversation = responce.data;
-            // for (var i = 0; i < this.getConversation.length; i++) {
-            //   if (this.getConversation[i].message_type == 'delivery') {
-            //     this.delivery_number = ++this.delivery_number
-            //   }
-            // }
-            console.log(this.getConversation);
+            console.log("response data",responce.data.length);
+            if (responce.data.length > 0) {
+              this.show_delivery = true;
+              $('.no_delivery').hide();
+            }else {
+              $('.no_delivery').show();
+            }
+            // console.log(this.getConversation);
             const post = this.getConversation.filter((obj) => {
                   return obj.status == 'approved'
                 }).pop();
@@ -593,7 +518,6 @@ import moment from 'moment';
             const check_deliver = this.getConversation.filter((obj) => {
                   return obj.status == 'delivery'
                 }).pop();
-              console.log("check_deliver",check_deliver);
               if (check_deliver) {
                 this.notDeliver = false;
                 this.reject = false;
@@ -604,12 +528,8 @@ import moment from 'moment';
                   if (check_reject) {
                     this.notDeliver = false;
                     this.reject = false;
-                  }
-                  if (check_reject && check_deliver != 'undefined') {
-                    this.reject = true;
 
                   }
-
 
           }, function(err) {
             console.log('err', err);
@@ -618,15 +538,12 @@ import moment from 'moment';
 
       },
       approveDelivery: function(conversation) {
-        // console.log(conversation);
         var socket = socketio.connect('https://peekvideochat.com:22000/');
         axios.post('http://localhost:8000/api/approveDelivery',{'conversation':conversation}).then(responce => {
-          // console.log(responce.data);
           $('.delivery'+responce.data.id).remove();
           // this.getConversation = responce.data;
           socket.emit('message', responce.data);
           window.location.href = '/../rating/'+this.order_number;
-          // console.log(responce.data);
 
         }, function(err) {
           console.log('err', err);
@@ -635,14 +552,11 @@ import moment from 'moment';
       },
 
       rejectDelivery: function(conversation) {
-        // console.log(conversation);
         var socket = socketio.connect('https://peekvideochat.com:22000/');
         axios.post('http://localhost:8000/api/rejectDelivery',{'conversation':conversation}).then(responce => {
-          // console.log(responce.data);
           $('.delivery'+responce.data.id).remove();
           // this.getConversation = responce.data;
           socket.emit('message', responce.data);
-          // console.log(responce.data);
 
         }, function(err) {
           console.log('err', err);

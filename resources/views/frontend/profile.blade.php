@@ -1,6 +1,12 @@
 @extends('frontend.layouts.app')
 @section('title', 'Profile  ')
 @section('styling')
+<style>
+.pagination-container a{
+  margin-right: 20px;
+  margin-left: 20px;
+}
+</style>
 @endsection
 @section('content')
 <div class="seller-profile">
@@ -29,10 +35,10 @@
                 <div class="rating">
                   <?php
                     $total_reviews = count($user->userReviews);
-                    $starAvg     = ($user->userReviews != null) ? round($user->userReviews->avg('overall_rating')) : 0;
-                    $comunicationAvg     = ($user->userReviews != null) ? round($user->userReviews->avg('communication_rating')) : 0;
-                    $recommentAvg     = ($user->userReviews != null) ? round($user->userReviews->avg('recommend_rating')) : 0;
-                    $serviceAvg     = ($user->userReviews != null) ? round($user->userReviews->avg('service_rating')) : 0;
+                    $starAvg     = ($user->userReviews != null) ? $user->userReviews->avg('overall_rating') : 0;
+                    $comunicationAvg     = ($user->userReviews != null) ? $user->userReviews->avg('communication_rating') : 0;
+                    $recommentAvg     = ($user->userReviews != null) ? $user->userReviews->avg('recommend_rating') : 0;
+                    $serviceAvg     = ($user->userReviews != null) ? $user->userReviews->avg('service_rating') : 0;
 
                    ?>
                    <ul>
@@ -47,7 +53,7 @@
               </div>
 
               <div class="contact-btns">
-                <a href="" class="btn">contact me</a>
+                <a href="" class="btn">{{ __('home.Contact Me')}}</a>
                 <div class="dropdown">
                   <button
                     class="btn"
@@ -92,7 +98,7 @@
                 role="tab"
                 aria-controls="project"
                 aria-selected="true"
-                >projects {{$serviceCount}}</a
+                >{{ __('home.Projects')}} {{$serviceCount}}</a
               >
             </li>
             <li class="nav-item">
@@ -104,7 +110,7 @@
                 role="tab"
                 aria-controls="about"
                 aria-selected="false"
-                >about</a
+                >{{ __('home.About')}}</a
               >
             </li>
             <li class="nav-item">
@@ -116,7 +122,7 @@
                 role="tab"
                 aria-controls="review"
                 aria-selected="false"
-                >review {{$total_reviews}}</a
+                >{{ __('home.Review')}} {{$total_reviews}}</a
               >
             </li>
           </ul>
@@ -173,7 +179,7 @@
 
                       <div class="seller-name">
                         <a href="{{url('profile/'.$service->sellerInfo->username)}}">{{$service->sellerInfo->first_name}} {{$service->sellerInfo->last_name}}</a>
-                        <p class="level">Level 1 Seller</p>
+                        <p class="level">{{ __('home.Level')}} 1 {{ __('home.Seller')}}</p>
                       </div>
                       <a href="{{url('/'.$service->sellerInfo->username.'/'.$service->service_url)}}" class="gig-title">
                         {{$service->service_title}}
@@ -196,7 +202,7 @@
                       <i aria-hidden="true" class="fa fa-heart"></i>
                       <div class="price">
                         <a href="#">
-                          Starting At
+                          {{ __('home.Starting At')}}
                           @foreach($service->packageInfo as $key => $packg)
                           @if($key == 0)
                             <span>${{$packg->price}} </span>
@@ -248,11 +254,11 @@
                 <div class="col-xs-12 col-sm-7 col-md-8 col-lg-8">
                   <div class="outer-tab-box">
                     <div class="box biography">
-                      <h5>biography</h5>
+                      <h5>{{ __('home.biography')}}</h5>
                       <p>{{$user->bio}}</p>
                     </div>
                     <div class="box languages">
-                      <h5>languages</h5>
+                      <h5>{{ __('home.Languages')}}</h5>
                         <?php $langData = json_decode($user->language_id);?>
                       <ul>
                       @if($langData != null)
@@ -263,7 +269,7 @@
                       </ul>
                     </div>
                     <div class="box skills">
-                      <h5>skills</h5>
+                      <h5>{{ __('home.Skills')}}</h5>
                       <?php $skil = json_decode($user->skills_id);?>
                       <ul>
                       @if($skil != '')
@@ -274,7 +280,7 @@
                       </ul>
                     </div>
                     <div class="box education">
-                      <h5>education</h5>
+                      <h5>{{ __('home.Education')}}</h5>
                       <div class="education-list">
                         <div class="list-item">
                           @if($userEdu != '')
@@ -287,7 +293,7 @@
                       </div>
                     </div>
                     <div class="box linked-acounts">
-                      <h5>linked accounts</h5>
+                      <h5>{{ __('home.Linked Accounts')}}</h5>
                       <ul>
                         <li>
                           <a href="">
@@ -336,7 +342,7 @@
 
               <div class="review-headers">
                 <div class="inner-box">
-                  <h5>{{$total_reviews}} @if($total_reviews > 1) reviews @else review @endif</h5>
+                  <h5>{{$total_reviews}} @if($total_reviews > 1) {{ __('home.Reviews')}} @else {{ __('home.Review')}} @endif</h5>
                   <div class="rating">
                     <ul>
                       <li><i class="fa fa-star avg-star-1 {{($starAvg >= 1) ? 'yellow-star' : 'grey-star'}}"></i></li>
@@ -350,76 +356,78 @@
                 </div>
                 <div class="review-category">
                   <div class="box">
-                    <h6>seller communication level</h6>
+                    <h6>{{ __('home.Seller communication level')}}</h6>
                     <p>{{number_format($comunicationAvg, '1', '.','')}} <i class="fa fa-star"></i></p>
                   </div>
                   <div class="box">
-                    <h6>recommend to a friend</h6>
+                    <h6>{{ __('home.Recommend to a friend')}}</h6>
                     <p>{{number_format($recommentAvg, '1', '.','')}} <i class="fa fa-star"></i></p>
                   </div>
                   <div class="box">
-                    <h6>service as described</h6>
+                    <h6>{{ __('home.Service as described')}}</h6>
                     <p>{{number_format($serviceAvg, '1', '.','')}} <i class="fa fa-star"></i></p>
                   </div>
                 </div>
               </div>
-
-              <div class="review-list-group">
-                @foreach($user->userReviews as $review)
-                <div class="review-list-item">
-                  <div class="user-img">
-                    <div class="avatar">
-                      @if($review->buyerInfo->profile_image != null)
-                      <img src="{{asset('images/user_images/'.$review->buyerInfo->profile_image)}}" alt="" />
-                      @else
-                      <img src="{{asset('images/s1.png')}}" alt="" />
-                      @endif
+              <div class="show_reviews">
+                <div class="review-list-group ">
+                  @foreach($userReviews as $review)
+                  <div class="review-list-item">
+                    <div class="user-img">
+                      <div class="avatar">
+                        @if($review->buyerInfo->profile_image != null)
+                        <img src="{{asset('images/user_images/'.$review->buyerInfo->profile_image)}}" alt="" />
+                        @else
+                        <img src="{{asset('images/s1.png')}}" alt="" />
+                        @endif
+                      </div>
                     </div>
-                  </div>
-                  <div class="comments">
-                    <div class="review-inner-content">
-                      <a href="" class="name">
-                        {{$review->buyerInfo->first_name}} {{$review->buyerInfo->last_name}}
-                        <span> <i class="fa fa-star"></i>{{number_format($review->overall_rating, '1', '.','')}}</span></a>
-                      <p class="desc">
-                      {{$review->review}}
-                      </p>
-                      <?php
-                      $date = date('d M, Y', strtotime($review->date))
-                       ?>
-                      <p class="posted-time">{{$date}}</p>
+                    <div class="comments">
+                      <div class="review-inner-content">
+                        <a href="" class="name">
+                          {{$review->buyerInfo->first_name}} {{$review->buyerInfo->last_name}}
+                          <span> <i class="fa fa-star"></i>{{number_format($review->overall_rating, '1', '.','')}}</span></a>
+                          <p class="desc">
+                            {{$review->review}}
+                          </p>
+                          <?php
+                          $date = date('d M, Y', strtotime($review->date))
+                          ?>
+                          <p class="posted-time">{{$date}}</p>
+                        </div>
+                      </div>
                     </div>
+                    @endforeach
+
                   </div>
-                </div>
-                @endforeach
 
-              </div>
-
-              <!-- <nav class="pagination-container">
-                <ul class="pagination">
-                  <li class="page-item disabled">
+                  <nav class="pagination-container">
+                    {{$userReviews->render()}}
+                    <!-- <ul class="pagination">
+                    <li class="page-item disabled">
                     <a class="page-link" href="#" tabindex="-1">
-                      <i class="fa fa-angle-left"></i>
-                    </a>
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link" href="#">1</a>
-                  </li>
-                  <li class="page-item active">
-                    <a class="page-link" href="#"
-                      >2 <span class="sr-only">(current)</span></a
-                    >
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link" href="#">3</a>
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link" href="#"
-                      ><i class="fa fa-angle-right"></i>
-                    </a>
-                  </li>
-                </ul>
-              </nav> -->
+                    <i class="fa fa-angle-left"></i>
+                  </a>
+                </li>
+                <li class="page-item">
+                <a class="page-link" href="#">1</a>
+              </li>
+              <li class="page-item active">
+              <a class="page-link" href="#"
+              >2 <span class="sr-only">(current)</span></a
+              >
+            </li>
+            <li class="page-item">
+            <a class="page-link" href="#">3</a>
+          </li>
+          <li class="page-item">
+          <a class="page-link" href="#"
+          ><i class="fa fa-angle-right"></i>
+        </a>
+      </li>
+    </ul> -->
+  </nav>
+</div>
             </div>
           </div>
         </div>
@@ -429,4 +437,27 @@
 </div>
 @endsection
 @section('script')
+<script>
+$('body').on('click', '.pagination-container a', function(e) {
+    e.preventDefault();
+    var page = $(this).attr('href').split('page=')[1];
+   getArticles(page)
+   // alert(page);
+});
+ function getArticles(page) {
+     location.hash=page;
+     var token   = "{{ csrf_Token() }}";
+     var id = "{{$user->id}}"
+    $.ajax({
+        url : '/profile_ajax/?page='+page,
+        data: {id:id,_token:token},
+    }).done(function (data) {
+      console.log(data);
+        $('.show_reviews').html(data);
+
+    }).fail(function () {
+        alert('Articles could not be loaded.');
+    });
+}
+</script>
 @endsection

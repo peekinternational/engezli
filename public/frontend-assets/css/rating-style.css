@@ -335,9 +335,6 @@
 }
 
 /* Place text to the right */
-.right {
-    text-align: right;
-}
 
 /* Clear floats after the columns */
 .row:after {
@@ -388,9 +385,3 @@
 .sd-rating {
 	width: 20%;
 }
-
-.bar-5-rating {width: 45%; height: 18px; background-color: #007bff;}
-.bar-4-rating {width: 30%; height: 18px; background-color: #007bff;}
-.bar-3-rating {width: 17%; height: 18px; background-color: #007bff;}
-.bar-2-rating {width: 5%; height: 18px; background-color: #007bff;}
-.bar-1-rating {width: 4%; height: 18px; background-color: #007bff;}

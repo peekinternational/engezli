@@ -1911,6 +1911,595 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/DeliveryComponent.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/DeliveryComponent.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue_socket_io__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-socket.io */ "./node_modules/vue-socket.io/dist/vue-socketio.js");
+/* harmony import */ var vue_socket_io__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_socket_io__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js");
+/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(socket_io_client__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['orderdata', 'userdata'],
+  data: function data() {
+    return {
+      getConversation: [],
+      user_id: "",
+      seller_id: "",
+      buyer_id: "",
+      buyer_image: "",
+      buyer_name: "",
+      approved: false,
+      reject: false,
+      notDeliver: true,
+      approveDate: "",
+      delivery_number: 0,
+      show_delivery: false,
+      friendImage: "",
+      friendCountry: "",
+      friendLanguage: "",
+      friendStatus: "",
+      searchFriend: "",
+      post: "",
+      message: "",
+      check_image: "",
+      conversation_id: "",
+      showUsers: true,
+      searchUser: false,
+      typing: false,
+      showDetails: false
+    };
+  },
+  sockets: {
+    connect: function connect() {
+      console.log('socket connected successfully');
+    },
+    disconnect: function disconnect() {
+      console.log('socket disconnected');
+    }
+  },
+  mounted: function mounted() {
+    this.user_id = this.userdata.id;
+    this.seller_id = this.orderdata.seller_id;
+    this.buyer_id = this.orderdata.buyer_id;
+    this.order_id = this.orderdata.id;
+    this.buyer_image = this.orderdata.buyer_info.profile_image;
+    this.buyer_name = this.orderdata.buyer_info.first_name + " " + this.orderdata.buyer_info.last_name;
+    this.order_number = this.orderdata.order_number; // this.profile_image = this.userdata.profile_image;
+    // this.first_name = this.userdata.first_name;
+    // this.last_name = this.userdata.last_name;
+    // this.user_names =  this.userdata.username;
+
+    this.orderConversation();
+    var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default()('https://peekvideochat.com:22000'); // var socket = socketio('http://192.168.100.17:3000');
+
+    socket.on("birdsreceivemsg", function (data) {
+      console.log("socket data", data);
+
+      if (data.order_id == this.order_id) {
+        if (data.status == "approved") {
+          $('.delivery' + data.id).remove();
+          $('.message_area').hide();
+          this.approved = true;
+          this.approveDate = data.updated_at;
+        }
+
+        if (data.status == "reject") {
+          $('.delivery' + data.id).remove();
+          this.reject = true;
+        }
+
+        if (data.status == "delivery") {
+          this.notDeliver = false;
+          this.reject = false;
+        }
+
+        if (data.message_type == 'delivery') {
+          this.getConversation.push(data);
+        }
+      }
+    }.bind(this));
+  },
+  methods: {
+    istoday: function istoday(date) {
+      return moment__WEBPACK_IMPORTED_MODULE_2___default()(date).calendar();
+    },
+    orderConversation: function orderConversation() {
+      var _this = this;
+
+      axios.get('http://localhost:8000/api/getOrderDelivery/' + this.order_id).then(function (responce) {
+        _this.getConversation = responce.data;
+        console.log("response data", responce.data.length);
+
+        if (responce.data.length > 0) {
+          _this.show_delivery = true;
+          $('.no_delivery').hide();
+        } else {
+          $('.no_delivery').show();
+        } // console.log(this.getConversation);
+
+
+        var post = _this.getConversation.filter(function (obj) {
+          return obj.status == 'approved';
+        }).pop();
+
+        if (post) {
+          _this.approved = true;
+          $('.message_area').hide();
+          _this.approveDate = post.updated_at;
+        }
+
+        var check_completed = _this.getConversation.filter(function (obj) {
+          return obj.status == 'completed';
+        }).pop();
+
+        if (check_completed) {
+          _this.approved = true;
+          $('.message_area').hide();
+          _this.approveDate = post.updated_at;
+        }
+
+        var check_deliver = _this.getConversation.filter(function (obj) {
+          return obj.status == 'delivery';
+        }).pop();
+
+        if (check_deliver) {
+          _this.notDeliver = false;
+          _this.reject = false;
+        }
+
+        var check_reject = _this.getConversation.filter(function (obj) {
+          return obj.status == 'reject';
+        }).pop();
+
+        if (check_reject) {
+          _this.notDeliver = false;
+          _this.reject = false;
+        }
+      }, function (err) {
+        console.log('err', err);
+        alert('error');
+      });
+    },
+    approveDelivery: function approveDelivery(conversation) {
+      var _this2 = this;
+
+      var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('https://peekvideochat.com:22000/');
+      axios.post('http://localhost:8000/api/approveDelivery', {
+        'conversation': conversation
+      }).then(function (responce) {
+        $('.delivery' + responce.data.id).remove(); // this.getConversation = responce.data;
+
+        socket.emit('message', responce.data);
+        window.location.href = '/../rating/' + _this2.order_number;
+      }, function (err) {
+        console.log('err', err);
+        alert('error');
+      });
+    },
+    rejectDelivery: function rejectDelivery(conversation) {
+      var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('https://peekvideochat.com:22000/');
+      axios.post('http://localhost:8000/api/rejectDelivery', {
+        'conversation': conversation
+      }).then(function (responce) {
+        $('.delivery' + responce.data.id).remove(); // this.getConversation = responce.data;
+
+        socket.emit('message', responce.data);
+      }, function (err) {
+        console.log('err', err);
+        alert('error');
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js&":
 /*!***********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js& ***!
@@ -3259,6 +3848,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -3276,7 +3866,7 @@ __webpack_require__.r(__webpack_exports__);
       reject: false,
       notDeliver: true,
       approveDate: "",
-      singleChate: {},
+      delivery_number: 0,
       friendName: "",
       friendImage: "",
       friendCountry: "",
@@ -3348,7 +3938,12 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get('http://localhost:8000/api/getOrderConversation/' + this.order_id).then(function (responce) {
-        _this.getConversation = responce.data;
+        _this.getConversation = responce.data; // for (var i = 0; i < this.getConversation.length; i++) {
+        //   if (this.getConversation[i].message_type == 'delivery') {
+        //     this.delivery_number = ++this.delivery_number
+        //   }
+        // }
+
         console.log(_this.getConversation);
 
         var post = _this.getConversation.filter(function (obj) {
@@ -3389,6 +3984,10 @@ __webpack_require__.r(__webpack_exports__);
         if (check_reject) {
           _this.notDeliver = false;
           _this.reject = false;
+        }
+
+        if (check_reject && check_deliver != 'undefined') {
+          _this.reject = true;
         }
       }, function (err) {
         console.log('err', err);
@@ -3474,6 +4073,7 @@ Vue.use(new (vue_socket_io__WEBPACK_IMPORTED_MODULE_0___default())({
 Vue.component('messages', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue").default);
 Vue.component('notification', __webpack_require__(/*! ./components/NotificationComponent.vue */ "./resources/js/components/NotificationComponent.vue").default);
 Vue.component('orderconversation', __webpack_require__(/*! ./components/OrderConversationComponent.vue */ "./resources/js/components/OrderConversationComponent.vue").default);
+Vue.component('delivery', __webpack_require__(/*! ./components/DeliveryComponent.vue */ "./resources/js/components/DeliveryComponent.vue").default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -10541,6 +11141,30 @@ module.exports = function(a, b){
   a.prototype = new fn;
   a.prototype.constructor = a;
 };
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/DeliveryComponent.vue?vue&type=style&index=0&lang=css&":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/DeliveryComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.source-file {\r\n    display: -ms-grid;\r\n    display: grid;\r\n    -ms-grid-columns: (1fr)[3];\r\n    grid-template-columns: repeat(3, 1fr);\r\n    grid-gap: 15px;\n}\n.source-list-item {\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: space-between;\r\n  padding: 10px;\r\n  border: 1px solid rgba(0, 0, 0, 0.1);\r\n  border-left: 3px solid #007bff;\r\n  border-radius: 4px;\n}\n.source-file .source-list-item i.fa {\r\n    color: #007bff;\r\n    margin-left: 5px;\n}\n.delivery-btn-wrapper{\r\n      border-top: 1px solid rgba(0, 0, 0, 0.1);\n}\n.delivery-btn-wrapper a{\r\n      margin-top: 20px;\n}\r\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
 
 /***/ }),
 
@@ -69151,6 +69775,36 @@ function isBuf(obj) {
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/DeliveryComponent.vue?vue&type=style&index=0&lang=css&":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/DeliveryComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_DeliveryComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./DeliveryComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/DeliveryComponent.vue?vue&type=style&index=0&lang=css&");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_DeliveryComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_DeliveryComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=style&index=0&lang=css&":
 /*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=style&index=0&lang=css& ***!
@@ -69513,6 +70167,47 @@ function toArray(list, index) {
 
 /***/ }),
 
+/***/ "./resources/js/components/DeliveryComponent.vue":
+/*!*******************************************************!*\
+  !*** ./resources/js/components/DeliveryComponent.vue ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _DeliveryComponent_vue_vue_type_template_id_1d8d440e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DeliveryComponent.vue?vue&type=template&id=1d8d440e& */ "./resources/js/components/DeliveryComponent.vue?vue&type=template&id=1d8d440e&");
+/* harmony import */ var _DeliveryComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DeliveryComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/DeliveryComponent.vue?vue&type=script&lang=js&");
+/* harmony import */ var _DeliveryComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DeliveryComponent.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/DeliveryComponent.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__.default)(
+  _DeliveryComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _DeliveryComponent_vue_vue_type_template_id_1d8d440e___WEBPACK_IMPORTED_MODULE_0__.render,
+  _DeliveryComponent_vue_vue_type_template_id_1d8d440e___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/DeliveryComponent.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/ExampleComponent.vue":
 /*!******************************************************!*\
   !*** ./resources/js/components/ExampleComponent.vue ***!
@@ -69634,6 +70329,22 @@ component.options.__file = "resources/js/components/OrderConversationComponent.v
 
 /***/ }),
 
+/***/ "./resources/js/components/DeliveryComponent.vue?vue&type=script&lang=js&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/components/DeliveryComponent.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DeliveryComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./DeliveryComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/DeliveryComponent.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DeliveryComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js&":
 /*!*******************************************************************************!*\
   !*** ./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js& ***!
@@ -69682,6 +70393,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/DeliveryComponent.vue?vue&type=style&index=0&lang=css&":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/components/DeliveryComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_DeliveryComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./DeliveryComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/DeliveryComponent.vue?vue&type=style&index=0&lang=css&");
+
+
+/***/ }),
+
 /***/ "./resources/js/components/ExampleComponent.vue?vue&type=style&index=0&lang=css&":
 /*!***************************************************************************************!*\
   !*** ./resources/js/components/ExampleComponent.vue?vue&type=style&index=0&lang=css& ***!
@@ -69704,6 +70428,23 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_OrderConversationComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./OrderConversationComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/OrderConversationComponent.vue?vue&type=style&index=0&lang=css&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/DeliveryComponent.vue?vue&type=template&id=1d8d440e&":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/components/DeliveryComponent.vue?vue&type=template&id=1d8d440e& ***!
+  \**************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeliveryComponent_vue_vue_type_template_id_1d8d440e___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeliveryComponent_vue_vue_type_template_id_1d8d440e___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeliveryComponent_vue_vue_type_template_id_1d8d440e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./DeliveryComponent.vue?vue&type=template&id=1d8d440e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/DeliveryComponent.vue?vue&type=template&id=1d8d440e&");
 
 
 /***/ }),
@@ -69755,6 +70496,996 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_OrderConversationComponent_vue_vue_type_template_id_60f689b7___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_OrderConversationComponent_vue_vue_type_template_id_60f689b7___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./OrderConversationComponent.vue?vue&type=template&id=60f689b7& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/OrderConversationComponent.vue?vue&type=template&id=60f689b7&");
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/DeliveryComponent.vue?vue&type=template&id=1d8d440e&":
+/*!*****************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/DeliveryComponent.vue?vue&type=template&id=1d8d440e& ***!
+  \*****************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {},
+    [
+      _vm.show_delivery
+        ? [
+            _vm._l(_vm.getConversation, function(conversation, index) {
+              return [
+                _c(
+                  "div",
+                  {
+                    class:
+                      "tab-list-item delivered-order delivery" + conversation.id
+                  },
+                  [
+                    _c("div", { staticClass: "t-header" }, [
+                      _c(
+                        "div",
+                        { staticClass: "box-item" },
+                        [
+                          conversation.user_info.profile_image
+                            ? [
+                                _c("img", {
+                                  attrs: {
+                                    src:
+                                      "/images/user_images/" +
+                                      conversation.user_info.profile_image,
+                                    alt: ""
+                                  }
+                                })
+                              ]
+                            : [
+                                _c("img", {
+                                  attrs: { src: "/../images/s1.png", alt: "" }
+                                })
+                              ]
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "box-item" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-link btn-block pl-0",
+                            attrs: {
+                              type: "button",
+                              "data-toggle": "collapse",
+                              "data-target": "#collapseOne" + conversation.id,
+                              "aria-expanded": "true",
+                              "aria-controls": "collapseOne5616546sd"
+                            }
+                          },
+                          [
+                            _c(
+                              "h6",
+                              { staticClass: "text-primary" },
+                              [
+                                conversation.sender_id == _vm.user_id
+                                  ? [
+                                      _vm._v(
+                                        "\n              Me\n              "
+                                      ),
+                                      _c(
+                                        "span",
+                                        { staticClass: "delivered-text" },
+                                        [_vm._v("delivered an order")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("span", { staticClass: "time" }, [
+                                        _vm._v(
+                                          _vm._s(
+                                            _vm.istoday(conversation.created_at)
+                                          )
+                                        )
+                                      ])
+                                    ]
+                                  : [
+                                      _vm._v(
+                                        "\n              " +
+                                          _vm._s(
+                                            conversation.user_info.first_name
+                                          ) +
+                                          " " +
+                                          _vm._s(
+                                            conversation.user_info.last_name
+                                          ) +
+                                          "\n              "
+                                      ),
+                                      _c(
+                                        "span",
+                                        { staticClass: "delivered-text" },
+                                        [_vm._v("delivered your order")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("span", { staticClass: "time" }, [
+                                        _vm._v(
+                                          _vm._s(
+                                            _vm.istoday(conversation.created_at)
+                                          )
+                                        )
+                                      ])
+                                    ]
+                              ],
+                              2
+                            ),
+                            _vm._v(" "),
+                            _vm._m(0, true)
+                          ]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "t-body" }, [
+                      _c(
+                        "div",
+                        {
+                          staticClass: "accordion custom-accordion",
+                          attrs: { id: "accordionExamplesd466516s" }
+                        },
+                        [
+                          _c("div", { staticClass: "card" }, [
+                            _c(
+                              "div",
+                              {
+                                staticClass: "collapse show",
+                                attrs: {
+                                  id: "collapseOne" + conversation.id,
+                                  "data-parent": "#accordionExamplesd466516s"
+                                }
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  { staticClass: "delivery-list-item rounded" },
+                                  [
+                                    _c(
+                                      "div",
+                                      { staticClass: "content-header" },
+                                      [
+                                        _c("h6", [
+                                          _vm._v(
+                                            "delivery # " + _vm._s(index + 1)
+                                          )
+                                        ])
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "content-body" },
+                                      [
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "user-info-content d-flex"
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              { staticClass: "box user-img" },
+                                              [
+                                                conversation.user_info
+                                                  .profile_image
+                                                  ? [
+                                                      _c("img", {
+                                                        attrs: {
+                                                          src:
+                                                            "/images/user_images/" +
+                                                            conversation
+                                                              .user_info
+                                                              .profile_image,
+                                                          alt: ""
+                                                        }
+                                                      })
+                                                    ]
+                                                  : [
+                                                      _c("img", {
+                                                        attrs: {
+                                                          src:
+                                                            "/../images/s1.png",
+                                                          alt: ""
+                                                        }
+                                                      })
+                                                    ]
+                                              ],
+                                              2
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass: "box user-details"
+                                              },
+                                              [
+                                                _c(
+                                                  "h6",
+                                                  { staticClass: "user-name" },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                        " +
+                                                        _vm._s(
+                                                          conversation.user_info
+                                                            .first_name
+                                                        ) +
+                                                        "'\n                        "
+                                                    ),
+                                                    _c("span", [
+                                                      _vm._v(" message")
+                                                    ])
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c("p", [
+                                                  _vm._v(
+                                                    _vm._s(conversation.message)
+                                                  )
+                                                ]),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass: "attachments"
+                                                  },
+                                                  [
+                                                    _c("h6", [
+                                                      _vm._v("attachment")
+                                                    ]),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "attachment-lists"
+                                                      },
+                                                      [
+                                                        _vm._l(
+                                                          conversation.delivery,
+                                                          function(
+                                                            delivery,
+                                                            index
+                                                          ) {
+                                                            return [
+                                                              delivery.type ==
+                                                              "image"
+                                                                ? _c(
+                                                                    "div",
+                                                                    {
+                                                                      staticClass:
+                                                                        "list-item-box"
+                                                                    },
+                                                                    [
+                                                                      _c(
+                                                                        "img",
+                                                                        {
+                                                                          attrs: {
+                                                                            src:
+                                                                              "/images/order_delivery/" +
+                                                                              delivery.file,
+                                                                            alt:
+                                                                              ""
+                                                                          }
+                                                                        }
+                                                                      ),
+                                                                      _vm._v(
+                                                                        " "
+                                                                      ),
+                                                                      _c(
+                                                                        "div",
+                                                                        {
+                                                                          staticClass:
+                                                                            "attachment-info d-flex justify-content-between align-items-center"
+                                                                        },
+                                                                        [
+                                                                          _c(
+                                                                            "p",
+                                                                            [
+                                                                              _vm._v(
+                                                                                "\n                                " +
+                                                                                  _vm._s(
+                                                                                    delivery.file_name
+                                                                                  ) +
+                                                                                  "\n                                "
+                                                                              )
+                                                                            ]
+                                                                          ),
+                                                                          _vm._v(
+                                                                            " "
+                                                                          ),
+                                                                          _c(
+                                                                            "a",
+                                                                            {
+                                                                              attrs: {
+                                                                                href:
+                                                                                  "/images/order_delivery/" +
+                                                                                  delivery.file,
+                                                                                download:
+                                                                                  ""
+                                                                              }
+                                                                            },
+                                                                            [
+                                                                              _c(
+                                                                                "i",
+                                                                                {
+                                                                                  staticClass:
+                                                                                    "fa fa-download"
+                                                                                }
+                                                                              )
+                                                                            ]
+                                                                          )
+                                                                        ]
+                                                                      )
+                                                                    ]
+                                                                  )
+                                                                : _vm._e()
+                                                            ]
+                                                          }
+                                                        )
+                                                      ],
+                                                      2
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "attachments source-file-container"
+                                                  },
+                                                  [
+                                                    _c("h6", [
+                                                      _vm._v("source file")
+                                                    ]),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "source-file"
+                                                      },
+                                                      [
+                                                        _vm._l(
+                                                          conversation.delivery,
+                                                          function(
+                                                            delivery,
+                                                            index
+                                                          ) {
+                                                            return [
+                                                              delivery.type ==
+                                                              "file"
+                                                                ? _c(
+                                                                    "a",
+                                                                    {
+                                                                      staticClass:
+                                                                        "source-list-item",
+                                                                      attrs: {
+                                                                        href:
+                                                                          "/images/order_delivery/" +
+                                                                          delivery.file,
+                                                                        download:
+                                                                          ""
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _c("p", [
+                                                                        _vm._v(
+                                                                          "\n                              " +
+                                                                            _vm._s(
+                                                                              delivery.file
+                                                                            ) +
+                                                                            "\n                              "
+                                                                        )
+                                                                      ]),
+                                                                      _vm._v(
+                                                                        " "
+                                                                      ),
+                                                                      _c("i", {
+                                                                        staticClass:
+                                                                          "fa fa-download"
+                                                                      })
+                                                                    ]
+                                                                  )
+                                                                : _vm._e()
+                                                            ]
+                                                          }
+                                                        )
+                                                      ],
+                                                      2
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _vm.buyer_id == _vm.user_id
+                                          ? [
+                                              conversation.status == "delivery"
+                                                ? _c(
+                                                    "div",
+                                                    {
+                                                      staticClass:
+                                                        "confirm-order border-top mt-4 pt-4",
+                                                      attrs: {
+                                                        id:
+                                                          "'deliver-review'.conversation.id"
+                                                      }
+                                                    },
+                                                    [
+                                                      _c(
+                                                        "div",
+                                                        {
+                                                          staticClass:
+                                                            "user-info-content d-flex"
+                                                        },
+                                                        [
+                                                          _c(
+                                                            "div",
+                                                            {
+                                                              staticClass:
+                                                                "box user-img"
+                                                            },
+                                                            [
+                                                              conversation
+                                                                .user_info
+                                                                .profile_image
+                                                                ? [
+                                                                    _c("img", {
+                                                                      attrs: {
+                                                                        src:
+                                                                          "/images/user_images/" +
+                                                                          conversation
+                                                                            .user_info
+                                                                            .profile_image,
+                                                                        alt: ""
+                                                                      }
+                                                                    })
+                                                                  ]
+                                                                : [
+                                                                    _c("img", {
+                                                                      attrs: {
+                                                                        src:
+                                                                          "/../images/s1.png",
+                                                                        alt: ""
+                                                                      }
+                                                                    })
+                                                                  ]
+                                                            ],
+                                                            2
+                                                          ),
+                                                          _vm._v(" "),
+                                                          _c(
+                                                            "div",
+                                                            {
+                                                              staticClass:
+                                                                "box user-details"
+                                                            },
+                                                            [
+                                                              _c("h6", [
+                                                                _vm._v(
+                                                                  "\n                          You received your delivery from\n                          " +
+                                                                    _vm._s(
+                                                                      conversation
+                                                                        .user_info
+                                                                        .first_name
+                                                                    ) +
+                                                                    " " +
+                                                                    _vm._s(
+                                                                      conversation
+                                                                        .user_info
+                                                                        .last_name
+                                                                    ) +
+                                                                    ".\n                        "
+                                                                )
+                                                              ]),
+                                                              _vm._v(" "),
+                                                              _c("h6", [
+                                                                _vm._v(
+                                                                  "\n                          Are you pleased with the delivery\n                          and ready to approve it?\n                        "
+                                                                )
+                                                              ]),
+                                                              _vm._v(" "),
+                                                              conversation.status ==
+                                                              "delivery"
+                                                                ? [
+                                                                    _c(
+                                                                      "div",
+                                                                      {
+                                                                        staticClass:
+                                                                          "btn-container mt-3"
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "a",
+                                                                          {
+                                                                            staticClass:
+                                                                              "btn btn-primary px-3 pr-0",
+                                                                            attrs: {
+                                                                              href:
+                                                                                "javascript:void(0);"
+                                                                            },
+                                                                            on: {
+                                                                              click: function(
+                                                                                $event
+                                                                              ) {
+                                                                                return _vm.approveDelivery(
+                                                                                  conversation
+                                                                                )
+                                                                              }
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "yes, i approve delivery"
+                                                                            )
+                                                                          ]
+                                                                        ),
+                                                                        _vm._v(
+                                                                          " "
+                                                                        ),
+                                                                        _c(
+                                                                          "a",
+                                                                          {
+                                                                            staticClass:
+                                                                              "btn btn-primary px-3 pr-0",
+                                                                            attrs: {
+                                                                              href:
+                                                                                "javascript:void(0);"
+                                                                            },
+                                                                            on: {
+                                                                              click: function(
+                                                                                $event
+                                                                              ) {
+                                                                                return _vm.rejectDelivery(
+                                                                                  conversation
+                                                                                )
+                                                                              }
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "i'm not ready yet"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                : _vm._e()
+                                                            ],
+                                                            2
+                                                          )
+                                                        ]
+                                                      )
+                                                    ]
+                                                  )
+                                                : _vm._e()
+                                            ]
+                                          : _vm._e(),
+                                        _vm._v(" "),
+                                        conversation.status == "approved" ||
+                                        conversation.status == "completed"
+                                          ? _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "confirm-order border-top mt-4 pt-4"
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "user-info-content d-flex"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "box user-img"
+                                                      },
+                                                      [
+                                                        _vm.buyer_image
+                                                          ? [
+                                                              _c("img", {
+                                                                attrs: {
+                                                                  src:
+                                                                    "/images/user_images/" +
+                                                                    _vm.buyer_image,
+                                                                  alt: ""
+                                                                }
+                                                              })
+                                                            ]
+                                                          : [
+                                                              _c("img", {
+                                                                attrs: {
+                                                                  src:
+                                                                    "/../images/s1.png",
+                                                                  alt: ""
+                                                                }
+                                                              })
+                                                            ]
+                                                      ],
+                                                      2
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "box user-details"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "h6",
+                                                          [
+                                                            _vm.buyer_id ==
+                                                            _vm.user_id
+                                                              ? [
+                                                                  _vm._v(
+                                                                    "\n                          You approved the delivery from " +
+                                                                      _vm._s(
+                                                                        conversation
+                                                                          .user_info
+                                                                          .first_name
+                                                                      ) +
+                                                                      " " +
+                                                                      _vm._s(
+                                                                        conversation
+                                                                          .user_info
+                                                                          .last_name
+                                                                      ) +
+                                                                      "\n                        "
+                                                                  )
+                                                                ]
+                                                              : [
+                                                                  _vm._v(
+                                                                    "\n                          " +
+                                                                      _vm._s(
+                                                                        _vm.buyer_name
+                                                                      ) +
+                                                                      "\n                          has approved your delivery\n                        "
+                                                                  )
+                                                                ]
+                                                          ],
+                                                          2
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          : _vm._e(),
+                                        _vm._v(" "),
+                                        conversation.status == "reject"
+                                          ? _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "confirm-order border-top mt-4 pt-4"
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "user-info-content d-flex"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "box user-img"
+                                                      },
+                                                      [
+                                                        _vm.buyer_image
+                                                          ? [
+                                                              _c("img", {
+                                                                attrs: {
+                                                                  src:
+                                                                    "/images/user_images/" +
+                                                                    _vm.buyer_image,
+                                                                  alt: ""
+                                                                }
+                                                              })
+                                                            ]
+                                                          : [
+                                                              _c("img", {
+                                                                attrs: {
+                                                                  src:
+                                                                    "/../images/s1.png",
+                                                                  alt: ""
+                                                                }
+                                                              })
+                                                            ]
+                                                      ],
+                                                      2
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "box user-details"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "h6",
+                                                          [
+                                                            _vm.buyer_id ==
+                                                            _vm.user_id
+                                                              ? [
+                                                                  _vm._v(
+                                                                    "\n                          You reject the delivery from " +
+                                                                      _vm._s(
+                                                                        conversation
+                                                                          .user_info
+                                                                          .first_name
+                                                                      ) +
+                                                                      " " +
+                                                                      _vm._s(
+                                                                        conversation
+                                                                          .user_info
+                                                                          .last_name
+                                                                      ) +
+                                                                      "\n                        "
+                                                                  )
+                                                                ]
+                                                              : [
+                                                                  _vm._v(
+                                                                    "\n                          " +
+                                                                      _vm._s(
+                                                                        _vm.buyer_name
+                                                                      ) +
+                                                                      "\n                          has reject your delivery\n                        "
+                                                                  )
+                                                                ]
+                                                          ],
+                                                          2
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          : _vm._e()
+                                      ],
+                                      2
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          ])
+                        ]
+                      )
+                    ])
+                  ]
+                )
+              ]
+            })
+          ]
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.seller_id == _vm.user_id
+        ? [
+            _vm.notDeliver ? [_vm._m(1)] : _vm._e(),
+            _vm._v(" "),
+            _vm.reject ? [_vm._m(2)] : _vm._e()
+          ]
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.approved
+        ? [
+            _c("div", { staticClass: "tab-list-item" }, [
+              _c("div", { staticClass: "t-header" }, [
+                _vm._m(3),
+                _vm._v(" "),
+                _c("div", { staticClass: "box-item" }, [
+                  _c("h6", [
+                    _vm._v(
+                      "\n            your order was completed\n            "
+                    ),
+                    _c("span", { staticClass: "time" }, [
+                      _vm._v(_vm._s(_vm.istoday(_vm.approveDate)))
+                    ])
+                  ])
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass:
+                  "user-info-content d-flex order-completed border-top p-3 px-4"
+              },
+              [
+                _c(
+                  "div",
+                  { staticClass: "box user-img" },
+                  [
+                    _vm.buyer_image
+                      ? [
+                          _c("img", {
+                            attrs: {
+                              src: "/images/user_images/" + _vm.buyer_image,
+                              alt: ""
+                            }
+                          })
+                        ]
+                      : [
+                          _c("img", {
+                            attrs: { src: "/../images/s1.png", alt: "" }
+                          })
+                        ]
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "box user-details" }, [
+                  _c(
+                    "h6",
+                    [
+                      _vm._v(
+                        "\n          your order is completed. if you need to contact\n          the\n          "
+                      ),
+                      _vm.seller_id == _vm.user_id
+                        ? [
+                            _vm._v("\n            Buyer\n          , "),
+                            _c(
+                              "a",
+                              {
+                                attrs: {
+                                  href: "javascript:void(0);",
+                                  onclick: "addFriend(" + _vm.buyer_id + ")"
+                                }
+                              },
+                              [_vm._v("go to inbox")]
+                            )
+                          ]
+                        : [
+                            _vm._v("\n            Seller\n            , "),
+                            _c(
+                              "a",
+                              {
+                                attrs: {
+                                  href: "javascript:void(0);",
+                                  onclick: "addFriend(" + _vm.seller_id + ")"
+                                }
+                              },
+                              [_vm._v("go to inbox")]
+                            )
+                          ]
+                    ],
+                    2
+                  )
+                ])
+              ]
+            )
+          ]
+        : _vm._e()
+    ],
+    2
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "form-field-file" }, [
+      _c(
+        "label",
+        {
+          staticClass: "btn1",
+          attrs: { for: "cv-arquivo", "aria-label": "Attach file" }
+        },
+        [
+          _c("i", {
+            staticClass: "fa fa-paperclip",
+            attrs: { "aria-hidden": "true" }
+          })
+        ]
+      ),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "field-file",
+        attrs: { type: "file", name: "cv-arquivo", id: "cv-arquivo" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "delivery-btn-wrapper btn-container text-center d-block my-4"
+      },
+      [
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-primary",
+            attrs: {
+              href: "",
+              "data-toggle": "modal",
+              "data-target": "#exampleModal"
+            }
+          },
+          [_vm._v("deliver now")]
+        ),
+        _vm._v(" "),
+        _c("h6", { staticClass: "small font-weight-bold d-sm-none mt-3" }, [
+          _vm._v("\n        - OR -\n      ")
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "delivery-btn-wrapper btn-container text-center d-block my-4"
+      },
+      [
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-primary",
+            attrs: {
+              href: "",
+              "data-toggle": "modal",
+              "data-target": "#exampleModal"
+            }
+          },
+          [_vm._v("deliver Again")]
+        ),
+        _vm._v(" "),
+        _c("h6", { staticClass: "small font-weight-bold d-sm-none mt-3" }, [
+          _vm._v("\n      - OR -\n    ")
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "box-item" }, [
+      _c("i", { staticClass: "fa fa-clock-o" })
+    ])
+  }
+]
+render._withStripped = true
+
 
 
 /***/ }),
@@ -70862,7 +72593,7 @@ var render = function() {
     "div",
     {},
     [
-      _vm._l(_vm.getConversation, function(conversation) {
+      _vm._l(_vm.getConversation, function(conversation, index) {
         return [
           conversation.message_type != "delivery"
             ? _c("div", { staticClass: "tab-list-item" }, [
@@ -71969,7 +73700,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "content-header" }, [
-      _c("h6", [_vm._v("delivery #1")])
+      _c("h6", [_vm._v("delivery")])
     ])
   },
   function() {

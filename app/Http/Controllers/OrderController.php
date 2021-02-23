@@ -237,6 +237,12 @@ class OrderController extends Controller
       return $conversation;
     }
 
+    public function getDelivery(Request $request, $id)
+    {
+      $conversation = OrderConversations::with('userInfo','delivery')->where('order_id',$id)->where('message_type','delivery')->get();
+      return $conversation;
+    }
+
     public function HelpCenter(Request $request)
     {
       return view('frontend.help-center');
@@ -311,6 +317,12 @@ class OrderController extends Controller
       $order->order_status = 'completed';
       $order->update();
       return redirect('/manage-orders')->with('success', 'Order completed successfully');
+    }
+
+    public function ResolutionCenter(Request $request, $order_number)
+    {
+      $order = Order::with('serviceInfo','orderRequirement','sellerInfo','buyerInfo')->where('order_number',$order_number)->first();
+      return view('frontend.resolution-center',compact('order'));
     }
 
 

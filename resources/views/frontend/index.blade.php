@@ -168,7 +168,7 @@
 <div class="top-rated-services">
 	<div class="container">
 		<div class="outer-content">
-			
+
 
 			<div class="inner-content">
 				<div class="swiper-container top-rated-services-container">
@@ -177,7 +177,7 @@
 					</div>
 					<div class="swiper-wrapper">
 						@foreach($services as $service)
-						
+
 						<div class="swiper-slide">
 							<div class="card">
 								<span class="gig-image">
@@ -217,8 +217,8 @@
 										<div class="rating-wrapper">
 											<span class="gig-rating text-body-2">
 												<i class="fa fa-star"></i>
-												5.0
-												<span>(7)</span>
+												{{number_format($service->serviceRating->avg('overall_rating'),'1','.','')}}
+												<span>({{count($service->serviceRating)}})</span>
 											</span>
 										</div>
 									</div>

@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Services;
 use App\Models\Language;
 use App\Models\SellerLevel;
+use App\Models\BuyerReviews;
 use App\Facade\Engezli;
 use Hash;
 use Session;
@@ -207,12 +208,59 @@ class ServiceController extends Controller
 
     public function service_detail(Request $request,$username, $slug){
 
-      $serviceData = Services::where('service_url',$slug)->with('sellerInfo', 'packageInfo','serviceFaq','serviceReq','servicePackgOptions')->first();
-      // dd($serviceData);
+      $serviceData = Services::where('service_url',$slug)->with('sellerInfo', 'packageInfo','serviceFaq','serviceReq','servicePackgOptions','serviceRating')->first();
+      $user = User::with('userReviews')->where('username', $username)->first();
+      // dd($serviceData->id);
       $productCat = Categories::where('id',$serviceData->cat_id)->first();
       $productSubCat = Categories::where('id',$serviceData->cat_child_id)->first();
 
-      return view('frontend.service-detail',compact('serviceData','productCat','productSubCat'));
+      $rating_avg = array();
+      $count_stars = array();
+      $userinfo   = auth()->user();
+
+      $star1 = BuyerReviews::where('service_id',$serviceData->id)->where(function ($query)
+      {
+        $query->whereBetween('overall_rating', ['0.5','1.4']);
+      })->count();
+      $star2 = BuyerReviews::where('service_id',$serviceData->id)->where(function ($query)
+      {
+        $query->whereBetween('overall_rating', ['1.5','2.4']);
+      })->count();
+      $star3 = BuyerReviews::where('service_id',$serviceData->id)->where(function ($query)
+      {
+        $query->whereBetween('overall_rating', ['2.5','3.4']);
+      })->count();
+      $star4 = BuyerReviews::where('service_id',$serviceData->id)->where(function ($query)
+      {
+        $query->whereBetween('overall_rating', ['3.5','4.4']);
+      })->count();
+      $star5 = BuyerReviews::where('service_id',$serviceData->id)->where(function ($query)
+      {
+        $query->whereBetween('overall_rating', ['4.5','5']);
+      })->count();
+
+      $tot_stars = $star1 + $star2 + $star3 + $star4 + $star5;
+      // dd($star1,$star2,$star3,$star4,$star5);
+      if($tot_stars == 0){
+          $rating_avg = array('0','0','0','0','0');
+      } else{
+
+          for ($i=1;$i<=5;++$i) {
+
+            $var     = "star$i";
+            $count   = $$var;
+            $percent = $count * 100 / $tot_stars;
+            $avg     = number_format($percent,2)+0;
+            array_push($rating_avg, $avg);
+            array_push($count_stars, $count);
+
+          }
+
+      }
+
+      // dd($count_stars);
+
+      return view('frontend.service-detail',compact('serviceData','productCat','productSubCat','user','rating_avg','count_stars'));
     }
     /**
      * Show the form for creating a new resource.

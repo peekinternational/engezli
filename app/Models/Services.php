@@ -54,7 +54,7 @@ class Services extends Model
     }
     public function serviceRating()
     {
-      return $this->hasMany(BuyerReviews::class, 'service_id');
+      return $this->hasMany(BuyerReviews::class, 'service_id')->orderBy('id','desc');
     }
 
     public function sluggable()

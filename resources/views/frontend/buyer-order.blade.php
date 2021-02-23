@@ -18,7 +18,7 @@
               role="tab"
               aria-controls="acitvity"
               aria-selected="true"
-              >acitvity</a
+              >{{ __('home.acitvity')}}</a
             >
           </li>
           <li class="nav-item">
@@ -30,7 +30,7 @@
               role="tab"
               aria-controls="details"
               aria-selected="false"
-              >details</a
+              >{{ __('home.details')}}</a
             >
           </li>
           <li class="nav-item">
@@ -42,7 +42,7 @@
               role="tab"
               aria-controls="requirements"
               aria-selected="false"
-              >requirements</a
+              >{{ __('home.requirements')}}</a
             >
           </li>
           <li class="nav-item">
@@ -54,7 +54,7 @@
               role="tab"
               aria-controls="delivery"
               aria-selected="false"
-              >delivery</a
+              >{{ __('home.delivery')}}</a
             >
           </li>
         </ul>
@@ -79,16 +79,15 @@
                     <div class="rqm-box-container">
                       <div class="rqm-box">
                         <h5 class="mb-2">
-                          One last step to get your order started!
+                          {{ __('home.One last step to get your order started!')}}
                         </h5>
                         <p>
-                          We noticed Finchbill about your order. Submit your
-                          requirements to get your order started.
+                          {{ __('home.We noticed Finchbill about your order. Submit your requirements to get your order started.')}}
                         </p>
                       </div>
                       <div class="rqm-box">
                         <button class="btn custom-btn-warning">
-                          submit requirements
+                          {{ __('home.submit requirements')}}
                         </button>
                       </div>
                     </div>
@@ -97,17 +96,17 @@
 
                   <div class="gig-extras card p-4 mb-4">
                     <div class="header">
-                      <h5>Have everything you need?</h5>
-                      <p class="mt-2">enhance your order with Gig extras</p>
+                      <h5>{{ __('home.Have everything you need?')}}</h5>
+                      <p class="mt-2">{{ __('home.enhance your order with Gig extras')}}</p>
                     </div>
 
                     <div class="table-responsive border rounded">
                       <table class="table">
                         <tr class="text-uppercase">
-                          <th>item</th>
-                          <th>QTY.</th>
-                          <th>duration</th>
-                          <th>price</th>
+                          <th>{{ __('home.item')}}</th>
+                          <th>{{ __('home.QTY.')}}</th>
+                          <th>{{ __('home.duration')}}</th>
+                          <th>{{ __('home.price')}}</th>
                           <th></th>
                         </tr>
                         <tr>
@@ -119,7 +118,7 @@
                             <button
                               class="btn btn-primary custom-btn text-white"
                             >
-                              add
+                              {{ __('home.add')}}
                             </button>
                           </td>
                         </tr>
@@ -132,7 +131,7 @@
                             <button
                               class="btn btn-primary custom-btn text-white"
                             >
-                              add
+                              {{ __('home.add')}}
                             </button>
                           </td>
                         </tr>
@@ -145,7 +144,7 @@
                             <button
                               class="btn btn-primary custom-btn text-white"
                             >
-                              add
+                              {{ __('home.add')}}
                             </button>
                           </td>
                         </tr>
@@ -158,7 +157,7 @@
                             <button
                               class="btn btn-primary custom-btn text-white"
                             >
-                              add
+                              {{ __('home.add')}}
                             </button>
                           </td>
                         </tr>
@@ -167,8 +166,7 @@
 
                     <p>
                       <i class="fa fa-lock text-primary"></i>
-                      <strong>SSL Secure payment.</strong> you will not be
-                      changed yet.
+                      <strong>SSL Secure payment.</strong> {{ __('home.you will not be changed yet')}}.
                     </p>
                   </div>
 
@@ -188,7 +186,7 @@
                         </div>
                         <div class="box-item">
                           <h6>
-                            You Placed The Order
+                            {{ __('home.You Placed The Order')}}
                             <span class="time">{{$order_date}}</span>
                           </h6>
                         </div>
@@ -201,7 +199,7 @@
                         </div>
                         <div class="box-item">
                           <h6>
-                            You Submitted The Requirements
+                            {{ __('home.You Submitted The Requirements')}}
                             <span class="time">{{$requirements_date}}</span>
                           </h6>
                         </div>
@@ -214,7 +212,7 @@
                         </div>
                         <div class="box-item">
                           <h6>
-                            Your Order Started
+                            {{ __('home.Your Order Started')}}
                             <span class="time">{{$requirements_date}}</span>
                           </h6>
                         </div>
@@ -227,7 +225,7 @@
                         </div>
                         <div class="box-item">
                           <h6>
-                            our Delivery Date Was Updated
+                            {{ __('home.our Delivery Date Was Updated')}}
                             <span class="time">{{$delivery_date}}</span>
                           </h6>
                         </div>
@@ -269,7 +267,7 @@
                                 </div>
                                 <div class="box">
                                   <h6 class="text-primary">
-                                    Have something to share with {{$order->sellerInfo->first_name}}?
+                                    {{ __('home.Have something to share with')}} {{$order->sellerInfo->first_name}}?
                                   </h6>
                                   <p>
                                     <span class="box first"
@@ -278,8 +276,8 @@
                                     >
                                     <span class="box second"
                                       ><i class="fa fa-circle"></i>
-                                      seller is
-                                      <span>online</span></span
+                                      {{ __('home.seller is')}}
+                                      <span>{{ __('home.online')}}</span></span
                                     >
                                   </p>
                                 </div>
@@ -324,7 +322,7 @@
                                 />
                               </span>
                               <button type="submit" class="btn text-primary pr-0">
-                                Send
+                                {{ __('home.Send')}}
                               </button>
                             </div>
                           </div>
@@ -350,11 +348,11 @@
                         <h5>{{$order->serviceInfo->service_title}}</h5>
                         <div class="order-info d-flex">
                           <p>
-                            order info
+                            {{ __('home.order info')}}
                             <strong class="text-primary">{{$order->sellerInfo->first_name}} {{$order->sellerInfo->last_name}}</strong>
                           </p>
                           <p>
-                            delivery date
+                            {{ __('home.delivery date')}}
                             <span class="font-weight-bold"
                               >{{$delivery_date}}</span
                             >
@@ -363,7 +361,7 @@
                       </div>
                       <div class="box text-right">
                         <p class="text-uppercase font-weight-bold mb-1">
-                          total price
+                          {{ __('home.total price')}}
                         </p>
                         <h4>${{$order->order_fee}}</h4>
                       </div>
@@ -373,17 +371,17 @@
                       class="order-no d-flex justify-content-between py-2 border-top border-bottom mt-3"
                     >
                       <p>
-                        order number
+                        {{ __('home.order number')}}
                         <strong class="order-number">#{{$order->order_number}}</strong>
                       </p>
                       <a href="" class="text-primary text-capitalize"
-                        ><strong>view invoice</strong></a
+                        ><strong>{{ __('home.view invoice')}}</strong></a
                       >
                     </div>
 
                     <div class="description my-4">
                       <h6 class="text-uppercase border-bottom pb-3 mb-3">
-                        description
+                        {{ __('home.description')}}
                       </h6>
                       <p>
                         {{$order->serviceInfo->service_desc}}
@@ -396,18 +394,18 @@
                       >
                         <p>
                           <i class="fa fa-file"></i>
-                          <strong>your order </strong>
+                          <strong>{{ __('home.your order')}} </strong>
                           <small>{{$order_date}}</small>
                         </p>
-                        <p>paid with credit card</p>
+                        <p>{{ __('home.paid with credit card')}}</p>
                       </div>
                       <div class="table-responsive">
                         <table class="table">
                           <tr class="text-uppercase">
-                            <th>item</th>
-                            <th>QTY.</th>
-                            <th>duration</th>
-                            <th>price</th>
+                            <th>{{ __('home.item')}}</th>
+                            <th>{{ __('home.QTY.')}}</th>
+                            <th>{{ __('home.duration')}}</th>
+                            <th>{{ __('home.price')}}</th>
                           </tr>
                           <tr class="bg-white">
                             <?php
@@ -419,15 +417,15 @@
                             <td>${{$original_free}}</td>
                           </tr>
                           <tr>
-                            <td colspan="3">sub total</td>
+                            <td colspan="3">{{ __('home.subtotal')}}</td>
                             <td>${{$original_free}}</td>
                           </tr>
                           <tr>
-                            <td colspan="3">service fee</td>
+                            <td colspan="3">{{ __('home.service fee')}}</td>
                             <td>${{$order->service_fee}}</td>
                           </tr>
                           <tr>
-                            <td colspan="3">total</td>
+                            <td colspan="3">{{ __('home.total')}}</td>
                             <td>${{$order->order_fee}}</td>
                           </tr>
                         </table>
@@ -469,15 +467,15 @@
                       @endforeach
                       @else
                       <img src="../images/requirements.svg" alt="" />
-                      <h6>Submit the requirements</h6>
+                      <h6>{{ __('home.Submit the requirements')}}</h6>
                       <p>
-                        Please submit the requirements so that
+                        {{ __('home.Please submit the requirements so that')}}
                         <strong class="text-primary">{{$order->sellerInfo->first_name}}</strong>
-                        can start working on your order.
+                        {{ __('home.can start working on your order')}}.
                       </p>
                       <button
                         class="btn btn-primary custom-btn text-white mt-3">
-                        submit requirement
+                        {{ __('home.submit requirement')}}
                       </button>
                       @endif
                     </div>
@@ -489,13 +487,15 @@
                   role="tabpanel"
                   aria-labelledby="delivery-tab"
                 >
-                  <div class="delivery-tab-container card empty-box p-4">
-                    <div class="inner-content">
+                  <!-- <div class="delivery-tab-container card empty-box p-4"> -->
+                  <div class="delivery-tab-container card p-4">
+                    <delivery :orderdata="{{$order}}" :userdata="{{auth()->user()}}"></delivery>
+                    <div class="inner-content no_delivery">
                       <img src="../images/delivery-box.svg" alt="" />
-                      <h6>The best things are worth the wait</h6>
+                      <h6>{{ __('home.The best things are worth the wait')}}</h6>
                       <p>
-                        <span>Seormitu</span> should deliver this order by
-                        Feb 27, 11:53 PM
+                        <span>{{$order->sellerInfo->first_name}}</span> {{ __('home.should deliver this order by')}}
+                        {{$delivery_date}}
                       </p>
                     </div>
                   </div>
@@ -509,7 +509,7 @@
                     <div
                       class="summary-header d-flex align-items-center justify-content-between mb-3"
                     >
-                      <h5 class="mb-0">order-details</h5>
+                      <h5 class="mb-0">{{ __('home.order-details')}}</h5>
 
                       <div class="dropdown">
                         <button
@@ -526,12 +526,12 @@
                           class="dropdown-menu"
                           aria-labelledby="dropdownMenuButton"
                         >
-                          <a class="dropdown-item" href="#">Action</a>
+                          <a class="dropdown-item" href="#">{{ __('home.Action')}}</a>
                           <a class="dropdown-item" href="#"
-                            >Another action</a
+                            >{{ __('home.Another action')}}</a
                           >
                           <a class="dropdown-item" href="#"
-                            >Something else here</a
+                            >{{ __('home.Something else here')}}</a
                           >
                         </div>
                       </div>
@@ -559,22 +559,22 @@
 
                     <ul class="list-group">
                       <li>
-                        <span>order from</span>
+                        <span>{{ __('home.order from')}}</span>
                         <span class="text-primary">{{$order->sellerInfo->first_name}}</span>
                       </li>
                       <li>
-                        <span>delivery date</span>
+                        <span>{{ __('home.delivery date')}}</span>
                         <span>{{$delivery_date}}</span>
                       </li>
                     </ul>
 
                     <ul class="list-group">
                       <li>
-                        <span>total price</span>
+                        <span>{{ __('home.total price')}}</span>
                         <span>${{$order->order_fee}}</span>
                       </li>
                       <li>
-                        <span>order number</span>
+                        <span>{{ __('home.order number')}}</span>
                         <span class="text-uppercase">#{{$order->order_number}}</span>
                       </li>
                     </ul>
@@ -596,7 +596,7 @@
                               aria-expanded="true"
                               aria-controls="collapseOnes98"
                             >
-                              track order
+                              {{ __('home.track order')}}
                             </button>
                           </h2>
                         </div>
@@ -614,32 +614,44 @@
                           <div class="card-body">
                             <div class="track-order-lists">
                               <div class="list-item completed">
-                                <span>order placed</span>
+                                <span>{{ __('home.order placed')}}</span>
                                 <div class="status"></div>
                               </div>
                               <div class="list-item @if($order_requirements > 0) completed
                                 @else in-progress  @endif">
-                                <span>requirements submitted</span>
+                                <span>{{ __('home.requirements submitted')}}</span>
                                 <div class="status"></div>
                               </div>
                               <div class="list-item @if($order_completed == '1') completed
                               @else @if($order_progress == '0') in-progress @else completed @endif @endif">
-                                <span>order in progress</span>
+                                <span>{{ __('home.order in progress')}}</span>
                                 <div class="status"></div>
                               </div>
                               <div class="list-item @if($order_completed == '1') completed
                               @else @if($order_delivery == '1') completed @elseif($order_delivery == '1') in-progress @endif @endif">
-                                <span>review delivery</span>
+                                <span>{{ __('home.review delivery')}}</span>
                                 <div class="status"></div>
                               </div>
                               <div class="list-item @if($order_completed == '1') completed @endif">
-                                <span>complete order</span>
+                                <span>{{ __('home.complete order')}}</span>
                                 <div class="status"></div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="help mt-4">
+                <div class="card">
+                  <div class="row">
+                    <div class="col-1">
+                      <i class="fa fa-info-circle fa-2x"></i>
+                    </div>
+                    <div class="col-10 offset-md-1">
+                      <p>Have issue with your order? visit the <a href="{{url('resolution-center/'.$order->order_number)}}">resolution center</a> </p>
                     </div>
                   </div>
                 </div>

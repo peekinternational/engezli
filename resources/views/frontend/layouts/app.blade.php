@@ -44,11 +44,11 @@
     @if(Request::path() != 'login' && Request::path() != 'register' && Request::path() != 'forgot-password')
     @include('frontend.includes.footer1')
     @endif
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <!-- <script src="{{ asset('js/app.js') }}" defer></script> -->
     <!-- Bootstrap core JavaScript -->
     <script src="{{asset('js/cdn/jquery-3.4.1.min.js')}}"></script>
     <script src="{{asset('js/cdn/popper.min.js')}}"></script>
-    <!-- <script src="{{asset('js/cdn/bootstrap.min.js')}}"></script> -->
+    <script src="{{asset('js/cdn/bootstrap.min.js')}}"></script>
     <script src="{{asset('js/cdn/swiper-bundle.min.js')}}"></script>
     <script src="{{asset('js/cdn/bootstrap-tagsinput.min.js')}}"></script>
     <script src="{{asset('js/cdn/select2.min.js')}}"></script>

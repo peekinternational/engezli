@@ -18,7 +18,7 @@
               role="tab"
               aria-controls="acitvity"
               aria-selected="true"
-              >acitvity</a
+              >{{ __('home.acitvity')}}</a
             >
           </li>
           <li class="nav-item">
@@ -30,7 +30,7 @@
               role="tab"
               aria-controls="details"
               aria-selected="false"
-              >details</a
+              >{{ __('home.details')}}</a
             >
           </li>
           <li class="nav-item">
@@ -54,7 +54,7 @@
               role="tab"
               aria-controls="delivery"
               aria-selected="false"
-              >delivery</a
+              >{{ __('home.requirements')}}</a
             >
           </li>
         </ul>
@@ -91,7 +91,7 @@
                         </div>
                         <div class="box-item">
                           <h6>
-                            You Placed The Order
+                            {{ __('home.You Placed The Order')}}
                             <span class="time">{{$order_date}}</span>
                           </h6>
                         </div>
@@ -104,7 +104,7 @@
                         </div>
                         <div class="box-item">
                           <h6>
-                            You Submitted The Requirements
+                            {{ __('home.You Submitted The Requirements')}}
                             <span class="time">{{$requirements_date}}</span>
                           </h6>
                         </div>
@@ -117,7 +117,7 @@
                         </div>
                         <div class="box-item">
                           <h6>
-                            Your Order Started
+                            {{ __('home.Your Order Started')}}
                             <span class="time">{{$requirements_date}}</span>
                           </h6>
                         </div>
@@ -130,7 +130,7 @@
                         </div>
                         <div class="box-item">
                           <h6>
-                            our Delivery Date Was Updated
+                            {{ __('home.our Delivery Date Was Updated')}}
                             <span class="time">{{$delivery_date}}</span>
                           </h6>
                         </div>
@@ -193,13 +193,9 @@
                         >
                           <p>
                             <a href="" class="text-primary"
-                              ><i class="fa fa-plus-circle"></i> offer more
-                              extras</a
-                            >
+                              ><i class="fa fa-plus-circle"></i> {{ __('home.offer more extras')}}</a>
                             <a href="" class="text-muted"
-                              ><i class="fa fa-eraser ml-3"></i> clear
-                              message</a
-                            >
+                              ><i class="fa fa-eraser ml-3"></i> {{ __('home.clear message')}}</a>
                           </p>
                           <p>
                             <span>0 / 2500</span>
@@ -228,7 +224,7 @@
                         </div>
 
                         <div class="d-block text-right mt-3">
-                          <button type="submit" class="btn btn-primary">send</button>
+                          <button type="submit" class="btn btn-primary">{{ __('home.Send')}}</button>
                         </div>
                       </div>
                     </form>
@@ -251,11 +247,11 @@
                         <h5>{{$order->serviceInfo->service_title}}</h5>
                         <div class="order-info d-flex">
                           <p>
-                            order info
+                            {{ __('home.order info')}}
                             <strong class="text-primary">{{$order->sellerInfo->first_name}} {{$order->sellerInfo->last_name}}</strong>
                           </p>
                           <p>
-                            delivery date
+                            {{ __('home.delivery date')}}
                             <span class="font-weight-bold"
                               >{{$delivery_date}}</span
                             >
@@ -264,7 +260,7 @@
                       </div>
                       <div class="box text-right">
                         <p class="text-uppercase font-weight-bold mb-1">
-                          total price
+                          {{ __('home.total price')}}
                         </p>
                         <h4>${{$order->order_fee}}</h4>
                       </div>
@@ -274,7 +270,7 @@
                       class="order-no d-flex justify-content-between py-2 border-top border-bottom mt-3"
                     >
                       <p>
-                        order number
+                        {{ __('home.order number')}}
                         <strong class="order-number">#{{$order->order_number}}</strong>
                       </p>
                       <a href="" class="text-primary text-capitalize"
@@ -284,7 +280,7 @@
 
                     <div class="description my-4">
                       <h6 class="text-uppercase border-bottom pb-3 mb-3">
-                        description
+                        {{ __('home.description')}}
                       </h6>
                       <p>
                         {{$order->serviceInfo->service_desc}}
@@ -297,18 +293,18 @@
                       >
                         <p>
                           <i class="fa fa-file"></i>
-                          <strong>your order </strong>
+                          <strong>{{ __('home.your order')}} </strong>
                           <small>{{$order_date}}</small>
                         </p>
-                        <p>paid with credit card</p>
+                        <p>{{ __('home.paid with credit card')}}</p>
                       </div>
                       <div class="table-responsive">
                         <table class="table">
                           <tr class="text-uppercase">
-                            <th>item</th>
-                            <th>QTY.</th>
-                            <th>duration</th>
-                            <th>price</th>
+                            <th>{{ __('home.item')}}</th>
+                            <th>{{ __('home.QTY.')}}</th>
+                            <th>{{ __('home.duration')}}</th>
+                            <th>{{ __('home.price')}}</th>
                           </tr>
                           <tr class="bg-white">
                             <?php
@@ -320,15 +316,15 @@
                             <td>${{$original_free}}</td>
                           </tr>
                           <tr>
-                            <td colspan="3">sub total</td>
+                            <td colspan="3">{{ __('home.subtotal')}}</td>
                             <td>${{$original_free}}</td>
                           </tr>
                           <tr>
-                            <td colspan="3">service fee</td>
+                            <td colspan="3">{{ __('home.service fee')}}</td>
                             <td>${{$order->service_fee}}</td>
                           </tr>
                           <tr>
-                            <td colspan="3">total</td>
+                            <td colspan="3">{{ __('home.total')}}</td>
                             <td>${{$order->order_fee}}</td>
                           </tr>
                         </table>
@@ -369,15 +365,15 @@
                       @endforeach
                       @else
                       <img src="images/requirements.svg" alt="" />
-                      <h6>Submit the requirements</h6>
+                      <h6>{{ __('home.Submit the requirements')}}</h6>
                       <p>
-                        Please submit the requirements so that
+                        {{ __('home.Please submit the requirements so that')}}
                         <strong class="text-primary">{{$order->sellerInfo->first_name}}</strong>
-                        can start working on your order.
+                        {{ __('home.can start working on your order')}}.
                       </p>
                       <button
                         class="btn btn-primary custom-btn text-white mt-3">
-                        submit requirement
+                        {{ __('home.submit requirement')}}
                       </button>
                       @endif
                     </div>
@@ -389,13 +385,14 @@
                   role="tabpanel"
                   aria-labelledby="delivery-tab"
                 >
-                  <div class="delivery-tab-container card empty-box p-4">
-                    <div class="inner-content">
+                  <div class="delivery-tab-container card p-4">
+                    <delivery :orderdata="{{$order}}" :userdata="{{auth()->user()}}"></delivery>
+                    <div class="inner-content no_delivery">
                       <img src="images/delivery-box.svg" alt="" />
-                      <h6>The best things are worth the wait</h6>
+                      <h6>{{ __('home.The best things are worth the wait')}}</h6>
                       <p>
-                        <span>Seormitu</span> should deliver this order by
-                        Feb 27, 11:53 PM
+                        <span>{{$order->sellerInfo->first_name}}</span> {{ __('home.should deliver this order by')}}
+                        {{$delivery_date}}
                       </p>
                     </div>
                   </div>
@@ -408,7 +405,7 @@
                   <div
                     class="summary-header d-flex align-items-center justify-content-between mb-3"
                   >
-                    <h5 class="mb-0">order-details</h5>
+                    <h5 class="mb-0">{{ __('home.order-details')}}</h5>
 
                     <div class="dropdown">
                       <button
@@ -425,10 +422,10 @@
                         class="dropdown-menu"
                         aria-labelledby="dropdownMenuButton"
                       >
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">{{ __('home.Action')}}</a>
+                        <a class="dropdown-item" href="#">{{ __('home.Another action')}}</a>
                         <a class="dropdown-item" href="#"
-                          >Something else here</a
+                          >{{ __('home.Something else here')}}</a
                         >
                       </div>
                     </div>
@@ -456,22 +453,22 @@
 
                   <ul class="list-group">
                     <li>
-                      <span>order from</span>
+                      <span>{{ __('home.order from')}}</span>
                       <span class="text-primary">{{$order->sellerInfo->first_name}}</span>
                     </li>
                     <li>
-                      <span>delivery date</span>
+                      <span>{{ __('home.delivery date')}}</span>
                       <span>{{$delivery_date}}</span>
                     </li>
                   </ul>
 
                   <ul class="list-group">
                     <li>
-                      <span>total price</span>
+                      <span>{{ __('home.total price')}}</span>
                       <span>${{$order->order_fee}}</span>
                     </li>
                     <li>
-                      <span>order number</span>
+                      <span>{{ __('home.order number')}}</span>
                       <span class="text-uppercase">#{{$order->order_number}}</span>
                     </li>
                   </ul>
@@ -480,14 +477,11 @@
 
                   <div class="have-questions text-capitalize text-center">
                     <small
-                      ><a href="" class="font-weight-bold"
-                        >have questions?</a
-                      >
-                      we have answer.</small
-                    >
+                      ><a href="" class="font-weight-bold">{{ __('home.have questions?')}}</a>
+                      {{ __('home.we have answer')}}.</small>
                     <small class="mt-2"
-                      >Check out the
-                      <a href="" class="text-primary">FAQs</a>.</small
+                      >{{ __('home.Check out the')}}
+                      <a href="" class="text-primary">{{ __('home.FAQs')}}</a>.</small
                     >
                   </div>
                 </div>
@@ -512,7 +506,7 @@
     <div class="modal-content">
       <div class="modal-header text-dark">
         <h5 class="modal-title" id="exampleModalLabel">
-          Deliver completed work
+          {{ __('home.Deliver completed work')}}
         </h5>
         <button
           type="button"
@@ -535,7 +529,7 @@
               class="btn1 border py-1 px-2 rounded text-capitalize"
             >
               <i class="fa fa-paperclip" aria-hidden="true"></i>
-              <small>upload work</small>
+              <small>{{ __('home.upload work')}}</small>
             </label>
 
             <input
@@ -577,7 +571,7 @@
           data-dismiss="modal">
           save draft
         </button> -->
-        <button type="sumit" class="btn btn-primary">deliver work</button>
+        <button type="sumit" class="btn btn-primary">{{ __('home.deliver work')}}</button>
       </div>
     </form>
     </div>
