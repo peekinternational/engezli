@@ -16,7 +16,7 @@ class CreateOrderRequirementsTable extends Migration
         Schema::create('order_requirements', function (Blueprint $table) {
             $table->id();
             $table->integer('order_id');
-            $table->string('requirement');
+            $table->string('requirement')->nullable();
             $table->timestamps();
         });
     }

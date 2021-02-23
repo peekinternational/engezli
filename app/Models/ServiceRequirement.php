@@ -13,6 +13,7 @@ class ServiceRequirement extends Model
     	'services_id',
     	'question',
     	'response',
+    	'mandatory_status',
     ];
     public function serviceInfo()
     {

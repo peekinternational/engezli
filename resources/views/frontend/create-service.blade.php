@@ -111,7 +111,7 @@
 														<p class="max-char"><span class="descCount">0</span>/80 max</p>
 													</div>
 													<span class="display_error">{{ $errors->first('service_title') }}</span>
-													
+
 												</div>
 											</div>
 
@@ -137,7 +137,7 @@
 															<option value="{{$mainCat->id}}">{{$mainCat->cat_title}}</option>
 															@endforeach
 														</select>
-														
+
 														<select name="cat_child_id" id="sub-category" class="custom-select">
 														</select>
 														<span class="cat_error text-danger"  style="display: none;">category is required</span>
@@ -268,9 +268,9 @@
 													</div>
 														<span class="revision1-error text-danger"  style="display: none;">Revision is required</span>
 													<div class="extra-options packg-options1">
-														
+
 													</div>
-													
+
 
 													<div class="form-group price-dropdown">
 														<select name="proposal_packages[1][package_price]" id="package_price1" class="select2">
@@ -360,7 +360,7 @@
 													</div>
 
 													<div class="extra-options packg-options2">
-														
+
 													</div>
 
 													<div class="form-group price-dropdown">
@@ -450,7 +450,7 @@
 													</div>
 
 													<div class="extra-options packg-options3">
-														
+
 													</div>
 
 													<div class="form-group price-dropdown">
@@ -749,7 +749,7 @@
 								</div>
 								<div class="tab-pane fade descriptionFaq-tab" id="descriptionFaq" role="tabpanel"
 									aria-labelledby="descriptionFaq-tab">
-									
+
 									<div class="tab-pane-box">
 										<form id="description-form">
 											<div class="heading">
@@ -758,7 +758,7 @@
 											</div>
 
 											<div class="page-wrapper box-content">
-												<textarea class="content" id="service_desc" name="service_desc"></textarea>
+												<textarea class="content" form="faq-form" id="service_desc" name="service_desc"></textarea>
 												<div class="max-char">
 													<p>0/1200 characters</p>
 												</div>
@@ -778,11 +778,11 @@
 													<div class="input-box-container d-none" id="input-box-content">
 														<div class="form-group">
 															<input type="hidden" name="type" value="3">
-															<input type="text" name="title" class="form-control"
+															<input type="text" name="title" class="form-control faq_title"
 																placeholder="Add a Question: i.e. Do you translate to English as well?" />
 														</div>
 														<div class="form-group">
-															<textarea maxlength="300" name="description" class="form-control" rows="3"
+															<textarea maxlength="300" name="description" class="form-control faq_desc" rows="3"
 																placeholder="Add an Answer: i.e. Yes, I also translate from English to Hebrew."></textarea>
 														</div>
 
@@ -798,7 +798,7 @@
 												</form>
 												<div class="added-faq-box-container">
 													<div id="accordion" class="accordion">
-														
+
 													</div>
 												</div>
 											</div>
@@ -810,9 +810,9 @@
 										</div>
 								</div>
 								<div class="tab-pane fade  requirements-tab" id="requirements" role="tabpanel" aria-labelledby="requirements-tab">
-									<form id="requirements-form">
-										<input type="hidden" name="type" value="4">
 										<div class="tab-pane-box">
+											<form id="requirements-form">
+												<input type="hidden" name="type" value="4">
 											<div class="require-text-title">
 												<h5>
 													<i class="fa fa-file"></i> {{ __('home.Here’s how buyers will see your questions. You can edit or remove questions anytime.')}}
@@ -832,7 +832,7 @@
 
 												<textarea
 													name="question"
-													id=""
+													id="question"
 													class="form-control question-textarea"
 													rows="3"
 													placeholder="Request necessary details such as dimensions, brand guidelines, and more."
@@ -844,7 +844,8 @@
 															type="checkbox"
 															class="form-check-input"
 															id="exampleCheck1"
-														/>
+															name="mandatory"
+															value="1" />
 														<label
 															class="form-check-label"
 															for="exampleCheck1"
@@ -863,6 +864,7 @@
 													</div>
 												</div>
 											</div>
+										</form>
 											<div class="added-questions d-none">
 												<!-- <div class="question-list-item">
 													<div class="inner-text">
@@ -949,7 +951,6 @@
 												<i class="fa fa-plus"></i> add new question
 											</button>
 										</div> -->
-									</form>
 
 									<div class="btns-group">
 										<!-- <button class="prevtab btn btn-primary">Prev</button> -->
@@ -1067,7 +1068,7 @@
 								</div>
 							</div>
 
-							
+
 						</div>
 					</div>
 					<!-- <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
@@ -1091,7 +1092,7 @@
 			pane = $(".create-service .tab-pane");
 		// next
 		$(".nexttab").on("click", function () {
-			
+
 			for (i = 0; i < items.length; i++) {
 				if ($(items[i]).hasClass("active") == true) {
 					break;
@@ -1237,7 +1238,7 @@
 					}
 				});
 			}
-			
+
 
 		})
 
@@ -1252,8 +1253,7 @@
 				type: 'post',
 				data:{service_desc:service_desc,type:type},
 				success:function(data){
-					console.log(data);
-					
+					// console.log(data);
 					$("#requirements-tab").removeClass("active");
 			    $("#descriptionFaq-tab").addClass("active");
 		    	$("#descriptionFaq").removeClass("show active");
@@ -1274,10 +1274,10 @@
 		   cache: false,
 		   processData: false,
 		   success:function(data){
-		    console.log(data);
+		    // console.log(data);
 		    $('.accordion').append(data);
-		    $("#faq-form input").val('');
-		    $("#faq-form textarea").val('');
+		    $("#faq-form .faq_title").val('');
+		    $("#faq-form .faq_desc").val('');
 		   }
 		  })
 	 });
@@ -1366,7 +1366,7 @@
 			}
 	 });
 
-		
+
 	});
 </script>
 
@@ -1380,7 +1380,7 @@
 
 <!-- image-upload -->
 <script>
-	
+
 	// Gig photos
 	$('.gig-photos input[type=file]').change(function () {
 		var id = $(this).attr("id");
@@ -1425,7 +1425,7 @@
 	});
 
 	$("#sub-category").change(function(){
-	  
+
 	  var category_id = $(this).val();
 	  // alert(category_id);
 	  $.ajax({
@@ -1443,12 +1443,43 @@
 
 	$("#service_title").keydown(function(){
 		var textarea = $("#service_title").val();
-		$(".descCount").text(textarea.length);  
+		$(".descCount").text(textarea.length);
 	});
 
 	$("#seo_title").keydown(function(){
 		var textarea = $("#seo_title").val();
-		$(".seoCount").text(textarea.length);  
+		$(".seoCount").text(textarea.length);
 	});
+
+	$(document).on('click','.requirement_button', function () {
+		var id = $(this).data('id');
+	var response = $('#response'+id).val();
+	var question = $('#question'+id).val();
+	console.log(id,response,question);
+	$.ajax({
+	 url:"{{url('update-requirement')}}",
+	 method:"POST",
+	 data:{id:id,response:response,question:question},
+	 dataType:'JSON',
+	 success:function(data){
+		$('#requirement'+id).addClass('d-none');
+		$('.requirement-response'+id).text(response);
+		$('.requirement-heading'+id).text(question);
+	 }
+	})
+	});
+
+	function showRequirement(req_id) {
+		$('#requirement'+req_id).removeClass('d-none');
+	}
+
+	function deleteRequirement(req_id) {
+		$.ajax({
+		 url: "{{url('delete_requirement')}}/"+req_id,
+		 success:function(data){
+			 $('.requiremet-question-'+req_id).remove();
+		 }
+	 });
+	}
 </script>
 @endsection

@@ -111,7 +111,7 @@
 														<p class="max-char"><span class="descCount">0</span>/80 max</p>
 													</div>
 													<span class="display_error">{{ $errors->first('service_title') }}</span>
-													
+
 												</div>
 											</div>
 
@@ -137,7 +137,7 @@
 															<option value="{{$mainCat->id}}" {{$getSingleData->cat_id == $mainCat->id ? 'selected': ''}}>{{$mainCat->cat_title}}</option>
 															@endforeach
 														</select>
-														
+
 														<select name="cat_child_id" id="sub-category" class="custom-select">
 															<option value="{{$getSingleData->cat_child_id}}">{{Engezli::get_subcat($getSingleData->cat_child_id)->cat_title}}</option>
 														</select>
@@ -204,7 +204,7 @@
 														<input type="hidden" name="package_type" value="basic">
 														<input type="hidden" name="proposal_packages[1][package_title]" value="Basic">
 														<input type="hidden" name="proposal_packages[1][package_id]" value="<?= $package1->id; ?>">
-														
+
 														<textarea
 															name="proposal_packages[1][package_name]"
 															id=""
@@ -276,9 +276,9 @@
 													</div>
 														<span class="revision1-error text-danger"  style="display: none;">Revision is required</span>
 													<div class="extra-options packg-options1">
-														
+
 													</div>
-													
+
 													{{$package1->package_price}}
 													<div class="form-group price-dropdown">
 														<select name="proposal_packages[1][package_price]" id="package_price1" class="select2">
@@ -306,7 +306,7 @@
 														<input type="hidden" name="package_type" value="standard">
 														<input type="hidden" name="proposal_packages[2][package_title]" value="Standard">
 														<input type="hidden" name="proposal_packages[2][package_id]" value="<?= $package2->id; ?>">
-														
+
 														<textarea
 															name="proposal_packages[2][package_name]"
 															id=""
@@ -374,7 +374,7 @@
 													</div>
 
 													<div class="extra-options packg-options2">
-														
+
 													</div>
 
 													<div class="form-group price-dropdown">
@@ -469,7 +469,7 @@
 													</div>
 
 													<div class="extra-options packg-options3">
-														
+
 													</div>
 
 													<div class="form-group price-dropdown">
@@ -769,7 +769,7 @@
 								</div>
 								<div class="tab-pane fade descriptionFaq-tab" id="descriptionFaq" role="tabpanel"
 									aria-labelledby="descriptionFaq-tab">
-									
+
 									<div class="tab-pane-box">
 										<form id="description-form">
 											<div class="heading">
@@ -795,36 +795,37 @@
 													{{ __('home.Add Questions & Answers for Your Buyers.')}}
 												</p>
 												<form id="faq-form">
+													<input type="hidden" name="service_id" value="{{$getSingleData->id}}">
 													<div class="input-box-container d-none" id="input-box-content">
 														<div class="form-group">
 															<input type="hidden" name="type" value="3">
-															<input type="text" id="faq_title" name="title" class="form-control"
+															<input type="text" id="faq_title" name="title" class="form-control faq_title"
 																placeholder="Add a Question: i.e. Do you translate to English as well?" />
 														</div>
 														<div class="form-group">
-															<textarea maxlength="300" id="faq_description" name="description" class="form-control" rows="3"
+															<textarea maxlength="300" id="faq_description" name="description" class="form-control faq_desc" rows="3"
 																placeholder="Add an Answer: i.e. Yes, I also translate from English to Hebrew."></textarea>
 														</div>
 
 														<div class="btn-container-box">
 															<div class="btns">
-																<button class="custom-btn cancle-btn">
+																<a class="custom-btn cancle-btn">
 																	{{ __('home.Cancel')}}
-																</button>
+																</a>
 																<button class="custom-btn" type="submit" id="faq-submit">{{ __('home.Save')}}</button>
 															</div>
 														</div>
 													</div>
 												</form>
 												<div class="added-faq-box-container">
-													
+
 													@foreach($getSingleFaq as $faq)
 													<div class="card">
 														<div class="card-header" id="heading{{$faq->id}}">
 															<h5 class="mb-0">
-																<button class="btn btn-link collapsed" data-toggle="collapse"
+																<button class="btn btn-link collapsed" id="collapse-button{{$faq->id}}" data-toggle="collapse"
 																	data-target="#collapse{{$faq->id}}" aria-expanded="false" aria-controls="collapse{{$faq->id}}">
-																	{{$faq->title}}
+																	<span class="faq_heading{{$faq->id}}">{{$faq->title}}</span>
 																</button>
 															</h5>
 														</div>
@@ -834,25 +835,26 @@
 															<div class="card-body">
 																<div class="input-box-container">
 																	<div class="form-group">
-																		<input type="text" value="{{$faq->title}}" class="form-control"
+																		<input type="text" value="{{$faq->title}}" name="title" id="title-{{$faq->id}}"  class="form-control"
 																			placeholder="Add a Question: i.e. Do you translate to English as well?" />
 																	</div>
 																	<div class="form-group">
-																		<textarea maxlength="300" class="form-control" rows="3"
+																		<textarea maxlength="300" name="description" id="description-{{$faq->id}}" class="form-control" rows="3"
 																			placeholder="Add an Answer: i.e. Yes, I also translate from English to Hebrew.">{{$faq->description}}</textarea>
 																	</div>
 
 																	<div class="btn-container-box">
 																		<div class="btns">
-																			<button class="custom-btn delete-btn">
+																			<button onclick="deleteFaq({{$faq->id}})" class="custom-btn delete-btn">
 																				<i class="fa fa-times"></i> delete
 																			</button>
 																		</div>
 																		<div class="btns">
-																			<button class="custom-btn">
-																				cancle
+																			<button class="custom-btn" data-toggle="collapse"
+																				data-target="#collapse{{$faq->id}}" aria-expanded="false" aria-controls="collapse{{$faq->id}}">
+																				cancel
 																			</button>
-																			<button class="custom-btn">
+																			<button class="custom-btn faq_button" data-id="{{$faq->id}}">
 																				save
 																			</button>
 																		</div>
@@ -863,7 +865,7 @@
 													</div>
 													@endforeach
 													<div id="accordion" class="accordion">
-														
+
 													</div>
 												</div>
 											</div>
@@ -875,15 +877,16 @@
 										</div>
 								</div>
 								<div class="tab-pane fade  requirements-tab" id="requirements" role="tabpanel" aria-labelledby="requirements-tab">
-									<form id="requirements-form">
-										<input type="hidden" name="type" value="4">
 										<div class="tab-pane-box">
+											<form id="requirements-form">
+												<input type="hidden" name="service_id" value="{{$getSingleData->id}}">
+												<input type="hidden" name="type" value="4">
 											<div class="require-text-title">
 												<h5>
 													<i class="fa fa-file"></i> {{ __('home.Here’s how buyers will see your questions. You can edit or remove questions anytime.')}}
 												</h5>
 											</div>
-											<div class="question-input-container d-none">
+											<div class="question-input-container add-requirment d-none">
 												<div class="add-ques-header">
 													<h6>{{ __('home.add question')}}</h6>
 													<div class="answer-type">
@@ -909,12 +912,10 @@
 															type="checkbox"
 															class="form-check-input"
 															id="exampleCheck1"
-														/>
-														<label
-															class="form-check-label"
-															for="exampleCheck1"
-															>{{ __('home.Answer is mandatory')}}</label
-														>
+															name="mandatory"
+															value="1" />
+														<label class="form-check-label"
+															for="exampleCheck1">{{ __('home.Answer is mandatory')}}</label>
 													</div>
 													<p class="max-char"><span>0</span>/450 max</p>
 												</div>
@@ -928,6 +929,7 @@
 													</div>
 												</div>
 											</div>
+										</form>
 											<div class="added-questions d-none" id="added-questions">
 												<!-- <div class="question-list-item">
 													<div class="inner-text">
@@ -961,9 +963,9 @@
 											</div>
 											<div class="added-questions">
 												@foreach($getSingleReq as $request)
-												<div class="question-list-item">
+												<div class="question-list-item requiremet-question-{{$request->id}}">
 													<div class="inner-text">
-														<p>{{$request->response}}</p>
+														<p class="requirement-response{{$request->id}}">{{$request->response}}</p>
 														<div class="dropdown">
 															<a
 																class="nav-link globe-icon"
@@ -980,14 +982,60 @@
 																class="dropdown-menu"
 																aria-labelledبواسطة="navbarDropdown"
 															>
-																<a class="dropdown-item" href="#">Edit</a>
-																<a class="dropdown-item" href="#">Delete</a>
+																<a class="dropdown-item" href="javascript:void(0);" onclick="showRequirement({{$request->id}})">Edit</a>
+																<a class="dropdown-item" href="javascript:void(0);" onclick="deleteRequirement({{$request->id}})">Delete</a>
 															</div>
 														</div>
 													</div>
-													<h6>
+													<h6 class="requirement-heading{{$request->id}}">
 														{{$request->question}}
 													</h6>
+												</div>
+												<div class="question-input-container d-none requiremet-question-{{$request->id}}" id="requirement{{$request->id}}">
+													<div class="add-ques-header">
+														<h6>{{ __('home.add question')}}</h6>
+														<div class="answer-type">
+															<span>{{ __('home.answer type')}}</span>
+															<select name="response" id="response{{$request->id}}" class="select2">
+																<option value="free text"{{$request->response == 'free text' ? 'selected="selected"' : ''}}>{{ __('home.free text')}}</option>
+																<option value="attachement"{{$request->response == 'attachement' ? 'selected="selected"' : ''}}>{{ __('home.Attachement')}}</option>
+															</select>
+														</div>
+													</div>
+
+													<textarea
+														name="question"
+														class="form-control question-textarea"
+														id="question{{$request->id}}"
+														rows="3"
+														placeholder="Request necessary details such as dimensions, brand guidelines, and more."
+													>{{$request->question}}</textarea>
+
+													<div class="sub-box">
+														<div class="form-check">
+															<input
+																type="checkbox"
+																class="form-check-input"
+																id="mandatory{{$request->id}}"
+																name="mandatory"
+																value="1" {{$request->mandatory_status == '1' ? 'checked="checked"' : ''}} />
+															<label
+																class="form-check-label"
+																for="mandatory{{$request->id}}"
+																>{{ __('home.Answer is mandatory')}}</label
+															>
+														</div>
+														<p class="max-char"><span>0</span>/450 max</p>
+													</div>
+
+													<div class="btn-container-box">
+														<div class="btns">
+															<button class="custom-btn btn-cancle cancel_button" data-id="{{$request->id}}">
+																{{ __('home.Cancel')}}
+															</button>
+															<button class="custom-btn btn-add requirement_button" data-id="{{$request->id}}"  id="requirements-btn">{{ __('home.add')}}</button>
+														</div>
+													</div>
 												</div>
 												@endforeach
 											</div>
@@ -1046,7 +1094,6 @@
 												<i class="fa fa-plus"></i> add new question
 											</button>
 										</div> -->
-									</form>
 
 									<div class="btns-group">
 										<!-- <button class="prevtab btn btn-primary">Prev</button> -->
@@ -1057,7 +1104,8 @@
 								<div class="tab-pane fade gallery-tab-container" id="gallery" role="tabpanel"
 									aria-labelledby="gallery-tab">
 									<form id="gallery-form" enctype="multipart/form-data">
-										<input type="hidden" name="type" form="gallery-form" value="5">
+										<input type="hidden" name="service_id" value="{{$getSingleData->id}}">
+										<input type="hidden" name="type" value="5">
 										<div class="tab-pane-box">
 
 											<div class="heading">
@@ -1164,7 +1212,7 @@
 								</div>
 							</div>
 
-							
+
 						</div>
 					</div>
 					<!-- <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
@@ -1188,7 +1236,7 @@
 			pane = $(".create-service .tab-pane");
 		// next
 		$(".nexttab").on("click", function () {
-			
+
 			for (i = 0; i < items.length; i++) {
 				if ($(items[i]).hasClass("active") == true) {
 					break;
@@ -1233,21 +1281,21 @@
 
 		// show question-input-container
 		$(".add-new-btn-ques").on("click", function (e) {
-			$(".question-input-container").removeClass("d-none");
+			$(".add-requirment").removeClass("d-none");
 			// $(".added-questions").removeClass("d-none");
 			$(this).addClass("d-none");
 		});
 
 		// hide question-input-container
-		$(".question-input-container .btn-cancle").on("click", function (e) {
-			$(".question-input-container").addClass("d-none");
+		$(".add-requirment .btn-cancle").on("click", function (e) {
+			$(".add-requirment").addClass("d-none");
 			$(".add-new-btn-ques").removeClass("d-none");
 		});
 
 		// show added-questions
-		$(".question-input-container .btn-add").on("click", function (e) {
+		$(".add-requirment .btn-add").on("click", function (e) {
 			$(".added-questions").removeClass("d-none");
-			$(".question-input-container").addClass("d-none");
+			$(".add-requirment").addClass("d-none");
 			$(".add-new-btn-ques").removeClass("d-none");
 		});
 
@@ -1334,7 +1382,7 @@
 					}
 				});
 			}
-			
+
 
 		})
 
@@ -1350,7 +1398,7 @@
 				data:{service_desc:service_desc,type:type},
 				success:function(data){
 					console.log(data);
-					
+
 					$("#requirements-tab").removeClass("active");
 			    $("#descriptionFaq-tab").addClass("active");
 		    	$("#descriptionFaq").removeClass("show active");
@@ -1360,62 +1408,90 @@
 
 		})
 
-		$('#faq-form').on('submit', function(event){
-		  event.preventDefault();
-		  var title = $('#faq_title').val();
-		  var description = $('#faq_description').val();
-		  var type = "3";
-		  $.ajax({
-		   url:"{{url('create-service/'.$getSingleData->id)}}",
-		   method:"PATCH",
-		   data:{title: title, description: description, type: type},
-		   // dataType:'JSON',
-		   // contentType: false,
-		   cache: false,
-		   processData: false,
-		   success:function(data){
-		    console.log(data);
-		    $('.accordion').append(data);
-		    $("#faq-form input").val('');
-		    $("#faq-form textarea").val('');
-		   }
-		  })
-	 });
+		// $('#faq-form').on('submit', function(event){
+		//   event.preventDefault();
+		//   var title = $('#faq_title').val();
+		//   var description = $('#faq_description').val();
+		//   var type = "3";
+		//   $.ajax({
+		//    url:"{{url('create-service/'.$getSingleData->id)}}",
+		//    method:"PATCH",
+		//    data:{title: title, description: description, type: type},
+		//    // dataType:'JSON',
+		//    // contentType: false,
+		//    cache: false,
+		//    processData: false,
+		//    success:function(data){
+		//     console.log(data);
+		//     $('.accordion').append(data);
+		//     $("#faq-form input").val('');
+		//     $("#faq-form textarea").val('');
+		//    }
+		//   })
+	 // });
 
-		$('#gallery-submit').click(function(event){
-		  event.preventDefault();
-		  var service_img1 = $('#01').val();
-		  var service_img2 = $('#02').val();
-		  var service_img3 = $('#03').val();
-		  var service_video = $('#video01').val();
-		  var service_pdf1 = $('#pdf01').val();
-		  var service_pdf2 = $('#padf02').val();
-		  var type = "5";
-		  var formData = new FormData();
-		  formData.append('type', this.type);
-		  // alert(service_img1);
-		  $.ajax({
-		   url:"{{ url('create-service/'.$getSingleData->id) }}",
-		   method:"PATCH",
-		   data:{service_img1:service_img1,service_img2:service_img2,service_img3:service_img3,service_pdf1:service_pdf1,service_pdf2:service_pdf2,service_video:service_video,type:type},
-		   // dataType:'JSON',
-		   // contentType: false,
-		   // cache: false,
-		   // processData: false,
-		   success:function(data){
-		    // swal({
-		    // type: 'success',
-		    // text: 'Your Service Updated Successfully',
-		    // timer: 2000,
-		    // onOpen: function(){
-		    // swal.showLoading()
-		    // }
-		    // }).then(function(){
-		    // 	window.open('../../profile','_self');
-		    // });
-		   }
-		  })
-	 });
+	 $('#faq-form').on('submit', function(event){
+		event.preventDefault();
+		$.ajax({
+		 url:"{{url('create-faq')}}",
+		 method:"POST",
+		 data:new FormData(this),
+		 dataType:'JSON',
+		 contentType: false,
+		 cache: false,
+		 processData: false,
+		 success:function(data){
+			// console.log(data);
+			$('.accordion').append(data);
+			$("#faq-form .faq_title").val('');
+			$("#faq-form .faq_desc").val('');
+		 }
+		})
+ });
+
+ $(document).on('click','.faq_button', function () {
+ 	var id = $(this).data('id');
+	var title = $('#title-'+id).val();
+	var description = $('#description-'+id).val();
+	console.log(id,title,description);
+	$.ajax({
+	 url:"{{url('update-faq')}}",
+	 method:"POST",
+	 data:{id:id,title:title,description:description},
+	 dataType:'JSON',
+	 success:function(data){
+		$('.faq_heading'+id).text(title);
+		$('#collapse-button'+id).addClass('collapsed');
+		$('#collapse'+id).removeClass('show');
+	 }
+	})
+ });
+
+ $('#gallery-form').on('submit', function(event){
+	 event.preventDefault();
+	 $.ajax({
+		url:"{{ url('update_gallery') }}",
+		method:"POST",
+		data:new FormData(this),
+		dataType:'JSON',
+		contentType: false,
+		cache: false,
+		processData: false,
+		success:function(data){
+		 swal({
+		 type: 'success',
+		 text: 'Your Service Updated Successfully',
+		 timer: 2000,
+		 onOpen: function(){
+		 swal.showLoading()
+		 }
+		 }).then(function(){
+			 window.open('../../profile','_self');
+		 });
+		}
+	 })
+});
+
 
 		$('#requirements-form').on('submit', function(event){
 		  event.preventDefault();
@@ -1423,11 +1499,11 @@
 		  var question = $('#question').val();
 		  var type = "4";
 		  $.ajax({
-		   url:"{{url('create-service/'.$getSingleData->id)}}",
-		   method:"PATCH",
-		   data:{question:question, response:response, type:type},
-		   // dataType:'JSON',
-		   // contentType: false,
+		   url:"{{url('create-requirements')}}",
+		   method:"POST",
+		   data:new FormData(this),
+		   dataType:'JSON',
+		   contentType: false,
 		   cache: false,
 		   processData: false,
 		   success:function(data){
@@ -1435,6 +1511,33 @@
 		   	$('#requirements-form textarea').val('');
 		   }
 		  })
+	 });
+
+	 $(document).on('click','.requirement_button', function () {
+		 var id = $(this).data('id');
+	 var response = $('#response'+id).val();
+	 var question = $('#question'+id).val();
+	 var mandatory = '';
+	 if($('#mandatory'+id).is(':checked')){
+		  mandatory = $('#mandatory'+id).val();
+	 }
+	 console.log(id,response,question);
+	 $.ajax({
+		url:"{{url('update-requirement')}}",
+		method:"POST",
+		data:{id:id,response:response,question:question,mandatory:mandatory},
+		dataType:'JSON',
+		success:function(data){
+		 $('#requirement'+id).addClass('d-none');
+		 $('.requirement-response'+id).text(response);
+		 $('.requirement-heading'+id).text(question);
+		}
+	 })
+	 });
+
+	 $(document).on('click','.cancel_button', function () {
+		 var id = $(this).data('id');
+		 $('#requirement'+id).addClass('d-none');
 	 });
 
 		$('#package-form').on('submit', function(event){
@@ -1482,7 +1585,7 @@
 			}
 	 });
 
-		
+
 	});
 </script>
 
@@ -1496,7 +1599,7 @@
 
 <!-- image-upload -->
 <script>
-	
+
 	// Gig photos
 	$('.gig-photos input[type=file]').change(function () {
 		var id = $(this).attr("id");
@@ -1541,7 +1644,7 @@
 	});
 
 	$("#sub-category").change(function(){
-	  
+
 	  var category_id = $(this).val();
 	  // alert(category_id);
 	  $.ajax({
@@ -1559,12 +1662,35 @@
 
 	$("#service_title").keydown(function(){
 		var textarea = $("#service_title").val();
-		$(".descCount").text(textarea.length);  
+		$(".descCount").text(textarea.length);
 	});
 
 	$("#seo_title").keydown(function(){
 		var textarea = $("#seo_title").val();
-		$(".seoCount").text(textarea.length);  
+		$(".seoCount").text(textarea.length);
 	});
+
+	function deleteFaq(faq_id) {
+		$.ajax({
+		 url: "{{url('delete_faq')}}/"+faq_id,
+		 success:function(data){
+			 $('#heading'+faq_id).remove();
+			 $('#collapse'+faq_id).remove();
+		 }
+	 });
+	}
+
+	function showRequirement(req_id) {
+		$('#requirement'+req_id).removeClass('d-none');
+	}
+
+	function deleteRequirement(req_id) {
+		$.ajax({
+		 url: "{{url('delete_requirement')}}/"+req_id,
+		 success:function(data){
+			 $('.requiremet-question-'+req_id).remove();
+		 }
+	 });
+	}
 </script>
 @endsection

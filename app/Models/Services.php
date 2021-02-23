@@ -52,6 +52,10 @@ class Services extends Model
     {
       return $this->belongsTo(User::class, 'seller_id');
     }
+    public function serviceRating()
+    {
+      return $this->hasMany(BuyerReviews::class, 'service_id');
+    }
 
     public function sluggable()
     {

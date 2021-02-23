@@ -11,8 +11,25 @@
     },
     "devDependencies": {
         "axios": "^0.21",
+        "bootstrap": "4.4.1",
+        "jquery": "3.4.1",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
-        "postcss": "^8.1.14"
+        "popper.js": "^1.12",
+        "postcss": "^8.1.14",
+        "resolve-url-loader": "^3.1.2",
+        "sass": "^1.20.1",
+        "sass-loader": "^8.0.0",
+        "vue": "^2.5.17",
+        "vue-loader": "^15.9.5",
+        "vue-template-compiler": "^2.6.10"
+    },
+    "dependencies": {
+        "express": "^4.12.4",
+        "ioredis": "^1.4.0",
+        "redis": "^0.12.1",
+        "socket.io": "^3.1.1",
+        "vue-moment": "^4.1.0",
+        "vue-socket.io": "^3.0.7"
     }
 }

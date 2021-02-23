@@ -8,6 +8,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CreateServiceController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ChatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,7 +53,7 @@ Route::get('/faq', function () {
 Route::resource('/categories', CategoriesController::class);
 
 Route::match(['get','post'],'/register', [RegisterController::class, 'register']);
-Route::get('/login', [RegisterController::class, 'accountLogin']);
+Route::get('/login', [RegisterController::class, 'accountLogin'])->name('login');
 Route::post('/login', [RegisterController::class, 'checkLogin']);
 Route::get('/verify-account/{username}/{token}', [RegisterController::class, 'VerifyAccount'])->name('verify');
 Route::get('/logout', [RegisterController::class, 'logout'])->name('logout');
@@ -70,38 +72,67 @@ Route::get('facebook/callback', [SocialAuthController::class, 'FacebookProviderC
 // Route::get('twitter/callback', [SocialAuthController::class, 'TwitterProviderCallback']);
 Route::get('login/google', [SocialAuthController::class, 'redirectToGoogle']);
 Route::get('google/callback', [SocialAuthController::class, 'GoogleProviderCallback']);
-
-
-// Profile
+Route::get('get-city/{id}', [HomeController::class, 'getCities']);
+Route::get('get-state/{id}', [HomeController::class, 'getState']);
 Route::get('profile/{username}', [ProfileController::class, 'show']);
+
+
+Route::group(['middleware' => 'auth'], function() {
+// Profile
 Route::get('/profile', [ProfileController::class,'index']);
 Route::get('settings', [ProfileController::class,'edit_profile']);
 Route::post('edit_profile_info', [ProfileController::class,'edit_profile_info']);
-Route::get('/messages', function () {
-    return view('frontend.messages');
-});
+Route::get('messages', [ChatController::class,'messages']);
+
+// Route::get('/messages', function () {
+//     return view('frontend.messages');
+// });
+Route::get('/manage-orders-ajax/{order}', [OrderController::class, 'manageOrders_ajax']);
+Route::get('/order-details/{number}', [OrderController::class, 'OrderDetails'])->name('order-details');
 
 // Service Route
 Route::resource('/create-service', CreateServiceController::class);
+Route::post('/create-faq', [CreateServiceController::class, 'createFaq']);
+Route::post('/update-faq', [CreateServiceController::class, 'updateFaq']);
+Route::get('/delete_faq/{id}', [CreateServiceController::class, 'deleteFaq']);
+Route::post('/create-requirements', [CreateServiceController::class, 'createRequirement']);
+Route::post('/update-requirement', [CreateServiceController::class, 'updateRequirement']);
+Route::get('/delete_requirement/{id}', [CreateServiceController::class, 'deleteRequirement']);
+Route::post('/update_gallery', [CreateServiceController::class, 'updateGallery']);
+
 // Route::post('/update-service/{id}', [CreateServiceController::class, 'update_service']);
 Route::post('/fetch_subcategory', [CreateServiceController::class, 'fetch_subcategory']);
 Route::post('/fetch_package_option', [CreateServiceController::class, 'fetch_package_option']);
 Route::match(['get','post'],'/post_service', [CreateServiceController::class, 'post_service']);
 
+// Rating
+Route::get('/rating/{number}', [OrderController::class, 'Rating']);
+Route::post('/buyer_review', [OrderController::class, 'BuyerReview']);
+
 Route::get('/services/{url}', [ServiceController::class, 'index']);
-Route::get('/services/{url}/{child_url}', [ServiceController::class, 'index']);
 
 
+
+// Orders
+Route::post('/order', [OrderController::class, 'order']);
+Route::post('/create_order', [OrderController::class, 'CreateOrder']);
+Route::post('/save_requirement', [OrderController::class, 'SaveRequirement']);
+Route::match(['get','post'],'/order_conversation', [OrderController::class, 'SendOrderMessage']);
+Route::get('/manage-orders', [OrderController::class, 'manageOrders']);
+
+
+
+
+Route::post('/change-password', [ProfileController::class, 'ChangePassword']);
+Route::post('/save-billing-info', [ProfileController::class, 'SaveBilling']);
+Route::post('/save-notificatoins-setting', [ProfileController::class, 'SaveNotificationSetting']);
+
+Route::get('/help-center', [OrderController::class, 'HelpCenter']);
+Route::post('/request-help', [OrderController::class, 'RequestHelp']);
+Route::post('/deliver-work', [OrderController::class, 'DeliverWork']);
+
+});
 Route::get('/get_services', [ServiceController::class, 'get_services']);
+Route::get('/{username}/{url}', [ServiceController::class, 'service_detail'])->name('service-details');
 Route::get('/search', [ServiceController::class, 'search_service']);
-Route::get('/{username}/{url}', [ServiceController::class, 'service_detail']);
-
-// Categories
-
-Route::get('/order', function () {
-    return view('frontend.order');
-});
-Route::get('/manage-orders', function () {
-    return view('frontend.manage-orders');
-});
-
+Route::get('/services/{url}/{child_url}', [ServiceController::class, 'index']);

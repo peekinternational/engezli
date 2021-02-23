@@ -80,7 +80,7 @@
 					<div class="support">
 						<h5>{{ __('home.Support')}}</h5>
 						<ul>
-							<li><a href="">{{ __('home.Help & Support')}}</a></li>
+							<li><a href="{{url('/help-center')}}">{{ __('home.Help & Support')}}</a></li>
 							<li><a href="">{{ __('home.Trust & Safety')}}</a></li>
 							<li><a href="">{{ __('home.Selling on Engezly')}}</a></li>
 							<li><a href="">{{ __('home.Buying on Engezly')}}</a></li>

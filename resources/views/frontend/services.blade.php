@@ -3,14 +3,14 @@
 @section('styling')
 @endsection
 @section('content')
-<?php $child_url_id = Request::segment(3); 
+<?php $child_url_id = Request::segment(3);
 $child_url = request()->segment(count(request()->segments(3)));
 
 ?>
 <!-- Category Slider -->
 @include('frontend.includes.category-slider')
 <!-- Maan tabs -->
-<div class="search-container">
+<div class="search-container service-page-header">
   <div class="page-headers">
     <div class="container">
       <h2>Service lists</h2>
@@ -181,7 +181,7 @@ $child_url = request()->segment(count(request()->segments(3)));
       <div class="result-and-sort">
         <div class="headers">
           <p class="result">{{$serviceCount}} services available</p>
-          <h2>Services In 
+          <h2>Services In
             @if($child_url_id != '')
             <span>
               {{Engezli::get_subCatName($child_url)->cat_title}}
@@ -265,19 +265,19 @@ $child_url = request()->segment(count(request()->segments(3)));
             </div>
           </div>
           @endforeach
-          
+
         </div>
         <!-- <div class="row hidden" id="online_seller-service">
-          
+
         </div>
         <div class="row hidden" id="local_seller-service">
-          
+
         </div> -->
         <div class="row hidden" id="filter-services">
-          
+
         </div>
         <nav class="pagination-container">
-        {{$services->links()}}
+          {{$services->links()}}
           <!-- <ul class="pagination">
             <li class="page-item disabled">
               <a class="page-link" href="#" tabindex="-1">
@@ -378,7 +378,7 @@ $child_url = request()->segment(count(request()->segments(3)));
       e.preventDefault();
 
       var delivery_time = $('#delivery_time').val();
-      
+
       $.ajax({
         url: "{{url('get_services')}}",
         type: 'get',
@@ -397,7 +397,7 @@ $child_url = request()->segment(count(request()->segments(3)));
       e.preventDefault();
 
       var sort_by = $('#sort_by').val();
-      
+
       $.ajax({
         url: "{{url('get_services')}}",
         type: 'get',
@@ -411,9 +411,9 @@ $child_url = request()->segment(count(request()->segments(3)));
       });
 
     })
-    
+
     $('#language_filter :checkbox').change(function(){
-      
+
       var language_id = $(this).val();
 
       $.ajax({
@@ -428,9 +428,9 @@ $child_url = request()->segment(count(request()->segments(3)));
         }
       });
     })
-    
+
     $('#level_filter :checkbox').change(function(){
-      
+
       var level_id = $(this).val();
 
       $.ajax({
@@ -445,9 +445,9 @@ $child_url = request()->segment(count(request()->segments(3)));
         }
       });
     })
-    
+
     $('#country_filter :checkbox').change(function(){
-      
+
       var country = $(this).val();
 
       $.ajax({
@@ -462,9 +462,9 @@ $child_url = request()->segment(count(request()->segments(3)));
         }
       });
     })
-    
+
     $('#reset').change(function(){
-      
+
       var reset = $(this).val();
 
       $.ajax({

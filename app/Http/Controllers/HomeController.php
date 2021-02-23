@@ -30,6 +30,24 @@ class HomeController extends Controller
         return \View::make('frontend.index')->with(compact('categories','services'));
     }
 
+    public function getState(Request $request){
+  		if(!$request->ajax()){
+  			exit('Directory access is forbidden');
+  		}
+  		$countryId = $request->segment(2);
+  		$states = Engezli::getStates($countryId);
+  		return view('frontend.states',compact('states'));
+  	}
+
+    public function getCities(Request $request){
+  		if(!$request->ajax()){
+  			exit('Directory access is forbidden');
+  		}
+  		$stateId = $request->segment(2);
+  		$cities = Engezli::getCities($stateId);
+  		return view('frontend.cities',compact('cities'));
+  	}
+
     /**
      * Show the form for creating a new resource.
      *
@@ -101,7 +119,7 @@ class HomeController extends Controller
     {
         App::setLocale($request->lang);
         session()->put('locale', $request->lang);
-  
+
         return redirect()->back();
     }
 }

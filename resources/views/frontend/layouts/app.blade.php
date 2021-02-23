@@ -8,12 +8,12 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Engezli | @yield('title')</title>
     <!-- Favicon Icon -->
-    <link rel="icon" type="image/png" href="images/fav.svg">
+    <!-- <link rel="icon" type="image/png" href="{{asset('images/fav.svg')}}"> -->
     <!-- Font Awesome-->
-    <link href="{{asset('frontend-assets/vendor/fontawesome/css/font-awesome.min.css')}}" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
-        integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous" />
-   
+    <link href="{{asset('css/fonts/fontawesome/css/font-awesome.min.css')}}" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+        integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous" /> -->
+
     <!-- Custom styles for this template -->
     <!-- Bootstrap core CSS -->
     <link href="{{asset('css/cdn/bootstrap.min.css')}}" rel="stylesheet">
@@ -26,23 +26,29 @@
     <link href="{{asset('css/arabic_style.css')}}" rel="stylesheet">
     <!-- Custom Css -->
     <link href="{{asset('css/responsive.css')}}" rel="stylesheet">
-     <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css"> 
+     <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
     <link href="{{asset('frontend-assets/css/sweat_alert.css')}}" rel="stylesheet">
+    <!-- Rating css -->
+    <link href="{{asset('frontend-assets/css/rating-style.css')}}" rel="stylesheet">
      @yield('styling')
   </head>
   <body>
+
     @if(Request::path() != 'login' && Request::path() != 'register' && Request::path() != 'forgot-password')
+    <div id="app">
     @include('frontend.includes.header')
     @endif
 
     @yield('content')
+  </div>
     @if(Request::path() != 'login' && Request::path() != 'register' && Request::path() != 'forgot-password')
     @include('frontend.includes.footer1')
     @endif
+    <script src="{{ asset('js/app.js') }}" defer></script>
     <!-- Bootstrap core JavaScript -->
     <script src="{{asset('js/cdn/jquery-3.4.1.min.js')}}"></script>
     <script src="{{asset('js/cdn/popper.min.js')}}"></script>
-    <script src="{{asset('js/cdn/bootstrap.min.js')}}"></script>
+    <!-- <script src="{{asset('js/cdn/bootstrap.min.js')}}"></script> -->
     <script src="{{asset('js/cdn/swiper-bundle.min.js')}}"></script>
     <script src="{{asset('js/cdn/bootstrap-tagsinput.min.js')}}"></script>
     <script src="{{asset('js/cdn/select2.min.js')}}"></script>
@@ -50,10 +56,28 @@
     <script src="{{asset('js/custom.js')}}"></script>
     <script src="{{asset('frontend-assets/js/sweat_alert.js')}}"></script>
     <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
-    
+
     <!-- Contact form JavaScript -->
-    
+
+    <script src="https://peekvideochat.com:22000/socket.io/socket.io.js"></script>
     <script>
+    // @if(auth()->user() != '')
+    // const socket = io.connect('https://peekvideochat.com:22000');
+    // console.log('check 1', socket.connected);
+    // socket.on('birdsreceivemsg', function(data) {
+    //   var user_id = "{{auth()->user()->id}}";
+    //   var dt = new Date();
+    //   var time = dt.getHours() + ":" + dt.getMinutes()
+    //   console.log(data);
+    //   if( user_id == data.message_receiver){
+    //     $('.notificationTime-'+data.conversation_id).html(time);
+    //     $('.notificationMessage-'+data.conversation_id).html(data.message_desc);
+    //   }
+    // });
+    // @endif
+
+
+
         var url = "{{ route('changeLang') }}";
         $(document).ready(function () {
             var url = "{{ route('changeLang') }}";
@@ -64,7 +88,7 @@
                 e.preventDefault();
                 $("body").addClass("arabic").attr("dir", "rtl");
                 window.location.href = url + "?lang="+ $(this).data('info');
-                
+
             });
             // Change to noramal style
             $(".english-format").on("click", function (e) {
@@ -78,6 +102,27 @@
             }else{
                 $("body").removeClass("arabic").removeAttr("dir", "rtl");
             }
+
+          // @if(auth()->user() != '')
+          //   var user_id = "{{auth()->user()->id}}";
+          //
+          //   $.ajaxSetup({
+          //       headers: {
+          //           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          //       }
+          //   });
+          //   $.ajax({
+          //    url:"http://localhost:8000/api/friendlist/friendsList2/"+user_id,
+          //    // method:"POST",
+          //    success:function(data){
+          //      $('.show-notification').html(data);
+          //     // $('.added-questions').append(data);
+          //     // $('#requirements-form textarea').val('');
+          //    }
+          //   })
+          // @endif
+
+
         });
     </script>
     @yield('script')

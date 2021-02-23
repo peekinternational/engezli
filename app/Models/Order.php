@@ -12,12 +12,14 @@ class Order extends Model
     protected $fillable = [
     	'order_number',
     	'service_id',
+    	'seller_id',
     	'buyer_id',
     	'order_date',
     	'order_time',
     	'order_duration',
     	'order_qty',
     	'order_fee',
+    	'service_fee',
     	'order_active',
     	'complete_time',
     	'order_status',
@@ -30,4 +32,13 @@ class Order extends Model
     {
       return $this->belongsTo(User::class, 'buyer_id');
     }
+    public function sellerInfo()
+    {
+      return $this->belongsTo(User::class, 'seller_id');
+    }
+    public function orderRequirement()
+    {
+      return $this->hasMany(OrderRequirement::class, 'order_id');
+    }
+  
 }

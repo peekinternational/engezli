@@ -474,6 +474,22 @@ body.arabic .create-service .btn-container-box .delete-btn {
   margin-right: 0;
 }
 
+body.arabic .settings-container .transaction-history .transaction-lists .list-item .receipt,
+body.arabic .settings-container .payment-tab-container .lists-item .inner-box a {
+  margin-left: unset !important;
+  margin-right: auto;
+}
+
+body.arabic .settings-container .receipt .custom-btn i {
+  margin-right: 0 !important;
+  margin-left: 10px;
+}
+
+body.arabic .settings-container .transaction-history .transaction-lists .list-item .price {
+  margin-right: 0 !important;
+  margin-left: 15px;
+}
+
 @media (min-width: 1024px) {
   body.arabic ul.main-menu li.nav-item .notification {
     right: 0 !important;
@@ -508,6 +524,13 @@ body.arabic .create-service .btn-container-box .delete-btn {
   }
   body.arabic .profile-container .seller-profile .skills li {
     margin: 0 0 7px 3px;
+  }
+  body.arabic .settings-container ul.nav-pills {
+    padding: 5px !important;
+  }
+  body.arabic .settings-container .notification-tab .real-time-notification label {
+    cursor: pointer;
+    min-width: 60px;
   }
 }
 

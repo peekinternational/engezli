@@ -1,5 +1,5 @@
 <?php
- 
+
 return [
 	"Welcome Back" => "Welcome Back",
 	"Home Banner Title" => "Find The Perfect Services With Engezly For Your Business",
@@ -159,5 +159,6 @@ return [
 	"add a new payment options" => "add a new payment options",
 	"transaction history" => "transaction history",
 	"receipt" => "receipt",
+	"Field Required" => "Field Required",
 
 ];
