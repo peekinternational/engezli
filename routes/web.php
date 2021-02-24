@@ -110,7 +110,13 @@ Route::match(['get','post'],'/post_service', [CreateServiceController::class, 'p
 Route::get('/rating/{number}', [OrderController::class, 'Rating']);
 Route::post('/buyer_review', [OrderController::class, 'BuyerReview']);
 
+// Requirements
+Route::get('/requirements/{number}', [OrderController::class, 'GetRequirements']);
+
+
+//  Resolution Center
 Route::get('/resolution-center/{number}', [OrderController::class, 'ResolutionCenter']);
+Route::post('/make-resolution-request', [OrderController::class, 'ResolutionRequest']);
 
 Route::get('/services/{url}', [ServiceController::class, 'index']);
 

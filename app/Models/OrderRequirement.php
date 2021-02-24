@@ -14,6 +14,7 @@ class OrderRequirement extends Model
     	'requirement_id',
     	'requirement',
     	'image',
+    	'type',
     ];
     public function orderInfo()
     {

@@ -46,13 +46,14 @@
     <div class="outer-content">
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
-          <div class="tab-content" id="myTabContent">
-            <div
-              class="tab-pane fade show active"
-              id="select-action"
-              role="tabpanel"
-              aria-labelledby="select-action-tab"
-            >
+          <form class="" action="{{url('make-resolution-request')}}" method="post">
+            {{csrf_field()}}
+            <input type="hidden" name="order_id" value="{{$order->id}}">
+            <input type="hidden" name="order_number" value="{{$order->order_number}}">
+           <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active"
+              id="select-action" role="tabpanel"
+              aria-labelledby="select-action-tab">
               <div class="card p-4">
                 <div class="res-header">
                   <h3>resolution center</h3>
@@ -186,12 +187,10 @@
                 </div>
               </div>
             </div>
-            <div
-              class="tab-pane fade"
+            <div class="tab-pane fade"
               id="details-and-submit"
               role="tabpanel"
-              aria-labelledby="details-and-submit-tab"
-            >
+              aria-labelledby="details-and-submit-tab">
               <div class="card p-4">
                 <div class="res-header">
                   <h3>resolution center</h3>
@@ -201,16 +200,13 @@
                   </p>
                 </div>
                 <div class="form-group">
-                  <label for=""
-                    >Explain to the seller why you would like to cancel this
-                    order</label
-                  >
+                  <label for="">
+                    Explain to the seller why you would like to cancel this
+                    order</label>
                   <textarea
-                    name=""
-                    id=""
+                    name="details" id=""
                     class="form-control"
-                    rows="4"
-                  ></textarea>
+                    rows="4" required></textarea>
                   <p><small>45/2500 Characters</small></p>
                 </div>
 
@@ -228,13 +224,14 @@
                     </p>
                   </div>
                   <div class="box">
-                    <a href="" class="btn btn-white prevtab">back</a>
-                    <a href="" class="btn btn-primary">send</a>
+                    <a href="javascript:void(0);" id="prevtab" class="btn btn-white prevtab">back</a>
+                    <button type="submit" class="btn btn-primary">send</button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+        </form>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
           <div class="summary-wrapper">
@@ -306,6 +303,12 @@ $('#nexttab').on('click',function () {
   $('#select-action').removeClass('show active');
   $('#details-and-submit').addClass('show active');
   $('#details-and-submit-tab').addClass('active');
+});
+$('#prevtab').on('click',function () {
+  $('#details-and-submit').removeClass('show active');
+  $('#details-and-submit-tab').removeClass('active');
+  $('#select-action-tab').addClass('active');
+  $('#select-action').addClass('show active');
 });
 </script>
 @endsection

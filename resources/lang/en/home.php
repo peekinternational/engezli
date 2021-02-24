@@ -281,5 +281,10 @@ return [
 	"Deliver completed work" => "Deliver completed work",
 	"upload work" => "upload work",
 	"deliver work" => "deliver work",
+	"You Didn't Submit The Requirements" => "You Didn't Submit The Requirements",
+	"Your Order Is Not Started" => "Your Order Is Not Started",
+	"our Delivery Date Will Updated After You Submit Requirements" => "our Delivery Date Will Updated After You Submit Requirements",
+	"Buyer Didn't Submit The Requirements" => "Buyer Didn't Submit The Requirements",
+	"our Delivery Date Will Updated After Buyer Submit Requirements" => "our Delivery Date Will Updated After Buyer Submit Requirements",
 
 ];

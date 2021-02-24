@@ -16,6 +16,7 @@ class Order extends Model
     	'buyer_id',
     	'order_date',
     	'order_time',
+    	'start_time',
     	'order_duration',
     	'order_qty',
     	'order_fee',
@@ -40,5 +41,5 @@ class Order extends Model
     {
       return $this->hasMany(OrderRequirement::class, 'order_id');
     }
-  
+
 }

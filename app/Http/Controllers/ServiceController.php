@@ -208,9 +208,9 @@ class ServiceController extends Controller
 
     public function service_detail(Request $request,$username, $slug){
 
-      $serviceData = Services::where('service_url',$slug)->with('sellerInfo', 'packageInfo','serviceFaq','serviceReq','servicePackgOptions','serviceRating')->first();
       $user = User::with('userReviews')->where('username', $username)->first();
-      // dd($serviceData->id);
+      $serviceData = Services::where('service_url',$slug)->where('seller_id',$user->id)->with('sellerInfo', 'packageInfo','serviceFaq','serviceReq','servicePackgOptions','serviceRating')->first();
+      // dd($serviceData);
       $productCat = Categories::where('id',$serviceData->cat_id)->first();
       $productSubCat = Categories::where('id',$serviceData->cat_child_id)->first();
 
@@ -243,6 +243,7 @@ class ServiceController extends Controller
       // dd($star1,$star2,$star3,$star4,$star5);
       if($tot_stars == 0){
           $rating_avg = array('0','0','0','0','0');
+          $count_stars = array('0','0','0','0','0');
       } else{
 
           for ($i=1;$i<=5;++$i) {

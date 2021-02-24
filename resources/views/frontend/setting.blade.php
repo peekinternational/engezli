@@ -241,7 +241,13 @@
 												<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 													<div class="form-group">
 														<label for="">{{ __('home.Country')}} <span>*</span></label>
-														<input type="text" name="country" value="{{$userData->country}}" class="form-control" />
+														<select class="form-control" name="user_country" id="" required>
+															<option value="">Select Country</option>
+															@foreach(Engezli::get_countries() as $country)
+															<option value="{{$country->name}}" @if($userData) {{$userData->country == $country->name ? 'selected="selected"' : ''}} @endif>{{$country->name}}</option>
+															@endforeach
+														</select>
+														<!-- <input type="text" name="country" value="{{$userData->country}}" class="form-control" /> -->
 														<span class="text-danger">{{ $errors->first('country') }}</span>
 													</div>
 												</div>

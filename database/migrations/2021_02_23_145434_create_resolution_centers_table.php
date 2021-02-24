@@ -19,7 +19,7 @@ class CreateResolutionCentersTable extends Migration
             $table->integer('order_number');
             $table->integer('user_id');
             $table->string('reason');
-            $table->string('details');
+            $table->longText('details');
             $table->string('status');
             $table->timestamps();
         });

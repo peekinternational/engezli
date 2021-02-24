@@ -124,6 +124,7 @@ class ProfileController extends Controller
     }
 
     public function edit_profile_info(Request $request){
+      // dd($request->all());
       $user_id = auth()->user()->id;
       $this->validate($request,[
         'first_name' => 'required|min:1|max:50',
@@ -169,7 +170,7 @@ class ProfileController extends Controller
       $user->mobile_number = $request->input('mobile_number');
       $user->gender = $request->input('gender');
       $user->birth_date = $request->input('birth_date');
-      $user->country = $request->input('country');
+      $user->country = $request->input('user_country');
       $user->website = $request->input('website');
       $user->organization = $request->input('organization');
       $user->occuption = $request->input('occuption');

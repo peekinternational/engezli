@@ -598,7 +598,7 @@
                       </div>
 
                       <div class="btn-container">
-                        <a href="" class="btn custom-btn"
+                        <a href="{{url('manage-orders')}}" class="btn custom-btn"
                           >{{ __('home.Reminde me later')}}</a
                         >
                         <button type="submit" class="btn custom-btn">{{ __('home.Start Order')}}</button>

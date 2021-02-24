@@ -15,6 +15,7 @@ use App\Models\Order;
 use App\Models\OrderConversations;
 use App\Models\OrderDelivery;
 use App\Models\OrderRequirement;
+use App\Models\ResolutionCenter;
 use App\Models\SellerLevel;
 use App\Facade\Engezli;
 use Hash;
@@ -43,6 +44,12 @@ class OrderController extends Controller
       $package_id = $request->input('package_id');
       $package = Packages::with('serviceInfo')->where('id',$package_id)->first();
       return view('frontend.order',compact('package'));
+    }
+
+    public function GetRequirements(Request $request, $order_number)
+    {
+      $order = Order::with('serviceInfo')->where('order_number',$order_number)->first();
+      return view('frontend.submit-requirements',compact('order'));
     }
 
     public function CreateOrder(Request $request)
@@ -79,13 +86,19 @@ class OrderController extends Controller
             $descData['order_id'] = $order_id;
             $descData['requirement_id'] = $req_id;
             $descData['requirement'] = $desc;
+            $descData['type'] = '0';
             $save_requirement = OrderRequirement::create($descData);
           }elseif ($attachment != null) {
             if($attachment != ''){
               // $filename= $attachment->getClientOriginalName();
               // $imagename= 'order-requirement-'.rand(000000,999999).'.'.$attachment->getClientOriginalExtension();
               // $imagename= $filename;
-              // $extension= $attachment->getClientOriginalExtension();
+              $extension= $attachment->getClientOriginalExtension();
+              if ($extension == 'png' || $extension == 'jpg'|| $extension == 'jpeg') {
+                $attchData['type'] = '1';
+              }else {
+                $attchData['type'] = '2';
+              }
               $imagename = 'order-requirement-'.time().'-'.rand(000000,999999).'.'.$attachment->getClientOriginalExtension();
               $destinationpath= public_path('images/order_requirements');
               $attachment->move($destinationpath, $imagename);
@@ -99,6 +112,7 @@ class OrderController extends Controller
       }
       $order = Order::find($order_id);
       $order->order_status = 'started';
+      $order->start_time = Carbon::now();
       $order->update();
       return '1';
 
@@ -323,6 +337,21 @@ class OrderController extends Controller
     {
       $order = Order::with('serviceInfo','orderRequirement','sellerInfo','buyerInfo')->where('order_number',$order_number)->first();
       return view('frontend.resolution-center',compact('order'));
+    }
+
+    public function ResolutionRequest(Request $request)
+    {
+        // dd($request->all());
+        $user_id = auth()->user()->id;
+        $data['user_id'] = $user_id;
+        $data['order_id'] = $request->input('order_id');
+        $data['order_number'] = $request->input('order_number');
+        $data['reason'] = $request->input('reason');
+        $data['details'] = $request->input('details');
+        $data['status'] = 'pending';
+        $resolution = ResolutionCenter::create($data);
+        return redirect('/manage-orders')->with('success', 'Request send successfully');
+
     }
 
 

@@ -2,6 +2,7 @@
 @section('title', 'Order  ')
 @section('styling')
 <!-- <script src="{{ asset('js/app.js') }}" defer></script> -->
+<link rel="stylesheet" href="{{asset('frontend-assets/css/timer.css')}}">
 @endsection
 @section('content')
 <div class="create-service order-request buyer-order order-seller">
@@ -75,12 +76,24 @@
                   role="tabpanel"
                   aria-labelledby="acitvity-tab"
                 >
+                  @if($order->start_time != null)
+                  <div class="card">
+                    <div class="timer" id="timer">
+
+                    </div>
+                  </div>
+                  @endif
                   <div class="activity-tab-container card">
                     <?php
                     $order_date = date('M d, h:i A',strtotime($order->order_time));
                     $duratoin = $order->order_duration;
-                    $delivery_date = date('M d, h:i A',strtotime('+ '.$duratoin,strtotime($order->order_time)));
-                    $requirements_date = date('M d, h:i A',strtotime($order->orderRequirement[0]->created_at));
+                    $requirements_date = '';
+                    $delivery_date = '';
+                    if ($order->start_time != null) {
+                      $delivery_date = date('M d, h:i A',strtotime('+ '.$duratoin,strtotime($order->start_time)));
+                      $delivery_date2 = date('Y M d, h:i:s',strtotime('+ '.$duratoin,strtotime($order->start_time)));
+                      $requirements_date = date('M d, h:i A',strtotime($order->start_time));
+                    }
                     $only_date = date('M d',strtotime($order->order_time));
                      ?>
                     <span class="date">{{$only_date}}</span>
@@ -103,10 +116,16 @@
                           <i class="fa fa-pencil"></i>
                         </div>
                         <div class="box-item">
+                          @if($requirements_date != "")
                           <h6>
                             {{ __('home.You Submitted The Requirements')}}
                             <span class="time">{{$requirements_date}}</span>
                           </h6>
+                          @else
+                          <h6>
+                            {{ __("home.Buyer Didn't Submit The Requirements")}}
+                          </h6>
+                          @endif
                         </div>
                       </div>
                     </div>
@@ -116,10 +135,16 @@
                           <i class="fa fa-rocket"></i>
                         </div>
                         <div class="box-item">
+                          @if($requirements_date != "")
                           <h6>
                             {{ __('home.Your Order Started')}}
                             <span class="time">{{$requirements_date}}</span>
                           </h6>
+                          @else
+                          <h6>
+                            {{ __('home.Your Order Is Not Started')}}
+                          </h6>
+                          @endif
                         </div>
                       </div>
                     </div>
@@ -129,10 +154,16 @@
                           <i class="fa fa-clock-o"></i>
                         </div>
                         <div class="box-item">
+                          @if($requirements_date != "")
                           <h6>
                             {{ __('home.our Delivery Date Was Updated')}}
                             <span class="time">{{$delivery_date}}</span>
                           </h6>
+                          @else
+                          <h6>
+                            {{ __('home.our Delivery Date Will Updated After Buyer Submit Requirements')}}
+                          </h6>
+                          @endif
                         </div>
                       </div>
                     </div>
@@ -218,10 +249,12 @@
                                 type="file"
                                 name="file"
                                 id="message_image"
-                                class="field-file"/>
+                                class="field-file"
+                                onchange="javascript:updateList()"/>
                             </span>
                           </p>
                         </div>
+                        <div id="fileList"></div>
 
                         <div class="d-block text-right mt-3">
                           <button type="submit" class="btn btn-primary">{{ __('home.Send')}}</button>
@@ -350,14 +383,37 @@
                       @foreach($order->orderRequirement as $key => $req)
                       <div class="requrement-list-item">
                         <h6><span>{{$key+1}}</span> {{$req->requirementInfo->question}}</h6>
-                        @if($req->requirement !=null)
+                        @if($req->type == '0')
                         <p>
                           {{$req->requirement}}
                         </p>
+                        @elseif($req->type == '1')
+                        <div class="attachments">
+                          <div class="attachment-lists">
+                            <div class="list-item-box">
+                              <img src="{{asset('images/order_requirements/'.$req->image)}}" alt="" />
+                              <div
+                                class="attachment-info d-flex justify-content-between align-items-center">
+                                <p>
+                                  {{$req->image}}
+                                </p>
+                                <a href="{{asset('images/order_requirements/'.$req->image)}}" download><i class="fa fa-download"></i></a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                         @else
-                        <div class="gig-details">
-                          <div class="box">
-                            <a target="_blank" href="{{asset('images/order_requirements/'.$req->image)}}"><img src="{{asset('images/order_requirements/'.$req->image)}}" style="width:250px; height:200px;" alt=""></a>
+                        <div class="attachments">
+                          <div class="attachment-lists">
+                            <div class="list-item-box">
+                              <div
+                                class="attachment-info d-flex justify-content-between align-items-center">
+                                <p>
+                                  {{$req->image}}
+                                </p>
+                                <a href="{{asset('images/order_requirements/'.$req->image)}}" download><i class="fa fa-download"></i></a>
+                              </div>
+                            </div>
                           </div>
                         </div>
                         @endif
@@ -538,8 +594,9 @@
               id="work_file"
               multiple="multiple"
               class="field-file"
-            />
+            onchange="javascript:updateList2()" />
           </span>
+          <div id="fileList2"></div>
           <p class="text-muted small mt-2">Max size 1GB</p>
         </div>
         <div class="select-box mt-3">
@@ -590,7 +647,6 @@ $(document).ready(function () {
   $('#message-form').on('submit', function(event){
     event.preventDefault();
     // var image = $('#message_image')[0].files[0];
-    // console.log(image);
     var order_id = "{{$order->id}}"
     var formData = new FormData(this);
     formData.append('order_id', order_id);
@@ -606,7 +662,6 @@ $(document).ready(function () {
      success:function(data){
        var form = document.getElementById("message-form");
        form.reset();
-      // console.log(data);
       // $('.show_messages').append(data);
       const socket = io.connect('https://peekvideochat.com:22000');
       console.log('check 1', socket.connected);
@@ -629,7 +684,6 @@ $(document).ready(function () {
   $('#delivery-form').on('submit', function(event){
     event.preventDefault();
     // var image = $('#message_image')[0].files[0];
-    // console.log(image);
     var order_id = "{{$order->id}}"
     var formData = new FormData(this);
     formData.append('order_id', order_id);
@@ -646,8 +700,6 @@ $(document).ready(function () {
        var form = document.getElementById("delivery-form");
        form.reset();
        $('#exampleModal').modal('hide');
-      // console.log(data);
-      // $('.show_messages').append(data);
       const socket = io.connect('https://peekvideochat.com:22000');
       console.log('check 1', socket.connected);
       socket.emit('message', data);
@@ -667,10 +719,143 @@ function addFriend(user_id) {
    data:{receiver_id:user_id,sender_id:sender_id},
    xhrFields: {withCredentials: true},
    success:function(data){
-     console.log(data);
      window.location.href = "{{url('messages?conversation=')}}"+data;
    }
  });
 }
+
+
+function CountdownTracker(label, value){
+
+  var el = document.createElement('span');
+
+  el.className = 'flip-clock__piece';
+  el.innerHTML = '<b class="flip-clock__card card"><b class="card__top"></b><b class="card__bottom"></b><b class="card__back"><b class="card__bottom"></b></b></b>' +
+    '<span class="flip-clock__slot">' + label + '</span>';
+
+  this.el = el;
+
+  var top = el.querySelector('.card__top'),
+      bottom = el.querySelector('.card__bottom'),
+      back = el.querySelector('.card__back'),
+      backBottom = el.querySelector('.card__back .card__bottom');
+
+  this.update = function(val){
+    val = ( '0' + val ).slice(-2);
+    if ( val !== this.currentValue ) {
+
+      if ( this.currentValue >= 0 ) {
+        back.setAttribute('data-value', this.currentValue);
+        bottom.setAttribute('data-value', this.currentValue);
+      }
+      this.currentValue = val;
+      top.innerText = this.currentValue;
+      backBottom.setAttribute('data-value', this.currentValue);
+
+      this.el.classList.remove('flip');
+      void this.el.offsetWidth;
+      this.el.classList.add('flip');
+    }
+  }
+
+  this.update(value);
+}
+
+// Calculation adapted from https://www.sitepoint.com/build-javascript-countdown-timer-no-dependencies/
+
+function getTimeRemaining(endtime) {
+  var t = Date.parse(endtime) - Date.parse(new Date());
+  return {
+    'Total': t,
+    'Days': Math.floor(t / (1000 * 60 * 60 * 24)),
+    'Hours': Math.floor((t / (1000 * 60 * 60)) % 24),
+    'Minutes': Math.floor((t / 1000 / 60) % 60),
+    'Seconds': Math.floor((t / 1000) % 60)
+  };
+}
+
+function getTime() {
+  var t = new Date();
+  return {
+    'Total': t,
+    'Hours': t.getHours() % 12,
+    'Minutes': t.getMinutes(),
+    'Seconds': t.getSeconds()
+  };
+}
+
+function Clock(countdown,callback) {
+
+  countdown = countdown ? new Date(Date.parse(countdown)) : false;
+  callback = callback || function(){};
+
+  var updateFn = countdown ? getTimeRemaining : getTime;
+
+  this.el = document.createElement('div');
+  this.el.className = 'flip-clock';
+
+  var trackers = {},
+      t = updateFn(countdown),
+      key, timeinterval;
+
+  for ( key in t ){
+    if ( key === 'Total' ) { continue; }
+    trackers[key] = new CountdownTracker(key, t[key]);
+    this.el.appendChild(trackers[key].el);
+  }
+
+  var i = 0;
+  function updateClock() {
+    timeinterval = requestAnimationFrame(updateClock);
+
+    // throttle so it's not constantly updating the time.
+    if ( i++ % 10 ) { return; }
+
+    var t = updateFn(countdown);
+    if ( t.Total < 0 ) {
+      cancelAnimationFrame(timeinterval);
+      for ( key in trackers ){
+        trackers[key].update( 0 );
+      }
+      callback();
+      return;
+    }
+
+    for ( key in trackers ){
+      trackers[key].update( t[key] );
+    }
+  }
+
+  setTimeout(updateClock,500);
+}
+
+var deadline = new Date("<?= $delivery_date2; ?>");
+var deadline2 = new Date(Date.parse(new Date()) + 12 * 24 * 60 * 60 * 1000);
+var c = new Clock(deadline, function(){ alert('countdown complete') });
+document.getElementById('timer').appendChild(c.el);
+
+// var clock = new Clock();
+// document.body.appendChild(clock.el);
+
+updateList = function() {
+    var input = document.getElementById('message_image');
+    var output = document.getElementById('fileList');
+    var children = "";
+    for (var i = 0; i < input.files.length; ++i) {
+        children += '<li>' + input.files.item(i).name + '</li>';
+    }
+    output.innerHTML = '<ul>'+children+'</ul>';
+}
+
+updateList2 = function() {
+    var input = document.getElementById('work_file');
+    var output = document.getElementById('fileList2');
+    var children = "";
+    for (var i = 0; i < input.files.length; ++i) {
+        children += '<li>' + input.files.item(i).name + '</li>';
+    }
+    output.innerHTML = '<ul>'+children+'</ul>';
+}
+
 </script>
 @endsection
