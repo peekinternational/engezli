@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <div v-for="friends in orderedUsers">
-      <a class="dropdown-item" href="#">
+      <a class="dropdown-item" :href="'/messages?conversation='+friends.conversation_id" :id="'friendMessage'+friends.conversation_id">
         <div class="contacts-list-item">
           <template v-if="userdata.id == friends.sender_id">
             <div class="avatar">
@@ -9,9 +9,9 @@
                 <img :src="'/images/user_images/'+friends.receiver_info.profile_image" alt="" />
               </template>
               <template v-else>
-                <img src="images/s1.png" alt="" />
+                <img src="/images/s1.png" alt="" />
               </template>
-              <!-- <img src="images/avatar (1).svg" alt="" /> -->
+              <!-- <img src="/images/avatar (1).svg" alt="" /> -->
             </div>
             <div class="text">
               <h4>{{friends.receiver_info.first_name}} {{friends.receiver_info.last_name}} <span v-if="friends.last_message" :class="'lastMessageDate-'+friends.conversation_id">{{istoday(friends.last_message.message_date)}}</span></h4>
@@ -24,7 +24,7 @@
                 <img :src="'/images/user_images/'+friends.sender_info.profile_image" alt="" />
               </template>
               <template v-else>
-                <img src="images/s1.png" alt="" />
+                <img src="/images/s1.png" alt="" />
               </template>
             </div>
             <div class="text">
@@ -102,14 +102,32 @@ import moment from 'moment';
         var socket = socketio('https://peekvideochat.com:22000');
         // var socket = socketio('http://192.168.100.17:3000');
         socket.on("birdsreceivemsg", function(data){
-        // console.log(data);
+        console.log("socket_data",data.conversation_id);
+
         if(data.message_receiver == this.userdata.id){
+          // console.log('conversation_id',data.conversation_id);
+          // this.friendList.unshift(data);
+          this.userdec = this.friendList.filter((obj_friend) => {
+            return data.conversation_id === obj_friend.conversation_id;
+          }).pop();
+          // console.log("filter_user",this.userdec);
+          this.userdec.time = new Date().toISOString();
+          // $('#friendMessage'+data.conversation_id).removeClass('notification-active');
+          // $('.dropdown-item').removeClass('notification-active');
+          $('.message-dot').show();
+          this.userdec.last_message.message_desc = data.message_desc;
+          var msg=data.message_desc;
 
-            var time = moment().format('hh:mm A');
-            $('.lastMessageDate-'+data.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT '+time+'</small>');
-            $('.lastMessage-'+data.conversation_id).html('<p>'+data.message_desc+'</p>');
-
-            console.log("check notfication",$('.notificationMessage-'+data.conversation_id).text());
+          var time2 = moment().format('hh:mm A');
+          // setTimeout(() => $('#friendMessage'+data.conversation_id).addClass('notification-active'), 3000);
+          // setTimeout(() => $('#friendMessage'+data.conversation_id).addClass('notification-active'), 3000);
+          $('.lastMessageDate-'+this.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT '+time2+'</small>');
+          $('.lastMessage-'+this.conversation_id).html('<p>'+msg+'</p>');
+            // var time = moment().format('hh:mm A');
+            // $('.lastMessageDate-'+data.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT '+time+'</small>');
+            // $('.lastMessage-'+data.conversation_id).html('<p>'+data.message_desc+'</p>');
+            //
+            // console.log("check notfication",$('.notificationMessage-'+data.conversation_id).text());
 
           }
         }.bind(this));
@@ -156,3 +174,10 @@ import moment from 'moment';
 
     }
 </script>
+<style>
+  .notification-active {
+    border-left: 3px solid #007bff;
+    background: rgba(0, 153, 255, 0.07);
+    color: #007bff;
+  }
+</style>

@@ -11,6 +11,7 @@ class ChatFriends extends Model
     protected $fillable = [
       'conversation_id',
       'message_id',
+      'message',
       'offer_id',
       'sender_id',
       'receiver_id',

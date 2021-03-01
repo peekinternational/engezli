@@ -537,6 +537,7 @@ import moment from 'moment';
         // var socket = socketio('http://192.168.100.17:3000');
         socket.on("birdsreceivemsg", function(data){
         // console.log("socket data",data);
+          data = data.conversation;
         if (data.order_id == this.order_id) {
           if (data.status == "approved") {
             $('.delivery'+data.id).remove();
@@ -553,6 +554,7 @@ import moment from 'moment';
             this.reject = false;
           }
           this.getConversation.push(data);
+          // this.getConversation.unshift(data);
 
         }
 

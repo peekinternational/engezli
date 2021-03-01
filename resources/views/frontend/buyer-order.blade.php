@@ -879,7 +879,7 @@ function Clock(countdown,callback) {
 
 var deadline = new Date("<?= $delivery_date2; ?>");
 var deadline2 = new Date(Date.parse(new Date()) + 12 * 24 * 60 * 60 * 1000);
-var c = new Clock(deadline, function(){ alert('countdown complete') });
+var c = new Clock(deadline, function(){ /* alert('countdown complete') */ });
 document.getElementById('timer').appendChild(c.el);
 
 // var clock = new Clock();

@@ -24,6 +24,7 @@ Route::get('getOrderDelivery/{id}',[OrderController::class, 'getDelivery']);
 Route::post('singleChat',[ChatController::class, 'singleChat']);
 Route::post('chat/send-message',[ChatController::class, 'send']);
 Route::get('friendData/{id}',[ChatController::class, 'friendData']);
+Route::get('notifications/{id}',[OrderController::class, 'getNotification']);
 
 Route::post('approveDelivery',[OrderController::class, 'approveDelivery']);
 Route::post('rejectDelivery',[OrderController::class, 'rejectDelivery']);

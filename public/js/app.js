@@ -2880,26 +2880,31 @@ __webpack_require__.r(__webpack_exports__);
         }).pop(); // console.log("post2",post2);
 
         if (post2) {
-          if (this.friendId == data.UserId && post2.sender_id == data.selectFrienddata) {
+          if (this.friendId == data.UserId && post2.sender_id == data.UserId) {
             this.typing = true;
-          } else if (this.friendId == data.UserId && post2.receiver_id == data.selectFrienddata) {
+          } else if (this.friendId == data.UserId && post2.receiver_id == data.UserId) {
             this.typing = true;
           }
-        }
 
-        $('#f_typing' + data.UserId).html('<span style="color: green;"> is typing ...</span>');
+          $('#f_typing' + data.UserId).html('<span style="color: green;"> is typing ...</span>');
+          this.typing = false;
+        }
       }
     },
     alphastoptyping: function alphastoptyping(data) {
-      if (data.friendId == this.user_id) {
-        this.typing = false;
-        console.log("stop typing", data.friendId); // alert("chenck");
-        // console.log("stop typing",data);
+      this.typing = false;
 
-        if (data.selectFrienddata.last_message.message_desc) {
+      if (data.friendId == this.user_id) {
+        console.log("stop typing friend", data.friendId);
+        console.log("stop typing user", data.UserId); // alert("chenck");
+
+        console.log("stop typing", data);
+
+        if (data.selectFrienddata.last_message) {
+          // setTimeout(() => $('#f_typing'+data.UserId).html('demo'+data.selectFrienddata.last_message.message_desc), 3000);
           $('#f_typing' + data.UserId).html(data.selectFrienddata.last_message.message_desc);
         } else {
-          $('#f_typing' + data.UserId).html('');
+          $('#f_typing' + data.UserId).html('type');
         }
       }
     }
@@ -2915,7 +2920,8 @@ __webpack_require__.r(__webpack_exports__);
     var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default()('https://peekvideochat.com:22000'); // var socket = socketio('http://192.168.100.17:3000');
 
     socket.on("birdsreceivemsg", function (data) {
-      // console.log("socket data",data);
+      console.log("socket data", data);
+
       if (data.message_receiver == this.userdata.id) {
         if (this.conversation_id == data.conversation_id) {
           this.singleChate.push(data);
@@ -2923,16 +2929,24 @@ __webpack_require__.r(__webpack_exports__);
         //     console.log(data.conversation_id,obj_friend.conversation_id);
         //     return data.conversation_id === obj_friend.conversation_id;
         // }).pop();
-        // // console.log("filter_user",this.userdec);
-        // this.userdec.time = new Date().toISOString();
+
+
+        this.userdec = this.friendList.filter(function (obj_friend) {
+          return data.conversation_id === obj_friend.conversation_id;
+        }).pop();
+        console.log("filter_user", this.userdec); // setTimeout(() => this.userdec.time = new Date().toISOString(), 3000);
+
+        this.userdec.time = new Date().toISOString(); // this.userdec.last_message.message_desc = data.message_desc;
+        // // var time2 = moment().format('hh:mm A');
+        // console.log('.lastMessageDate-'+data.conversation_id);
+        // var msg=data.message_desc;
         // var time2 = moment().format('hh:mm A');
-        // setTimeout(function(){   $('.lastMessageDate-'+data.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT '+time2+'</small>');
-        //   $('.lastMessage-'+data.conversation_id).html('<p>'+data.message_desc+'</p>'); }, 5000);
-
-
-        var time2 = moment__WEBPACK_IMPORTED_MODULE_2___default()().format('hh:mm A');
-        $('.lastMessageDate-' + data.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT ' + time2 + '</small>');
-        $('.lastMessage-' + data.conversation_id).html('<p>' + data.message_desc + '</p>'); // console.log("check notfication",$('.notificationMessage-'+data.conversation_id).text());
+        // setTimeout(() => $('.lastMessage-'+this.conversation_id).html('<p>'+msg+'</p>'), 2000);
+        // $('.lastMessageDate-'+data.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT '+time2+'</small>');
+        // var time2 = moment().format('hh:mm A');
+        //   $('.lastMessageDate-'+data.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT '+time2+'</small>');
+        // $('.lastMessage-'+this.userdec.conversation_id).html('<p>data ape'+data.message_desc+'</p>');
+        // console.log("check notfication",$('.notificationMessage-'+data.conversation_id).text());
 
         var height = 0;
         $(".chat-widget-conversation").each(function (i, value) {
@@ -2994,8 +3008,8 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       axios.get('http://localhost:8000/api/friendsList/' + this.user_id).then(function (responce) {
-        _this2.friendList = responce.data; // console.log(this.friendList);
-
+        _this2.friendList = responce.data;
+        console.log(_this2.friendList);
         var url = window.location.href;
         var conversation_id = url.substring(url.lastIndexOf('=') + 1);
 
@@ -3160,7 +3174,19 @@ __webpack_require__.r(__webpack_exports__);
           selectFrienddata: _this4.friendId,
           UserId: _this4.user_id
         }); // var time = moment().format('hh:mm A');
-        // this.userdec = this.friendList.filter((obj_friend) => {
+
+        _this4.userdec = _this4.friendList.filter(function (obj_friend) {
+          return _this4.conversation_id === obj_friend.conversation_id;
+        }).pop(); // console.log("filter_user",this.userdec);
+
+        _this4.userdec.time = new Date().toISOString();
+        _this4.userdec.last_message.message_desc = _this4.message;
+        var time2 = moment__WEBPACK_IMPORTED_MODULE_2___default()().format('hh:mm A');
+        console.log('.lastMessageDate-' + _this4.conversation_id);
+        var msg = _this4.message; // console.log(msg);
+        // setTimeout(() => $('.lastMessage-'+this.conversation_id).html('<p>'+msg+'</p>'), 2000);
+
+        $('.lastMessageDate-' + _this4.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT ' + time2 + '</small>'); // this.userdec = this.friendList.filter((obj_friend) => {
         //   // console.log(obj_friend.sender_id);
         // if (obj_friend.sender_id == this.userdata.id) {
         //   return this.friendId === obj_friend.receiver_id;
@@ -3303,12 +3329,30 @@ __webpack_require__.r(__webpack_exports__);
     var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default()('https://peekvideochat.com:22000'); // var socket = socketio('http://192.168.100.17:3000');
 
     socket.on("birdsreceivemsg", function (data) {
-      // console.log(data);
+      console.log("socket_data", data.conversation_id);
+
       if (data.message_receiver == this.userdata.id) {
-        var time = moment__WEBPACK_IMPORTED_MODULE_2___default()().format('hh:mm A');
-        $('.lastMessageDate-' + data.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT ' + time + '</small>');
-        $('.lastMessage-' + data.conversation_id).html('<p>' + data.message_desc + '</p>');
-        console.log("check notfication", $('.notificationMessage-' + data.conversation_id).text());
+        // console.log('conversation_id',data.conversation_id);
+        // this.friendList.unshift(data);
+        this.userdec = this.friendList.filter(function (obj_friend) {
+          return data.conversation_id === obj_friend.conversation_id;
+        }).pop(); // console.log("filter_user",this.userdec);
+
+        this.userdec.time = new Date().toISOString(); // $('#friendMessage'+data.conversation_id).removeClass('notification-active');
+        // $('.dropdown-item').removeClass('notification-active');
+
+        $('.message-dot').show();
+        this.userdec.last_message.message_desc = data.message_desc;
+        var msg = data.message_desc;
+        var time2 = moment__WEBPACK_IMPORTED_MODULE_2___default()().format('hh:mm A'); // setTimeout(() => $('#friendMessage'+data.conversation_id).addClass('notification-active'), 3000);
+        // setTimeout(() => $('#friendMessage'+data.conversation_id).addClass('notification-active'), 3000);
+
+        $('.lastMessageDate-' + this.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT ' + time2 + '</small>');
+        $('.lastMessage-' + this.conversation_id).html('<p>' + msg + '</p>'); // var time = moment().format('hh:mm A');
+        // $('.lastMessageDate-'+data.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT '+time+'</small>');
+        // $('.lastMessage-'+data.conversation_id).html('<p>'+data.message_desc+'</p>');
+        //
+        // console.log("check notfication",$('.notificationMessage-'+data.conversation_id).text());
       }
     }.bind(this));
   },
@@ -3908,6 +3952,8 @@ __webpack_require__.r(__webpack_exports__);
 
     socket.on("birdsreceivemsg", function (data) {
       // console.log("socket data",data);
+      data = data.conversation;
+
       if (data.order_id == this.order_id) {
         if (data.status == "approved") {
           $('.delivery' + data.id).remove();
@@ -3926,7 +3972,7 @@ __webpack_require__.r(__webpack_exports__);
           this.reject = false;
         }
 
-        this.getConversation.push(data);
+        this.getConversation.push(data); // this.getConversation.unshift(data);
       }
     }.bind(this));
   },
@@ -4032,6 +4078,194 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/OrderNotificationComponent.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/OrderNotificationComponent.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue_socket_io__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-socket.io */ "./node_modules/vue-socket.io/dist/vue-socketio.js");
+/* harmony import */ var vue_socket_io__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_socket_io__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js");
+/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(socket_io_client__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['userdata'],
+  data: function data() {
+    return {
+      friendList: [],
+      singleChate: {},
+      friendId: "",
+      friendName: "",
+      friendImage: "",
+      friendCountry: "",
+      friendLanguage: "",
+      friendStatus: "",
+      searchFriend: "",
+      post: "",
+      message: "",
+      check_image: "",
+      conversation_id: "",
+      showUsers: true,
+      searchUser: false,
+      typing: false,
+      showDetails: false
+    };
+  },
+  sockets: {
+    connect: function connect() {
+      console.log('socket connected successfully');
+    },
+    disconnect: function disconnect() {
+      console.log('socket disconnected');
+    }
+  },
+  mounted: function mounted() {
+    this.user_id = this.userdata.id;
+    this.profile_image = this.userdata.profile_image;
+    this.first_name = this.userdata.first_name;
+    this.last_name = this.userdata.last_name;
+    this.user_names = this.userdata.username;
+    this.friendlistss();
+    var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default()('https://peekvideochat.com:22000'); // var socket = socketio('http://192.168.100.17:3000');
+
+    socket.on("birdsreceivemsg", function (data) {
+      data = data.notification; // console.log("notification data",data);
+
+      if (data.order_id) {
+        if (data.receiver_id == this.user_id) {
+          this.userdec = this.friendList.filter(function (obj_friend) {
+            return data.order_id === obj_friend.order_id;
+          }).pop();
+          $('.notification-dot').show();
+          console.log("check nofitifcation", this.userdec, "last message", data.last_message.message);
+
+          if (this.userdec) {
+            console.log("check inside", this.userdec, "last message", data.last_message.message);
+            this.userdec.notification_date = new Date().toISOString();
+            var msg = data.last_message.message;
+            var time2 = moment__WEBPACK_IMPORTED_MODULE_2___default()().format('hh:mm A'); // console.log(msg,'lastNotificationDate-'+data.order_id);
+
+            $('.lastNotification-' + data.order_id).html();
+            setTimeout(function () {
+              return $('.lastNotification-' + data.order_id).html('<p>' + msg + '</p>');
+            }, 2000);
+            setTimeout(function () {
+              return $('.lastNotificationDate-' + data.order_id).html('<small class="text-muted text-uppercase"> TODAY AT ' + time2 + '</small>');
+            }, 2000);
+          } else {
+            this.friendList.unshift(data);
+          }
+        }
+      }
+    }.bind(this));
+  },
+  computed: {
+    orderedUsers: function orderedUsers() {
+      return _.orderBy(this.friendList, 'notification_date', 'desc');
+    }
+  },
+  methods: {
+    istoday: function istoday(date) {
+      return moment__WEBPACK_IMPORTED_MODULE_2___default()(date).calendar();
+    },
+    friendlistss: function friendlistss() {
+      var _this = this;
+
+      axios.get('http://localhost:8000/api/notifications/' + this.user_id).then(function (responce) {
+        _this.friendList = responce.data;
+        console.log("notification", responce.data); // var group =  _.groupBy(this.friendList,'sender_id');
+        // this.friendList = group;
+
+        console.log("frindlist", _this.friendList);
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -4074,6 +4308,7 @@ Vue.component('messages', __webpack_require__(/*! ./components/ExampleComponent.
 Vue.component('notification', __webpack_require__(/*! ./components/NotificationComponent.vue */ "./resources/js/components/NotificationComponent.vue").default);
 Vue.component('orderconversation', __webpack_require__(/*! ./components/OrderConversationComponent.vue */ "./resources/js/components/OrderConversationComponent.vue").default);
 Vue.component('delivery', __webpack_require__(/*! ./components/DeliveryComponent.vue */ "./resources/js/components/DeliveryComponent.vue").default);
+Vue.component('ordernotification', __webpack_require__(/*! ./components/OrderNotificationComponent.vue */ "./resources/js/components/OrderNotificationComponent.vue").default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -11186,6 +11421,30 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "\n.user-list-item {\n    cursor: pointer;\n}\n.img-thumbnail {\n    padding: .25rem;\n    background-color: #fff;\n    border: 1px solid #dee2e6;\n    border-radius: .25rem !important;\n    height: 100px !important;\n    width: 100px !important;\n}\n.typing {\n  position: absolute;\n  top:-1px;\n  left: 50px;\n}\n    /* .msg-body .msg-text-box.right .panel {\n      -webkit-box-orient: horizontal;\n      -webkit-box-direction: reverse;\n      -ms-flex-direction: row-reverse;\n      flex-direction: row-reverse;\n  }\n  .msg-body .msg-text-box.right .panel .box:first-child {\n    margin-left: 15px;\n}\n.msg-body .msg-text-box.right .panel .box {\n    max-width: 450px;\n}\n.msg-body .msg-text-box.right .panel .box:last-child {\n    background: #007bff;\n}\n.msg-body .msg-text-box.right .panel .box:last-child p, .msg-body .msg-text-box.right .panel .box:last-child h6 {\n    color: #ffffff;\n}\n.message-container .outer-content .main-area .msg-body .msg-text-box.right .box small {\n    color: #ffffff;\n} */\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/NotificationComponent.vue?vue&type=style&index=0&lang=css&":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/NotificationComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.notification-active {\n  border-left: 3px solid #007bff;\n  background: rgba(0, 153, 255, 0.07);\n  color: #007bff;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -69835,6 +70094,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/NotificationComponent.vue?vue&type=style&index=0&lang=css&":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/NotificationComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_NotificationComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./NotificationComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/NotificationComponent.vue?vue&type=style&index=0&lang=css&");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_NotificationComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_NotificationComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/OrderConversationComponent.vue?vue&type=style&index=0&lang=css&":
 /*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/OrderConversationComponent.vue?vue&type=style&index=0&lang=css& ***!
@@ -70262,15 +70551,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _NotificationComponent_vue_vue_type_template_id_307ad1f7___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./NotificationComponent.vue?vue&type=template&id=307ad1f7& */ "./resources/js/components/NotificationComponent.vue?vue&type=template&id=307ad1f7&");
 /* harmony import */ var _NotificationComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NotificationComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/NotificationComponent.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _NotificationComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./NotificationComponent.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/NotificationComponent.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
+;
 
 
 /* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__.default)(
   _NotificationComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
   _NotificationComponent_vue_vue_type_template_id_307ad1f7___WEBPACK_IMPORTED_MODULE_0__.render,
   _NotificationComponent_vue_vue_type_template_id_307ad1f7___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
@@ -70325,6 +70616,45 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 /* hot reload */
 if (false) { var api; }
 component.options.__file = "resources/js/components/OrderConversationComponent.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/OrderNotificationComponent.vue":
+/*!****************************************************************!*\
+  !*** ./resources/js/components/OrderNotificationComponent.vue ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _OrderNotificationComponent_vue_vue_type_template_id_04ab464f___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./OrderNotificationComponent.vue?vue&type=template&id=04ab464f& */ "./resources/js/components/OrderNotificationComponent.vue?vue&type=template&id=04ab464f&");
+/* harmony import */ var _OrderNotificationComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./OrderNotificationComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/OrderNotificationComponent.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _OrderNotificationComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _OrderNotificationComponent_vue_vue_type_template_id_04ab464f___WEBPACK_IMPORTED_MODULE_0__.render,
+  _OrderNotificationComponent_vue_vue_type_template_id_04ab464f___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/OrderNotificationComponent.vue"
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
 
 /***/ }),
@@ -70393,6 +70723,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/OrderNotificationComponent.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/components/OrderNotificationComponent.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_OrderNotificationComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./OrderNotificationComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/OrderNotificationComponent.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_OrderNotificationComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/js/components/DeliveryComponent.vue?vue&type=style&index=0&lang=css&":
 /*!****************************************************************************************!*\
   !*** ./resources/js/components/DeliveryComponent.vue?vue&type=style&index=0&lang=css& ***!
@@ -70415,6 +70761,19 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ExampleComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=style&index=0&lang=css&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/NotificationComponent.vue?vue&type=style&index=0&lang=css&":
+/*!********************************************************************************************!*\
+  !*** ./resources/js/components/NotificationComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_NotificationComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./NotificationComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/NotificationComponent.vue?vue&type=style&index=0&lang=css&");
 
 
 /***/ }),
@@ -70496,6 +70855,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_OrderConversationComponent_vue_vue_type_template_id_60f689b7___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_OrderConversationComponent_vue_vue_type_template_id_60f689b7___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./OrderConversationComponent.vue?vue&type=template&id=60f689b7& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/OrderConversationComponent.vue?vue&type=template&id=60f689b7&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/OrderNotificationComponent.vue?vue&type=template&id=04ab464f&":
+/*!***********************************************************************************************!*\
+  !*** ./resources/js/components/OrderNotificationComponent.vue?vue&type=template&id=04ab464f& ***!
+  \***********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_OrderNotificationComponent_vue_vue_type_template_id_04ab464f___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_OrderNotificationComponent_vue_vue_type_template_id_04ab464f___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_OrderNotificationComponent_vue_vue_type_template_id_04ab464f___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./OrderNotificationComponent.vue?vue&type=template&id=04ab464f& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/OrderNotificationComponent.vue?vue&type=template&id=04ab464f&");
 
 
 /***/ }),
@@ -72427,140 +72803,162 @@ var render = function() {
     {},
     _vm._l(_vm.orderedUsers, function(friends) {
       return _c("div", [
-        _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-          _c(
-            "div",
-            { staticClass: "contacts-list-item" },
-            [
-              _vm.userdata.id == friends.sender_id
-                ? [
-                    _c(
-                      "div",
-                      { staticClass: "avatar" },
-                      [
-                        friends.receiver_info.profile_image != null
-                          ? [
-                              _c("img", {
-                                attrs: {
-                                  src:
-                                    "/images/user_images/" +
-                                    friends.receiver_info.profile_image,
-                                  alt: ""
-                                }
-                              })
-                            ]
-                          : [
-                              _c("img", {
-                                attrs: { src: "images/s1.png", alt: "" }
-                              })
-                            ]
-                      ],
-                      2
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "text" }, [
-                      _c("h4", [
-                        _vm._v(
-                          _vm._s(friends.receiver_info.first_name) +
-                            " " +
-                            _vm._s(friends.receiver_info.last_name) +
-                            " "
-                        ),
+        _c(
+          "a",
+          {
+            staticClass: "dropdown-item",
+            attrs: {
+              href: "/messages?conversation=" + friends.conversation_id,
+              id: "friendMessage" + friends.conversation_id
+            }
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "contacts-list-item" },
+              [
+                _vm.userdata.id == friends.sender_id
+                  ? [
+                      _c(
+                        "div",
+                        { staticClass: "avatar" },
+                        [
+                          friends.receiver_info.profile_image != null
+                            ? [
+                                _c("img", {
+                                  attrs: {
+                                    src:
+                                      "/images/user_images/" +
+                                      friends.receiver_info.profile_image,
+                                    alt: ""
+                                  }
+                                })
+                              ]
+                            : [
+                                _c("img", {
+                                  attrs: { src: "/images/s1.png", alt: "" }
+                                })
+                              ]
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "text" }, [
+                        _c("h4", [
+                          _vm._v(
+                            _vm._s(friends.receiver_info.first_name) +
+                              " " +
+                              _vm._s(friends.receiver_info.last_name) +
+                              " "
+                          ),
+                          friends.last_message
+                            ? _c(
+                                "span",
+                                {
+                                  class:
+                                    "lastMessageDate-" + friends.conversation_id
+                                },
+                                [
+                                  _vm._v(
+                                    _vm._s(
+                                      _vm.istoday(
+                                        friends.last_message.message_date
+                                      )
+                                    )
+                                  )
+                                ]
+                              )
+                            : _vm._e()
+                        ]),
+                        _vm._v(" "),
                         friends.last_message
                           ? _c(
-                              "span",
+                              "p",
                               {
-                                class:
-                                  "lastMessageDate-" + friends.conversation_id
+                                class: "lastMessage-" + friends.conversation_id
                               },
                               [
                                 _vm._v(
-                                  _vm._s(
-                                    _vm.istoday(
-                                      friends.last_message.message_date
-                                    )
-                                  )
+                                  _vm._s(friends.last_message.message_desc)
                                 )
                               ]
                             )
                           : _vm._e()
-                      ]),
+                      ])
+                    ]
+                  : [
+                      _c(
+                        "div",
+                        { staticClass: "avatar" },
+                        [
+                          friends.sender_info.profile_image != null
+                            ? [
+                                _c("img", {
+                                  attrs: {
+                                    src:
+                                      "/images/user_images/" +
+                                      friends.sender_info.profile_image,
+                                    alt: ""
+                                  }
+                                })
+                              ]
+                            : [
+                                _c("img", {
+                                  attrs: { src: "/images/s1.png", alt: "" }
+                                })
+                              ]
+                        ],
+                        2
+                      ),
                       _vm._v(" "),
-                      friends.last_message
-                        ? _c(
-                            "p",
-                            { class: "lastMessage-" + friends.conversation_id },
-                            [_vm._v(_vm._s(friends.last_message.message_desc))]
-                          )
-                        : _vm._e()
-                    ])
-                  ]
-                : [
-                    _c(
-                      "div",
-                      { staticClass: "avatar" },
-                      [
-                        friends.sender_info.profile_image != null
-                          ? [
-                              _c("img", {
-                                attrs: {
-                                  src:
-                                    "/images/user_images/" +
-                                    friends.sender_info.profile_image,
-                                  alt: ""
-                                }
-                              })
-                            ]
-                          : [
-                              _c("img", {
-                                attrs: { src: "images/s1.png", alt: "" }
-                              })
-                            ]
-                      ],
-                      2
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "text" }, [
-                      _c("h4", [
-                        _vm._v(
-                          _vm._s(friends.sender_info.first_name) +
-                            " " +
-                            _vm._s(friends.sender_info.last_name) +
-                            " "
-                        ),
+                      _c("div", { staticClass: "text" }, [
+                        _c("h4", [
+                          _vm._v(
+                            _vm._s(friends.sender_info.first_name) +
+                              " " +
+                              _vm._s(friends.sender_info.last_name) +
+                              " "
+                          ),
+                          friends.last_message
+                            ? _c(
+                                "span",
+                                {
+                                  staticClass:
+                                    "time 'lastMessageDate-'+friends.conversation_id"
+                                },
+                                [
+                                  _vm._v(
+                                    _vm._s(
+                                      _vm.istoday(
+                                        friends.last_message.message_date
+                                      )
+                                    )
+                                  )
+                                ]
+                              )
+                            : _vm._e()
+                        ]),
+                        _vm._v(" "),
                         friends.last_message
                           ? _c(
-                              "span",
+                              "p",
                               {
-                                staticClass:
-                                  "time 'lastMessageDate-'+friends.conversation_id"
+                                class: "lastMessage-" + friends.conversation_id
                               },
                               [
                                 _vm._v(
-                                  _vm._s(
-                                    _vm.istoday(
-                                      friends.last_message.message_date
-                                    )
-                                  )
+                                  _vm._s(friends.last_message.message_desc)
                                 )
                               ]
                             )
                           : _vm._e()
-                      ]),
-                      _vm._v(" "),
-                      friends.last_message
-                        ? _c(
-                            "p",
-                            { class: "lastMessage-" + friends.conversation_id },
-                            [_vm._v(_vm._s(friends.last_message.message_desc))]
-                          )
-                        : _vm._e()
-                    ])
-                  ]
-            ],
-            2
-          )
-        ])
+                      ])
+                    ]
+              ],
+              2
+            )
+          ]
+        )
       ])
     }),
     0
@@ -73772,6 +74170,290 @@ var staticRenderFns = [
     ])
   }
 ]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/OrderNotificationComponent.vue?vue&type=template&id=04ab464f&":
+/*!**************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/OrderNotificationComponent.vue?vue&type=template&id=04ab464f& ***!
+  \**************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {},
+    _vm._l(_vm.orderedUsers, function(friends) {
+      return _c("div", [
+        _c(
+          "a",
+          {
+            staticClass: "dropdown-item",
+            attrs: { href: "/order-details/" + friends.order_info.order_number }
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "contacts-list-item" },
+              [
+                _vm.userdata.id == friends.receiver_id
+                  ? [
+                      _c(
+                        "div",
+                        { staticClass: "avatar" },
+                        [
+                          friends.sender_info.profile_image != null
+                            ? [
+                                _c("img", {
+                                  attrs: {
+                                    src:
+                                      "/images/user_images/" +
+                                      friends.sender_info.profile_image,
+                                    alt: ""
+                                  }
+                                })
+                              ]
+                            : [
+                                _c("img", {
+                                  attrs: { src: "/images/s1.png", alt: "" }
+                                })
+                              ]
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "text" },
+                        [
+                          _c("h4", [
+                            _vm._v(
+                              _vm._s(friends.sender_info.first_name) +
+                                " " +
+                                _vm._s(friends.sender_info.last_name) +
+                                " "
+                            ),
+                            friends.last_message
+                              ? _c(
+                                  "span",
+                                  {
+                                    class:
+                                      "lastNotificationDate-" + friends.order_id
+                                  },
+                                  [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm.istoday(friends.notification_date)
+                                      )
+                                    )
+                                  ]
+                                )
+                              : _vm._e()
+                          ]),
+                          _vm._v(" "),
+                          friends.last_message
+                            ? _c(
+                                "p",
+                                {
+                                  class: "lastNotification-" + friends.order_id
+                                },
+                                [_vm._v(_vm._s(friends.last_message.message))]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          friends.last_message &&
+                          friends.last_message.message_type == "delivery" &&
+                          friends.last_message.status == "delivery"
+                            ? [
+                                friends.last_message
+                                  ? _c(
+                                      "p",
+                                      {
+                                        class:
+                                          "NotificationDelivery-" +
+                                          friends.order_id
+                                      },
+                                      [_vm._v("Your order is delivered")]
+                                    )
+                                  : _vm._e()
+                              ]
+                            : friends.last_message &&
+                              friends.last_message.message_type == "delivery" &&
+                              friends.last_message.status == "reject"
+                            ? [
+                                friends.last_message
+                                  ? _c(
+                                      "p",
+                                      {
+                                        class:
+                                          "NotificationDelivery-" +
+                                          friends.order_id
+                                      },
+                                      [_vm._v("You reject the delivery")]
+                                    )
+                                  : _vm._e()
+                              ]
+                            : friends.last_message &&
+                              friends.last_message.message_type == "delivery" &&
+                              friends.last_message.status == "approved"
+                            ? [
+                                friends.last_message
+                                  ? _c(
+                                      "p",
+                                      {
+                                        class:
+                                          "NotificationDelivery-" +
+                                          friends.order_id
+                                      },
+                                      [_vm._v("You approved the delivery")]
+                                    )
+                                  : _vm._e()
+                              ]
+                            : _vm._e()
+                        ],
+                        2
+                      )
+                    ]
+                  : [
+                      _c(
+                        "div",
+                        { staticClass: "avatar" },
+                        [
+                          friends.receiver_info.profile_image != null
+                            ? [
+                                _c("img", {
+                                  attrs: {
+                                    src:
+                                      "/images/user_images/" +
+                                      friends.receiver_info.profile_image,
+                                    alt: ""
+                                  }
+                                })
+                              ]
+                            : [
+                                _c("img", {
+                                  attrs: { src: "/images/s1.png", alt: "" }
+                                })
+                              ]
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "text" },
+                        [
+                          _c("h4", [
+                            _vm._v(
+                              _vm._s(friends.receiver_info.first_name) +
+                                " " +
+                                _vm._s(friends.receiver_info.last_name) +
+                                " "
+                            ),
+                            friends.last_message
+                              ? _c(
+                                  "span",
+                                  {
+                                    staticClass:
+                                      "time 'lastNotificationDate-'+friends.order_id"
+                                  },
+                                  [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm.istoday(friends.notification_date)
+                                      )
+                                    )
+                                  ]
+                                )
+                              : _vm._e()
+                          ]),
+                          _vm._v(" "),
+                          friends.last_message
+                            ? _c(
+                                "p",
+                                {
+                                  class: "lastNotification-" + friends.order_id
+                                },
+                                [_vm._v(_vm._s(friends.last_message.message))]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          friends.last_message &&
+                          friends.last_message.message_type == "delivery" &&
+                          friends.last_message.status == "delivery"
+                            ? [
+                                friends.last_message
+                                  ? _c(
+                                      "p",
+                                      {
+                                        class:
+                                          "NotificationDelivery-" +
+                                          friends.order_id
+                                      },
+                                      [_vm._v("Your delivered your order")]
+                                    )
+                                  : _vm._e()
+                              ]
+                            : friends.last_message &&
+                              friends.last_message.message_type == "delivery" &&
+                              friends.last_message.status == "reject"
+                            ? [
+                                friends.last_message
+                                  ? _c(
+                                      "p",
+                                      {
+                                        class:
+                                          "NotificationDelivery-" +
+                                          friends.order_id
+                                      },
+                                      [_vm._v("Your delivery is rejected")]
+                                    )
+                                  : _vm._e()
+                              ]
+                            : friends.last_message &&
+                              friends.last_message.message_type == "delivery" &&
+                              friends.last_message.status == "approved"
+                            ? [
+                                friends.last_message
+                                  ? _c(
+                                      "p",
+                                      {
+                                        class:
+                                          "NotificationDelivery-" +
+                                          friends.order_id
+                                      },
+                                      [_vm._v("Your delivery is approved")]
+                                    )
+                                  : _vm._e()
+                              ]
+                            : _vm._e()
+                        ],
+                        2
+                      )
+                    ]
+              ],
+              2
+            )
+          ]
+        )
+      ])
+    }),
+    0
+  )
+}
+var staticRenderFns = []
 render._withStripped = true
 
 

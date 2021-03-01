@@ -122,6 +122,7 @@ class ChatController extends Controller
       if($file != '' || $request->input('message') != ''){
         $Insert = ChatMessages::create($data);
         $friendData['message_id'] = $Insert->id;
+        $friendData['message'] = $Insert->message_desc;
         $friendData['message_status'] = $Insert->message_status;
         $friendData['time'] = Carbon::now();
         $updateFriend = ChatFriends::where('conversation_id', $conversation_id)->update($friendData);

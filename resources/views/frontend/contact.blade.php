@@ -1,4 +1,4 @@
-@extends('frontend.layouts.master')
+@extends('frontend.layouts.app')
 @section('title', 'Contact Us  ')
 @section('styling')
 @endsection
@@ -107,7 +107,7 @@
                <button type="submit" class="btn btn-success" id="sendMessageButton">Send Message</button>
             </div>
          </form>
-         
+
       </div>
    </div>
 </section>

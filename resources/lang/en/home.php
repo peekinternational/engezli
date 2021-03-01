@@ -124,6 +124,7 @@ return [
 	"account" => "account",
 	"security" => "security",
 	"notifications" => "notifications",
+	"Notifications" => "Notifications",
 	"billing information" => "billing information",
 	"balance" => "balance",
 	"upload" => "upload",

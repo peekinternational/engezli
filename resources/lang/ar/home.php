@@ -124,6 +124,7 @@ return [
 	"account" => "",
 	"security" => "",
 	"notifications" => "",
+	"Notifications" => "",
 	"billing information" => "",
 	"balance" => "",
 	"upload" => "",

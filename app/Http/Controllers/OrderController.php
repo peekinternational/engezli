@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Services;
 use App\Models\Packages;
 use App\Models\Language;
+use App\Models\Notifications;
 use App\Models\Order;
 use App\Models\OrderConversations;
 use App\Models\OrderDelivery;
@@ -177,9 +178,40 @@ class OrderController extends Controller
       }
       $Order_conversation = OrderConversations::create($conversationData);
       $conversation = OrderConversations::with('userInfo')->where('id',$Order_conversation->id)->first();
-      return $conversation;
+      $order = Order::find($conversation->order_id);
+      if ($user_id == $order->seller_id) {
+        $receiver_id = $order->buyer_id;
+      }else {
+        $receiver_id = $order->seller_id;
+      }
+      $conversation->receiver_id = $receiver_id;
+      // dd($order);
+      Notifications::where('order_id',$conversation->order_id)->delete();
+      $notificationData['sender_id'] = $conversation->sender_id;
+      $notificationData['receiver_id'] = $receiver_id;
+      $notificationData['order_id'] = $conversation->order_id;
+      $notificationData['conversation_id'] = $conversation->id;
+      $notificationData['reason'] = 'order_message';
+      $notificationData['notification_date'] = Carbon::now();
+      $notificationData['status'] = 'unread';
+      $notifications = Notifications::create($notificationData);
+      $notification =  Notifications::with('senderInfo','receiverInfo','lastMessage','orderInfo')
+      ->where('id',$notifications->id)->first();
+      // return $conversation;
+      $data = array(
+        'conversation' => $conversation,
+        'notification' => $notification
+      );
+      return $data;
       // return view('frontend.order-conversation-ajax',compact('conversation'));
 
+    }
+
+    public function getNotification(Request $request, $id){
+      $getNotifications = Notifications::with('senderInfo','receiverInfo','lastMessage','orderInfo')->Where('receiver_id',$id)
+      ->orWhere('sender_id',$id)->orderBy('id', 'DESC')->get();
+      // dd($getNotifications);
+      return $getNotifications;
     }
 
     public function DeliverWork(Request $request)
@@ -220,7 +252,32 @@ class OrderController extends Controller
         }
       }
       $conversation = OrderConversations::with('userInfo','delivery')->where('id',$conversation_id)->first();
-      return $conversation;
+      $order = Order::find($conversation->order_id);
+      if ($user_id == $order->seller_id) {
+        $receiver_id = $order->buyer_id;
+      }else {
+        $receiver_id = $order->seller_id;
+      }
+      $conversation->receiver_id = $receiver_id;
+      // dd($order);
+      Notifications::where('order_id',$conversation->order_id)->delete();
+      $notificationData['sender_id'] = $conversation->sender_id;
+      $notificationData['receiver_id'] = $receiver_id;
+      $notificationData['order_id'] = $conversation->order_id;
+      $notificationData['conversation_id'] = $conversation->id;
+      $notificationData['reason'] = 'order_delivery';
+      $notificationData['notification_date'] = Carbon::now();
+      $notificationData['status'] = 'unread';
+      $notifications = Notifications::create($notificationData);
+      $notification =  Notifications::with('senderInfo','receiverInfo','lastMessage','orderInfo')
+      ->where('id',$notifications->id)->first();
+      // return $conversation;
+      $data = array(
+        'conversation' => $conversation,
+        'notification' => $notification
+      );
+      return $data;
+
     }
 
     public function approveDelivery(Request $request)

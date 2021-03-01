@@ -88,5 +88,10 @@ class Engezli {
 		}
 		return $delivery;
 	}
+	public function getUserorder($user_id){
+		$delivery = Order::where('buyer_id',$user_id)->orwhere('seller_id',$user_id)->get();
+		// dd($delivery);
+		return $delivery;
+	}
 }
 ?>

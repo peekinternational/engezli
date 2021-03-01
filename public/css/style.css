@@ -7172,3 +7172,10 @@ nav.breadcrumb-container .breadcrumb a {
   color: #ffffff;
   background: #007bff;
 }
+.notification-dot, .message-dot {
+  background: #007bff;
+  width: 2px;
+  height: 9px;
+  position: absolute;
+  top: 4px;
+}

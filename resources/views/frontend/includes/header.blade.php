@@ -13,10 +13,11 @@
 				<li class="nav-item {{ Request()->is('/') ? 'active' : '' }}">
 					<a href="{{url('/')}}" class="nav-link">{{ __('home.Home')}}</a>
 				</li>
-				<li class="nav-item {{ Request()->is('/message') ? 'active' : '' }}">
-					<a class="nav-link" href="{{url('message')}}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+				<li class="nav-item {{ Request()->is('messages') ? 'active' : '' }}">
+					<a class="nav-link message-anchor" href="{{url('messages')}}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
 						aria-expanded="false">
 						{{ __('home.Message')}}
+						<span class="badge message-dot"></span>
 					</a>
 					@if(auth()->user())
 					<div class="dropdown-menu notification" aria-labelled="navbarDropdown">
@@ -25,13 +26,26 @@
 					</div>
 					@endif
 				</li>
-				<li class="nav-item {{ Request()->is('/order') ? 'active' : '' }}">
+				<li class="nav-item {{ Request()->is('/order-details') ? 'active' : '' }}">
+					<a class="nav-link notification-anchor" href="javascript:void(0);" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false">
+						{{ __('home.Notifications')}}
+						<span class="badge notification-dot"></span>
+					</a>
+					@if(auth()->user())
+					<div class="dropdown-menu notification" aria-labelled="navbarDropdown">
+							<ordernotification :userdata="{{auth()->user()}}"></ordernotification>
+
+					</div>
+					@endif
+				</li>
+				<li class="nav-item {{ Request()->is('manage-orders') ? 'active' : '' }}">
 					<a href="{{url('manage-orders')}}" class="nav-link">{{ __('home.Order')}}</a>
 				</li>
-				<li class="nav-item {{ Request()->is('/services/all') ? 'active' : '' }}">
+				<li class="nav-item {{ Request()->is('services/all') ? 'active' : '' }}">
 					<a href="{{url('services/all')}}" class="nav-link">{{ __('home.Service')}}</a>
 				</li>
-				<li class="nav-item {{ Request()->is('/contact') ? 'active' : '' }}">
+				<li class="nav-item {{ Request()->is('contact') ? 'active' : '' }}">
 					<a href="{{url('contact')}}" class="nav-link">{{ __('home.Contact')}}</a>
 				</li>
 			</ul>
