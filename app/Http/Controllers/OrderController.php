@@ -288,7 +288,13 @@ class OrderController extends Controller
       $conversation->status = 'approved';
       $conversation->update();
       $getconversation = OrderConversations::with('userInfo','delivery')->where('id',$conversation_id)->first();
-      return $getconversation;
+      $notification =  Notifications::with('senderInfo','receiverInfo','lastMessage','orderInfo')
+      ->where('conversation_id',$conversation_id)->first();
+      $data = array(
+        'conversation' => $getconversation,
+        'notification' => $notification
+      );
+      return $data;
     }
 
     public function rejectDelivery(Request $request)
@@ -299,7 +305,13 @@ class OrderController extends Controller
       $conversation->status = 'reject';
       $conversation->update();
       $getconversation = OrderConversations::with('userInfo','delivery')->where('id',$conversation_id)->first();
-      return $getconversation;
+      $notification =  Notifications::with('senderInfo','receiverInfo','lastMessage','orderInfo')
+      ->where('conversation_id',$conversation_id)->first();
+      $data = array(
+        'conversation' => $getconversation,
+        'notification' => $notification
+      );
+      return $data;
     }
 
     public function getConversation(Request $request, $id)
@@ -387,7 +399,21 @@ class OrderController extends Controller
       $review = BuyerReviews::create($reviewData);
       $order->order_status = 'completed';
       $order->update();
-      return redirect('/manage-orders')->with('success', 'Order completed successfully');
+      Notifications::where('order_id',$order->id)->delete();
+      $notificationData['receiver_id'] = $order->seller_id;
+      $notificationData['sender_id'] = $order->buyer_id;
+      $notificationData['order_id'] = $order->id;
+      $notificationData['conversation_id'] = null;
+      $notificationData['reason'] = 'order_rating';
+      $notificationData['rating'] = $overall_rating;
+      $notificationData['notification_date'] = Carbon::now();
+      $notificationData['status'] = 'unread';
+      $notification = Notifications::create($notificationData);
+      $data = array(
+        'notifications' => $notification
+      );
+      return $data;
+      // return redirect('/manage-orders')->with('success', 'Order completed successfully');
     }
 
     public function ResolutionCenter(Request $request, $order_number)

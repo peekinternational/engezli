@@ -106,7 +106,7 @@
             $('.notification-anchor').on('click',function () {
               $('.notification-dot').hide();
             });
-            
+
             $('.message-anchor').on('click',function () {
               $('.message-dot').hide();
             });

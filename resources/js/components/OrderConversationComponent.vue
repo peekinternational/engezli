@@ -544,14 +544,22 @@ import moment from 'moment';
             $('.message_area').hide();
             this.approved = true;
             this.approveDate = data.updated_at;
+            $('.notification-dot').show();
+            $('.delivery-'+data.order_id).html("Your delivery is approved");
+            $('.NotificationDeliverySeller-'+data.order_id).html("");
           }
           if (data.status == "reject") {
             $('.delivery'+data.id).remove();
             this.reject = true;
+            $('.notification-dot').show();
+            $('.delivery-'+data.order_id).html("Your delivery is rejected");
+            $('.NotificationDeliverySeller-'+data.order_id).html("");
           }
           if (data.status == "delivery") {
             this.notDeliver = false;
             this.reject = false;
+            $('.lastNotification-'+data.order_id).html(data.message);
+            $('.delivery-'+data.order_id).html("You delivered your order");
           }
           this.getConversation.push(data);
           // this.getConversation.unshift(data);
@@ -640,10 +648,13 @@ import moment from 'moment';
         // console.log(conversation);
         var socket = socketio.connect('https://peekvideochat.com:22000/');
         axios.post('http://localhost:8000/api/rejectDelivery',{'conversation':conversation}).then(responce => {
-          // console.log(responce.data);
+          console.log("reject data", responce.data);
           $('.delivery'+responce.data.id).remove();
+          this.data = responce.data.notification;
+          $('.NotificationDelivery-'+this.data.order_id).html("You reject the delivery");
           // this.getConversation = responce.data;
           socket.emit('message', responce.data);
+
           // console.log(responce.data);
 
         }, function(err) {

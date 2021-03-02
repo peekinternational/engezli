@@ -15,14 +15,16 @@
             </div>
             <div class="text">
               <h4>{{friends.sender_info.first_name}} {{friends.sender_info.last_name}} <span v-if="friends.last_message" :class="'lastNotificationDate-'+friends.order_id">{{istoday(friends.notification_date)}}</span></h4>
+              <p v-if="friends.rating">left {{ getRating(friends.rating) }} review</p>
+              <!-- <p v-if="friends.rating">left {{friends.rating}} review</p> -->
               <p v-if="friends.last_message" :class="'lastNotification-'+friends.order_id">{{friends.last_message.message}}</p>
-              <template v-if="friends.last_message && friends.last_message.message_type == 'delivery' && friends.last_message.status == 'delivery'">
+              <template v-if="order_delivered || friends.last_message && friends.last_message.status == 'delivery'">
                 <p v-if="friends.last_message" :class="'NotificationDelivery-'+friends.order_id">Your order is delivered</p>
               </template>
-              <template v-else-if="friends.last_message && friends.last_message.message_type == 'delivery' && friends.last_message.status == 'reject'">
+              <template v-else-if="order_reject || friends.last_message && friends.last_message.status == 'reject'">
                 <p v-if="friends.last_message" :class="'NotificationDelivery-'+friends.order_id">You reject the delivery</p>
               </template>
-              <template v-else-if="friends.last_message && friends.last_message.message_type == 'delivery' && friends.last_message.status == 'approved'">
+              <template v-else-if="order_approved || friends.last_message && friends.last_message.status == 'approved'">
                 <p v-if="friends.last_message" :class="'NotificationDelivery-'+friends.order_id">You approved the delivery</p>
               </template>
             </div>
@@ -38,15 +40,17 @@
             </div>
             <div class="text">
               <h4>{{friends.receiver_info.first_name}} {{friends.receiver_info.last_name}} <span v-if="friends.last_message" class="time 'lastNotificationDate-'+friends.order_id">{{istoday(friends.notification_date)}}</span></h4>
+              <p v-if="friends.rating">left {{ getRating(friends.rating) }} review</p>
               <p v-if="friends.last_message" :class="'lastNotification-'+friends.order_id">{{friends.last_message.message}}</p>
-              <template v-if="friends.last_message && friends.last_message.message_type == 'delivery' && friends.last_message.status == 'delivery'">
-                <p v-if="friends.last_message" :class="'NotificationDelivery-'+friends.order_id">Your delivered your order</p>
+              <p :class="'delivery-'+friends.order_id"></p>
+              <template v-if="order_delivered_seller || friends.last_message && friends.last_message.status == 'delivery'">
+                <p v-if="friends.last_message" :class="'NotificationDeliverySeller-'+friends.order_id">You delivered your order</p>
               </template>
-              <template v-else-if="friends.last_message && friends.last_message.message_type == 'delivery' && friends.last_message.status == 'reject'">
-                <p v-if="friends.last_message" :class="'NotificationDelivery-'+friends.order_id">Your delivery is rejected</p>
+              <template v-else-if="order_reject_seller || friends.last_message && friends.last_message.status == 'reject'">
+                <p v-if="friends.last_message" :class="'NotificationDeliverySeller-'+friends.order_id">Your delivery is rejected</p>
               </template>
-              <template v-else-if="friends.last_message && friends.last_message.message_type == 'delivery' && friends.last_message.status == 'approved'">
-                <p v-if="friends.last_message" :class="'NotificationDelivery-'+friends.order_id">Your delivery is approved</p>
+              <template v-else-if="order_approved_seller || friends.last_message && friends.last_message.status == 'approved'">
+                <p v-if="friends.last_message" :class="'NotificationDeliverySeller-'+friends.order_id">Your delivery is approved</p>
               </template>
             </div>
           </template>
@@ -82,10 +86,13 @@ import moment from 'moment';
       data: function() {
           return {
             friendList: [],
+            order_delivered:false,
+            order_delivered_seller:false,
+            order_reject:false,
+            order_reject_seller:false,
+            order_approved:false,
+            order_approved_seller:false,
             singleChate: {},
-            friendId:"",
-            friendName:"",
-            friendImage:"",
             friendCountry:"",
             friendLanguage:"",
             friendStatus:"",
@@ -121,7 +128,7 @@ import moment from 'moment';
         // var socket = socketio('http://192.168.100.17:3000');
         socket.on("birdsreceivemsg", function(data){
         data = data.notification;
-        // console.log("notification data",data);
+        console.log("notification data",data);
         if (data.order_id) {
 
         if(data.receiver_id == this.user_id){
@@ -129,20 +136,36 @@ import moment from 'moment';
             return data.order_id === obj_friend.order_id;
           }).pop();
           $('.notification-dot').show();
-          console.log("check nofitifcation",this.userdec,"last message",data.last_message.message);
+          // console.log("check nofitifcation",this.userdec,"last message",data.last_message.message);
           if (this.userdec) {
             console.log("check inside",this.userdec,"last message",data.last_message.message);
             this.userdec.notification_date = new Date().toISOString();
             var msg=data.last_message.message;
             var time2 = moment().format('hh:mm A');
             // console.log(msg,'lastNotificationDate-'+data.order_id);
-            $('.lastNotification-'+data.order_id).html();
+            console.log("message type",data.last_message.message_type);
+            if (data.last_message.message_type == 'delivery') {
+              if (data.last_message.status == 'delivery') {
+                this.order_reject = false;
+                this.order_delivered = true;
+              }else if (data.last_message.status == 'reject') {
+                this.order_delivered_seller = false;
+                this.order_delivered = false;
+                $('.delivery-'+data.order_id).html("You reject the delivery");
+              }else if (data.last_message.status == 'approved') {
+                this.order_delivered_seller = false;
+                this.order_delivered = false;
+                $('.delivery-'+data.order_id).html("You approved the delivery");
+              }
+            }
+            // $('.lastNotification-'+data.order_id).html();
             setTimeout(() => $('.lastNotification-'+data.order_id).html('<p>'+msg+'</p>'),  2000);
             setTimeout(() => $('.lastNotificationDate-'+data.order_id).html('<small class="text-muted text-uppercase"> TODAY AT '+time2+'</small>'), 2000);
           }else {
             this.friendList.unshift(data);
 
           }
+
 
           }
         }
@@ -158,6 +181,9 @@ import moment from 'moment';
       istoday: function (date) {
         return moment(date).calendar();
       },
+      getRating: function (rating) {
+        return parseFloat(rating).toFixed(1);
+      },
       friendlistss: function(){
         axios.get('http://localhost:8000/api/notifications/'+this.user_id)
         .then(responce => {
@@ -165,7 +191,6 @@ import moment from 'moment';
           console.log("notification",responce.data);
         // var group =  _.groupBy(this.friendList,'sender_id');
         // this.friendList = group;
-        console.log("frindlist",this.friendList);
 
         })
       },

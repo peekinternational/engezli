@@ -15,6 +15,7 @@ class Notifications extends Model
     	'order_id',
     	'conversation_id',
     	'reason',
+    	'rating',
     	'notification_date',
     	'status',
     ];
@@ -34,5 +35,5 @@ class Notifications extends Model
     {
       return $this->belongsTo(OrderConversations::class, 'conversation_id');
     }
-  
+
 }

@@ -3960,16 +3960,24 @@ __webpack_require__.r(__webpack_exports__);
           $('.message_area').hide();
           this.approved = true;
           this.approveDate = data.updated_at;
+          $('.notification-dot').show();
+          $('.delivery-' + data.order_id).html("Your delivery is approved");
+          $('.NotificationDeliverySeller-' + data.order_id).html("");
         }
 
         if (data.status == "reject") {
           $('.delivery' + data.id).remove();
           this.reject = true;
+          $('.notification-dot').show();
+          $('.delivery-' + data.order_id).html("Your delivery is rejected");
+          $('.NotificationDeliverySeller-' + data.order_id).html("");
         }
 
         if (data.status == "delivery") {
           this.notDeliver = false;
           this.reject = false;
+          $('.lastNotification-' + data.order_id).html(data.message);
+          $('.delivery-' + data.order_id).html("You delivered your order");
         }
 
         this.getConversation.push(data); // this.getConversation.unshift(data);
@@ -4059,13 +4067,17 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     rejectDelivery: function rejectDelivery(conversation) {
+      var _this3 = this;
+
       // console.log(conversation);
       var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('https://peekvideochat.com:22000/');
       axios.post('http://localhost:8000/api/rejectDelivery', {
         'conversation': conversation
       }).then(function (responce) {
-        // console.log(responce.data);
-        $('.delivery' + responce.data.id).remove(); // this.getConversation = responce.data;
+        console.log("reject data", responce.data);
+        $('.delivery' + responce.data.id).remove();
+        _this3.data = responce.data.notification;
+        $('.NotificationDelivery-' + _this3.data.order_id).html("You reject the delivery"); // this.getConversation = responce.data;
 
         socket.emit('message', responce.data); // console.log(responce.data);
       }, function (err) {
@@ -4167,6 +4179,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -4175,10 +4191,13 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       friendList: [],
+      order_delivered: false,
+      order_delivered_seller: false,
+      order_reject: false,
+      order_reject_seller: false,
+      order_approved: false,
+      order_approved_seller: false,
       singleChate: {},
-      friendId: "",
-      friendName: "",
-      friendImage: "",
       friendCountry: "",
       friendLanguage: "",
       friendStatus: "",
@@ -4211,15 +4230,15 @@ __webpack_require__.r(__webpack_exports__);
     var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default()('https://peekvideochat.com:22000'); // var socket = socketio('http://192.168.100.17:3000');
 
     socket.on("birdsreceivemsg", function (data) {
-      data = data.notification; // console.log("notification data",data);
+      data = data.notification;
+      console.log("notification data", data);
 
       if (data.order_id) {
         if (data.receiver_id == this.user_id) {
           this.userdec = this.friendList.filter(function (obj_friend) {
             return data.order_id === obj_friend.order_id;
           }).pop();
-          $('.notification-dot').show();
-          console.log("check nofitifcation", this.userdec, "last message", data.last_message.message);
+          $('.notification-dot').show(); // console.log("check nofitifcation",this.userdec,"last message",data.last_message.message);
 
           if (this.userdec) {
             console.log("check inside", this.userdec, "last message", data.last_message.message);
@@ -4227,7 +4246,24 @@ __webpack_require__.r(__webpack_exports__);
             var msg = data.last_message.message;
             var time2 = moment__WEBPACK_IMPORTED_MODULE_2___default()().format('hh:mm A'); // console.log(msg,'lastNotificationDate-'+data.order_id);
 
-            $('.lastNotification-' + data.order_id).html();
+            console.log("message type", data.last_message.message_type);
+
+            if (data.last_message.message_type == 'delivery') {
+              if (data.last_message.status == 'delivery') {
+                this.order_reject = false;
+                this.order_delivered = true;
+              } else if (data.last_message.status == 'reject') {
+                this.order_delivered_seller = false;
+                this.order_delivered = false;
+                $('.delivery-' + data.order_id).html("You reject the delivery");
+              } else if (data.last_message.status == 'approved') {
+                this.order_delivered_seller = false;
+                this.order_delivered = false;
+                $('.delivery-' + data.order_id).html("You approved the delivery");
+              }
+            } // $('.lastNotification-'+data.order_id).html();
+
+
             setTimeout(function () {
               return $('.lastNotification-' + data.order_id).html('<p>' + msg + '</p>');
             }, 2000);
@@ -4250,6 +4286,9 @@ __webpack_require__.r(__webpack_exports__);
     istoday: function istoday(date) {
       return moment__WEBPACK_IMPORTED_MODULE_2___default()(date).calendar();
     },
+    getRating: function getRating(rating) {
+      return parseFloat(rating).toFixed(1);
+    },
     friendlistss: function friendlistss() {
       var _this = this;
 
@@ -4257,8 +4296,6 @@ __webpack_require__.r(__webpack_exports__);
         _this.friendList = responce.data;
         console.log("notification", responce.data); // var group =  _.groupBy(this.friendList,'sender_id');
         // this.friendList = group;
-
-        console.log("frindlist", _this.friendList);
       });
     }
   }
@@ -74263,6 +74300,16 @@ var render = function() {
                               : _vm._e()
                           ]),
                           _vm._v(" "),
+                          friends.rating
+                            ? _c("p", [
+                                _vm._v(
+                                  "left " +
+                                    _vm._s(_vm.getRating(friends.rating)) +
+                                    " review"
+                                )
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
                           friends.last_message
                             ? _c(
                                 "p",
@@ -74273,9 +74320,9 @@ var render = function() {
                               )
                             : _vm._e(),
                           _vm._v(" "),
-                          friends.last_message &&
-                          friends.last_message.message_type == "delivery" &&
-                          friends.last_message.status == "delivery"
+                          _vm.order_delivered ||
+                          (friends.last_message &&
+                            friends.last_message.status == "delivery")
                             ? [
                                 friends.last_message
                                   ? _c(
@@ -74289,9 +74336,9 @@ var render = function() {
                                     )
                                   : _vm._e()
                               ]
-                            : friends.last_message &&
-                              friends.last_message.message_type == "delivery" &&
-                              friends.last_message.status == "reject"
+                            : _vm.order_reject ||
+                              (friends.last_message &&
+                                friends.last_message.status == "reject")
                             ? [
                                 friends.last_message
                                   ? _c(
@@ -74305,9 +74352,9 @@ var render = function() {
                                     )
                                   : _vm._e()
                               ]
-                            : friends.last_message &&
-                              friends.last_message.message_type == "delivery" &&
-                              friends.last_message.status == "approved"
+                            : _vm.order_approved ||
+                              (friends.last_message &&
+                                friends.last_message.status == "approved")
                             ? [
                                 friends.last_message
                                   ? _c(
@@ -74380,6 +74427,16 @@ var render = function() {
                               : _vm._e()
                           ]),
                           _vm._v(" "),
+                          friends.rating
+                            ? _c("p", [
+                                _vm._v(
+                                  "left " +
+                                    _vm._s(_vm.getRating(friends.rating)) +
+                                    " review"
+                                )
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
                           friends.last_message
                             ? _c(
                                 "p",
@@ -74390,48 +74447,50 @@ var render = function() {
                               )
                             : _vm._e(),
                           _vm._v(" "),
-                          friends.last_message &&
-                          friends.last_message.message_type == "delivery" &&
-                          friends.last_message.status == "delivery"
+                          _c("p", { class: "delivery-" + friends.order_id }),
+                          _vm._v(" "),
+                          _vm.order_delivered_seller ||
+                          (friends.last_message &&
+                            friends.last_message.status == "delivery")
                             ? [
                                 friends.last_message
                                   ? _c(
                                       "p",
                                       {
                                         class:
-                                          "NotificationDelivery-" +
+                                          "NotificationDeliverySeller-" +
                                           friends.order_id
                                       },
-                                      [_vm._v("Your delivered your order")]
+                                      [_vm._v("You delivered your order")]
                                     )
                                   : _vm._e()
                               ]
-                            : friends.last_message &&
-                              friends.last_message.message_type == "delivery" &&
-                              friends.last_message.status == "reject"
+                            : _vm.order_reject_seller ||
+                              (friends.last_message &&
+                                friends.last_message.status == "reject")
                             ? [
                                 friends.last_message
                                   ? _c(
                                       "p",
                                       {
                                         class:
-                                          "NotificationDelivery-" +
+                                          "NotificationDeliverySeller-" +
                                           friends.order_id
                                       },
                                       [_vm._v("Your delivery is rejected")]
                                     )
                                   : _vm._e()
                               ]
-                            : friends.last_message &&
-                              friends.last_message.message_type == "delivery" &&
-                              friends.last_message.status == "approved"
+                            : _vm.order_approved_seller ||
+                              (friends.last_message &&
+                                friends.last_message.status == "approved")
                             ? [
                                 friends.last_message
                                   ? _c(
                                       "p",
                                       {
                                         class:
-                                          "NotificationDelivery-" +
+                                          "NotificationDeliverySeller-" +
                                           friends.order_id
                                       },
                                       [_vm._v("Your delivery is approved")]
