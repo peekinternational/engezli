@@ -25,7 +25,7 @@ class HomeController extends Controller
     {
         $categories = Categories::where('parent_id', '==', 0)->get();
 
-        $services = Services::with('sellerInfo','packageInfo')->get();
+        $services = Services::with('sellerInfo','packageInfo','serviceRating')->get();
         // dd($services);
         return \View::make('frontend.index')->with(compact('categories','services'));
     }

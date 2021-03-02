@@ -80,6 +80,7 @@ Route::get('profile/{username}', [ProfileController::class, 'show']);
 Route::group(['middleware' => 'auth'], function() {
 // Profile
 Route::get('/profile', [ProfileController::class,'index']);
+Route::match(['get','post'],'/profile_ajax', [ProfileController::class,'reivews_ajax']);
 Route::get('settings', [ProfileController::class,'edit_profile']);
 Route::post('edit_profile_info', [ProfileController::class,'edit_profile_info']);
 Route::get('messages', [ChatController::class,'messages']);
@@ -108,6 +109,14 @@ Route::match(['get','post'],'/post_service', [CreateServiceController::class, 'p
 // Rating
 Route::get('/rating/{number}', [OrderController::class, 'Rating']);
 Route::post('/buyer_review', [OrderController::class, 'BuyerReview']);
+
+// Requirements
+Route::get('/requirements/{number}', [OrderController::class, 'GetRequirements']);
+
+
+//  Resolution Center
+Route::get('/resolution-center/{number}', [OrderController::class, 'ResolutionCenter']);
+Route::post('/make-resolution-request', [OrderController::class, 'ResolutionRequest']);
 
 Route::get('/services/{url}', [ServiceController::class, 'index']);
 

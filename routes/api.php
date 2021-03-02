@@ -20,9 +20,11 @@ Route::post('add-friend',[ChatController::class, 'addfriend']);
 Route::get('friendsList/{id}',[ChatController::class, 'friendsList']);
 Route::get('friendlist/friendsList2/{id}',[ChatController::class, 'friendsListUser']);
 Route::get('getOrderConversation/{id}',[OrderController::class, 'getConversation']);
+Route::get('getOrderDelivery/{id}',[OrderController::class, 'getDelivery']);
 Route::post('singleChat',[ChatController::class, 'singleChat']);
 Route::post('chat/send-message',[ChatController::class, 'send']);
 Route::get('friendData/{id}',[ChatController::class, 'friendData']);
+Route::get('notifications/{id}',[OrderController::class, 'getNotification']);
 
 Route::post('approveDelivery',[OrderController::class, 'approveDelivery']);
 Route::post('rejectDelivery',[OrderController::class, 'rejectDelivery']);

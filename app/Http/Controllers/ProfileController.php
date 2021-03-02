@@ -32,22 +32,21 @@ class ProfileController extends Controller
     {
         $user_id = auth()->user()->id;
         $user = User::with('userReviews')->where('id', $user_id)->first();
+        $userReviews = $user->userReviews()->paginate(10);
         $userServices = Services::with('serviceRating')->where('seller_id', $user_id)->with('sellerInfo','packageInfo')->paginate(16);
         $userExp = UserExperience::where('user_id',$user_id)->first();
         $userEdu = UserEducation::where('user_id',$user_id)->first();
         $serviceCount = $userServices->count();
         // dd($user);
-        return \View::make('frontend.profile')->with(compact('user','userServices','serviceCount','userExp','userEdu'));
+        return \View::make('frontend.profile')->with(compact('user','userReviews','userServices','serviceCount','userExp','userEdu'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
 
+    public function reivews_ajax(Request $request)
+    {
+      $user = User::with('userReviews')->where('id', $request->input('id'))->first();
+      $userReviews = $user->userReviews()->simplePaginate(10);
+      return view('frontend.user-reviews-ajax',compact('userReviews'));
     }
 
     /**
@@ -69,8 +68,8 @@ class ProfileController extends Controller
      */
     public function show($username)
     {
-        $user = User::whereusername($username)->first();
-        $userServices = Services::where('seller_id', $user->id)->with('sellerInfo','packageInfo')->paginate(16);
+        $user = User::with('userReviews')->where('username', $username)->first();
+        $userServices = Services::where('seller_id', $user->id)->with('sellerInfo','packageInfo','serviceRating')->paginate(16);
         $userExp = UserExperience::where('user_id',$user->id)->first();
         $userEdu = UserEducation::where('user_id',$user->id)->first();
         $serviceCount = $userServices->count();
@@ -125,6 +124,7 @@ class ProfileController extends Controller
     }
 
     public function edit_profile_info(Request $request){
+      // dd($request->all());
       $user_id = auth()->user()->id;
       $this->validate($request,[
         'first_name' => 'required|min:1|max:50',
@@ -170,7 +170,7 @@ class ProfileController extends Controller
       $user->mobile_number = $request->input('mobile_number');
       $user->gender = $request->input('gender');
       $user->birth_date = $request->input('birth_date');
-      $user->country = $request->input('country');
+      $user->country = $request->input('user_country');
       $user->website = $request->input('website');
       $user->organization = $request->input('organization');
       $user->occuption = $request->input('occuption');

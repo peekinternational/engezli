@@ -366,28 +366,33 @@ import notificaiton from './NotificationComponent'
                }).pop();
                // console.log("post2",post2);
                if (post2) {
-                 if (this.friendId == data.UserId && post2.sender_id == data.selectFrienddata) {
+                 if (this.friendId == data.UserId && post2.sender_id == data.UserId) {
                    this.typing = true;
-                 }else if (this.friendId == data.UserId && post2.receiver_id == data.selectFrienddata) {
+                 }else if (this.friendId == data.UserId && post2.receiver_id == data.UserId) {
                    this.typing = true;
                  }
+                 $('#f_typing'+data.UserId).html('<span style="color: green;"> is typing ...</span>');
+                 this.typing = false;
+
                }
-              $('#f_typing'+data.UserId).html('<span style="color: green;"> is typing ...</span>');
+
             }
           },
 
           alphastoptyping(data) {
+            this.typing = false;
             if (data.friendId == this.user_id) {
-              this.typing = false;
-              console.log("stop typing",data.friendId);
+              console.log("stop typing friend",data.friendId);
+              console.log("stop typing user",data.UserId);
               // alert("chenck");
-              // console.log("stop typing",data);
+              console.log("stop typing",data);
 
-            if(data.selectFrienddata.last_message.message_desc){
+            if(data.selectFrienddata.last_message){
+              // setTimeout(() => $('#f_typing'+data.UserId).html('demo'+data.selectFrienddata.last_message.message_desc), 3000);
               $('#f_typing'+data.UserId).html(data.selectFrienddata.last_message.message_desc);
             }
             else{
-              $('#f_typing'+data.UserId).html('');
+              $('#f_typing'+data.UserId).html('type');
             }
           }
           },
@@ -406,7 +411,7 @@ import notificaiton from './NotificationComponent'
           var socket = socketio('https://peekvideochat.com:22000');
           // var socket = socketio('http://192.168.100.17:3000');
           socket.on("birdsreceivemsg", function(data){
-          // console.log("socket data",data);
+          console.log("socket data",data);
           if(data.message_receiver == this.userdata.id){
               if (this.conversation_id == data.conversation_id) {
                 this.singleChate.push(data);
@@ -416,15 +421,23 @@ import notificaiton from './NotificationComponent'
               //     console.log(data.conversation_id,obj_friend.conversation_id);
               //     return data.conversation_id === obj_friend.conversation_id;
               // }).pop();
-              // // console.log("filter_user",this.userdec);
-              // this.userdec.time = new Date().toISOString();
-              // var time2 = moment().format('hh:mm A');
-              // setTimeout(function(){   $('.lastMessageDate-'+data.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT '+time2+'</small>');
-              //   $('.lastMessage-'+data.conversation_id).html('<p>'+data.message_desc+'</p>'); }, 5000);
 
-              var time2 = moment().format('hh:mm A');
-                $('.lastMessageDate-'+data.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT '+time2+'</small>');
-                 $('.lastMessage-'+data.conversation_id).html('<p>'+data.message_desc+'</p>');
+              this.userdec = this.friendList.filter((obj_friend) => {
+                return data.conversation_id === obj_friend.conversation_id;
+            }).pop();
+            console.log("filter_user",this.userdec);
+            // setTimeout(() => this.userdec.time = new Date().toISOString(), 3000);
+            this.userdec.time = new Date().toISOString();
+            // this.userdec.last_message.message_desc = data.message_desc;
+            // // var time2 = moment().format('hh:mm A');
+            // console.log('.lastMessageDate-'+data.conversation_id);
+            // var msg=data.message_desc;
+            // var time2 = moment().format('hh:mm A');
+            // setTimeout(() => $('.lastMessage-'+this.conversation_id).html('<p>'+msg+'</p>'), 2000);
+            // $('.lastMessageDate-'+data.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT '+time2+'</small>');
+              // var time2 = moment().format('hh:mm A');
+              //   $('.lastMessageDate-'+data.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT '+time2+'</small>');
+                 // $('.lastMessage-'+this.userdec.conversation_id).html('<p>data ape'+data.message_desc+'</p>');
 
               // console.log("check notfication",$('.notificationMessage-'+data.conversation_id).text());
               var height = 0;
@@ -477,7 +490,7 @@ import notificaiton from './NotificationComponent'
             axios.get('http://localhost:8000/api/friendsList/'+this.user_id)
             .then(responce => {
               this.friendList = responce.data;
-              // console.log(this.friendList);
+              console.log(this.friendList);
               var url = window.location.href;
               var conversation_id = url.substring(url.lastIndexOf('=') + 1);
               if (conversation_id) {
@@ -624,6 +637,20 @@ import notificaiton from './NotificationComponent'
                   socket.emit('message', obj);
                   socket.emit('alphastopTyping', { selectFrienddata:this.friendId, UserId:this.user_id});
                   // var time = moment().format('hh:mm A');
+
+                  this.userdec = this.friendList.filter((obj_friend) => {
+                    return this.conversation_id === obj_friend.conversation_id;
+                }).pop();
+                // console.log("filter_user",this.userdec);
+                this.userdec.time = new Date().toISOString();
+                this.userdec.last_message.message_desc = this.message;
+                var time2 = moment().format('hh:mm A');
+                console.log('.lastMessageDate-'+this.conversation_id);
+                var msg=this.message;
+                // console.log(msg);
+                 // setTimeout(() => $('.lastMessage-'+this.conversation_id).html('<p>'+msg+'</p>'), 2000);
+                  $('.lastMessageDate-'+this.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT '+time2+'</small>');
+
 
                   // this.userdec = this.friendList.filter((obj_friend) => {
                   //   // console.log(obj_friend.sender_id);

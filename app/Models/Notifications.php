@@ -13,7 +13,9 @@ class Notifications extends Model
     	'receiver_id',
     	'sender_id',
     	'order_id',
+    	'conversation_id',
     	'reason',
+    	'rating',
     	'notification_date',
     	'status',
     ];
@@ -29,4 +31,9 @@ class Notifications extends Model
     {
       return $this->belongsTo(User::class, 'receiver_id');
     }
+    public function lastMessage()
+    {
+      return $this->belongsTo(OrderConversations::class, 'conversation_id');
+    }
+
 }

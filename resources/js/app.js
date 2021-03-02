@@ -30,6 +30,8 @@ Vue.use(new VueSocketio({
 Vue.component('messages', require('./components/ExampleComponent.vue').default);
 Vue.component('notification', require('./components/NotificationComponent.vue').default);
 Vue.component('orderconversation', require('./components/OrderConversationComponent.vue').default);
+Vue.component('delivery', require('./components/DeliveryComponent.vue').default);
+Vue.component('ordernotification', require('./components/OrderNotificationComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

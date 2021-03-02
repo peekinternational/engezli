@@ -15,14 +15,14 @@
                 class="user-online-indicator is-online"
                 data-user-id="{{$user->id}}"
               >
-                <i class="fa fa-circle"></i>online
+                <i class="fa fa-circle"></i>{{ __('home.online')}}
               </div>
               @else
               <div
                 class="user-online-indicator is-online border-danger text-danger"
                 data-user-id="{{$user->id}}"
               >
-                <i class="fa fa-circle"></i>offline
+                <i class="fa fa-circle"></i>{{ __('home.offline')}}
               </div>
               @endif
             </div>
@@ -56,7 +56,7 @@
                   <small class="oneliner">{{$user->occuption}}</small>
                   <div class="ratings-wrapper">
                     <p class="rating-text">
-                      <strong>5.0</strong> (1k+ reviews)
+                      <strong>{{number_format($user->userReviews->avg('overall_rating'),'1','.','')}}</strong> ({{count($user->userReviews)}} reviews)
                     </p>
                   </div>
                 </div>
@@ -67,23 +67,23 @@
                 href="javascript:void(0);"
                 onclick="addFriend({{$user->id}})"
                 class="btn-lrg-standard btn-contact-me js-contact-me js-open-popup-join"
-                >Contact Me</a
+                >{{ __('home.Contact Me')}}</a
               >
               <div class="btn-lrg-standard btn-white btn-custom-order">
-                Get a Quote
+                {{ __('home.Get a Quote')}}
               </div>
             </div>
             <div class="user-stats-desc">
               <ul class="user-stats">
-                <li class="location">From<strong>{{$user->country}}</strong></li>
+                <li class="location">{{ __('home.From')}}<strong>{{$user->country}}</strong></li>
                 <li class="member-since">
-                  Member since<strong><?php echo date('F Y', strtotime($user->member_since)); ?></strong>
+                  {{ __('home.Member since')}}<strong><?php echo date('F Y', strtotime($user->member_since)); ?></strong>
                 </li>
                 <li class="response-time">
-                  Avg. Response Time<strong>2 hours</strong>
+                  {{ __('home.Avg. Response Time')}}<strong>2 hours</strong>
                 </li>
                 <li class="recent-delivery">
-                  Recent Delivery<strong>about&nbsp;15</strong>
+                  {{ __('home.Avg. Recent Delivery')}}<strong>about&nbsp;15</strong>
                 </li>
               </ul>
             </div>
@@ -91,11 +91,11 @@
         </div>
         <div class="seller-profile">
           <div class="description">
-            <h3>Description</h3>
+            <h3>{{ __('home.Description')}}</h3>
             <p>{{$user->bio }}</p>
           </div>
           <div class="languages">
-            <h3>Languages</h3>
+            <h3>{{ __('home.Languages')}}</h3>
             <ul>
               <?php $langData = json_decode($user->language_id);?>
               @if($langData != '')
@@ -106,7 +106,7 @@
             </ul>
           </div>
           <div class="linked-accounts">
-            <h3>Linked Accounts</h3>
+            <h3>{{ __('home.Linked Accounts')}}</h3>
             <ul>
               <li class="platform social-account facebook">
                 <i
@@ -127,7 +127,7 @@
             </ul>
           </div>
           <div class="skills">
-            <h3>Skills</h3>
+            <h3>{{ __('home.Skills')}}</h3>
             <?php $skil = json_decode($user->skills_id);?>
             <ul>
               @if($skil != '')
@@ -138,7 +138,7 @@
             </ul>
           </div>
           <div class="education-list list">
-            <h3>Education</h3>
+            <h3>{{ __('home.Education')}}</h3>
             <ul>
               <li>
                 @if($userEdu != '')
@@ -187,7 +187,7 @@
 
                   <div class="seller-name">
                     <a href="{{url('profile/'.$service->sellerInfo->username)}}">{{$service->sellerInfo->first_name}} {{$service->sellerInfo->last_name}}</a>
-                    <p class="level">Level 1 Seller</p>
+                    <p class="level">{{ __('home.Level')}} 1 {{ __('home.Seller')}}</p>
                   </div>
                   <a href="{{url('/'.$service->sellerInfo->username.'/'.$service->service_url)}}" class="gig-title">
                     {{$service->service_title}}
@@ -196,8 +196,8 @@
                     <div class="rating-wrapper">
                       <span class="gig-rating text-body-2">
                         <i class="fa fa-star"></i>
-                        5.0
-                        <span>(7)</span>
+                        {{number_format($service->serviceRating->avg('overall_rating'),'1','.','')}}
+                        <span>({{count($service->serviceRating)}})</span>
                       </span>
                     </div>
                   </div>
@@ -206,7 +206,7 @@
                   <i aria-hidden="true" class="fa fa-heart"></i>
                   <div class="price">
                     <a href="#">
-                      Starting At
+                      {{ __('home.Starting At')}}
                       @foreach($service->packageInfo as $key => $packg)
                       @if($key == 0)
                         <span>${{$packg->price}} </span>
@@ -226,7 +226,7 @@
             class="review-header d-flex align-items-center justify-content-between mb-4"
           >
             <h4 class="m-0">
-              Reviews as Seller
+              {{ __('home.Reviews as Seller')}}
               <small
                 ><span class="star-rating-s15">
                   <i class="fa fa-star"></i></span
@@ -234,49 +234,49 @@
                   ><span
                     class="total-rating-out-five header-average-rating"
                     data-impression-collected="true"
-                    >5</span
+                    >{{number_format($user->userReviews->avg('overall_rating'),'1','.','')}}</span
                   ></span
                 ><span
                   ><span
                     class="total-rating header-total-rating"
                     data-impression-collected="true"
-                    >(28051)</span
+                    >({{count($user->userReviews)}})</span
                   ></span
                 ></small
               >
             </h4>
-            <select class="select2 border-0 shadow-sm ml-2">
+            <!-- <select class="select2 border-0 shadow-sm ml-2">
               <option>Most Relevant</option>
               <option>Most Recent</option>
-            </select>
+            </select> -->
           </div>
           <div class="breakdown">
             <ul class="header-stars">
               <li>
-                Seller communication level
+                {{ __('home.Seller communication level')}}
                 <small>
                   <span class="star-rating-s15">
                     <i class="fa fa-star"></i>
                   </span>
-                  <span class="total-rating-out-five">5</span>
+                  <span class="total-rating-out-five">{{number_format($user->userReviews->avg('communication_rating'),'1','.','')}}</span>
                 </small>
               </li>
               <li>
-                Recommend to a friend
+                {{ __('home.Recommend to a friend')}}
                 <small>
                   <span class="star-rating-s15"
                     ><i class="fa fa-star"></i
                   ></span>
-                  <span class="total-rating-out-five">5</span>
+                  <span class="total-rating-out-five">{{number_format($user->userReviews->avg('recommend_rating'),'1','.','')}}</span>
                 </small>
               </li>
               <li>
-                Service as described
+                {{ __('home.Service as described')}}
                 <small>
                   <span class="star-rating-s15"
                     ><i class="fa fa-star"></i
                   ></span>
-                  <span class="total-rating-out-five">5</span>
+                  <span class="total-rating-out-five">{{number_format($user->userReviews->avg('service_rating'),'1','.','')}}</span>
                 </small>
               </li>
             </ul>
@@ -285,20 +285,21 @@
 
         <div class="review-list">
           <ul>
+            @foreach($user->userReviews as $review)
             <li>
               <div class="d-flex">
                 <div class="left">
                   <span>
-                    <img
-                      src="{{asset('images/s1.png')}}"
-                      class="profile-pict-img img-fluid"
-                      alt=""
-                    />
+                    @if($review->buyerInfo->profile_image != null)
+                    <img src="{{asset('images/user_images/'.$review->buyerInfo->profile_image)}}" class="profile-pict-img img-fluid" alt="" />
+                    @else
+                    <img src="{{asset('images/s1.png')}}" class="profile-pict-img img-fluid" alt="" />
+                    @endif
                   </span>
                 </div>
                 <div class="right">
                   <h4>
-                    Engezly
+                    {{$review->buyerInfo->first_name}} {{$review->buyerInfo->last_name}}
                     <span class="gig-rating text-body-2">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -311,133 +312,32 @@
                           d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"
                         ></path>
                       </svg>
-                      5.0
+                      {{number_format($review->overall_rating, '1', '.','')}}
                     </span>
                   </h4>
                   <div class="country d-flex align-items-center">
-                    <span>
+                    <!-- <span>
                       <img
                         class="country-flag img-fluid"
                         src="{{asset('images/flag/flag.png')}}"
                       />
-                    </span>
-                    <div class="country-name font-accent">Germany</div>
+                    </span> -->
+                    <div class="country-name font-accent">{{$review->buyerInfo->country}}</div>
                   </div>
                   <div class="review-description">
                     <p>
-                      The process was smooth, after providing the required
-                      info, Pragyesh sent me an outstanding packet of
-                      wireframes. Thank you a lot!
+                      {{$review->review}}
                     </p>
                   </div>
-                  <span class="publish py-3 d-inline-block w-100"
-                    >Published 4 weeks ago</span
-                  >
+                  <?php
+                  $date = date('d M, Y', strtotime($review->date))
+                   ?>
+                  <span class="publish py-3 d-inline-block w-100">
+                    {{$date}}</span>
                 </div>
               </div>
             </li>
-            <li>
-              <div class="d-flex">
-                <div class="left">
-                  <span>
-                    <img
-                      src="{{asset('images/s1.png')}}"
-                      class="profile-pict-img img-fluid"
-                      alt=""
-                    />
-                  </span>
-                </div>
-                <div class="right">
-                  <h4>
-                    Engezly
-                    <span class="gig-rating text-body-2">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 1792 1792"
-                        width="15"
-                        height="15"
-                      >
-                        <path
-                          fill="currentColor"
-                          d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"
-                        ></path>
-                      </svg>
-                      5.0
-                    </span>
-                  </h4>
-                  <div class="country d-flex align-items-center">
-                    <span>
-                      <img
-                        class="country-flag img-fluid"
-                        src="{{asset('images/flag/uk.png')}}"
-                      />
-                    </span>
-                    <div class="country-name font-accent">UK</div>
-                  </div>
-                  <div class="review-description">
-                    <p>
-                      The process was smooth, after providing the required
-                      info, Pragyesh sent me an outstanding packet of
-                      wireframes. Thank you a lot!
-                    </p>
-                  </div>
-                  <span class="publish py-3 d-inline-block w-100"
-                    >Published 4 weeks ago</span
-                  >
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="d-flex">
-                <div class="left">
-                  <span>
-                    <img
-                      src="{{asset('images/s1.png')}}"
-                      class="profile-pict-img img-fluid"
-                      alt=""
-                    />
-                  </span>
-                </div>
-                <div class="right">
-                  <h4>
-                    Engezly
-                    <span class="gig-rating text-body-2">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 1792 1792"
-                        width="15"
-                        height="15"
-                      >
-                        <path
-                          fill="currentColor"
-                          d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"
-                        ></path>
-                      </svg>
-                      5.0
-                    </span>
-                  </h4>
-                  <div class="country d-flex align-items-center">
-                    <span>
-                      <img
-                        class="country-flag img-fluid"
-                        src="{{asset('images/flag/australia.png')}}"
-                      />
-                    </span>
-                    <div class="country-name font-accent">Australia</div>
-                  </div>
-                  <div class="review-description">
-                    <p>
-                      The process was smooth, after providing the required
-                      info, Pragyesh sent me an outstanding packet of
-                      wireframes. Thank you a lot!
-                    </p>
-                  </div>
-                  <span class="publish py-3 d-inline-block w-100"
-                    >Published 4 weeks ago</span
-                  >
-                </div>
-              </div>
-            </li>
+            @endforeach
           </ul>
         </div>
       </div>

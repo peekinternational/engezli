@@ -11,10 +11,12 @@ use App\Models\User;
 use App\Models\Services;
 use App\Models\Packages;
 use App\Models\Language;
+use App\Models\Notifications;
 use App\Models\Order;
 use App\Models\OrderConversations;
 use App\Models\OrderDelivery;
 use App\Models\OrderRequirement;
+use App\Models\ResolutionCenter;
 use App\Models\SellerLevel;
 use App\Facade\Engezli;
 use Hash;
@@ -43,6 +45,12 @@ class OrderController extends Controller
       $package_id = $request->input('package_id');
       $package = Packages::with('serviceInfo')->where('id',$package_id)->first();
       return view('frontend.order',compact('package'));
+    }
+
+    public function GetRequirements(Request $request, $order_number)
+    {
+      $order = Order::with('serviceInfo')->where('order_number',$order_number)->first();
+      return view('frontend.submit-requirements',compact('order'));
     }
 
     public function CreateOrder(Request $request)
@@ -79,13 +87,19 @@ class OrderController extends Controller
             $descData['order_id'] = $order_id;
             $descData['requirement_id'] = $req_id;
             $descData['requirement'] = $desc;
+            $descData['type'] = '0';
             $save_requirement = OrderRequirement::create($descData);
           }elseif ($attachment != null) {
             if($attachment != ''){
               // $filename= $attachment->getClientOriginalName();
               // $imagename= 'order-requirement-'.rand(000000,999999).'.'.$attachment->getClientOriginalExtension();
               // $imagename= $filename;
-              // $extension= $attachment->getClientOriginalExtension();
+              $extension= $attachment->getClientOriginalExtension();
+              if ($extension == 'png' || $extension == 'jpg'|| $extension == 'jpeg') {
+                $attchData['type'] = '1';
+              }else {
+                $attchData['type'] = '2';
+              }
               $imagename = 'order-requirement-'.time().'-'.rand(000000,999999).'.'.$attachment->getClientOriginalExtension();
               $destinationpath= public_path('images/order_requirements');
               $attachment->move($destinationpath, $imagename);
@@ -99,6 +113,7 @@ class OrderController extends Controller
       }
       $order = Order::find($order_id);
       $order->order_status = 'started';
+      $order->start_time = Carbon::now();
       $order->update();
       return '1';
 
@@ -163,9 +178,40 @@ class OrderController extends Controller
       }
       $Order_conversation = OrderConversations::create($conversationData);
       $conversation = OrderConversations::with('userInfo')->where('id',$Order_conversation->id)->first();
-      return $conversation;
+      $order = Order::find($conversation->order_id);
+      if ($user_id == $order->seller_id) {
+        $receiver_id = $order->buyer_id;
+      }else {
+        $receiver_id = $order->seller_id;
+      }
+      $conversation->receiver_id = $receiver_id;
+      // dd($order);
+      Notifications::where('order_id',$conversation->order_id)->delete();
+      $notificationData['sender_id'] = $conversation->sender_id;
+      $notificationData['receiver_id'] = $receiver_id;
+      $notificationData['order_id'] = $conversation->order_id;
+      $notificationData['conversation_id'] = $conversation->id;
+      $notificationData['reason'] = 'order_message';
+      $notificationData['notification_date'] = Carbon::now();
+      $notificationData['status'] = 'unread';
+      $notifications = Notifications::create($notificationData);
+      $notification =  Notifications::with('senderInfo','receiverInfo','lastMessage','orderInfo')
+      ->where('id',$notifications->id)->first();
+      // return $conversation;
+      $data = array(
+        'conversation' => $conversation,
+        'notification' => $notification
+      );
+      return $data;
       // return view('frontend.order-conversation-ajax',compact('conversation'));
 
+    }
+
+    public function getNotification(Request $request, $id){
+      $getNotifications = Notifications::with('senderInfo','receiverInfo','lastMessage','orderInfo')->Where('receiver_id',$id)
+      ->orWhere('sender_id',$id)->orderBy('id', 'DESC')->get();
+      // dd($getNotifications);
+      return $getNotifications;
     }
 
     public function DeliverWork(Request $request)
@@ -206,7 +252,32 @@ class OrderController extends Controller
         }
       }
       $conversation = OrderConversations::with('userInfo','delivery')->where('id',$conversation_id)->first();
-      return $conversation;
+      $order = Order::find($conversation->order_id);
+      if ($user_id == $order->seller_id) {
+        $receiver_id = $order->buyer_id;
+      }else {
+        $receiver_id = $order->seller_id;
+      }
+      $conversation->receiver_id = $receiver_id;
+      // dd($order);
+      Notifications::where('order_id',$conversation->order_id)->delete();
+      $notificationData['sender_id'] = $conversation->sender_id;
+      $notificationData['receiver_id'] = $receiver_id;
+      $notificationData['order_id'] = $conversation->order_id;
+      $notificationData['conversation_id'] = $conversation->id;
+      $notificationData['reason'] = 'order_delivery';
+      $notificationData['notification_date'] = Carbon::now();
+      $notificationData['status'] = 'unread';
+      $notifications = Notifications::create($notificationData);
+      $notification =  Notifications::with('senderInfo','receiverInfo','lastMessage','orderInfo')
+      ->where('id',$notifications->id)->first();
+      // return $conversation;
+      $data = array(
+        'conversation' => $conversation,
+        'notification' => $notification
+      );
+      return $data;
+
     }
 
     public function approveDelivery(Request $request)
@@ -217,7 +288,13 @@ class OrderController extends Controller
       $conversation->status = 'approved';
       $conversation->update();
       $getconversation = OrderConversations::with('userInfo','delivery')->where('id',$conversation_id)->first();
-      return $getconversation;
+      $notification =  Notifications::with('senderInfo','receiverInfo','lastMessage','orderInfo')
+      ->where('conversation_id',$conversation_id)->first();
+      $data = array(
+        'conversation' => $getconversation,
+        'notification' => $notification
+      );
+      return $data;
     }
 
     public function rejectDelivery(Request $request)
@@ -228,12 +305,24 @@ class OrderController extends Controller
       $conversation->status = 'reject';
       $conversation->update();
       $getconversation = OrderConversations::with('userInfo','delivery')->where('id',$conversation_id)->first();
-      return $getconversation;
+      $notification =  Notifications::with('senderInfo','receiverInfo','lastMessage','orderInfo')
+      ->where('conversation_id',$conversation_id)->first();
+      $data = array(
+        'conversation' => $getconversation,
+        'notification' => $notification
+      );
+      return $data;
     }
 
     public function getConversation(Request $request, $id)
     {
       $conversation = OrderConversations::with('userInfo','delivery')->where('order_id',$id)->get();
+      return $conversation;
+    }
+
+    public function getDelivery(Request $request, $id)
+    {
+      $conversation = OrderConversations::with('userInfo','delivery')->where('order_id',$id)->where('message_type','delivery')->get();
       return $conversation;
     }
 
@@ -310,7 +399,42 @@ class OrderController extends Controller
       $review = BuyerReviews::create($reviewData);
       $order->order_status = 'completed';
       $order->update();
-      return redirect('/manage-orders')->with('success', 'Order completed successfully');
+      Notifications::where('order_id',$order->id)->delete();
+      $notificationData['receiver_id'] = $order->seller_id;
+      $notificationData['sender_id'] = $order->buyer_id;
+      $notificationData['order_id'] = $order->id;
+      $notificationData['conversation_id'] = null;
+      $notificationData['reason'] = 'order_rating';
+      $notificationData['rating'] = $overall_rating;
+      $notificationData['notification_date'] = Carbon::now();
+      $notificationData['status'] = 'unread';
+      $notification = Notifications::create($notificationData);
+      $data = array(
+        'notifications' => $notification
+      );
+      return $data;
+      // return redirect('/manage-orders')->with('success', 'Order completed successfully');
+    }
+
+    public function ResolutionCenter(Request $request, $order_number)
+    {
+      $order = Order::with('serviceInfo','orderRequirement','sellerInfo','buyerInfo')->where('order_number',$order_number)->first();
+      return view('frontend.resolution-center',compact('order'));
+    }
+
+    public function ResolutionRequest(Request $request)
+    {
+        // dd($request->all());
+        $user_id = auth()->user()->id;
+        $data['user_id'] = $user_id;
+        $data['order_id'] = $request->input('order_id');
+        $data['order_number'] = $request->input('order_number');
+        $data['reason'] = $request->input('reason');
+        $data['details'] = $request->input('details');
+        $data['status'] = 'pending';
+        $resolution = ResolutionCenter::create($data);
+        return redirect('/manage-orders')->with('success', 'Request send successfully');
+
     }
 
 

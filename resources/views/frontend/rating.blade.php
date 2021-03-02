@@ -10,7 +10,7 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
           <div class="feedback-container card p-4">
             <div class="panel show">
-              <form method="POST" action="{{url('buyer_review')}}" role="form" id="reviews_form">
+              <form role="form" id="reviews-form">
                 {{csrf_field()}}
                 <input type="hidden" name="communication_rating" id="communication_rating">
                 <input type="hidden" name="service_rating" id="service_rating">
@@ -382,6 +382,43 @@ $('body').on('click', '#half-stars-example-service .rating__label', function() {
 $('body').on('click', '#half-stars-example-recommend .rating__label', function() {
     var onStar = $(this).data('label');
     $('#recommend_rating').val(onStar);
+});
+
+$(document).ready(function () {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $('#reviews-form').on('submit', function(event){
+      event.preventDefault();
+      // var image = $('#message_image')[0].files[0];
+      var order_id = "{{$order->id}}"
+      var formData = new FormData(this);
+      formData.append('order_id', order_id);
+      // formData.append('image', $('.message_image')[0].files[0]);
+      $.ajax({
+       url:"{{ url('buyer_review') }}",
+       method:"POST",
+       data:formData,
+       // dataType:'JSON',
+       contentType: false,
+       cache: false,
+       processData: false,
+       success:function(data){
+        const socket = io.connect('https://peekvideochat.com:22000');
+        console.log('check 1', socket.connected);
+        socket.emit('message', data);
+        toastr.success('Reviewed successfully', '', {timeOut: 5000, positionClass: "toast-top-right"});
+        window.setTimeout(function(){
+          window.location.href = "{{url('/manage-orders')}}";
+        }, 3000);
+
+       }
+     });
+   });
+
 });
 </script>
 @endsection

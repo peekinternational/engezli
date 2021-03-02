@@ -1,6 +1,7 @@
 @extends('frontend.layouts.app')
 @section('title', 'Order  ')
 @section('styling')
+<link rel="stylesheet" href="{{asset('frontend-assets/css/timer.css')}}">
 @endsection
 @section('content')
 <div class="admin">
@@ -18,7 +19,7 @@
               role="tab"
               aria-controls="acitvity"
               aria-selected="true"
-              >acitvity</a
+              >{{ __('home.acitvity')}}</a
             >
           </li>
           <li class="nav-item">
@@ -30,7 +31,7 @@
               role="tab"
               aria-controls="details"
               aria-selected="false"
-              >details</a
+              >{{ __('home.details')}}</a
             >
           </li>
           <li class="nav-item">
@@ -42,7 +43,7 @@
               role="tab"
               aria-controls="requirements"
               aria-selected="false"
-              >requirements</a
+              >{{ __('home.requirements')}}</a
             >
           </li>
           <li class="nav-item">
@@ -54,7 +55,7 @@
               role="tab"
               aria-controls="delivery"
               aria-selected="false"
-              >delivery</a
+              >{{ __('home.delivery')}}</a
             >
           </li>
         </ul>
@@ -79,35 +80,40 @@
                     <div class="rqm-box-container">
                       <div class="rqm-box">
                         <h5 class="mb-2">
-                          One last step to get your order started!
+                          {{ __('home.One last step to get your order started!')}}
                         </h5>
                         <p>
-                          We noticed Finchbill about your order. Submit your
-                          requirements to get your order started.
+                          {{ __('home.We noticed Finchbill about your order. Submit your requirements to get your order started.')}}
                         </p>
                       </div>
                       <div class="rqm-box">
-                        <button class="btn custom-btn-warning">
-                          submit requirements
-                        </button>
+                        <a href="{{url('requirements/'.$order->order_number)}}" class="btn custom-btn-warning">
+                          {{ __('home.submit requirements')}}
+                        </a>
                       </div>
+                    </div>
+                  </div>
+                  @else
+                  <div class="card">
+                    <div class="timer" id="timer">
+
                     </div>
                   </div>
                   @endif
 
                   <div class="gig-extras card p-4 mb-4">
                     <div class="header">
-                      <h5>Have everything you need?</h5>
-                      <p class="mt-2">enhance your order with Gig extras</p>
+                      <h5>{{ __('home.Have everything you need?')}}</h5>
+                      <p class="mt-2">{{ __('home.enhance your order with Gig extras')}}</p>
                     </div>
 
                     <div class="table-responsive border rounded">
                       <table class="table">
                         <tr class="text-uppercase">
-                          <th>item</th>
-                          <th>QTY.</th>
-                          <th>duration</th>
-                          <th>price</th>
+                          <th>{{ __('home.item')}}</th>
+                          <th>{{ __('home.QTY.')}}</th>
+                          <th>{{ __('home.duration')}}</th>
+                          <th>{{ __('home.price')}}</th>
                           <th></th>
                         </tr>
                         <tr>
@@ -119,7 +125,7 @@
                             <button
                               class="btn btn-primary custom-btn text-white"
                             >
-                              add
+                              {{ __('home.add')}}
                             </button>
                           </td>
                         </tr>
@@ -132,7 +138,7 @@
                             <button
                               class="btn btn-primary custom-btn text-white"
                             >
-                              add
+                              {{ __('home.add')}}
                             </button>
                           </td>
                         </tr>
@@ -145,7 +151,7 @@
                             <button
                               class="btn btn-primary custom-btn text-white"
                             >
-                              add
+                              {{ __('home.add')}}
                             </button>
                           </td>
                         </tr>
@@ -158,7 +164,7 @@
                             <button
                               class="btn btn-primary custom-btn text-white"
                             >
-                              add
+                              {{ __('home.add')}}
                             </button>
                           </td>
                         </tr>
@@ -167,8 +173,7 @@
 
                     <p>
                       <i class="fa fa-lock text-primary"></i>
-                      <strong>SSL Secure payment.</strong> you will not be
-                      changed yet.
+                      <strong>SSL Secure payment.</strong> {{ __('home.you will not be changed yet')}}.
                     </p>
                   </div>
 
@@ -176,8 +181,13 @@
                     <?php
                     $order_date = date('M d, h:i A',strtotime($order->order_time));
                     $duratoin = $order->order_duration;
-                    $delivery_date = date('M d, h:i A',strtotime('+ '.$duratoin,strtotime($order->order_time)));
-                    $requirements_date = date('M d, h:i A',strtotime($order->orderRequirement[0]->created_at));
+                    $requirements_date = '';
+                    $delivery_date = '';
+                    if ($order->start_time != null) {
+                      $delivery_date = date('M d, h:i A',strtotime('+ '.$duratoin,strtotime($order->start_time)));
+                      $delivery_date2 = date('Y M d, h:i:s',strtotime('+ '.$duratoin,strtotime($order->start_time)));
+                      $requirements_date = date('M d, h:i A',strtotime($order->start_time));
+                    }
                     $only_date = date('M d',strtotime($order->order_time));
                      ?>
                     <span class="date">{{$only_date}}</span>
@@ -188,7 +198,7 @@
                         </div>
                         <div class="box-item">
                           <h6>
-                            You Placed The Order
+                            {{ __('home.You Placed The Order')}}
                             <span class="time">{{$order_date}}</span>
                           </h6>
                         </div>
@@ -200,10 +210,16 @@
                           <i class="fa fa-pencil"></i>
                         </div>
                         <div class="box-item">
+                          @if($requirements_date != "")
                           <h6>
-                            You Submitted The Requirements
+                            {{ __('home.You Submitted The Requirements')}}
                             <span class="time">{{$requirements_date}}</span>
                           </h6>
+                          @else
+                          <h6>
+                            {{ __("home.You Didn't Submit The Requirements")}}
+                          </h6>
+                          @endif
                         </div>
                       </div>
                     </div>
@@ -213,10 +229,16 @@
                           <i class="fa fa-rocket"></i>
                         </div>
                         <div class="box-item">
+                          @if($requirements_date != "")
                           <h6>
-                            Your Order Started
+                            {{ __('home.Your Order Started')}}
                             <span class="time">{{$requirements_date}}</span>
                           </h6>
+                          @else
+                          <h6>
+                            {{ __('home.Your Order Is Not Started')}}
+                          </h6>
+                          @endif
                         </div>
                       </div>
                     </div>
@@ -226,10 +248,16 @@
                           <i class="fa fa-clock-o"></i>
                         </div>
                         <div class="box-item">
+                          @if($requirements_date != "")
                           <h6>
-                            our Delivery Date Was Updated
+                            {{ __('home.our Delivery Date Was Updated')}}
                             <span class="time">{{$delivery_date}}</span>
                           </h6>
+                          @else
+                          <h6>
+                            {{ __('home.our Delivery Date Will Updated After You Submit Requirements')}}
+                          </h6>
+                          @endif
                         </div>
                       </div>
                     </div>
@@ -269,7 +297,7 @@
                                 </div>
                                 <div class="box">
                                   <h6 class="text-primary">
-                                    Have something to share with {{$order->sellerInfo->first_name}}?
+                                    {{ __('home.Have something to share with')}} {{$order->sellerInfo->first_name}}?
                                   </h6>
                                   <p>
                                     <span class="box first"
@@ -278,8 +306,8 @@
                                     >
                                     <span class="box second"
                                       ><i class="fa fa-circle"></i>
-                                      seller is
-                                      <span>online</span></span
+                                      {{ __('home.seller is')}}
+                                      <span>{{ __('home.online')}}</span></span
                                     >
                                   </p>
                                 </div>
@@ -308,8 +336,7 @@
                                 <label
                                   for="message_image"
                                   aria-label="Attach file"
-                                  class="btn1"
-                                >
+                                  class="btn1">
                                   <i
                                     class="fa fa-paperclip"
                                     aria-hidden="true"
@@ -321,10 +348,11 @@
                                   name="file"
                                   id="message_image"
                                   class="field-file"
-                                />
+                                  onchange="javascript:updateList()" />
                               </span>
+                              <div id="fileList"></div>
                               <button type="submit" class="btn text-primary pr-0">
-                                Send
+                                {{ __('home.Send')}}
                               </button>
                             </div>
                           </div>
@@ -350,11 +378,11 @@
                         <h5>{{$order->serviceInfo->service_title}}</h5>
                         <div class="order-info d-flex">
                           <p>
-                            order info
+                            {{ __('home.order info')}}
                             <strong class="text-primary">{{$order->sellerInfo->first_name}} {{$order->sellerInfo->last_name}}</strong>
                           </p>
                           <p>
-                            delivery date
+                            {{ __('home.delivery date')}}
                             <span class="font-weight-bold"
                               >{{$delivery_date}}</span
                             >
@@ -363,7 +391,7 @@
                       </div>
                       <div class="box text-right">
                         <p class="text-uppercase font-weight-bold mb-1">
-                          total price
+                          {{ __('home.total price')}}
                         </p>
                         <h4>${{$order->order_fee}}</h4>
                       </div>
@@ -373,17 +401,17 @@
                       class="order-no d-flex justify-content-between py-2 border-top border-bottom mt-3"
                     >
                       <p>
-                        order number
+                        {{ __('home.order number')}}
                         <strong class="order-number">#{{$order->order_number}}</strong>
                       </p>
                       <a href="" class="text-primary text-capitalize"
-                        ><strong>view invoice</strong></a
+                        ><strong>{{ __('home.view invoice')}}</strong></a
                       >
                     </div>
 
                     <div class="description my-4">
                       <h6 class="text-uppercase border-bottom pb-3 mb-3">
-                        description
+                        {{ __('home.description')}}
                       </h6>
                       <p>
                         {{$order->serviceInfo->service_desc}}
@@ -396,18 +424,18 @@
                       >
                         <p>
                           <i class="fa fa-file"></i>
-                          <strong>your order </strong>
+                          <strong>{{ __('home.your order')}} </strong>
                           <small>{{$order_date}}</small>
                         </p>
-                        <p>paid with credit card</p>
+                        <p>{{ __('home.paid with credit card')}}</p>
                       </div>
                       <div class="table-responsive">
                         <table class="table">
                           <tr class="text-uppercase">
-                            <th>item</th>
-                            <th>QTY.</th>
-                            <th>duration</th>
-                            <th>price</th>
+                            <th>{{ __('home.item')}}</th>
+                            <th>{{ __('home.QTY.')}}</th>
+                            <th>{{ __('home.duration')}}</th>
+                            <th>{{ __('home.price')}}</th>
                           </tr>
                           <tr class="bg-white">
                             <?php
@@ -419,15 +447,15 @@
                             <td>${{$original_free}}</td>
                           </tr>
                           <tr>
-                            <td colspan="3">sub total</td>
+                            <td colspan="3">{{ __('home.subtotal')}}</td>
                             <td>${{$original_free}}</td>
                           </tr>
                           <tr>
-                            <td colspan="3">service fee</td>
+                            <td colspan="3">{{ __('home.service fee')}}</td>
                             <td>${{$order->service_fee}}</td>
                           </tr>
                           <tr>
-                            <td colspan="3">total</td>
+                            <td colspan="3">{{ __('home.total')}}</td>
                             <td>${{$order->order_fee}}</td>
                           </tr>
                         </table>
@@ -454,14 +482,37 @@
                       @foreach($order->orderRequirement as $key => $req)
                       <div class="requrement-list-item">
                         <h6><span>{{$key+1}}</span> {{$req->requirementInfo->question}}</h6>
-                        @if($req->requirement !=null)
+                        @if($req->type == '0')
                         <p>
                           {{$req->requirement}}
                         </p>
+                        @elseif($req->type == '1')
+                        <div class="attachments">
+                          <div class="attachment-lists">
+                            <div class="list-item-box">
+                              <img src="{{asset('images/order_requirements/'.$req->image)}}" alt="" />
+                              <div
+                                class="attachment-info d-flex justify-content-between align-items-center">
+                                <p>
+                                  {{$req->image}}
+                                </p>
+                                <a href="{{asset('images/order_requirements/'.$req->image)}}" download><i class="fa fa-download"></i></a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                         @else
-                        <div class="gig-details">
-                          <div class="box">
-                            <a target="_blank" href="{{asset('images/order_requirements/'.$req->image)}}"><img src="{{asset('images/order_requirements/'.$req->image)}}" style="width:250px; height:200px;" alt=""></a>
+                        <div class="attachments">
+                          <div class="attachment-lists">
+                            <div class="list-item-box">
+                              <div
+                                class="attachment-info d-flex justify-content-between align-items-center">
+                                <p>
+                                  {{$req->image}}
+                                </p>
+                                <a href="{{asset('images/order_requirements/'.$req->image)}}" download><i class="fa fa-download"></i></a>
+                              </div>
+                            </div>
                           </div>
                         </div>
                         @endif
@@ -469,16 +520,16 @@
                       @endforeach
                       @else
                       <img src="../images/requirements.svg" alt="" />
-                      <h6>Submit the requirements</h6>
+                      <h6>{{ __('home.Submit the requirements')}}</h6>
                       <p>
-                        Please submit the requirements so that
+                        {{ __('home.Please submit the requirements so that')}}
                         <strong class="text-primary">{{$order->sellerInfo->first_name}}</strong>
-                        can start working on your order.
+                        {{ __('home.can start working on your order')}}.
                       </p>
-                      <button
+                      <a href="{{url('requirements/'.$order->order_number)}}"
                         class="btn btn-primary custom-btn text-white mt-3">
-                        submit requirement
-                      </button>
+                        {{ __('home.submit requirement')}}
+                      </a>
                       @endif
                     </div>
                   </div>
@@ -489,13 +540,15 @@
                   role="tabpanel"
                   aria-labelledby="delivery-tab"
                 >
-                  <div class="delivery-tab-container card empty-box p-4">
-                    <div class="inner-content">
+                  <!-- <div class="delivery-tab-container card empty-box p-4"> -->
+                  <div class="delivery-tab-container card p-4">
+                    <delivery :orderdata="{{$order}}" :userdata="{{auth()->user()}}"></delivery>
+                    <div class="inner-content no_delivery">
                       <img src="../images/delivery-box.svg" alt="" />
-                      <h6>The best things are worth the wait</h6>
+                      <h6>{{ __('home.The best things are worth the wait')}}</h6>
                       <p>
-                        <span>Seormitu</span> should deliver this order by
-                        Feb 27, 11:53 PM
+                        <span>{{$order->sellerInfo->first_name}}</span> {{ __('home.should deliver this order by')}}
+                        {{$delivery_date}}
                       </p>
                     </div>
                   </div>
@@ -509,7 +562,7 @@
                     <div
                       class="summary-header d-flex align-items-center justify-content-between mb-3"
                     >
-                      <h5 class="mb-0">order-details</h5>
+                      <h5 class="mb-0">{{ __('home.order-details')}}</h5>
 
                       <div class="dropdown">
                         <button
@@ -526,12 +579,12 @@
                           class="dropdown-menu"
                           aria-labelledby="dropdownMenuButton"
                         >
-                          <a class="dropdown-item" href="#">Action</a>
+                          <a class="dropdown-item" href="#">{{ __('home.Action')}}</a>
                           <a class="dropdown-item" href="#"
-                            >Another action</a
+                            >{{ __('home.Another action')}}</a
                           >
                           <a class="dropdown-item" href="#"
-                            >Something else here</a
+                            >{{ __('home.Something else here')}}</a
                           >
                         </div>
                       </div>
@@ -559,22 +612,22 @@
 
                     <ul class="list-group">
                       <li>
-                        <span>order from</span>
+                        <span>{{ __('home.order from')}}</span>
                         <span class="text-primary">{{$order->sellerInfo->first_name}}</span>
                       </li>
                       <li>
-                        <span>delivery date</span>
+                        <span>{{ __('home.delivery date')}}</span>
                         <span>{{$delivery_date}}</span>
                       </li>
                     </ul>
 
                     <ul class="list-group">
                       <li>
-                        <span>total price</span>
+                        <span>{{ __('home.total price')}}</span>
                         <span>${{$order->order_fee}}</span>
                       </li>
                       <li>
-                        <span>order number</span>
+                        <span>{{ __('home.order number')}}</span>
                         <span class="text-uppercase">#{{$order->order_number}}</span>
                       </li>
                     </ul>
@@ -596,7 +649,7 @@
                               aria-expanded="true"
                               aria-controls="collapseOnes98"
                             >
-                              track order
+                              {{ __('home.track order')}}
                             </button>
                           </h2>
                         </div>
@@ -614,32 +667,44 @@
                           <div class="card-body">
                             <div class="track-order-lists">
                               <div class="list-item completed">
-                                <span>order placed</span>
+                                <span>{{ __('home.order placed')}}</span>
                                 <div class="status"></div>
                               </div>
                               <div class="list-item @if($order_requirements > 0) completed
                                 @else in-progress  @endif">
-                                <span>requirements submitted</span>
+                                <span>{{ __('home.requirements submitted')}}</span>
                                 <div class="status"></div>
                               </div>
                               <div class="list-item @if($order_completed == '1') completed
                               @else @if($order_progress == '0') in-progress @else completed @endif @endif">
-                                <span>order in progress</span>
+                                <span>{{ __('home.order in progress')}}</span>
                                 <div class="status"></div>
                               </div>
                               <div class="list-item @if($order_completed == '1') completed
                               @else @if($order_delivery == '1') completed @elseif($order_delivery == '1') in-progress @endif @endif">
-                                <span>review delivery</span>
+                                <span>{{ __('home.review delivery')}}</span>
                                 <div class="status"></div>
                               </div>
                               <div class="list-item @if($order_completed == '1') completed @endif">
-                                <span>complete order</span>
+                                <span>{{ __('home.complete order')}}</span>
                                 <div class="status"></div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="help mt-4">
+                <div class="card">
+                  <div class="row">
+                    <div class="col-1">
+                      <i class="fa fa-info-circle fa-2x"></i>
+                    </div>
+                    <div class="col-10 offset-md-1">
+                      <p>Have issue with your order? visit the <a href="{{url('resolution-center/'.$order->order_number)}}">resolution center</a> </p>
                     </div>
                   </div>
                 </div>
@@ -665,7 +730,6 @@ $(document).ready(function () {
   $('#message-form').on('submit', function(event){
     event.preventDefault();
     // var image = $('#message_image')[0].files[0];
-    // console.log(image);
     var order_id = "{{$order->id}}"
     var formData = new FormData(this);
     formData.append('order_id', order_id);
@@ -701,10 +765,134 @@ function addFriend(user_id) {
    data:{receiver_id:user_id,sender_id:sender_id},
    xhrFields: {withCredentials: true},
    success:function(data){
-     console.log(data);
+     // console.log(data);
      window.location.href = "{{url('messages?conversation=')}}"+data;
    }
  });
+}
+
+
+
+function CountdownTracker(label, value){
+
+  var el = document.createElement('span');
+
+  el.className = 'flip-clock__piece';
+  el.innerHTML = '<b class="flip-clock__card card"><b class="card__top"></b><b class="card__bottom"></b><b class="card__back"><b class="card__bottom"></b></b></b>' +
+    '<span class="flip-clock__slot">' + label + '</span>';
+
+  this.el = el;
+
+  var top = el.querySelector('.card__top'),
+      bottom = el.querySelector('.card__bottom'),
+      back = el.querySelector('.card__back'),
+      backBottom = el.querySelector('.card__back .card__bottom');
+
+  this.update = function(val){
+    val = ( '0' + val ).slice(-2);
+    if ( val !== this.currentValue ) {
+
+      if ( this.currentValue >= 0 ) {
+        back.setAttribute('data-value', this.currentValue);
+        bottom.setAttribute('data-value', this.currentValue);
+      }
+      this.currentValue = val;
+      top.innerText = this.currentValue;
+      backBottom.setAttribute('data-value', this.currentValue);
+
+      this.el.classList.remove('flip');
+      void this.el.offsetWidth;
+      this.el.classList.add('flip');
+    }
+  }
+
+  this.update(value);
+}
+
+// Calculation adapted from https://www.sitepoint.com/build-javascript-countdown-timer-no-dependencies/
+
+function getTimeRemaining(endtime) {
+  var t = Date.parse(endtime) - Date.parse(new Date());
+  return {
+    'Total': t,
+    'Days': Math.floor(t / (1000 * 60 * 60 * 24)),
+    'Hours': Math.floor((t / (1000 * 60 * 60)) % 24),
+    'Minutes': Math.floor((t / 1000 / 60) % 60),
+    'Seconds': Math.floor((t / 1000) % 60)
+  };
+}
+
+function getTime() {
+  var t = new Date();
+  return {
+    'Total': t,
+    'Hours': t.getHours() % 12,
+    'Minutes': t.getMinutes(),
+    'Seconds': t.getSeconds()
+  };
+}
+
+function Clock(countdown,callback) {
+
+  countdown = countdown ? new Date(Date.parse(countdown)) : false;
+  callback = callback || function(){};
+
+  var updateFn = countdown ? getTimeRemaining : getTime;
+
+  this.el = document.createElement('div');
+  this.el.className = 'flip-clock';
+
+  var trackers = {},
+      t = updateFn(countdown),
+      key, timeinterval;
+
+  for ( key in t ){
+    if ( key === 'Total' ) { continue; }
+    trackers[key] = new CountdownTracker(key, t[key]);
+    this.el.appendChild(trackers[key].el);
+  }
+
+  var i = 0;
+  function updateClock() {
+    timeinterval = requestAnimationFrame(updateClock);
+
+    // throttle so it's not constantly updating the time.
+    if ( i++ % 10 ) { return; }
+
+    var t = updateFn(countdown);
+    if ( t.Total < 0 ) {
+      cancelAnimationFrame(timeinterval);
+      for ( key in trackers ){
+        trackers[key].update( 0 );
+      }
+      callback();
+      return;
+    }
+
+    for ( key in trackers ){
+      trackers[key].update( t[key] );
+    }
+  }
+
+  setTimeout(updateClock,500);
+}
+
+var deadline = new Date("<?= $delivery_date2; ?>");
+var deadline2 = new Date(Date.parse(new Date()) + 12 * 24 * 60 * 60 * 1000);
+var c = new Clock(deadline, function(){ /* alert('countdown complete') */ });
+document.getElementById('timer').appendChild(c.el);
+
+// var clock = new Clock();
+// document.body.appendChild(clock.el);
+
+updateList = function() {
+    var input = document.getElementById('message_image');
+    var output = document.getElementById('fileList');
+    var children = "";
+    for (var i = 0; i < input.files.length; ++i) {
+        children += '<li>' + input.files.item(i).name + '</li>';
+    }
+    output.innerHTML = '<ul>'+children+'</ul>';
 }
 </script>
 @endsection

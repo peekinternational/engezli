@@ -9,6 +9,7 @@ use App\Models\States;
 use App\Models\Cities;
 use App\Models\Categories;
 use App\Models\NotificationSetting;
+use App\Models\PackagesOption;
 use App\Models\Order;
 use App\Models\OrderConversations;
 use App\Models\Language;
@@ -85,6 +86,11 @@ class Engezli {
 		}else {
 			return '0';
 		}
+		return $delivery;
+	}
+	public function getUserorder($user_id){
+		$delivery = Order::where('buyer_id',$user_id)->orwhere('seller_id',$user_id)->get();
+		// dd($delivery);
 		return $delivery;
 	}
 }

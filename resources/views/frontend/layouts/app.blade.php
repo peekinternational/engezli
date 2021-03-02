@@ -103,6 +103,14 @@
                 $("body").removeClass("arabic").removeAttr("dir", "rtl");
             }
 
+            $('.notification-anchor').on('click',function () {
+              $('.notification-dot').hide();
+            });
+
+            $('.message-anchor').on('click',function () {
+              $('.message-dot').hide();
+            });
+
           // @if(auth()->user() != '')
           //   var user_id = "{{auth()->user()->id}}";
           //

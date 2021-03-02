@@ -7150,3 +7150,32 @@ nav.breadcrumb-container .breadcrumb a {
 .pagination-container .hidden {
   display: none;
 }
+.summary-wrapper .btn {
+  display: block;
+  background: #007bff;
+  color: #ffffff;
+  font-weight: 600;
+  margin: 15px 0;
+  text-transform: capitalize;
+}
+.help i{
+  color: #007bff;
+}
+.help .card{
+  padding: 20px;
+}
+.help a{
+  color: #007bff;
+  text-transform: capitalize;
+}
+.order-request .outer-content .submit-request .request-btn-wrap .btn-container button {
+  color: #ffffff;
+  background: #007bff;
+}
+.notification-dot, .message-dot {
+  background: #007bff;
+  width: 2px;
+  height: 9px;
+  position: absolute;
+  top: 4px;
+}

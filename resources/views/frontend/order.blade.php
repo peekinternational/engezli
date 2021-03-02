@@ -18,7 +18,7 @@
               role="tab"
               aria-controls="overview"
               aria-selected="true"
-              >order details</a
+              >{{ __('home.order details')}}</a
             >
           </li>
           <li class="nav-item">
@@ -30,7 +30,7 @@
               role="tab"
               aria-controls="pricing"
               aria-selected="false"
-              >confirm & pay</a
+              >{{ __('home.confirm & pay')}}</a
             >
           </li>
           <li class="nav-item">
@@ -42,7 +42,7 @@
               role="tab"
               aria-controls="descriptionFaq"
               aria-selected="false"
-              >submit request</a
+              >{{ __('home.submit request')}}</a
             >
           </li>
         </ul>
@@ -65,7 +65,7 @@
                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-8">
                   <div class="order-details">
                     <div class="outer-box">
-                      <h5>Customize your package</h5>
+                      <h5>{{ __('home.Customize your package')}}</h5>
                       <div class="inner-box">
                         <div class="box">
                           <img src="{{asset('images/service_images/'.$package->serviceInfo->service_img1)}}" alt="" />
@@ -73,13 +73,13 @@
                         <div class="box">
                           <h6 class="gig-title">{{$package->serviceInfo->service_title}}</h6>
                           <p>
-                            by
+                            {{ __('home.by')}}
                             <span class="name">{{$package->serviceInfo->sellerInfo->first_name}} {{$package->serviceInfo->sellerInfo->last_name}}</span>
                             <span class="rating">
                               <i class="fa fa-star"></i>
-                              5
+                              {{number_format($package->serviceInfo->serviceRating->avg('overall_rating'),'1','.','')}}
                             </span>
-                            <span class="review">(1k+)</span>
+                            <span class="review">({{count($package->serviceInfo->serviceRating)}})</span>
                           </p>
                         </div>
                         <div class="box">
@@ -99,7 +99,7 @@
                     </div>
 
                     <div class="outer-box add-extra-service">
-                      <h5>Add extra</h5>
+                      <h5>{{ __('home.Add extra')}}</h5>
                       <div class="list-group">
                         <div class="list-item">
                           <div class="list-box">
@@ -220,33 +220,33 @@
                   <div class="summary-wrapper">
                     <div class="card">
                       <div class="card-body">
-                        <h5>summary</h5>
+                        <h5>{{ __('home.summary')}}</h5>
                         <?php
                         $total_price = $package->price+5;
                          ?>
 
                         <ul class="list-group">
                           <li>
-                            <span>subtotal</span>
+                            <span>{{ __('home.subtotal')}}</span>
                             <span class="package-price subtotal">${{$package->price}}</span>
                           </li>
                           <li>
-                            <span>service fee</span>
+                            <span>{{ __('home.service fee')}}</span>
                             <span>$5</span>
                           </li>
                         </ul>
                         <ul class="list-group border-top mt-2 pt-2">
                           <li>
-                            <span>delivery time</span>
+                            <span>{{ __('home.delivery time')}}</span>
                             <span>{{$package->delivery_time}}</span>
                           </li>
                           <li>
-                            <span><strong>total</strong></span>
+                            <span><strong>{{ __('home.total')}}</strong></span>
                             <span><strong class="total-price">${{$total_price}}</strong></span>
                           </li>
                         </ul>
-                        <a href="javascript:void(0);" class="btn custom-btn" id="place_order"> place order </a>
-                        <small>You won't be changed yet</small>
+                        <a href="javascript:void(0);" class="btn custom-btn" id="place_order"> {{ __('home.place order')}} </a>
+                        <small>{{ __("home.You won't be changed yet")}}</small>
                       </div>
                     </div>
 
@@ -293,7 +293,7 @@
                     <div class="outer-box">
                       <div class="payment-tab-container">
                         <div class="lists-item">
-                          <h5>saved cards</h5>
+                          <h5>{{ __('home.saved cards')}}</h5>
                           <div class="inner-box">
                             <p class="form-check">
                               <input
@@ -321,7 +321,7 @@
                     </div>
                     <div class="outer-box mt-4">
                       <div class="add-payment-method">
-                        <h5>more payment options</h5>
+                        <h5>{{ __('home.more payment options')}}</h5>
 
                         <div class="payment-option">
                           <div class="form-check">
@@ -381,10 +381,10 @@
                   <div class="summary-wrapper">
                     <div class="card">
                       <div class="card-body">
-                        <h5>summary</h5>
+                        <h5>{{ __('home.summary')}}</h5>
 
                         <div class="gig-details">
-                          <div class="box">
+                          <div class="box box-img">
                             <img src="{{asset('images/service_images/'.$package->serviceInfo->service_img1)}}" alt="" />
                           </div>
                           <div class="box">
@@ -397,22 +397,22 @@
 
                         <ul class="list-group">
                           <li>
-                            <span>subtotal</span>
+                            <span>{{ __('home.subtotal')}}</span>
                             <span class="package-price subtotal">${{$package->price}}</span>
                           </li>
                           <li>
-                            <span>service fee</span>
+                            <span>{{ __('home.service fee')}}</span>
                             <span>$5</span>
                           </li>
                         </ul>
 
                         <ul class="list-group border-top mt-2 pt-2">
                           <li>
-                            <span>delivery time</span>
+                            <span>{{ __('home.delivery time')}}</span>
                             <span>{{$package->delivery_time}}</span>
                           </li>
                           <li>
-                            <span><strong>total</strong></span>
+                            <span><strong>{{ __('home.total')}}</strong></span>
                             <span><strong class="total-price">${{$total_price}}</strong></span>
                           </li>
                         </ul>
@@ -426,13 +426,10 @@
                           <input type="hidden" name="service_fee" class="service_fee" value="5">
 
 
-                        <button type="submit" class="btn custom-btn btn-block"> confirm & pay </button>
+                        <button type="submit" class="btn custom-btn btn-block"> {{ __('home.confirm & pay')}} </button>
                       </form>
 
-                        <small
-                          >By clicking Confirm and Pay you will be
-                          charged</small
-                        >
+                        <small>{{ __('home.By clicking Confirm and Pay you will be charged')}}</small>
                       </div>
                     </div>
                   </div>
@@ -452,8 +449,8 @@
                   <div class="submit-request">
                     <div class="confirm-purchase outer-box">
                       <div class="box">
-                        <h5 class="mb-2">Thank you for your purchase</h5>
-                        <p>A reciept was sent to your email</p>
+                        <h5 class="mb-2">{{ __('home.Thank you for your purchase')}}</h5>
+                        <p>{{ __('home.A reciept was sent to your email')}}</p>
                       </div>
                       <div class="box">
                       <p><i class="fa fa-check" aria-hidden="true"></i></p>
@@ -462,10 +459,9 @@
 
                     <div class="outer-box mt-4">
                       <div class="heading">
-                        <h5>Submit requirements to start your order</h5>
+                        <h5>{{ __('home.Submit requirements to start your order')}}</h5>
                         <p>
-                          The seller need the require information to start
-                          working on your order
+                          {{ __('home.The seller need the require information to start working on your order')}}
                         </p>
                       </div>
                       <input type="hidden" name="order_id" class="order_id" value="22">
@@ -596,16 +592,16 @@
                           id="agreed"
                           checked />
                         <label class="form-check-label" for="agreed"></label>
-                          <small>I agree with terms and conditions</small>
+                          <small>{{ __('home.I agree with terms and conditions')}}</small>
                           <br>
                         <span class="asterisk2 text-danger"  style="display:none;">{{ __('home.Field Required')}}</span>
                       </div>
 
                       <div class="btn-container">
-                        <a href="" class="btn custom-btn"
-                          >Reminde me later</a
+                        <a href="{{url('manage-orders')}}" class="btn custom-btn"
+                          >{{ __('home.Reminde me later')}}</a
                         >
-                        <button type="submit" class="btn custom-btn">Start Order</button>
+                        <button type="submit" class="btn custom-btn">{{ __('home.Start Order')}}</button>
                       </div>
                     </div>
                   </div>
@@ -615,10 +611,10 @@
                   <div class="summary-wrapper">
                     <div class="card">
                       <div class="card-body">
-                        <h5>summary</h5>
+                        <h5>{{ __('home.summary')}}</h5>
 
                         <div class="gig-details">
-                          <div class="box">
+                          <div class="box box-img">
                             <img src="{{asset('images/service_images/'.$package->serviceInfo->service_img1)}}" alt="" />
                           </div>
                           <div class="box">
@@ -631,24 +627,24 @@
 
                         <ul class="list-group">
                           <li>
-                            <span>status</span>
+                            <span>{{ __('home.status')}}</span>
                             <span class="status incomplete"
-                              >incomplete</span
+                              >{{ __('home.incomplete')}}</span
                             >
                           </li>
                           <li>
-                            <span>order number</span>
+                            <span>{{ __('home.order number')}}</span>
                             <span class="order_number"></span>
                           </li>
                         </ul>
 
                         <ul class="list-group">
                           <li>
-                            <span>order date</span>
+                            <span>{{ __('home.order date')}}</span>
                             <span class="order_date"></span>
                           </li>
                           <li>
-                            <span><strong>price</strong></span>
+                            <span><strong>{{ __('home.price')}}</strong></span>
                             <span><strong class="order_price"></strong></span>
                           </li>
                         </ul>
