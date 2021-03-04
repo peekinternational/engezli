@@ -32,7 +32,7 @@
         @endif
         @csrf
         <div class="facebook-and-google">
-          <a href="{{url('login/facebook')}}" class="facebook-btn btn"><i class="fab fa-facebook-f"></i> {{ __('home.facebook')}}</a>
+          <a href="{{url('login/facebook')}}" class="facebook-btn btn"><i class="fa fa-facebook-f"></i> {{ __('home.facebook')}}</a>
           <a href="{{url('login/google')}}" class="google-btn btn"><img src="{{asset('images/google.svg')}}" alt=""> {{ __('home.google')}}</a>
         </div>
 

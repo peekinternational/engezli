@@ -38,8 +38,8 @@
           <div class="rating-wrapper">
             <span class="gig-rating text-body-2">
               <i class="fa fa-star"></i>
-              5.0
-              <span>(7)</span>
+              {{number_format($service->serviceRating->avg('overall_rating'),'1','.','')}}
+              <span>({{count($service->serviceRating)}})</span>
             </span>
           </div>
         </div>

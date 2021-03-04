@@ -14,7 +14,7 @@
               <!-- <img src="/images/avatar (1).svg" alt="" /> -->
             </div>
             <div class="text">
-              <h4>{{friends.receiver_info.first_name}} {{friends.receiver_info.last_name}} <span v-if="friends.last_message" :class="'lastMessageDate-'+friends.conversation_id">{{istoday(friends.last_message.message_date)}}</span></h4>
+              <h4>{{friends.receiver_info.first_name}} {{friends.receiver_info.last_name}} <span v-if="friends.last_message" :class="'lastMessageDate-'+friends.conversation_id" style="text-transform: initial;">{{istoday(friends.last_message.message_date)}}</span></h4>
               <p v-if="friends.last_message" :class="'lastMessage-'+friends.conversation_id">{{friends.last_message.message_desc}}</p>
             </div>
           </template>
@@ -28,7 +28,7 @@
               </template>
             </div>
             <div class="text">
-              <h4>{{friends.sender_info.first_name}} {{friends.sender_info.last_name}} <span v-if="friends.last_message" class="time 'lastMessageDate-'+friends.conversation_id">{{istoday(friends.last_message.message_date)}}</span></h4>
+              <h4>{{friends.sender_info.first_name}} {{friends.sender_info.last_name}} <span v-if="friends.last_message" class="time 'lastMessageDate-'+friends.conversation_id" style="text-transform: initial;">{{istoday(friends.last_message.message_date)}}</span></h4>
               <p v-if="friends.last_message" :class="'lastMessage-'+friends.conversation_id">{{friends.last_message.message_desc}}</p>
             </div>
           </template>

@@ -95,9 +95,14 @@
                   </div>
                   @else
                   <div class="card">
+                    @if($order->order_status == 'started' || $order->order_status == 'delivered')
+                    <h4 class="text-center mt-4" id="countdown-heading">
+                      Your Order Should Be Ready On or Before This Day/Time:
+                    </h4>
                     <div class="timer" id="timer">
 
                     </div>
+                    @endif
                   </div>
                   @endif
 
@@ -268,8 +273,57 @@
                     <orderconversation :orderdata="{{$order}}" :userdata="{{auth()->user()}}"></orderconversation>
                     <!-- /component -->
 
+                    @if($order->order_status == 'cancellation requested')
+                    <div class="tab-list-item confirm-order border-top pt-4 pb-4 card">
+                      <div class="user-info-content d-flex">
+                        <div class="box user-img">
+                          @if($order->sellerInfo->profile_image != '')
+                            <img src="/images/user_images/{{$order->sellerInfo->profile_image}}" alt="" />
+                          @else
+                            <img src="/../images/s1.png" alt="" />
+                          @endif
+                        </div>
+                        <div class="box user-details">
+                          <h6>
+                            You Requested to Cancel the Order to
+                            <span class="username">{{$order->sellerInfo->first_name}} {{$order->sellerInfo->last_name}}</span>
+                          </h6>
+                          <div class="btn-container mt-3">
+                            <input type="hidden" id="accept_request_value" value="accept">
+                            <input type="hidden" id="reject_request_value" value="reject">
+                            <button id="accept_request" class="btn btn-primary px-3 pr-0">Accept Request</button>
+                            <a href="javascript:void(0);" id="reject_request" class="btn btn-primary px-3 pr-0">Reject Request</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    @endif
+                    @if($order->order_status == 'cancelled')
+                    <div class="tab-list-item confirm-order border-top pt-4 pb-4 card">
+                      <div class="user-info-content d-flex">
+                        <div class="box user-img">
+                          @if($order->sellerInfo->profile_image != '')
+                            <img src="/images/user_images/{{$order->sellerInfo->profile_image}}" alt="" />
+                          @else
+                            <img src="/../images/s1.png" alt="" />
+                          @endif
+                        </div>
+                        <div class="box user-details">
+                          <h6 class="text-center">Resoultion Accepted</h6>
+                          <p class="mt-3 text-center"><span class="font-weight-bold">{{$order->sellerInfo->first_name}} {{$order->sellerInfo->last_name}}</span> accepted your offer for resolution.</p>
+                          <div class="btn-container mt-3">
+                            <h5 class="text-danger text-center"><i class="fa fa-times fa-2x text-danger"></i> Order Cancelled By Mutual Agreement. </h5>
+                              <p class="pt-3 text-center">
+                                Order was cancelled by a mutual agreement between you and your seller.<br>
+                                The order funds have been refunded to your fund.
+                              </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    @endif
                     <!-- ///////////////////////////////////// -->
-
+                    @if($order->order_status != 'cancellation requested' && $order->order_status != 'cancelled')
                     <div
                       class="accordion custom-accordion buyer-reply message_area"
                       id="accordionExample"
@@ -360,6 +414,7 @@
                         </div>
                       </div>
                     </div>
+                    @endif
                   </div>
                 </div>
                 <div

@@ -12,7 +12,7 @@
     "devDependencies": {
         "axios": "^0.21",
         "bootstrap": "4.4.1",
-        "jquery": "3.4.1",
+        "jquery": "^3.6.0",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
         "popper.js": "^1.12",
@@ -26,8 +26,9 @@
     },
     "dependencies": {
         "express": "^4.12.4",
-        "ioredis": "^1.4.0",
+        "ioredis": "^4.23.0",
         "redis": "^0.12.1",
+        "select2": "^4.1.0-rc.0",
         "socket.io": "^3.1.1",
         "vue-moment": "^4.1.0",
         "vue-socket.io": "^3.0.7"

@@ -26,7 +26,7 @@
               aria-controls="pills-all"
               aria-selected="true"
             >
-              <span class="text">all</span> <span class="count">22</span>
+              <span class="text">all</span> <span class="count">{{count($orders)}}</span>
             </a>
           </li>
           <li class="nav-item">
@@ -38,8 +38,8 @@
               role="tab"
               aria-controls="pills-active"
               aria-selected="false"
-              >active</a
-            >
+              ><span class="text">active</span> <span class="count">{{count($activeOrders)}}</span>
+            </a>
           </li>
           <li class="nav-item">
             <a
@@ -50,8 +50,8 @@
               role="tab"
               aria-controls="pills-missing-details"
               aria-selected="false"
-              >missing details</a
-            >
+              ><span class="text">missing details</span>
+              <span class="count">{{count($pendingOrders)}}</span></a>
           </li>
           <li class="nav-item">
             <a
@@ -62,7 +62,8 @@
               role="tab"
               aria-controls="pills-waiting-review"
               aria-selected="false"
-              >waiting review</a
+              ><span class="text">waiting review</span>
+              <span class="count">{{count($waitingOrders)}}</span></a
             >
           </li>
           <li class="nav-item">
@@ -74,8 +75,10 @@
               role="tab"
               aria-controls="pills-delivered"
               aria-selected="false"
-              >delivered</a
-            >
+              >
+              <span class="text">delivered</span>
+              <span class="count">{{count($deliverOrders)}}</span>
+            </a>
           </li>
           <li class="nav-item">
             <a
@@ -88,7 +91,7 @@
               aria-selected="false"
             >
               <span class="text">completed</span>
-              <span class="count">01</span>
+              <span class="count">{{count($completeOrders)}}</span>
             </a>
           </li>
           <li class="nav-item">
@@ -102,7 +105,7 @@
               aria-selected="false"
             >
               <span class="text">cancelled</span>
-              <span class="count">03</span>
+              <span class="count">{{count($cancelOrders)}}</span>
             </a>
           </li>
         </ul>
@@ -211,58 +214,30 @@
                   </tr>
                 </thead>
                 <tbody>
+                  @foreach($activeOrders as $order)
                   <tr>
                     <td>
-                      <a href="">
+                      <a href="{{route('order-details',['number' => $order->order_number])}}">
                         <span
-                          ><img src="images/card (1).png" alt=""
+                          ><img src="{{asset('images/service_images/'.$order->serviceInfo->service_img1)}}" alt=""
                         /></span>
                         <span class="text"
-                          >Lorem ipsum dolor sit amet consectetur...</span
+                          >{{$order->serviceInfo->service_title}}</span
                         >
                       </a>
                     </td>
-                    <td>12 june, 2020</td>
-                    <td>12 june, 2020</td>
-                    <td>$70</td>
-                    <td><span class="status complete">complete</span></td>
+                    <?php
+                    $order_date = date('d F, Y',strtotime($order->order_date));
+                    $duratoin = $order->order_duration;
+                    $due_date = date("d F, Y", strtotime('+ '.$duratoin,strtotime($order->order_time)));
+                    // dd($order->order_time, $due_date);
+                     ?>
+                    <td>{{$order_date}}</td>
+                    <td>{{$due_date}}</td>
+                    <td>${{$order->order_fee}}</td>
+                    <td><span class="status incomplete">started</span></td>
                   </tr>
-                  <tr>
-                    <td>
-                      <a href="">
-                        <span
-                          ><img src="images/card (1).png" alt=""
-                        /></span>
-                        <span class="text"
-                          >Lorem ipsum dolor sit amet consectetur...</span
-                        >
-                      </a>
-                    </td>
-                    <td>12 june, 2020</td>
-                    <td>12 june, 2020</td>
-                    <td>$70</td>
-                    <td>
-                      <span class="status incomplete">incomplete</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <a href="">
-                        <span
-                          ><img src="images/card (1).png" alt=""
-                        /></span>
-                        <span class="text"
-                          >Lorem ipsum dolor sit amet consectetur...</span
-                        >
-                      </a>
-                    </td>
-                    <td>12 june, 2020</td>
-                    <td>12 june, 2020</td>
-                    <td>$70</td>
-                    <td>
-                      <span class="status incomplete">incomplete</span>
-                    </td>
-                  </tr>
+                  @endforeach
                 </tbody>
               </table>
             </div>
@@ -285,42 +260,30 @@
                   </tr>
                 </thead>
                 <tbody>
+                  @foreach($pendingOrders as $order)
                   <tr>
                     <td>
-                      <a href="">
+                      <a href="{{route('order-details',['number' => $order->order_number])}}">
                         <span
-                          ><img src="images/card (1).png" alt=""
+                          ><img src="{{asset('images/service_images/'.$order->serviceInfo->service_img1)}}" alt=""
                         /></span>
                         <span class="text"
-                          >Lorem ipsum dolor sit amet consectetur...</span
+                          >{{$order->serviceInfo->service_title}}</span
                         >
                       </a>
                     </td>
-                    <td>12 june, 2020</td>
-                    <td>12 june, 2020</td>
-                    <td>$70</td>
-                    <td>
-                      <span class="status incomplete">incomplete</span>
-                    </td>
+                    <?php
+                    $order_date = date('d F, Y',strtotime($order->order_date));
+                    $duratoin = $order->order_duration;
+                    $due_date = date("d F, Y", strtotime('+ '.$duratoin,strtotime($order->order_time)));
+                    // dd($order->order_time, $due_date);
+                     ?>
+                    <td>{{$order_date}}</td>
+                    <td>{{$due_date}}</td>
+                    <td>${{$order->order_fee}}</td>
+                    <td><span class="status incomplete">pending</span></td>
                   </tr>
-                  <tr>
-                    <td>
-                      <a href="">
-                        <span
-                          ><img src="images/card (1).png" alt=""
-                        /></span>
-                        <span class="text"
-                          >Lorem ipsum dolor sit amet consectetur...</span
-                        >
-                      </a>
-                    </td>
-                    <td>12 june, 2020</td>
-                    <td>12 june, 2020</td>
-                    <td>$70</td>
-                    <td>
-                      <span class="status incomplete">incomplete</span>
-                    </td>
-                  </tr>
+                  @endforeach
                 </tbody>
               </table>
             </div>
@@ -343,92 +306,30 @@
                   </tr>
                 </thead>
                 <tbody>
+                  @foreach($waitingOrders as $order)
                   <tr>
                     <td>
-                      <a href="">
+                      <a href="{{route('order-details',['number' => $order->order_number])}}">
                         <span
-                          ><img src="images/card (1).png" alt=""
+                          ><img src="{{asset('images/service_images/'.$order->serviceInfo->service_img1)}}" alt=""
                         /></span>
                         <span class="text"
-                          >Lorem ipsum dolor sit amet consectetur...</span
+                          >{{$order->serviceInfo->service_title}}</span
                         >
                       </a>
                     </td>
-                    <td>12 june, 2020</td>
-                    <td>12 june, 2020</td>
-                    <td>$70</td>
-                    <td><span class="status complete">complete</span></td>
+                    <?php
+                    $order_date = date('d F, Y',strtotime($order->order_date));
+                    $duratoin = $order->order_duration;
+                    $due_date = date("d F, Y", strtotime('+ '.$duratoin,strtotime($order->order_time)));
+                    // dd($order->order_time, $due_date);
+                     ?>
+                    <td>{{$order_date}}</td>
+                    <td>{{$due_date}}</td>
+                    <td>${{$order->order_fee}}</td>
+                    <td><span class="status incomplete">started</span></td>
                   </tr>
-                  <tr>
-                    <td>
-                      <a href="">
-                        <span
-                          ><img src="images/card (1).png" alt=""
-                        /></span>
-                        <span class="text"
-                          >Lorem ipsum dolor sit amet consectetur...</span
-                        >
-                      </a>
-                    </td>
-                    <td>12 june, 2020</td>
-                    <td>12 june, 2020</td>
-                    <td>$70</td>
-                    <td>
-                      <span class="status incomplete">incomplete</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <a href="">
-                        <span
-                          ><img src="images/card (1).png" alt=""
-                        /></span>
-                        <span class="text"
-                          >Lorem ipsum dolor sit amet consectetur...</span
-                        >
-                      </a>
-                    </td>
-                    <td>12 june, 2020</td>
-                    <td>12 june, 2020</td>
-                    <td>$70</td>
-                    <td><span class="status complete">complete</span></td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <a href="">
-                        <span
-                          ><img src="images/card (1).png" alt=""
-                        /></span>
-                        <span class="text"
-                          >Lorem ipsum dolor sit amet consectetur...</span
-                        >
-                      </a>
-                    </td>
-                    <td>12 june, 2020</td>
-                    <td>12 june, 2020</td>
-                    <td>$70</td>
-                    <td>
-                      <span class="status incomplete">incomplete</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <a href="">
-                        <span
-                          ><img src="images/card (1).png" alt=""
-                        /></span>
-                        <span class="text"
-                          >Lorem ipsum dolor sit amet consectetur...</span
-                        >
-                      </a>
-                    </td>
-                    <td>12 june, 2020</td>
-                    <td>12 june, 2020</td>
-                    <td>$70</td>
-                    <td>
-                      <span class="status incomplete">incomplete</span>
-                    </td>
-                  </tr>
+                  @endforeach
                 </tbody>
               </table>
             </div>
@@ -451,92 +352,30 @@
                   </tr>
                 </thead>
                 <tbody>
+                  @foreach($deliverOrders as $order)
                   <tr>
                     <td>
-                      <a href="">
+                      <a href="{{route('order-details',['number' => $order->order_number])}}">
                         <span
-                          ><img src="images/card (1).png" alt=""
+                          ><img src="{{asset('images/service_images/'.$order->serviceInfo->service_img1)}}" alt=""
                         /></span>
                         <span class="text"
-                          >Lorem ipsum dolor sit amet consectetur...</span
+                          >{{$order->serviceInfo->service_title}}</span
                         >
                       </a>
                     </td>
-                    <td>12 june, 2020</td>
-                    <td>12 june, 2020</td>
-                    <td>$70</td>
-                    <td><span class="status complete">complete</span></td>
+                    <?php
+                    $order_date = date('d F, Y',strtotime($order->order_date));
+                    $duratoin = $order->order_duration;
+                    $due_date = date("d F, Y", strtotime('+ '.$duratoin,strtotime($order->order_time)));
+                    // dd($order->order_time, $due_date);
+                     ?>
+                    <td>{{$order_date}}</td>
+                    <td>{{$due_date}}</td>
+                    <td>${{$order->order_fee}}</td>
+                    <td><span class="status incomplete">Delivered</span></td>
                   </tr>
-                  <tr>
-                    <td>
-                      <a href="">
-                        <span
-                          ><img src="images/card (1).png" alt=""
-                        /></span>
-                        <span class="text"
-                          >Lorem ipsum dolor sit amet consectetur...</span
-                        >
-                      </a>
-                    </td>
-                    <td>12 june, 2020</td>
-                    <td>12 june, 2020</td>
-                    <td>$70</td>
-                    <td>
-                      <span class="status incomplete">incomplete</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <a href="">
-                        <span
-                          ><img src="images/card (1).png" alt=""
-                        /></span>
-                        <span class="text"
-                          >Lorem ipsum dolor sit amet consectetur...</span
-                        >
-                      </a>
-                    </td>
-                    <td>12 june, 2020</td>
-                    <td>12 june, 2020</td>
-                    <td>$70</td>
-                    <td><span class="status complete">complete</span></td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <a href="">
-                        <span
-                          ><img src="images/card (1).png" alt=""
-                        /></span>
-                        <span class="text"
-                          >Lorem ipsum dolor sit amet consectetur...</span
-                        >
-                      </a>
-                    </td>
-                    <td>12 june, 2020</td>
-                    <td>12 june, 2020</td>
-                    <td>$70</td>
-                    <td>
-                      <span class="status incomplete">incomplete</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <a href="">
-                        <span
-                          ><img src="images/card (1).png" alt=""
-                        /></span>
-                        <span class="text"
-                          >Lorem ipsum dolor sit amet consectetur...</span
-                        >
-                      </a>
-                    </td>
-                    <td>12 june, 2020</td>
-                    <td>12 june, 2020</td>
-                    <td>$70</td>
-                    <td>
-                      <span class="status incomplete">incomplete</span>
-                    </td>
-                  </tr>
+                  @endforeach
                 </tbody>
               </table>
             </div>
@@ -559,24 +398,30 @@
                   </tr>
                 </thead>
                 <tbody>
+                  @foreach($completeOrders as $order)
                   <tr>
                     <td>
-                      <a href="">
+                      <a href="{{route('order-details',['number' => $order->order_number])}}">
                         <span
-                          ><img src="images/card (1).png" alt=""
+                          ><img src="{{asset('images/service_images/'.$order->serviceInfo->service_img1)}}" alt=""
                         /></span>
                         <span class="text"
-                          >Lorem ipsum dolor sit amet consectetur...</span
+                          >{{$order->serviceInfo->service_title}}</span
                         >
                       </a>
                     </td>
-                    <td>12 june, 2020</td>
-                    <td>12 june, 2020</td>
-                    <td>$70</td>
-                    <td>
-                      <span class="status incomplete">incomplete</span>
-                    </td>
+                    <?php
+                    $order_date = date('d F, Y',strtotime($order->order_date));
+                    $duratoin = $order->order_duration;
+                    $due_date = date("d F, Y", strtotime('+ '.$duratoin,strtotime($order->order_time)));
+                    // dd($order->order_time, $due_date);
+                     ?>
+                    <td>{{$order_date}}</td>
+                    <td>{{$due_date}}</td>
+                    <td>${{$order->order_fee}}</td>
+                    <td><span class="status complete">completed</span></td>
                   </tr>
+                  @endforeach
                 </tbody>
               </table>
             </div>
@@ -599,58 +444,34 @@
                   </tr>
                 </thead>
                 <tbody>
+                  @foreach($cancelOrders as $order)
                   <tr>
                     <td>
-                      <a href="">
+                      <a href="{{route('order-details',['number' => $order->order_number])}}">
                         <span
-                          ><img src="images/card (1).png" alt=""
+                          ><img src="{{asset('images/service_images/'.$order->serviceInfo->service_img1)}}" alt=""
                         /></span>
                         <span class="text"
-                          >Lorem ipsum dolor sit amet consectetur...</span
+                          >{{$order->serviceInfo->service_title}}</span
                         >
                       </a>
                     </td>
-                    <td>12 june, 2020</td>
-                    <td>12 june, 2020</td>
-                    <td>$70</td>
-                    <td><span class="status complete">complete</span></td>
+                    <?php
+                    $order_date = date('d F, Y',strtotime($order->order_date));
+                    $duratoin = $order->order_duration;
+                    $due_date = date("d F, Y", strtotime('+ '.$duratoin,strtotime($order->order_time)));
+                    // dd($order->order_time, $due_date);
+                     ?>
+                    <td>{{$order_date}}</td>
+                    <td>{{$due_date}}</td>
+                    <td>${{$order->order_fee}}</td>
+                    @if($order->order_status == 'completed')
+                    <td><span class="status complete">completed</span></td>
+                    @else
+                    <td><span class="status incomplete">{{$order->order_status}}</span></td>
+                    @endif
                   </tr>
-                  <tr>
-                    <td>
-                      <a href="">
-                        <span
-                          ><img src="images/card (1).png" alt=""
-                        /></span>
-                        <span class="text"
-                          >Lorem ipsum dolor sit amet consectetur...</span
-                        >
-                      </a>
-                    </td>
-                    <td>12 june, 2020</td>
-                    <td>12 june, 2020</td>
-                    <td>$70</td>
-                    <td>
-                      <span class="status incomplete">incomplete</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <a href="">
-                        <span
-                          ><img src="images/card (1).png" alt=""
-                        /></span>
-                        <span class="text"
-                          >Lorem ipsum dolor sit amet consectetur...</span
-                        >
-                      </a>
-                    </td>
-                    <td>12 june, 2020</td>
-                    <td>12 june, 2020</td>
-                    <td>$70</td>
-                    <td>
-                      <span class="status incomplete">incomplete</span>
-                    </td>
-                  </tr>
+                  @endforeach
                 </tbody>
               </table>
             </div>

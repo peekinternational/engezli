@@ -31,14 +31,14 @@ class ServiceController extends Controller
         $cat_url = $request->segment(2);
         $child_url = $request->segment(3);
         if($cat_url == 'all'){
-            $services = Services::with('sellerInfo','packageInfo')->paginate(15);
+            $services = Services::with('sellerInfo','packageInfo')->paginate(16);
             $serviceCount = $services->count();
             $cat_name = "All Categories";
         }else{
             $get_cat = Categories::wherecat_url($cat_url)->first();
 
             // dd($get_cat->id);
-            $services = Services::wherecat_id($get_cat->id)->orWhere('cat_child_id',$get_cat->id)->with('sellerInfo','packageInfo')->paginate(15);
+            $services = Services::wherecat_id($get_cat->id)->orWhere('cat_child_id',$get_cat->id)->with('sellerInfo','packageInfo')->paginate(16);
             $serviceCount = $services->count();
             $cat_name = $get_cat->cat_title;
         }

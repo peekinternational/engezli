@@ -30,6 +30,7 @@
     <link href="{{asset('frontend-assets/css/sweat_alert.css')}}" rel="stylesheet">
     <!-- Rating css -->
     <link href="{{asset('frontend-assets/css/rating-style.css')}}" rel="stylesheet">
+    <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
      @yield('styling')
   </head>
   <body>
@@ -44,9 +45,11 @@
     @if(Request::path() != 'login' && Request::path() != 'register' && Request::path() != 'forgot-password')
     @include('frontend.includes.footer1')
     @endif
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    
+    <script src="{{ asset('js/app.js') }}"></script>
     <!-- Bootstrap core JavaScript -->
     <script src="{{asset('js/cdn/jquery-3.4.1.min.js')}}"></script>
+    <!-- <script src="{{asset('js/cdn/jquery-3.6.0.min.js')}}"></script> -->
     <script src="{{asset('js/cdn/popper.min.js')}}"></script>
     <!-- <script src="{{asset('js/cdn/bootstrap.min.js')}}"></script> -->
     <script src="{{asset('js/cdn/swiper-bundle.min.js')}}"></script>
@@ -76,8 +79,8 @@
     // });
     // @endif
 
-
-
+    // Query.noConflict();
+    // $(".select2").select2();
         var url = "{{ route('changeLang') }}";
         $(document).ready(function () {
             var url = "{{ route('changeLang') }}";
@@ -133,6 +136,7 @@
 
         });
     </script>
+
     @yield('script')
   </body>
 </html>

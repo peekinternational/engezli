@@ -78,9 +78,14 @@
                 >
                   @if($order->start_time != null)
                   <div class="card">
+                    @if($order->order_status == 'started' || $order->order_status == 'delivered')
+                    <h4 class="text-center mt-4" id="countdown-heading">
+                      This Order Needs To Be Delivered Before This Day/Time:
+                    </h4>
                     <div class="timer" id="timer">
 
                     </div>
+                    @endif
                   </div>
                   @endif
                   <div class="activity-tab-container card">
@@ -183,11 +188,61 @@
                         - OR -
                       </h6>
                     </div> -->
-
+                    @if($order->order_status == 'cancelled')
+                    <div class="tab-list-item confirm-order border-top pt-4 pb-4 card">
+                      <div class="user-info-content d-flex">
+                        <div class="box user-img">
+                          @if($order->buyerInfo->profile_image != '')
+                            <img src="/images/user_images/{{$order->buyerInfo->profile_image}}" alt="" />
+                          @else
+                            <img src="/../images/s1.png" alt="" />
+                          @endif
+                        </div>
+                        <div class="box user-details">
+                          <h6 class="text-center">Resoultion Accepted</h6>
+                          <p class="mt-3 text-center">You accepted <span class="font-weight-bold">{{$order->buyerInfo->first_name}} {{$order->buyerInfo->last_name}}</span> offer for resolution.</p>
+                          <div class="btn-container mt-3">
+                            <h5 class="text-danger text-center"><i class="fa fa-times fa-2x text-danger"></i> Order Cancelled By Mutual Agreement. </h5>
+                              <p class="pt-3 text-center">
+                                Order Was Cancelled By A Mutual Agreement Between You and Your Buyer. <br>
+                                Funds have been refunded to buyer's account.
+                              </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    @endif
+                    @if($order->order_status == 'cancellation requested')
+                  <div class="tab-list-item confirm-order border-top pt-4 pb-4 card">
+                    <div class="user-info-content d-flex">
+                      <div class="box user-img">
+                        @if($order->buyerInfo->profile_image != '')
+                          <img src="/images/user_images/{{$order->buyerInfo->profile_image}}" alt="" />
+                        @else
+                          <img src="/../images/s1.png" alt="" />
+                        @endif
+                      </div>
+                      <div class="box user-details">
+                        <h6>
+                          Cancellation Requested By
+                          <span class="username">{{$order->buyerInfo->first_name}} {{$order->buyerInfo->last_name}}</span>
+                        </h6>
+                        <h6>
+                          <span class="user-name">{{$order->buyerInfo->first_name}} {{$order->buyerInfo->last_name}}</span> has requested to cancel the order
+                        </h6>
+                        <div class="btn-container mt-3">
+                          <input type="hidden" id="accept_request_value" value="accept">
+                          <input type="hidden" id="reject_request_value" value="reject">
+                          <button id="accept_request" class="btn btn-primary px-3 pr-0">Accept Request</button>
+                          <a href="javascript:void(0);" id="reject_request" class="btn btn-primary px-3 pr-0">Reject Request</a>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-
-
-
+                  @endif
+                  </div>
+                  
+    @if($order->order_status != 'cancellation requested' && $order->order_status != 'cancelled')
                   <div class="seller-reply-box text-capitalize message_area">
                     <div class="card">
                       <form class="" id="message-form" enctype="multipart/form-data">
@@ -263,6 +318,7 @@
                     </form>
                     </div>
                   </div>
+                  @endif
                 </div>
                 <div
                   class="tab-pane fade"
@@ -724,6 +780,51 @@ function addFriend(user_id) {
  });
 }
 
+$('#accept_request').click(function(){
+  var accept = $('#accept_request_value').val();
+  var order_id = "{{$order->id}}";
+  // alert(accept);
+  $.ajax({
+    type: 'POST',
+    url: "{{url('accept_cancellation')}}",
+    data:{request:accept,order_id:order_id},
+    success:function(data){
+      swal({
+      type: 'success',
+      text: 'You Accepted the Cancellation Request',
+      timer: 2000,
+      onOpen: function(){
+      swal.showLoading()
+      }
+      }).then(function(){
+        window.open(data,'_self');
+      });
+    }
+  });
+});
+
+$('#reject_request').click(function(){
+  var reject = $('#reject_request_value').val();
+  var order_id = "{{$order->id}}";
+  // alert(reject);
+  $.ajax({
+    type: 'POST',
+    url: "{{url('reject_cancellation')}}",
+    data:{request:reject,order_id:order_id},
+    success:function(data){
+      swal({
+      type: 'success',
+      text: 'You Rejected the Cancellation Request',
+      timer: 2000,
+      onOpen: function(){
+      swal.showLoading()
+      }
+      }).then(function(){
+        window.open(data,'_self');
+      });
+    }
+  });
+});
 
 function CountdownTracker(label, value){
 

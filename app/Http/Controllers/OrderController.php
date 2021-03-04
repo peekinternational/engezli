@@ -56,7 +56,189 @@ class OrderController extends Controller
     public function CreateOrder(Request $request)
     {
       $order = new Order;
-      $order->order_number	= rand();
+      $order->order_number  = rand();
+      $service_id  = $request->input('service_id');
+      $seller_id = $request->input('seller_id');
+      $buyer_id  = auth()->user()->id;
+      $order_date  = date("Y-m-d");
+      $order_time  = Carbon::now();
+      $order_duration  = $request->input('order_duration');
+      $order_qty = $request->input('quantity');
+      $order_fee = $request->input('order_fee');
+      $service_fee = $request->input('service_fee');
+      $sub_total = $order_fee + $service_fee;
+      $total_amount = $sub_total * 100;
+      $merchant_order_id = rand();
+      // print_r($sub_total);
+
+      $postData1 = [
+          'api_key' => 'ZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6VXhNaUo5LmV5SnVZVzFsSWpvaU1UWXhORGcxTmpVd055NHhPRFV6TkRraUxDSndjbTltYVd4bFgzQnJJam8zTXpNM05Td2lZMnhoYzNNaU9pSk5aWEpqYUdGdWRDSjkuaHZ4T3EtVUM2cm5BLTI0Zzg4X25UWXg1NVNCQlVGX0Y0UzJVNGh2U3lBaURmSXNlUlFhaWp4UThYUzAyWVpwOWdweDdkT2k5MWt2U0NlN0wxVUlaUXc='
+      ];
+      $curl = curl_init();
+
+      curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://accept.paymobsolutions.com/api/auth/tokens",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => json_encode($postData1),
+        CURLOPT_HTTPHEADER => array(
+          "Content-Type: application/json"
+        ),
+      ));
+
+      $response = curl_exec($curl);
+        if(!curl_errno($curl)){ 
+           $result = json_decode($response, true);
+
+          $token=$result['token'];
+        }else{
+          echo 'Curl error: ' . curl_error($curl); 
+        }
+      curl_close($curl);
+      // dd($token);
+
+      $postData2 = array(
+          'auth_token' => $token,
+          'delivery_needed' => 'false',
+          'merchant_id' => '1149',
+          'merchant_order_id' => $merchant_order_id,
+          'amount_cents' => $total_amount,
+          'currency' => 'EGP',
+          'items' => []
+      );
+
+      $curl_order = curl_init();
+
+      curl_setopt_array($curl_order, array(
+        CURLOPT_URL => "https://accept.paymobsolutions.com/api/ecommerce/orders",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => json_encode($postData2),
+        CURLOPT_HTTPHEADER => array(
+          "Content-Type: application/json"
+        ),
+      ));
+
+      $order_data = curl_exec($curl_order);
+      if(!curl_errno($curl_order)){ 
+       $order_result = json_decode($order_data, true);
+      }else{
+        echo 'Curl error: ' . curl_error($curl_order); 
+      }
+      curl_close($curl_order);
+      print_r($order_result['id']);
+      // dd($token);
+
+        $postData3 = array(
+          "auth_token" => $token,
+          "amount_cents" => $total_amount,
+          "expiration" => 3600,
+          "order_id" => $order_result['id'],
+          "billing_data" => [
+              "apartment" => 'NA', 
+              "email" => auth()->user()->email, 
+              "floor" => 'NA', 
+              "first_name" => auth()->user()->first_name, 
+              "phone_number" => auth()->user()->mobile_number, 
+              "city" => 'NA', 
+              "country" => auth()->user()->country,  
+              "state" => 'NA',
+              "street" => "abc",
+              "building" => "abc",
+              "last_name" => "abc",
+              "order_id" => $order_result['id']
+            ],
+          "currency" => "EGP",
+          "integration_id" => 193947,
+          "lock_order_when_paid" => "false"
+        );
+      $curl_payment = curl_init();
+
+      curl_setopt_array($curl_payment, array(
+        CURLOPT_URL => "https://accept.paymobsolutions.com/api/acceptance/payment_keys",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => json_encode($postData3),
+        CURLOPT_HTTPHEADER => array(
+          "Content-Type: application/json"
+        ),
+      ));
+
+      $payment_response = curl_exec($curl_payment);
+      if(!curl_errno($curl_payment)){ 
+       $payment_data = json_decode($payment_response, true);
+      }else{
+        echo 'Curl error: ' . curl_error($curl_payment); 
+      }
+      curl_close($curl_payment);
+      dd($payment_data);
+
+      $payToken=$payment_data['token'];
+
+      // $curl_card = curl_init();
+
+      // curl_setopt_array($curl_card, array(
+      //   CURLOPT_URL => "https://accept.paymobsolutions.com/api/acceptance/iframes/179872?payment_token=".$payToken,
+      //   CURLOPT_RETURNTRANSFER => true,
+      //   CURLOPT_ENCODING => "",
+      //   CURLOPT_MAXREDIRS => 10,
+      //   CURLOPT_TIMEOUT => 0,
+      //   CURLOPT_FOLLOWLOCATION => true,
+      //   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      //   CURLOPT_CUSTOMREQUEST => "GET",
+      // ));
+
+      // $iframeData = curl_exec($curl_card);
+
+      // curl_close($curl_card);
+      // return $iframeData;
+
+       $postData4 = array(
+        "source"=>[
+          "identifier" => auth()->user()->mobile_number, 
+          "subtype" => "WALLET"
+        ],
+        "payment_token" => $payToken
+      );
+
+      $curl_cash = curl_init();
+
+      curl_setopt_array($curl_cash, array(
+        CURLOPT_URL => "https://accept.paymobsolutions.com/api/acceptance/payments/pay",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => json_encode($postData4),
+        CURLOPT_HTTPHEADER => array(
+          "Content-Type: application/json"
+        ),
+      ));
+
+      $cash = curl_exec($curl_cash);
+
+      curl_close($curl_cash);
+      echo $cash;
+
+
       $order->service_id	= $request->input('service_id');
       $order->seller_id	= $request->input('seller_id');
       $order->buyer_id	= auth()->user()->id;
@@ -122,6 +304,7 @@ class OrderController extends Controller
     public function OrderDetails(Request $request, $number)
     {
       $order = Order::with('serviceInfo','orderRequirement','sellerInfo','buyerInfo')->where('order_number',$number)->first();
+      //dd($order);
       if ($order->buyer_id == auth()->user()->id) {
         return view('frontend.buyer-order',compact('order'));
       }else {
@@ -129,11 +312,60 @@ class OrderController extends Controller
       }
     }
 
+    public function acceptCancellation(Request $request)
+    {
+      $request_value = $request->input('request');
+      $order_id = $request->input('order_id');
+
+      $order = Order::find($order_id);
+      
+      $order->order_status = 'cancelled';
+      $order->update();
+      return $order->order_number;
+
+    }
+
+    public function rejectCancellation(Request $request)
+    {
+      $request_value = $request->input('request');
+      $order_id = $request->input('order_id');
+
+      $order = Order::find($order_id);
+      
+      $order->order_status = 'started';
+      $order->update();
+      return $order->order_number;
+
+    }
     public function manageOrders(Request $request)
     {
       $user_id = auth()->user()->id;
       $orders = Order::with('serviceInfo')->wherebuyer_id($user_id)->orWhere('seller_id',$user_id)->orderby('id','desc')->paginate(10);
-      return view('frontend.manage-orders',compact('orders'));
+      $activeOrders = Order::with('serviceInfo')->where('order_status','started')->Where(function($q) use ($user_id){
+               $q->orWhere('buyer_id', $user_id)
+                 ->orWhere('seller_id', $user_id);
+          })->orderby('id','desc')->paginate(10);
+      $completeOrders = Order::with('serviceInfo')->where('order_status','completed')->Where(function($q) use ($user_id){
+               $q->orWhere('buyer_id', $user_id)
+                 ->orWhere('seller_id', $user_id);
+          })->orderby('id','desc')->paginate(10);
+      $deliverOrders = Order::with('serviceInfo')->where('order_status','delivered')->Where(function($q) use ($user_id){
+               $q->orWhere('buyer_id', $user_id)
+                 ->orWhere('seller_id', $user_id);
+          })->orderby('id','desc')->paginate(10);
+      $waitingOrders = Order::with('serviceInfo')->where('order_status','waiting review')->Where(function($q) use ($user_id){
+               $q->orWhere('buyer_id', $user_id)
+                 ->orWhere('seller_id', $user_id);
+          })->orderby('id','desc')->paginate(10);
+      $pendingOrders = Order::with('serviceInfo')->where('order_status','pending')->Where(function($q) use ($user_id){
+               $q->orWhere('buyer_id', $user_id)
+                 ->orWhere('seller_id', $user_id);
+          })->orderby('id','desc')->paginate(10);
+      $cancelOrders = Order::with('serviceInfo')->where('order_status','cancelled')->Where(function($q) use ($user_id){
+               $q->orWhere('buyer_id', $user_id)
+                 ->orWhere('seller_id', $user_id);
+          })->orderby('id','desc')->paginate(10);
+      return view('frontend.manage-orders',compact('orders','activeOrders','completeOrders','deliverOrders','waitingOrders','pendingOrders','cancelOrders'));
     }
 
     public function manageOrders_ajax(Request $request, $order)
@@ -185,6 +417,7 @@ class OrderController extends Controller
         $receiver_id = $order->seller_id;
       }
       $conversation->receiver_id = $receiver_id;
+
       // dd($order);
       Notifications::where('order_id',$conversation->order_id)->delete();
       $notificationData['sender_id'] = $conversation->sender_id;
@@ -259,7 +492,10 @@ class OrderController extends Controller
         $receiver_id = $order->seller_id;
       }
       $conversation->receiver_id = $receiver_id;
-      // dd($order);
+      
+      $order->order_status = 'delivered';
+      $order->update();
+
       Notifications::where('order_id',$conversation->order_id)->delete();
       $notificationData['sender_id'] = $conversation->sender_id;
       $notificationData['receiver_id'] = $receiver_id;
@@ -287,6 +523,11 @@ class OrderController extends Controller
       $conversation = OrderConversations::find($conversation_id);
       $conversation->status = 'approved';
       $conversation->update();
+      
+      $order = Order::find($conversation->order_id);
+      $order->order_status = 'waiting review';
+      $order->update();
+
       $getconversation = OrderConversations::with('userInfo','delivery')->where('id',$conversation_id)->first();
       $notification =  Notifications::with('senderInfo','receiverInfo','lastMessage','orderInfo')
       ->where('conversation_id',$conversation_id)->first();
@@ -304,6 +545,11 @@ class OrderController extends Controller
       $conversation = OrderConversations::find($conversation_id);
       $conversation->status = 'reject';
       $conversation->update();
+
+      $order = Order::find($conversation->order_id);
+      $order->order_status = 'started';
+      $order->update();
+
       $getconversation = OrderConversations::with('userInfo','delivery')->where('id',$conversation_id)->first();
       $notification =  Notifications::with('senderInfo','receiverInfo','lastMessage','orderInfo')
       ->where('conversation_id',$conversation_id)->first();
@@ -426,6 +672,7 @@ class OrderController extends Controller
     {
         // dd($request->all());
         $user_id = auth()->user()->id;
+        $order_id = $request->input('order_id');
         $data['user_id'] = $user_id;
         $data['order_id'] = $request->input('order_id');
         $data['order_number'] = $request->input('order_number');
@@ -433,6 +680,11 @@ class OrderController extends Controller
         $data['details'] = $request->input('details');
         $data['status'] = 'pending';
         $resolution = ResolutionCenter::create($data);
+
+        $order = Order::find($order_id);
+        $order->order_status = 'cancellation requested';
+        $order->update();
+
         return redirect('/manage-orders')->with('success', 'Request send successfully');
 
     }

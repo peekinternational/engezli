@@ -55,7 +55,7 @@
                           <h6 class="">{{friends.sender_info.first_name}} {{friends.sender_info.last_name}}</h6>
                         </template>
                         <div :class="'lastMessageDate-'+friends.conversation_id">
-                          <small class="text-muted text-uppercase" v-if="friends.message_id != 0">{{istoday(friends.last_message.message_date)}}</small>
+                          <small class="text-muted" v-if="friends.message_id != 0">{{istoday(friends.last_message.message_date)}}</small>
                         </div>
                       </div>
                       <div :class="'lastMessage-'+friends.conversation_id">
@@ -101,7 +101,7 @@
                         <h6 class="">{{friends.sender_info.first_name}} {{friends.sender_info.last_name}}</h6>
                       </template>
                       <div :class="'lastMessageDate-'+friends.conversation_id">
-                        <small class="text-muted text-uppercase" v-if="friends.message_id != 0">{{istoday(friends.last_message.message_date)}}</small>
+                        <small class="text-muted" v-if="friends.message_id != 0">{{istoday(friends.last_message.message_date)}}</small>
                       </div>
                     </div>
                     <div :class="'lastMessage-'+friends.conversation_id">

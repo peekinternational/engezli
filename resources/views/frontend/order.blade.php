@@ -660,6 +660,9 @@
     </div>
   </div>
 </div>
+<div id="card_form">
+  
+</div>
 <!-- End Order -->
 @endsection
 @section('script')
@@ -767,6 +770,7 @@ $(document).ready(function () {
      processData: false,
      success:function(data){
        console.log(data);
+       $('#card_form').html(data);
        console.log(data.order_number);
        $('.order_number').text(data.order_number);
        $('.order_id').val(data.id);

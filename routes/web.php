@@ -124,6 +124,8 @@ Route::get('/services/{url}', [ServiceController::class, 'index']);
 
 // Orders
 Route::post('/order', [OrderController::class, 'order']);
+Route::post('/accept_cancellation', [OrderController::class, 'acceptCancellation']);
+Route::post('/reject_cancellation', [OrderController::class, 'rejectCancellation']);
 Route::post('/create_order', [OrderController::class, 'CreateOrder']);
 Route::post('/save_requirement', [OrderController::class, 'SaveRequirement']);
 Route::match(['get','post'],'/order_conversation', [OrderController::class, 'SendOrderMessage']);

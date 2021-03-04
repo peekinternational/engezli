@@ -1,3 +1,4 @@
+
 <nav class="navbar navbar-expand-lg">
 	<div class="container">
 		<a class="navbar-brand" href="{{asset('/')}}">
@@ -20,6 +21,7 @@
 						<span class="badge message-dot"></span>
 					</a>
 					@if(auth()->user())
+
 					<div class="dropdown-menu notification" aria-labelled="navbarDropdown">
 							<notification :userdata="{{auth()->user()}}"></notification>
 
