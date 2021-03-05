@@ -53,6 +53,7 @@ class OrderController extends Controller
       return view('frontend.submit-requirements',compact('order'));
     }
 
+
     public function CreateOrder(Request $request)
     {
       $order = new Order;
@@ -70,7 +71,66 @@ class OrderController extends Controller
       $total_amount = $sub_total * 100;
       $merchant_order_id = rand();
       // print_r($sub_total);
+      $integration_id = '189757';
+      
+      // dd($token);
+      $auth_token = $this->getAuthToken();
+      $order_data = $this->registerOrder($total_amount,$auth_token);
+      $payToken = $this->getPaymentKey($auth_token,$total_amount,$integration_id,$order_data);
+      // dd($payToken);
+      $iframe = $this->payRequest($payToken);
+      
+      echo $iframe;
 
+      //  $postData4 = array(
+      //   "source"=>[
+      //     "identifier" => auth()->user()->mobile_number, 
+      //     "subtype" => "WALLET"
+      //   ],
+      //   "payment_token" => $payToken
+      // );
+
+      // $curl_cash = curl_init();
+
+      // curl_setopt_array($curl_cash, array(
+      //   CURLOPT_URL => "https://accept.paymobsolutions.com/api/acceptance/payments/pay",
+      //   CURLOPT_RETURNTRANSFER => true,
+      //   CURLOPT_ENCODING => "",
+      //   CURLOPT_MAXREDIRS => 10,
+      //   CURLOPT_TIMEOUT => 0,
+      //   CURLOPT_FOLLOWLOCATION => true,
+      //   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      //   CURLOPT_CUSTOMREQUEST => "POST",
+      //   CURLOPT_POSTFIELDS => json_encode($postData4),
+      //   CURLOPT_HTTPHEADER => array(
+      //     "Content-Type: application/json"
+      //   ),
+      // ));
+
+      // $cash = curl_exec($curl_cash);
+
+      // curl_close($curl_cash);
+      // echo $cash;
+
+
+      // $order->service_id  = $request->input('service_id');
+      // $order->seller_id = $request->input('seller_id');
+      // $order->buyer_id  = auth()->user()->id;
+      // $order->order_date  = date("Y-m-d");
+      // $order->order_time  = Carbon::now();
+      // $order->order_duration  = $request->input('order_duration');
+      // $order->order_qty = $request->input('quantity');
+      // $order->order_fee = $request->input('order_fee');
+      // $order->service_fee = $request->input('service_fee');
+      // $order->order_active  = 'no';
+      // $order->order_status  = 'pending';
+      // $order->save();
+      // $order->date = date('d F, Y',strtotime($order->order_date));
+      // echo $order;
+
+    }
+    // Payment Integration
+    public function getAuthToken(){
       $postData1 = [
           'api_key' => 'ZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6VXhNaUo5LmV5SnVZVzFsSWpvaU1UWXhORGcxTmpVd055NHhPRFV6TkRraUxDSndjbTltYVd4bFgzQnJJam8zTXpNM05Td2lZMnhoYzNNaU9pSk5aWEpqYUdGdWRDSjkuaHZ4T3EtVUM2cm5BLTI0Zzg4X25UWXg1NVNCQlVGX0Y0UzJVNGh2U3lBaURmSXNlUlFhaWp4UThYUzAyWVpwOWdweDdkT2k5MWt2U0NlN0wxVUlaUXc='
       ];
@@ -101,9 +161,14 @@ class OrderController extends Controller
         }
       curl_close($curl);
       // dd($token);
+      return $token;
+    }
 
+    public function registerOrder($total_amount,$auth_token){
+      // dd($auth_token);
+      $merchant_order_id = rand();
       $postData2 = array(
-          'auth_token' => $token,
+          'auth_token' => $auth_token,
           'delivery_needed' => 'false',
           'merchant_id' => '1149',
           'merchant_order_id' => $merchant_order_id,
@@ -136,14 +201,17 @@ class OrderController extends Controller
         echo 'Curl error: ' . curl_error($curl_order); 
       }
       curl_close($curl_order);
-      print_r($order_result['id']);
-      // dd($token);
+      // dd($order_result['id']);
+      return $order_result['id'];
+    }
 
+
+    public function getPaymentKey($auth_token,$total_amount,$integration_id,$order_data){
         $postData3 = array(
-          "auth_token" => $token,
+          "auth_token" => $auth_token,
           "amount_cents" => $total_amount,
           "expiration" => 3600,
-          "order_id" => $order_result['id'],
+          "order_id" => $order_data,
           "billing_data" => [
               "apartment" => 'NA', 
               "email" => auth()->user()->email, 
@@ -156,10 +224,10 @@ class OrderController extends Controller
               "street" => "abc",
               "building" => "abc",
               "last_name" => "abc",
-              "order_id" => $order_result['id']
+              "order_id" => $order_data
             ],
           "currency" => "EGP",
-          "integration_id" => 193947,
+          "integration_id" => $integration_id,
           "lock_order_when_paid" => "false"
         );
       $curl_payment = curl_init();
@@ -186,75 +254,34 @@ class OrderController extends Controller
         echo 'Curl error: ' . curl_error($curl_payment); 
       }
       curl_close($curl_payment);
-      dd($payment_data);
+      // dd($payment_data);
 
       $payToken=$payment_data['token'];
+      return $payToken;
+    }
 
-      // $curl_card = curl_init();
+    public function payRequest($payment_key){
+      $curl_card = curl_init();
 
-      // curl_setopt_array($curl_card, array(
-      //   CURLOPT_URL => "https://accept.paymobsolutions.com/api/acceptance/iframes/179872?payment_token=".$payToken,
-      //   CURLOPT_RETURNTRANSFER => true,
-      //   CURLOPT_ENCODING => "",
-      //   CURLOPT_MAXREDIRS => 10,
-      //   CURLOPT_TIMEOUT => 0,
-      //   CURLOPT_FOLLOWLOCATION => true,
-      //   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-      //   CURLOPT_CUSTOMREQUEST => "GET",
-      // ));
-
-      // $iframeData = curl_exec($curl_card);
-
-      // curl_close($curl_card);
-      // return $iframeData;
-
-       $postData4 = array(
-        "source"=>[
-          "identifier" => auth()->user()->mobile_number, 
-          "subtype" => "WALLET"
-        ],
-        "payment_token" => $payToken
-      );
-
-      $curl_cash = curl_init();
-
-      curl_setopt_array($curl_cash, array(
-        CURLOPT_URL => "https://accept.paymobsolutions.com/api/acceptance/payments/pay",
+      curl_setopt_array($curl_card, array(
+        CURLOPT_URL => "https://accept.paymobsolutions.com/api/acceptance/iframes/179872?payment_token=".$payment_key,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
         CURLOPT_MAXREDIRS => 10,
         CURLOPT_TIMEOUT => 0,
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => "POST",
-        CURLOPT_POSTFIELDS => json_encode($postData4),
-        CURLOPT_HTTPHEADER => array(
-          "Content-Type: application/json"
-        ),
+        CURLOPT_CUSTOMREQUEST => "GET",
       ));
 
-      $cash = curl_exec($curl_cash);
+      $iframeData = curl_exec($curl_card);
 
-      curl_close($curl_cash);
-      echo $cash;
-
-
-      $order->service_id	= $request->input('service_id');
-      $order->seller_id	= $request->input('seller_id');
-      $order->buyer_id	= auth()->user()->id;
-      $order->order_date	= date("Y-m-d");
-      $order->order_time	= Carbon::now();
-      $order->order_duration	= $request->input('order_duration');
-      $order->order_qty	= $request->input('quantity');
-      $order->order_fee	= $request->input('order_fee');
-      $order->service_fee	= $request->input('service_fee');
-      $order->order_active	= 'no';
-      $order->order_status	= 'pending';
-      $order->save();
-      $order->date = date('d F, Y',strtotime($order->order_date));
-      echo $order;
-
+      curl_close($curl_card);
+      // dd($iframeData);
+      return json_encode($payment_key);
     }
+    // End Payment Integration
+    
 
     public function SaveRequirement(Request $request)
     {

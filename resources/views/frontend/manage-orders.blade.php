@@ -7,7 +7,7 @@
   <div class="container">
     <div class="outer-content">
       <div class="headers">
-        <h4>Mange orders</h4>
+        <h4>{{ __('home.Manage orders')}}</h4>
         <select name="orderby" id="orderdy" class="select2">
           <option value="new">newests</option>
           <option value="old">oldest</option>

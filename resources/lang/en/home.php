@@ -287,5 +287,6 @@ return [
 	"our Delivery Date Will Updated After You Submit Requirements" => "our Delivery Date Will Updated After You Submit Requirements",
 	"Buyer Didn't Submit The Requirements" => "Buyer Didn't Submit The Requirements",
 	"our Delivery Date Will Updated After Buyer Submit Requirements" => "our Delivery Date Will Updated After Buyer Submit Requirements",
+	"Manage orders" => "Manage orders"
 
 ];

@@ -1,6 +1,14 @@
 @extends('frontend.layouts.app')
 @section('title', 'Order  ')
 @section('styling')
+<style>
+  .iframBody {
+    width: 70% !important;
+  }
+  .iframeOut {
+    margin: 50px 0 !important;
+  }
+</style>
 @endsection
 @section('content')
 <!-- Contact Us -->
@@ -371,6 +379,21 @@
                               <img src="images/fawry.svg" alt="" /> Fawary
                             </label>
                           </div>
+                          <div class="form-check">
+                            <input
+                              class="form-check-input"
+                              type="radio"
+                              name="exampleRadios"
+                              id="mobileWallet"
+                              value="wallet"
+                            />
+                            <label
+                              class="form-check-label"
+                              for="mobileWallet"
+                            >
+                              <img src="images/fawry.svg" alt="" /> Mobile Wallet
+                            </label>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -660,12 +683,32 @@
     </div>
   </div>
 </div>
-<div id="card_form">
-  
+<!-- Button trigger modal -->
+<div class="modal fade" id="paymentCardModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Paymob card</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="card_form">
+          
+        </div>
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div> -->
+    </div>
+  </div>
 </div>
 <!-- End Order -->
 @endsection
 @section('script')
+<script src="{{asset('js/cdn/bootstrap.min.js')}}"></script>
 <script>
 $('.minus-btn').click(function () {
   var $input = $(this).parent().find('input');
@@ -769,9 +812,11 @@ $(document).ready(function () {
      cache: false,
      processData: false,
      success:function(data){
-       console.log(data);
+       // alert(data);
+       location.href = "https://accept.paymob.com/api/acceptance/iframes/179872?payment_token="+data;
        $('#card_form').html(data);
        console.log(data.order_number);
+       $('#paymentCardModal').modal('show')
        $('.order_number').text(data.order_number);
        $('.order_id').val(data.id);
        $('.order_date').text(data.date);

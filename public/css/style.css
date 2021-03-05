@@ -6219,7 +6219,7 @@ nav.breadcrumb-container .breadcrumb a {
 }
 
 .settings-container .select2 {
-  width: 100% !important;
+  /*width: 100% !important;*/
 }
 
 .settings-container .outer-box {

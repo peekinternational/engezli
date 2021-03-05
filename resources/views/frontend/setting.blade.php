@@ -1,6 +1,23 @@
 @extends('frontend.layouts.app')
 @section('title', 'Profile Settings ')
 @section('styling')
+<style>
+	.select2-container--default .select2-search--inline .select2-search__field{
+		display: none;
+	}
+	.select2-container--default .select2-selection--multiple .select2-selection__choice__remove{
+		-webkit-appearance: media-slider;
+	}
+	.settings-container .outer-content .tab-content form .form-content .form-group.language .select2-container--default.select2-container{
+		width: 290px !important;
+	}
+	.settings-container .outer-content .tab-content form .form-content .form-group.skill .select2-container--default.select2-container{
+		width: 610px !important;
+	}
+	.settings-container .select2{
+		width: auto;
+	}
+</style>
 @endsection
 @section('content')
 <?php $years = range(1910,date("Y")); ?>
@@ -286,7 +303,7 @@
 													</div>
 												</div>
 												<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-													<div class="form-group">
+													<div class="form-group language">
 														<label for=""
 															>{{ __('home.preferred languages')}} <span>*</span></label
 														>
@@ -305,12 +322,12 @@
 													</div>
 												</div>
 												<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-													<div class="form-group">
+													<div class="form-group skill">
 														<label for=""
 															>{{ __('home.Skills')}} <span>*</span></label
 														>
 														<?php $skil = json_decode($userData->skills_id);?>
-														<select name="skills_id[]" id="" class="select2" multiple>
+														<select name="skills_id[]" id="" class="select2 form-control" multiple>
 															@if($skil != '')
 															@foreach($skil as $userSkil)
 															<option value="{{$userSkil}}" selected>{{Engezli::get_skill($userSkil)->skill_title}}</option>
@@ -399,8 +416,7 @@
 									<div class="btn-container mt-3 text-right">
 										<a href="" class="btn custom-btn">{{ __('home.Cancel')}}</a>
 										<button type="submit" form="edit-profile-form" class="btn custom-btn btn-primary text-white"
-											>{{ __('home.Submit')}}</a
-										>
+											>{{ __('home.Submit')}}</button>
 									</div>
 								</div>
 							</div>
