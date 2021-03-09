@@ -695,7 +695,7 @@
       </div>
       <div class="modal-body">
         <div id="card_form">
-          
+
         </div>
       </div>
       <!-- <div class="modal-footer">
