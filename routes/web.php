@@ -123,7 +123,8 @@ Route::get('/services/{url}', [ServiceController::class, 'index']);
 
 
 // Orders
-Route::match(['get','post'],'/order', [OrderController::class, 'order']);
+Route::match(['get','post'],'/order', [OrderController::class, 'order'])->name('order');
+Route::get('/proceed_order', [OrderController::class, 'proceed_order']);
 Route::post('/accept_cancellation', [OrderController::class, 'acceptCancellation']);
 Route::post('/reject_cancellation', [OrderController::class, 'rejectCancellation']);
 Route::match(['get','post'],'/create_order', [OrderController::class, 'CreateOrder']);

@@ -114,7 +114,7 @@
                             <div class="form-check">
                               <input
                                 type="checkbox" name="extra"
-                                class="form-check-input"
+                                class="form-check-input extra-input"
                                 id="exampleCheck1" value="5"
                               />
                               <label
@@ -131,7 +131,7 @@
                             <div class="form-check">
                               <input
                                 type="checkbox" name="extra"
-                                class="form-check-input"
+                                class="form-check-input extra-input"
                                 id="exampleCheck2" value="10"
                               />
                               <label
@@ -336,14 +336,14 @@
                             <input
                               class="form-check-input"
                               type="radio"
-                              name="exampleRadios"
-                              id="exampleRadios11"
-                              value="option1"
+                              name="paymentOption"
+                              id="masterCard"
+                              value="card"
                               checked
                             />
                             <label
                               class="form-check-label"
-                              for="exampleRadios11"
+                              for="masterCard"
                             >
                               <img src="images/mastercard.svg" alt="" />
                               Master Card
@@ -353,13 +353,13 @@
                             <input
                               class="form-check-input"
                               type="radio"
-                              name="exampleRadios"
-                              id="exampleRadios22"
-                              value="option2"
+                              name="paymentOption"
+                              id="visaCard"
+                              value="card"
                             />
                             <label
                               class="form-check-label"
-                              for="exampleRadios22"
+                              for="visaCard"
                             >
                               <img src="images/visa.svg" alt="" /> Visa Card
                             </label>
@@ -368,22 +368,22 @@
                             <input
                               class="form-check-input"
                               type="radio"
-                              name="exampleRadios"
-                              id="exampleRadios33"
-                              value="option3"
+                              name="paymentOption"
+                              id="acceptKisok"
+                              value="kiosk"
                             />
                             <label
                               class="form-check-label"
-                              for="exampleRadios33"
+                              for="acceptKisok"
                             >
-                              <img src="images/fawry.svg" alt="" /> Fawary
+                              <img src="images/fawry.svg" alt="" /> Accept Kiosk
                             </label>
                           </div>
                           <div class="form-check">
                             <input
                               class="form-check-input"
                               type="radio"
-                              name="exampleRadios"
+                              name="paymentOption"
                               id="mobileWallet"
                               value="wallet"
                             />
@@ -442,6 +442,7 @@
                         <form class="" action="" method="post" id="order-form">
                           {{csrf_field()}}
                           <input type="hidden" name="package_price" class="package_price" value="{{$package->price}}">
+                          <input type="hidden" name="package_id" class="package_price" value="{{$package->id}}">
                           <input type="hidden" name="service_id" class="service_id" value="{{$package->services_id}}">
                           <input type="hidden" name="seller_id" class="seller_id" value="{{$package->serviceInfo->seller_id}}">
                           <input type="hidden" name="order_fee" class="total_price" value="{{$total_price}}">
@@ -708,7 +709,7 @@
 <!-- End Order -->
 @endsection
 @section('script')
-<script src="{{asset('js/cdn/bootstrap.min.js')}}"></script>
+<!-- <script src="{{asset('js/cdn/bootstrap.min.js')}}"></script> -->
 <script>
 $('.minus-btn').click(function () {
   var $input = $(this).parent().find('input');
@@ -768,7 +769,7 @@ if (extra !='') {
   return false;
 });
 
-$('.form-check-input').on('change', function () {
+$('.extra-input').on('change', function () {
   if($(this).is(':checked')){
     var extra = $(this).val();
     var package_price = $('.package_price').val();
@@ -814,9 +815,9 @@ $(document).ready(function () {
      success:function(data){
        // alert(data);
        location.href = "https://accept.paymob.com/api/acceptance/iframes/179872?payment_token="+data;
-       $('#card_form').html(data);
+       // $('#card_form').html(data);
        console.log(data.order_number);
-       $('#paymentCardModal').modal('show')
+       // $('#paymentCardModal').modal('show')
        $('.order_number').text(data.order_number);
        $('.order_id').val(data.id);
        $('.order_date').text(data.date);
