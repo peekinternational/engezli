@@ -639,14 +639,14 @@
               <div class="tab-content">
                 @foreach($serviceData->packageInfo as $key => $packg)
                 <div id="{{$packg->package_name}}" class="tab-pane fade @if($key == 0)show active @endif">
-
+                  <form class="" action="{{url('order')}}" method="post">
+                    {{csrf_field()}}
                   <div class="header">
                     <h3>
                       <b class="title">{{$packg->no_of_pages}} {{ __('home.Screens')}}</b
                       ><span class="price">${{$packg->price}}</span>
                     </h3>
-                    <form class="" action="{{url('order')}}" method="post">
-                    {{csrf_field()}}
+                    
                     <input type="hidden" name="service_id" value="{{$packg->services_id}}">
                     <input type="hidden" name="package_id" value="{{$packg->id}}">
                     <p>

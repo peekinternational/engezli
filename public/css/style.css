@@ -110,6 +110,16 @@ p {
 .custom-btn {
   min-width: 100px;
   color: #62646a;
+  font-size: 14px;
+  line-height: 35px;
+  padding: 0 20px;
+  min-width: 100px;
+  text-transform: capitalize;
+  border: 0;
+  outline: none !important;
+  border-radius: 3px;
+  font-weight: 600;
+  /*color: #62646a;*/
 }
 
 .custom-btn:hover {

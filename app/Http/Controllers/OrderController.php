@@ -18,6 +18,7 @@ use App\Models\OrderDelivery;
 use App\Models\OrderRequirement;
 use App\Models\ResolutionCenter;
 use App\Models\SellerLevel;
+use App\Models\AcceptPayment;
 use App\Facade\Engezli;
 use Hash;
 use Session;
@@ -59,6 +60,7 @@ class OrderController extends Controller
       $order = new Order;
       $order->order_number  = rand();
       $service_id  = $request->input('service_id');
+      $package_id  = $request->input('package_id');
       $seller_id = $request->input('seller_id');
       $buyer_id  = auth()->user()->id;
       $order_date  = date("Y-m-d");
@@ -67,20 +69,182 @@ class OrderController extends Controller
       $order_qty = $request->input('quantity');
       $order_fee = $request->input('order_fee');
       $service_fee = $request->input('service_fee');
+      $type = $request->input('paymentOption');
+      dd($type);
       $sub_total = $order_fee + $service_fee;
       $total_amount = $sub_total * 100;
       $merchant_order_id = rand();
-      // print_r($sub_total);
-      $integration_id = '189757';
+
+      $request->session()->put('service_id', $service_id);
+      $request->session()->put('package_id', $package_id);
+      $request->session()->put('seller_id', $seller_id);
+      $request->session()->put('order_duration', $order_duration);
+      $request->session()->put('order_qty', $order_qty);
+      $request->session()->put('order_fee', $order_fee);
+      $request->session()->put('service_fee', $service_fee);
+
+      $transId = $request->input('id');
+      if($transId == ''){
+        $order->order_number  = rand();
+        $service_id  = $request->input('service_id');
+        $package_id  = $request->input('package_id');
+        $seller_id = $request->input('seller_id');
+        $buyer_id  = auth()->user()->id;
+        $order_date  = date("Y-m-d");
+        $order_time  = Carbon::now();
+        $order_duration  = $request->input('order_duration');
+        $order_qty = $request->input('quantity');
+        $order_fee = $request->input('order_fee');
+        $service_fee = $request->input('service_fee');
+        $type = $request->input('paymentOption');
+        $sub_total = $order_fee + $service_fee;
+        $total_amount = $sub_total * 100;
+        $merchant_order_id = rand();
+        dd($type);
+        $integration_id = '197430';
+        $type = "kiosk";
+        // dd($token);
+        $auth_token = $this->getAuthToken();
+        $insertPayment = AcceptPayment::create([
+            "seller_id" => $seller_id,
+            "buyer_id" => $buyer_id,
+            "service_id" => $service_id,
+            "package_id" => $package_id,
+            "status" => "pending",
+            "type" => $type
+        ]);
+
+        $payment_id = $insertPayment->id;
+        // dd($payment_id);
+        $paymentData = AcceptPayment::where("id", $payment_id)->first();
+
+        if($type == "kiosk"){
+            $_SESSION["payment_id"] = $payment_id;
+        }
+
+        // return $paymentData->id;
+
+        $order_data = $this->registerOrder($total_amount,$auth_token,$type,$paymentData->id);
+        $payToken = $this->getPaymentKey($auth_token,$total_amount,$integration_id,$order_data);
+        // dd($payToken);
+        $iframe = $this->payRequest($payToken);
+        
+        echo $iframe;
+      }else{
+        $hmac = $request->input("hmac");
+
+        if(empty($hmac)){
+            http_response_code(400);
+            exit;
+        }
+        
+        $hmacSecret = "7FD0725C9B7DCFEACEB78D8CC1ECFDFC";
+
+        // $idd = $request->input('id');
+        // dd($idd);
+        $transaction = $request->all();
+
+        $paymentId = $transaction['merchant_order_id'];
+        $tanxId = $transaction['id'];
+        // dd($transaction);
+
+
+        if(!$this->checkHmac($hmac,$transaction,$hmacSecret)){
+            http_response_code(401);
+            exit;
+        }
+
+
+        $status = "";
+
+        if(filter_var($transaction["success"],FILTER_VALIDATE_BOOLEAN)){
+            $status = "success";
+        }elseif(filter_var($transaction["pending"],FILTER_VALIDATE_BOOLEAN)){
+            $status = "pending";
+        }elseif(filter_var($transaction["is_void"],FILTER_VALIDATE_BOOLEAN)){
+            $status = "void";
+        }
+        // dd($status);
+        $acceptPayment = AcceptPayment::find($paymentId);
+
+        $updatePayment = AcceptPayment::where('id',$paymentId)->update([
+            "accept_transaction_id" => $tanxId,
+            "status" => $status,
+            "paid" => $status == "success",
+            "paid_at" => $status == "success" ? Carbon::now() : null,
+        ]);
+        $orderData = AcceptPayment::where('accept_transaction_id',$transId)->first();
+        // dd($orderData);
+        // session(['u_session' => '25']);
+        $order->service_id  = $orderData->service_id;
+        $order->seller_id = $orderData->seller_id;
+        $order->buyer_id  = auth()->user()->id;
+        $order->order_date  = date("Y-m-d");
+        $order->order_time  = Carbon::now();
+        $order->order_duration  = "3 days";
+        $order->order_qty = '1';
+        $order->order_fee = "20";
+        $order->service_fee = "5";
+        $order->order_active  = 'no';
+        $order->order_status  = 'pending';
+        $order->save();
+        $order->date = date('d F, Y',strtotime($order->order_date));
+
+        $request->session()->flash('service_id');
+        $request->session()->flash('seller_id');
+        $request->session()->flash('order_duration');
+        $request->session()->flash('order_qty');
+        $request->session()->flash('order_fee');
+        $request->session()->flash('service_fee');
+        // echo $order;
+        return $order;
+      }
       
-      // dd($token);
-      $auth_token = $this->getAuthToken();
-      $order_data = $this->registerOrder($total_amount,$auth_token);
-      $payToken = $this->getPaymentKey($auth_token,$total_amount,$integration_id,$order_data);
-      // dd($payToken);
-      $iframe = $this->payRequest($payToken);
+
+      // $hmac = $request->input("hmac");
+
+      // if(empty($hmac)){
+      //     http_response_code(400);
+      //     exit;
+      // }
       
-      echo $iframe;
+      // $hmacSecret = "7FD0725C9B7DCFEACEB78D8CC1ECFDFC";
+
+      // $transaction = $request->all();
+
+      // $paymentId = $transaction['merchant_order_id'];
+      // $tanxId = $transaction['id'];
+      // // dd($transaction);
+
+
+      // if(!$this->checkHmac($hmac,$transaction,$hmacSecret)){
+      //     http_response_code(401);
+      //     exit;
+      // }
+
+
+      // $status = "";
+
+      // if(filter_var($transaction["success"],FILTER_VALIDATE_BOOLEAN)){
+      //     $status = "success";
+      // }elseif(filter_var($transaction["pending"],FILTER_VALIDATE_BOOLEAN)){
+      //     $status = "pending";
+      // }elseif(filter_var($transaction["is_void"],FILTER_VALIDATE_BOOLEAN)){
+      //     $status = "void";
+      // }
+      // // dd($status);
+      // $acceptPayment = AcceptPayment::find($paymentId);
+
+      // $updatePayment = AcceptPayment::where('id',$paymentId)->update([
+      //     "accept_transaction_id" => $tanxId,
+      //     "status" => $status,
+      //     "paid" => $status == "success",
+      //     "paid_at" => $status == "success" ? Carbon::now() : null,
+      // ]);
+      // $paymentInfo = AcceptPayment::where('id',$paymentId)->first();
+      // // $service_id = $request->input('service_id');
+      // // $package_id = $request->input('package_id');
+      // return $updatePayment;
 
       //  $postData4 = array(
       //   "source"=>[
@@ -164,14 +328,15 @@ class OrderController extends Controller
       return $token;
     }
 
-    public function registerOrder($total_amount,$auth_token){
+    public function registerOrder($total_amount,$auth_token,$type,$paymentId){
       // dd($auth_token);
-      $merchant_order_id = rand();
+      // $merchant_order_id = rand();
+      // $payment = $this->createPayment($auth_token,$type);
       $postData2 = array(
           'auth_token' => $auth_token,
           'delivery_needed' => 'false',
           'merchant_id' => '1149',
-          'merchant_order_id' => $merchant_order_id,
+          'merchant_order_id' => $paymentId,
           'amount_cents' => $total_amount,
           'currency' => 'EGP',
           'items' => []
@@ -254,31 +419,188 @@ class OrderController extends Controller
         echo 'Curl error: ' . curl_error($curl_payment); 
       }
       curl_close($curl_payment);
-      // dd($payment_data);
+       // dd($payment_data);
 
       $payToken=$payment_data['token'];
       return $payToken;
     }
 
-    public function payRequest($payment_key){
-      $curl_card = curl_init();
+    // public function createPayment(Request $request,$type){
+    //   $service_id  = $request->input('service_id');
+    //   $seller_id = $request->input('seller_id');
+    //   $buyer_id  = auth()->user()->id;
+    //   $order_date  = date("Y-m-d");
+    //   $order_time  = Carbon::now();
+    //   $order_duration  = $request->input('order_duration');
+    //   $order_qty = $request->input('quantity');
+    //   $order_fee = $request->input('order_fee');
+    //   $service_fee = $request->input('service_fee');
+    //   $sub_total = $order_fee + $service_fee;
+    //   $total_amount = $sub_total * 100;
+    //   $merchant_order_id = rand();
 
-      curl_setopt_array($curl_card, array(
-        CURLOPT_URL => "https://accept.paymobsolutions.com/api/acceptance/iframes/179872?payment_token=".$payment_key,
+        
+    // }
+
+    public function payRequest($payment_key){
+      // $curl_card = curl_init();
+
+      // curl_setopt_array($curl_card, array(
+      //   CURLOPT_URL => "https://accept.paymobsolutions.com/api/acceptance/iframes/179872?payment_token=".$payment_key,
+      //   CURLOPT_RETURNTRANSFER => true,
+      //   CURLOPT_ENCODING => "",
+      //   CURLOPT_MAXREDIRS => 10,
+      //   CURLOPT_TIMEOUT => 0,
+      //   CURLOPT_FOLLOWLOCATION => true,
+      //   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      //   CURLOPT_CUSTOMREQUEST => "GET",
+      // ));
+
+      // $iframeData = curl_exec($curl_card);
+
+      // curl_close($curl_card);
+      
+      // return json_encode($payment_key);
+
+       $postWallet = array(
+        "source"=>[
+          "identifier" => "AGGREGATOR", 
+          "subtype" => "AGGREGATOR"
+        ],
+        "payment_token" => $payment_key
+      );
+
+      $curl_wallet = curl_init();
+
+      curl_setopt_array($curl_wallet, array(
+        CURLOPT_URL => "https://accept.paymobsolutions.com/api/acceptance/payments/pay",
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
         CURLOPT_MAXREDIRS => 10,
         CURLOPT_TIMEOUT => 0,
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => "GET",
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => json_encode($postWallet),
+        CURLOPT_HTTPHEADER => array(
+          "Content-Type: application/json"
+        ),
       ));
+      $wallet_response = curl_exec($curl_wallet);
 
-      $iframeData = curl_exec($curl_card);
+      // dd($wallet_response);
+      if(!curl_errno($curl_wallet)){ 
+       $wallet_data = json_decode($wallet_response, true);
+      }else{
+        echo 'Curl error: ' . curl_error($curl_wallet); 
+      }
+      curl_close($curl_wallet);
 
-      curl_close($curl_card);
-      // dd($iframeData);
-      return json_encode($payment_key);
+      return [
+        "reference_number" => $wallet_response["data"]["bill_reference"],
+        "pending" => $wallet_response["pending"],
+      ];
+    }
+
+
+    public function proceed_order(Request $request){
+
+      
+      $hmac = $request->input("hmac");
+
+      if(empty($hmac)){
+          http_response_code(400);
+          exit;
+      }
+      
+      $hmacSecret = "7FD0725C9B7DCFEACEB78D8CC1ECFDFC";
+
+      // $idd = $request->input('id');
+      // dd($idd);
+      $transaction = $request->all();
+
+      $paymentId = $transaction['merchant_order_id'];
+      $tanxId = $transaction['id'];
+      // dd($transaction);
+
+
+      if(!$this->checkHmac($hmac,$transaction,$hmacSecret)){
+          http_response_code(401);
+          exit;
+      }
+
+
+      $status = "";
+
+      if(filter_var($transaction["success"],FILTER_VALIDATE_BOOLEAN)){
+          $status = "success";
+      }elseif(filter_var($transaction["pending"],FILTER_VALIDATE_BOOLEAN)){
+          $status = "pending";
+      }elseif(filter_var($transaction["is_void"],FILTER_VALIDATE_BOOLEAN)){
+          $status = "void";
+      }
+      // dd($status);
+      $acceptPayment = AcceptPayment::find($paymentId);
+
+      $updatePayment = AcceptPayment::where('id',$paymentId)->update([
+          "accept_transaction_id" => $tanxId,
+          "status" => $status,
+          "paid" => $status == "success",
+          "paid_at" => $status == "success" ? Carbon::now() : null,
+      ]);
+      $paymentInfo = AcceptPayment::where('id',$paymentId)->first();
+      // $service_id = $request->input('service_id');
+      // $package_id = $request->input('package_id');
+      $order = new Order;
+      $order->order_number  = rand();
+      dd(Session::get('service_id'));
+      $order->service_id  = Session::get('service_id');
+      $order->seller_id = Session::get('seller_id');
+      $order->buyer_id  = auth()->user()->id;
+      $order->order_date  = date("Y-m-d");
+      $order->order_time  = Carbon::now();
+      $order->order_duration  = Session::get('order_duration');
+      $order->order_qty = Session::get('order_qty');
+      $order->order_fee = Session::get('order_fee');
+      $order->service_fee = Session::get('service_fee');
+      $order->order_active  = 'no';
+      $order->order_status  = 'pending';
+      $order->save();
+      $order->date = date('d F, Y',strtotime($order->order_date));
+
+      $request->session()->flash('service_id');
+      $request->session()->flash('seller_id');
+      $request->session()->flash('order_duration');
+      $request->session()->flash('order_qty');
+      $request->session()->flash('order_fee');
+      $request->session()->flash('service_fee');
+      // echo $order;
+      return $order;
+      // $package = Packages::with('serviceInfo')->where('id',$paymentInfo->package_id)->first();
+      // return view('frontend.order',compact('package'));
+      // return redirect()->route('order');
+      
+    }
+    function checkHmac($hmac,$data,$hmacSecret){
+      $keys = ["amount_cents", "created_at", "currency", "error_occured", "has_parent_transaction", "id", "integration_id", "is_3d_secure", "is_auth", "is_capture", "is_refunded", "is_standalone_payment", "is_voided", "order.id", "owner", "pending", "source_data_pan", "source_data_sub_type", "source_data_type", "success"];
+      natcasesort($keys);
+      // dd($keys);
+      $string = "";
+      foreach($keys as $key){
+          $splited = explode(".",$key);
+          // dd($key);
+          if(count($splited) > 1){
+              $value = $data[$splited[0]];
+              // dd($value);
+              $string .= is_bool($value) ? json_encode($value) : $value;
+          }else{
+              $string .= is_bool($data[$key]) ? json_encode($data[$key]) : $data[$key];
+          }
+      }
+
+      $localHmac = hash_hmac("SHA512",$string,$hmacSecret);
+      // dd($localHmac);
+      return $localHmac === $hmac;
     }
     // End Payment Integration
     
