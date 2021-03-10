@@ -148,3 +148,4 @@ Route::get('/get_services', [ServiceController::class, 'get_services']);
 Route::get('/{username}/{url}', [ServiceController::class, 'service_detail'])->name('service-details');
 Route::get('/search', [ServiceController::class, 'search_service']);
 Route::get('/services/{url}/{child_url}', [ServiceController::class, 'index']);
+Route::post('/favorite_service/', [ServiceController::class, 'favoriteService']);

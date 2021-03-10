@@ -250,7 +250,11 @@ $child_url = request()->segment(count(request()->segments(3)));
                 </div>
               </div>
               <div class="card-footer">
-                <i aria-hidden="true" class="fa fa-heart"></i>
+                @if($service->seller_id == auth()->user()->id)
+                <i aria-hidden="true" class="fa @if(count($service->favorite) == 0) fa-heart-o @else fa-heart dil @endif favorite{{$service->id}}" title="You can favorite your own service"></i>
+                @else
+                <i aria-hidden="true" class="fa @if(count($service->favorite) == 0) fa-heart-o @else fa-heart dil @endif favorite{{$service->id}}" onclick="makeFavorite({{$service->id}})" style="cursor: pointer;"></i>
+                @endif
                 <div class="price">
                   <a href="#">
                     Starting At

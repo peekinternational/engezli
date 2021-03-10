@@ -339,6 +339,7 @@
                               name="paymentOption"
                               id="masterCard"
                               value="card"
+                              form="order-form"
                               checked
                             />
                             <label
@@ -356,6 +357,7 @@
                               name="paymentOption"
                               id="visaCard"
                               value="card"
+                              form="order-form"
                             />
                             <label
                               class="form-check-label"
@@ -371,6 +373,7 @@
                               name="paymentOption"
                               id="acceptKisok"
                               value="kiosk"
+                              form="order-form"
                             />
                             <label
                               class="form-check-label"
@@ -386,6 +389,7 @@
                               name="paymentOption"
                               id="mobileWallet"
                               value="wallet"
+                              form="order-form"
                             />
                             <label
                               class="form-check-label"
@@ -804,6 +808,7 @@ $(document).ready(function () {
 
   $('#order-form').on('submit', function(event){
     event.preventDefault();
+    $('.main-loader').css('display','flex');
     $.ajax({
      url:"{{ url('create_order') }}",
      method:"POST",
@@ -813,15 +818,46 @@ $(document).ready(function () {
      cache: false,
      processData: false,
      success:function(data){
-       // alert(data);
-       location.href = "https://accept.paymob.com/api/acceptance/iframes/179872?payment_token="+data;
+      $('.main-loader').css('display','none');
+       // alert(data.kiosk);
+       if(data.kiosk){
+        swal({
+        type: 'success',
+        // text: 'You order has been successfully received.',
+        // html: $('<div>').text('Reference number:''<b>'+data.kiosk+''),
+        text: 'You order has been successfully received.Reference number:'+data.kiosk+'To pay, go to the nearest Aman or Masary or Momkn outlet, ask for "مدفوعات اكسبت/ Madfouaat Accept" and provide your reference number.',
+        // timer: 2000,
+        button: "Ok"
+        // onOpen: function(){
+        // swal.showLoading()
+        // }
+        });
+        $('.order_number').text(data.order.order_number);
+        $('.order_id').val(data.order.id);
+        $('.order_date').text(data.order.date);
+        $('.order_price').text('$'+data.order.order_fee);
+        $('#pricing-tab').removeClass('active');
+        $('#pricing').removeClass('active show');
+        $('#descriptionFaq-tab').addClass('active');
+        $('#descriptionFaq').addClass('active show');
+       }
+       if(data.card){
+        location.href = 'https://accept.paymob.com/api/acceptance/iframes/179872?payment_token='+data.card;
+       }
+       if(data.wallet){
+        location.href = data.wallet;
+        $('#pricing-tab').removeClass('active');
+        $('#pricing').removeClass('active show');
+        $('#descriptionFaq-tab').addClass('active');
+        $('#descriptionFaq').addClass('active show');
+       }
        // $('#card_form').html(data);
        console.log(data.order_number);
        // $('#paymentCardModal').modal('show')
-       $('.order_number').text(data.order_number);
-       $('.order_id').val(data.id);
-       $('.order_date').text(data.date);
-       $('.order_price').text('$'+data.order_fee);
+       $('.order_number').text(data.order.order_number);
+       $('.order_id').val(data.order.id);
+       $('.order_date').text(data.order.date);
+       $('.order_price').text('$'+data.order.order_fee);
        $('#pricing-tab').removeClass('active');
        $('#pricing').removeClass('active show');
        $('#descriptionFaq-tab').addClass('active');
