@@ -38,7 +38,6 @@
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
                 Share
               </button>
-              <script src="//platform-api.sharethis.com/js/sharethis.js#property=5c812224d11c6a0011c485fd&product=inline-share-buttons"></script>
             </li>
           </ul>
         </div>

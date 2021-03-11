@@ -398,6 +398,36 @@
                               <img src="images/fawry.svg" alt="" /> Mobile Wallet
                             </label>
                           </div>
+                          <div class="form-check">
+                            <input
+                              class="form-check-input"
+                              type="radio"
+                              name="paymentOption"
+                              id="stripe"
+                              value="stripe"
+                              form="order-form"
+                            />
+                            <label
+                              class="form-check-label"
+                              for="stripe"
+                            >
+                              <img src="images/mastercard.svg" alt="" /> Stripe
+                            </label>
+                          </div>
+                          <div class="form-check payment-input-container">
+                              <p class="single-form-row">
+                                <label for="card-element">
+                                  Credit or debit card
+                              </label>
+                              <input type="hidden" form="order-form" name="payment_methods" id="payment_methods" class="payment_methods" value="">
+                            <input id="card-holder-name" placeholder="Card Holder Name" type="text">
+                              <div id="card-element">
+                                  <!-- A Stripe Element will be inserted here. -->
+                              </div>
+                            </p>
+                              <!-- Used to display form errors. -->
+                              <div id="card-errors" role="alert"></div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -454,7 +484,7 @@
                           <input type="hidden" name="service_fee" class="service_fee" value="5">
 
 
-                        <button type="submit" class="btn custom-btn btn-block"> {{ __('home.confirm & pay')}} </button>
+                        <button type="submit" id="#card-button" class="btn custom-btn btn-block"> {{ __('home.confirm & pay')}} </button>
                       </form>
 
                         <small>{{ __('home.By clicking Confirm and Pay you will be charged')}}</small>
@@ -699,9 +729,66 @@
         </button>
       </div>
       <div class="modal-body">
-        <div id="card_form">
+        <!-- <div id="card_form">
           
+        </div> -->
+        <form 
+        role="form" 
+        action="{{ url('create_order') }}" 
+        method="post" 
+        class="require-validation"
+        data-cc-on-file="false"
+        data-stripe-publishable-key="{{ env('STRIPE_KEY') }}"
+        id="payment-form">
+        @csrf
+
+        <div class='form-row row'>
+          <div class='col-xs-12 form-group required'>
+            <label class='control-label'>Name on Card</label> <input
+            class='form-control' size='4' type='text'>
+          </div>
         </div>
+
+        <div class='form-row row'>
+          <div class='col-xs-12 form-group card required'>
+            <label class='control-label'>Card Number</label> <input
+            autocomplete='off' class='form-control card-number' size='20'
+            type='text'>
+          </div>
+        </div>
+
+        <div class='form-row row'>
+          <div class='col-xs-12 col-md-4 form-group cvc required'>
+            <label class='control-label'>CVC</label> <input autocomplete='off'
+            class='form-control card-cvc' placeholder='ex. 311' size='4'
+            type='text'>
+          </div>
+          <div class='col-xs-12 col-md-4 form-group expiration required'>
+            <label class='control-label'>Expiration Month</label> <input
+            class='form-control card-expiry-month' placeholder='MM' size='2'
+            type='text'>
+          </div>
+          <div class='col-xs-12 col-md-4 form-group expiration required'>
+            <label class='control-label'>Expiration Year</label> <input
+            class='form-control card-expiry-year' placeholder='YYYY' size='4'
+            type='text'>
+          </div>
+        </div>
+
+        <div class='form-row row'>
+          <div class='col-md-12 error form-group hide'>
+            <div class='alert-danger alert'>Please correct the errors and try
+            again.</div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12">
+            <button class="btn btn-primary btn-lg btn-block" type="submit">Pay Now ($100)</button>
+          </div>
+        </div>
+
+      </form>
       </div>
       <!-- <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -808,7 +895,10 @@ $(document).ready(function () {
 
   $('#order-form').on('submit', function(event){
     event.preventDefault();
-    $('.main-loader').css('display','flex');
+    var stripe = $('#stripe').val();
+    alert(stripe);
+    $('#paymentCardModal').modal('show')
+    // $('.main-loader').css('display','flex');
     $.ajax({
      url:"{{ url('create_order') }}",
      method:"POST",
@@ -897,4 +987,80 @@ $(document).ready(function () {
  });
 });
 </script>
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+var stripe = Stripe("pk_test_rGeMWbI1evpEyGBYE3jgnnNR00LVWKNXyS");
+console.log(stripe);
+// Create an instance of Elements.
+const elements = stripe.elements();
+    const cardElement = elements.create('card');
+
+    cardElement.mount('#card-element');
+
+    const cardHolderName = document.getElementById('card-holder-name');
+const cardButton = document.getElementById('card-button');
+
+// cardButton.addEventListener('click', async (e) => {
+//
+// });
+
+var form = document.getElementById('order-form');
+form.addEventListener('submit', async(event) => {
+event.preventDefault();
+const { paymentMethod, error } = await stripe.createPaymentMethod(
+    'card', cardElement, {
+        billing_details: { name: cardHolderName.value }
+    }
+);
+
+// Handle real-time validation errors from the card Element.
+cardElement.addEventListener('change', function (event) {
+    var displayError = document.getElementById('card-errors');
+    if (event.error) {
+        displayError.textContent = event.error.message;
+    } else {
+        displayError.textContent = '';
+    }
+});
+
+console.log(paymentMethod);
+if (error) {
+    // Display "error.message" to the user...
+} else {
+  // alert(paymentMethod.id)
+  console.log(paymentMethod.id);
+  $('#payment_methods').val(paymentMethod.id);
+
+}
+stripe.createToken(cardElement).then(function(result) {
+
+    if (result.error) {
+    // Inform the user if there was an error.
+    var errorElement = document.getElementById('card-errors');
+    errorElement.textContent = result.error.message;
+    // resetButton()
+    } else {
+      $('#card-button').prop('disabled', true);
+      $('#card-button').html('Processing ...');
+    // Send the token to your server.
+    stripeTokenHandler(result.token);
+    }
+});
+});
+
+// Submit the form with the token ID.
+function stripeTokenHandler(token) {
+    // Insert the token ID into the form so it gets submitted to the server
+    var form = document.getElementById('order-form');
+    var hiddenInput = document.createElement('input');
+    hiddenInput.setAttribute('type', 'hidden');
+    hiddenInput.setAttribute('name', 'stripeToken');
+    hiddenInput.setAttribute('value', token.id);
+    form.appendChild(hiddenInput);
+
+    // Submit the form
+    form.submit();
+}
+</script>
+
 @endsection

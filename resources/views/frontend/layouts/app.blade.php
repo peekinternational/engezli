@@ -142,7 +142,6 @@
           // $('.favorite'+id).click(function(){
             var user_id = "{{auth()->user()->id}}";
             var service_id = id;
-            alert(id);
           // })
           $.ajax({
             url: "{{url('favorite_service')}}",

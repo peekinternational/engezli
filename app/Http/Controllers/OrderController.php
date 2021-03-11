@@ -133,6 +133,27 @@ class OrderController extends Controller
         $order_data = $this->registerOrder($total_amount,$auth_token,$type,$paymentData->id);
         $payToken = $this->getPaymentKey($auth_token,$total_amount,$integration_id,$order_data);
         // dd($payToken);
+        if($type == 'stripe'){
+          $stripe = \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+          $userId=auth()->user()->id;
+          $user = User::find($userId);
+          $tokenId= $request->stripeToken;
+          $paymentMethodId= $request->payment_methods;
+          $total = $request->total * 100;
+          dd( $stripe);
+          dd($user_id);
+          if ($user->stripe_id == null) {
+            $stripeCustomer = $user->createAsStripeCustomer();
+          }
+
+          $stripeCharge = $user->charge($total,$paymentMethodId);
+          // dd($stripeCharge);
+          $user->card_brand = $stripeCharge->charges->data[0]->payment_method_details->card->brand;
+          $user->card_last_four = $stripeCharge->charges->data[0]->payment_method_details->card->last4;
+          $user->update();
+          $receipt = $stripeCharge->charges->data[0]->receipt_url;
+          $invoice =rand(0000,9999);
+        }
         if($type == 'card'){
           $iframe = $this->payRequest($payToken,$type);
           // dd($iframe);
