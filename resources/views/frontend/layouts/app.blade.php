@@ -26,7 +26,7 @@
     <link href="{{asset('css/arabic_style.css')}}" rel="stylesheet">
     <!-- Custom Css -->
     <link href="{{asset('css/responsive.css')}}" rel="stylesheet">
-     <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
+     <link rel="stylesheet" href="https://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
     <link href="{{asset('frontend-assets/css/sweat_alert.css')}}" rel="stylesheet">
     <!-- Rating css -->
     <link href="{{asset('frontend-assets/css/rating-style.css')}}" rel="stylesheet">
@@ -45,7 +45,7 @@
     @if(Request::path() != 'login' && Request::path() != 'register' && Request::path() != 'forgot-password')
     @include('frontend.includes.footer1')
     @endif
-    
+
     <script src="{{ asset('js/app.js') }}"></script>
     <!-- Bootstrap core JavaScript -->
     <script src="{{asset('js/cdn/jquery-3.4.1.min.js')}}"></script>
@@ -58,7 +58,7 @@
     <script src="{{asset('js/cdn/jquery.richtext.js')}}"></script>
     <script src="{{asset('js/custom.js')}}"></script>
     <script src="{{asset('frontend-assets/js/sweat_alert.js')}}"></script>
-    <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
 
     <!-- Contact form JavaScript -->
 
