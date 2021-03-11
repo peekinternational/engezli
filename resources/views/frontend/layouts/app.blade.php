@@ -34,7 +34,9 @@
      @yield('styling')
   </head>
   <body>
-
+    <div class="main-loader">
+      <img src="{{asset('images/loader.gif')}}">
+    </div>
     @if(Request::path() != 'login' && Request::path() != 'register' && Request::path() != 'forgot-password')
     <div id="app">
     @include('frontend.includes.header')
@@ -135,6 +137,31 @@
 
 
         });
+      @if(auth()->user())
+        function makeFavorite(id){
+          // $('.favorite'+id).click(function(){
+            var user_id = "{{auth()->user()->id}}";
+            var service_id = id;
+          // })
+          $.ajax({
+            url: "{{url('favorite_service')}}",
+            type: 'post',
+            data:{user_id:user_id,service_id:service_id},
+            success:function(data){
+              if(data == 1){
+                $('.favorite'+id).addClass('fa-heart-o');
+                $('.favorite'+id).removeClass('fa-heart');
+                $('.favorite'+id).removeClass('dil');
+                $('.favorite'+id).css('color','#62646a');
+              }else{
+                $('.favorite'+id).removeClass('fa-heart-o');
+                $('.favorite'+id).addClass('fa-heart');
+                $('.favorite'+id).css('color','red');
+              }
+            }
+          });
+        }
+        @endif
     </script>
 
     @yield('script')

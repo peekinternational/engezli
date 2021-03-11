@@ -12,6 +12,7 @@ use App\Models\Services;
 use App\Models\Language;
 use App\Models\SellerLevel;
 use App\Models\BuyerReviews;
+use App\Models\FavoriteService;
 use App\Facade\Engezli;
 use Hash;
 use Session;
@@ -31,14 +32,15 @@ class ServiceController extends Controller
         $cat_url = $request->segment(2);
         $child_url = $request->segment(3);
         if($cat_url == 'all'){
-            $services = Services::with('sellerInfo','packageInfo')->paginate(16);
+            $services = Services::with('sellerInfo','packageInfo','favorite')->paginate(16);
+
             $serviceCount = $services->count();
             $cat_name = "All Categories";
         }else{
             $get_cat = Categories::wherecat_url($cat_url)->first();
 
             // dd($get_cat->id);
-            $services = Services::wherecat_id($get_cat->id)->orWhere('cat_child_id',$get_cat->id)->with('sellerInfo','packageInfo')->paginate(16);
+            $services = Services::wherecat_id($get_cat->id)->orWhere('cat_child_id',$get_cat->id)->with('sellerInfo','packageInfo','favorite')->paginate(16);
             $serviceCount = $services->count();
             $cat_name = $get_cat->cat_title;
         }
@@ -80,7 +82,7 @@ class ServiceController extends Controller
 
         if($category_id != null){
         // dd($category_id);
-          $services = Services::where('cat_id', $category_id)->with('sellerInfo','packageInfo')->paginate(50);
+          $services = Services::where('cat_id', $category_id)->with('sellerInfo','packageInfo','favorite')->paginate(50);
           $serviceCount = $services->count();
           return view('frontend.ajax.category-service',compact('services','serviceCount'));
         }
@@ -90,11 +92,11 @@ class ServiceController extends Controller
             $get_seller = User::whereuser_status($seller_status)->get();
             // dd($get_seller);
             foreach ($get_seller as $key => $seller) {
-              $services = Services::where('seller_id',$seller->id)->with('sellerInfo','packageInfo')->get();
+              $services = Services::where('seller_id',$seller->id)->with('sellerInfo','packageInfo','favorite')->get();
             }
           }else{
             $seller_status = "offline";
-            $services = Services::with('sellerInfo','packageInfo')->get();
+            $services = Services::with('sellerInfo','packageInfo','favorite')->get();
           }
 
           return view('frontend.ajax.category-service',compact('services'));
@@ -107,15 +109,15 @@ class ServiceController extends Controller
             $get_seller = User::wherecountry($seller_country)->get();
             // dd($get_seller);
             if($get_seller->count() == 0){
-              $services = Services::with('sellerInfo','packageInfo')->get();
+              $services = Services::with('sellerInfo','packageInfo','favorite')->get();
             }else{
               foreach ($get_seller as $key => $seller) {
-                $services = Services::where('seller_id',$seller->id)->with('sellerInfo','packageInfo')->get();
+                $services = Services::where('seller_id',$seller->id)->with('sellerInfo','packageInfo','favorite')->get();
               }
             }
           }else{
             $seller_country = "all";
-            $services = Services::with('sellerInfo','packageInfo')->get();
+            $services = Services::with('sellerInfo','packageInfo','favorite')->get();
           }
 
           return view('frontend.ajax.category-service',compact('services'));
@@ -128,7 +130,7 @@ class ServiceController extends Controller
           $max = $data[1];
           // dd($data);
           $query = Services::query();
-          $query = $query->with('sellerInfo','packageInfo');
+          $query = $query->with('sellerInfo','packageInfo','favorite');
 
           $query = $query->whereHas('packageInfo', function($q) use($min,$max) {
             $q->whereBetween('price',[(int)$min, (int)$max]);
@@ -144,7 +146,7 @@ class ServiceController extends Controller
           // dd($delivery_time);
           if($delivery_time != 'all day'){
             $query = Services::query();
-            $query = $query->with('sellerInfo','packageInfo');
+            $query = $query->with('sellerInfo','packageInfo','favorite');
 
             $query = $query->whereHas('packageInfo', function($q) use($delivery_time) {
               $q->where('delivery_time','<=',$delivery_time);
@@ -154,19 +156,19 @@ class ServiceController extends Controller
             // dd($services);
             $serviceCount = $services->count();
           }else{
-            $services = Services::with('sellerInfo','packageInfo')->get();
+            $services = Services::with('sellerInfo','packageInfo','favorite')->get();
             $serviceCount = $services->count();
           }
           return view('frontend.ajax.category-service',compact('services','serviceCount'));
         }
         if($sort_by != null){
           if($sort_by == 'newest'){
-            $services = Services::with('sellerInfo','packageInfo')->orderBy('id','DESC')->get();
+            $services = Services::with('sellerInfo','packageInfo','favorite')->orderBy('id','DESC')->get();
             $serviceCount = $services->count();
             return view('frontend.ajax.category-service',compact('services','serviceCount'));
           }
           else{
-            $services = Services::with('sellerInfo','packageInfo')->get();
+            $services = Services::with('sellerInfo','packageInfo','favorite')->get();
             $serviceCount = $services->count();
             return view('frontend.ajax.category-service',compact('services','serviceCount'));
           }
@@ -174,7 +176,7 @@ class ServiceController extends Controller
         if($language_id != null){
           $userData = User::wherelanguage_id($language_id)->get();
           foreach ($userData as $key => $user) {
-            $services = Services::where('seller_id',$user->id)->with('sellerInfo','packageInfo')->get();
+            $services = Services::where('seller_id',$user->id)->with('sellerInfo','packageInfo','favorite')->get();
             $serviceCount = $services->count();
             // dd($services);
           }
@@ -183,7 +185,7 @@ class ServiceController extends Controller
         if($level_id != null){
           $userData = User::wherelevel_id($level_id)->get();
           foreach ($userData as $key => $user) {
-            $services = Services::where('seller_id',$user->id)->with('sellerInfo','packageInfo')->get();
+            $services = Services::where('seller_id',$user->id)->with('sellerInfo','packageInfo','favorite')->get();
             $serviceCount = $services->count();
             // dd($services);
           }
@@ -192,7 +194,7 @@ class ServiceController extends Controller
         if($country != null){
           $userData = User::wherecountry($country)->get();
           foreach ($userData as $key => $user) {
-            $services = Services::where('seller_id',$user->id)->with('sellerInfo','packageInfo')->get();
+            $services = Services::where('seller_id',$user->id)->with('sellerInfo','packageInfo','favorite')->get();
             $serviceCount = $services->count();
             // dd($services);
           }
@@ -209,7 +211,7 @@ class ServiceController extends Controller
     public function service_detail(Request $request,$username, $slug){
 
       $user = User::with('userReviews')->where('username', $username)->first();
-      $serviceData = Services::where('service_url',$slug)->where('seller_id',$user->id)->with('sellerInfo', 'packageInfo','serviceFaq','serviceReq','servicePackgOptions','serviceRating')->first();
+      $serviceData = Services::where('service_url',$slug)->where('seller_id',$user->id)->with('sellerInfo', 'packageInfo','serviceFaq','serviceReq','servicePackgOptions','serviceRating','favorite')->first();
       // dd($serviceData);
       $productCat = Categories::where('id',$serviceData->cat_id)->first();
       $productSubCat = Categories::where('id',$serviceData->cat_child_id)->first();
@@ -262,6 +264,28 @@ class ServiceController extends Controller
       // dd($count_stars);
 
       return view('frontend.service-detail',compact('serviceData','productCat','productSubCat','user','rating_avg','count_stars'));
+    }
+
+
+    public function favoriteService(Request $request){
+      $user_id = $request->input('user_id');
+      $service_id = $request->input('service_id');
+
+      $favorite = new FavoriteService;
+
+      $get_favorite = FavoriteService::where('user_id',$user_id)->where('services_id',$service_id)->first();
+      if($get_favorite == ''){
+        $favorite->user_id = $user_id;
+        $favorite->services_id = $service_id;
+        $favorite->save();
+        return $favorite;
+      }else{
+        $unfavorite = FavoriteService::find($get_favorite->id);
+
+        $unfavorite->delete();
+        return 1;
+      }
+
     }
     /**
      * Show the form for creating a new resource.

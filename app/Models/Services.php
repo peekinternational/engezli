@@ -36,6 +36,10 @@ class Services extends Model
     {
       return $this->hasMany(Packages::class, 'services_id');
     }
+    public function favorite()
+    {
+      return $this->hasMany(FavoriteService::class, 'services_id');
+    }
     public function serviceFaq()
     {
       return $this->hasMany(ServiceFaq::class, 'services_id');

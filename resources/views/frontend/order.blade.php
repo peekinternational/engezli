@@ -339,6 +339,7 @@
                               name="paymentOption"
                               id="masterCard"
                               value="card"
+                              form="order-form"
                               checked
                             />
                             <label
@@ -356,6 +357,7 @@
                               name="paymentOption"
                               id="visaCard"
                               value="card"
+                              form="order-form"
                             />
                             <label
                               class="form-check-label"
@@ -371,6 +373,7 @@
                               name="paymentOption"
                               id="acceptKisok"
                               value="kiosk"
+                              form="order-form"
                             />
                             <label
                               class="form-check-label"
@@ -386,6 +389,7 @@
                               name="paymentOption"
                               id="mobileWallet"
                               value="wallet"
+                              form="order-form"
                             />
                             <label
                               class="form-check-label"
@@ -393,6 +397,36 @@
                             >
                               <img src="images/fawry.svg" alt="" /> Mobile Wallet
                             </label>
+                          </div>
+                          <div class="form-check">
+                            <input
+                              class="form-check-input"
+                              type="radio"
+                              name="paymentOption"
+                              id="stripe"
+                              value="stripe"
+                              form="order-form"
+                            />
+                            <label
+                              class="form-check-label"
+                              for="stripe"
+                            >
+                              <img src="images/mastercard.svg" alt="" /> Stripe
+                            </label>
+                          </div>
+                          <div class="form-check payment-input-container">
+                              <p class="single-form-row">
+                                <label for="card-element">
+                                  Credit or debit card
+                              </label>
+                              <input type="hidden" form="order-form" name="payment_methods" id="payment_methods" class="payment_methods" value="">
+                            <input id="card-holder-name" placeholder="Card Holder Name" type="text">
+                              <div id="card-element">
+                                  <!-- A Stripe Element will be inserted here. -->
+                              </div>
+                            </p>
+                              <!-- Used to display form errors. -->
+                              <div id="card-errors" role="alert"></div>
                           </div>
                         </div>
                       </div>
@@ -450,7 +484,7 @@
                           <input type="hidden" name="service_fee" class="service_fee" value="5">
 
 
-                        <button type="submit" class="btn custom-btn btn-block"> {{ __('home.confirm & pay')}} </button>
+                        <button type="submit" id="#card-button" class="btn custom-btn btn-block"> {{ __('home.confirm & pay')}} </button>
                       </form>
 
                         <small>{{ __('home.By clicking Confirm and Pay you will be charged')}}</small>
@@ -698,6 +732,8 @@
         <div id="card_form">
 
         </div>
+
+      </form>
       </div>
       <!-- <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -804,6 +840,10 @@ $(document).ready(function () {
 
   $('#order-form').on('submit', function(event){
     event.preventDefault();
+    var stripe = $('#stripe').val();
+    alert(stripe);
+    $('#paymentCardModal').modal('show')
+    // $('.main-loader').css('display','flex');
     $.ajax({
      url:"{{ url('create_order') }}",
      method:"POST",
@@ -813,15 +853,46 @@ $(document).ready(function () {
      cache: false,
      processData: false,
      success:function(data){
-       // alert(data);
-       location.href = "https://accept.paymob.com/api/acceptance/iframes/179872?payment_token="+data;
+      $('.main-loader').css('display','none');
+       // alert(data.kiosk);
+       if(data.kiosk){
+        swal({
+        type: 'success',
+        // text: 'You order has been successfully received.',
+        // html: $('<div>').text('Reference number:''<b>'+data.kiosk+''),
+        text: 'You order has been successfully received.Reference number:'+data.kiosk+'To pay, go to the nearest Aman or Masary or Momkn outlet, ask for "مدفوعات اكسبت/ Madfouaat Accept" and provide your reference number.',
+        // timer: 2000,
+        button: "Ok"
+        // onOpen: function(){
+        // swal.showLoading()
+        // }
+        });
+        $('.order_number').text(data.order.order_number);
+        $('.order_id').val(data.order.id);
+        $('.order_date').text(data.order.date);
+        $('.order_price').text('$'+data.order.order_fee);
+        $('#pricing-tab').removeClass('active');
+        $('#pricing').removeClass('active show');
+        $('#descriptionFaq-tab').addClass('active');
+        $('#descriptionFaq').addClass('active show');
+       }
+       if(data.card){
+        location.href = 'https://accept.paymob.com/api/acceptance/iframes/179872?payment_token='+data.card;
+       }
+       if(data.wallet){
+        location.href = data.wallet;
+        $('#pricing-tab').removeClass('active');
+        $('#pricing').removeClass('active show');
+        $('#descriptionFaq-tab').addClass('active');
+        $('#descriptionFaq').addClass('active show');
+       }
        // $('#card_form').html(data);
        console.log(data.order_number);
        // $('#paymentCardModal').modal('show')
-       $('.order_number').text(data.order_number);
-       $('.order_id').val(data.id);
-       $('.order_date').text(data.date);
-       $('.order_price').text('$'+data.order_fee);
+       $('.order_number').text(data.order.order_number);
+       $('.order_id').val(data.order.id);
+       $('.order_date').text(data.order.date);
+       $('.order_price').text('$'+data.order.order_fee);
        $('#pricing-tab').removeClass('active');
        $('#pricing').removeClass('active show');
        $('#descriptionFaq-tab').addClass('active');
@@ -861,4 +932,80 @@ $(document).ready(function () {
  });
 });
 </script>
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+var stripe = Stripe("pk_test_rGeMWbI1evpEyGBYE3jgnnNR00LVWKNXyS");
+console.log(stripe);
+// Create an instance of Elements.
+const elements = stripe.elements();
+    const cardElement = elements.create('card');
+
+    cardElement.mount('#card-element');
+
+    const cardHolderName = document.getElementById('card-holder-name');
+const cardButton = document.getElementById('card-button');
+
+// cardButton.addEventListener('click', async (e) => {
+//
+// });
+
+var form = document.getElementById('order-form');
+form.addEventListener('submit', async(event) => {
+event.preventDefault();
+const { paymentMethod, error } = await stripe.createPaymentMethod(
+    'card', cardElement, {
+        billing_details: { name: cardHolderName.value }
+    }
+);
+
+// Handle real-time validation errors from the card Element.
+cardElement.addEventListener('change', function (event) {
+    var displayError = document.getElementById('card-errors');
+    if (event.error) {
+        displayError.textContent = event.error.message;
+    } else {
+        displayError.textContent = '';
+    }
+});
+
+console.log(paymentMethod);
+if (error) {
+    // Display "error.message" to the user...
+} else {
+  // alert(paymentMethod.id)
+  console.log(paymentMethod.id);
+  $('#payment_methods').val(paymentMethod.id);
+
+}
+stripe.createToken(cardElement).then(function(result) {
+
+    if (result.error) {
+    // Inform the user if there was an error.
+    var errorElement = document.getElementById('card-errors');
+    errorElement.textContent = result.error.message;
+    // resetButton()
+    } else {
+      $('#card-button').prop('disabled', true);
+      $('#card-button').html('Processing ...');
+    // Send the token to your server.
+    stripeTokenHandler(result.token);
+    }
+});
+});
+
+// Submit the form with the token ID.
+function stripeTokenHandler(token) {
+    // Insert the token ID into the form so it gets submitted to the server
+    var form = document.getElementById('order-form');
+    var hiddenInput = document.createElement('input');
+    hiddenInput.setAttribute('type', 'hidden');
+    hiddenInput.setAttribute('name', 'stripeToken');
+    hiddenInput.setAttribute('value', token.id);
+    form.appendChild(hiddenInput);
+
+    // Submit the form
+    form.submit();
+}
+</script>
+
 @endsection

@@ -70,18 +70,18 @@ class OrderController extends Controller
       $order_fee = $request->input('order_fee');
       $service_fee = $request->input('service_fee');
       $type = $request->input('paymentOption');
-      dd($type);
       $sub_total = $order_fee + $service_fee;
       $total_amount = $sub_total * 100;
       $merchant_order_id = rand();
+      $indentifier = auth()->user()->mobile_number;
 
-      $request->session()->put('service_id', $service_id);
-      $request->session()->put('package_id', $package_id);
-      $request->session()->put('seller_id', $seller_id);
-      $request->session()->put('order_duration', $order_duration);
-      $request->session()->put('order_qty', $order_qty);
-      $request->session()->put('order_fee', $order_fee);
-      $request->session()->put('service_fee', $service_fee);
+      // $request->session()->put('service_id', $service_id);
+      // $request->session()->put('package_id', $package_id);
+      // $request->session()->put('seller_id', $seller_id);
+      // $request->session()->put('order_duration', $order_duration);
+      // $request->session()->put('order_qty', $order_qty);
+      // $request->session()->put('order_fee', $order_fee);
+      // $request->session()->put('service_fee', $service_fee);
 
       $transId = $request->input('id');
       if($transId == ''){
@@ -100,9 +100,15 @@ class OrderController extends Controller
         $sub_total = $order_fee + $service_fee;
         $total_amount = $sub_total * 100;
         $merchant_order_id = rand();
-        dd($type);
-        $integration_id = '197430';
-        $type = "kiosk";
+        // dd($type);
+        if($type == 'card'){
+          $integration_id = '189757';
+        }elseif($type == 'kiosk'){
+          $integration_id = '197430';
+        }else{
+          $integration_id = '197428';
+        }
+       
         // dd($token);
         $auth_token = $this->getAuthToken();
         $insertPayment = AcceptPayment::create([
@@ -118,18 +124,109 @@ class OrderController extends Controller
         // dd($payment_id);
         $paymentData = AcceptPayment::where("id", $payment_id)->first();
 
-        if($type == "kiosk"){
-            $_SESSION["payment_id"] = $payment_id;
-        }
+        // if($type == "kiosk"){
+        //     $_SESSION["payment_id"] = $payment_id;
+        // }
 
         // return $paymentData->id;
 
         $order_data = $this->registerOrder($total_amount,$auth_token,$type,$paymentData->id);
         $payToken = $this->getPaymentKey($auth_token,$total_amount,$integration_id,$order_data);
         // dd($payToken);
-        $iframe = $this->payRequest($payToken);
+        if($type == 'stripe'){
+          $stripe = \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+          $userId=auth()->user()->id;
+          $user = User::find($userId);
+          $tokenId= $request->stripeToken;
+          $paymentMethodId= $request->payment_methods;
+          $total = $request->total * 100;
+          dd( $stripe);
+          dd($user_id);
+          if ($user->stripe_id == null) {
+            $stripeCustomer = $user->createAsStripeCustomer();
+          }
+
+          $stripeCharge = $user->charge($total,$paymentMethodId);
+          // dd($stripeCharge);
+          $user->card_brand = $stripeCharge->charges->data[0]->payment_method_details->card->brand;
+          $user->card_last_four = $stripeCharge->charges->data[0]->payment_method_details->card->last4;
+          $user->update();
+          $receipt = $stripeCharge->charges->data[0]->receipt_url;
+          $invoice =rand(0000,9999);
+        }
+        if($type == 'card'){
+          $iframe = $this->payRequest($payToken,$type);
+          // dd($iframe);
+          // echo $iframe; 
+          $data = array(
+            'card' => $iframe
+          );
+          return $data;
+        }
+        if($type == 'kiosk'){
+          $iframe = $this->payRequest($payToken,$type);
+          
+          $order->service_id  = $service_id;
+          $order->seller_id = $seller_id;
+          $order->buyer_id  = auth()->user()->id;
+          $order->order_date  = date("Y-m-d");
+          $order->order_time  = Carbon::now();
+          $order->order_duration  = $order_duration;
+          $order->order_qty = $order_qty;
+          $order->order_fee = $order_fee;
+          $order->service_fee = $service_fee;
+          $order->order_active  = 'no';
+          $order->order_status  = 'pending';
+          $order->save();
+          $order->date = date('d F, Y',strtotime($order->order_date));
+
+          $request->session()->flash('service_id');
+          $request->session()->flash('seller_id');
+          $request->session()->flash('order_duration');
+          $request->session()->flash('order_qty');
+          $request->session()->flash('order_fee');
+          $request->session()->flash('service_fee');
+          // echo $order;
+          // return $order;
+          // dd($order);
+          $data = array(
+            'kiosk' => $iframe,
+            'order' => $order
+          );
+          return $data;
+        }
+        if($type == 'wallet'){
+          $response = $this->payWallet($payToken,$indentifier);
+          
+          $order->service_id  = $service_id;
+          $order->seller_id = $seller_id;
+          $order->buyer_id  = auth()->user()->id;
+          $order->order_date  = date("Y-m-d");
+          $order->order_time  = Carbon::now();
+          $order->order_duration  = $order_duration;
+          $order->order_qty = $order_qty;
+          $order->order_fee = $order_fee;
+          $order->service_fee = $service_fee;
+          $order->order_active  = 'no';
+          $order->order_status  = 'pending';
+          $order->save();
+          $order->date = date('d F, Y',strtotime($order->order_date));
+
+          $request->session()->flash('service_id');
+          $request->session()->flash('seller_id');
+          $request->session()->flash('order_duration');
+          $request->session()->flash('order_qty');
+          $request->session()->flash('order_fee');
+          $request->session()->flash('service_fee');
+
+          $data = array(
+            'wallet' => $response,
+            'order' => $order
+          );
+          return $data;
+          // return $response;
+        }
         
-        echo $iframe;
       }else{
         $hmac = $request->input("hmac");
 
@@ -197,7 +294,7 @@ class OrderController extends Controller
         $request->session()->flash('order_fee');
         $request->session()->flash('service_fee');
         // echo $order;
-        return $order;
+        return redirect('/requirements/'.$order->order_number);
       }
       
 
@@ -386,9 +483,9 @@ class OrderController extends Controller
               "city" => 'NA', 
               "country" => auth()->user()->country,  
               "state" => 'NA',
-              "street" => "abc",
-              "building" => "abc",
-              "last_name" => "abc",
+              "street" => "NA",
+              "building" => "NA",
+              "last_name" => auth()->user()->last_name,
               "order_id" => $order_data
             ],
           "currency" => "EGP",
@@ -442,30 +539,72 @@ class OrderController extends Controller
         
     // }
 
-    public function payRequest($payment_key){
-      // $curl_card = curl_init();
+    public function payRequest($payment_key,$type){
+      if($type == 'card'){
+      $curl_card = curl_init();
 
-      // curl_setopt_array($curl_card, array(
-      //   CURLOPT_URL => "https://accept.paymobsolutions.com/api/acceptance/iframes/179872?payment_token=".$payment_key,
-      //   CURLOPT_RETURNTRANSFER => true,
-      //   CURLOPT_ENCODING => "",
-      //   CURLOPT_MAXREDIRS => 10,
-      //   CURLOPT_TIMEOUT => 0,
-      //   CURLOPT_FOLLOWLOCATION => true,
-      //   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-      //   CURLOPT_CUSTOMREQUEST => "GET",
-      // ));
+      curl_setopt_array($curl_card, array(
+        CURLOPT_URL => "https://accept.paymobsolutions.com/api/acceptance/iframes/179872?payment_token=".$payment_key,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "GET",
+      ));
 
-      // $iframeData = curl_exec($curl_card);
+      $iframeData = curl_exec($curl_card);
 
-      // curl_close($curl_card);
+      curl_close($curl_card);
       
-      // return json_encode($payment_key);
+      return $payment_key;
+      }
+      if($type == 'kiosk'){
+        $postWallet = array(
+          "source"=>[
+            "identifier" => "AGGREGATOR", 
+            "subtype" => "AGGREGATOR"
+          ],
+          "payment_token" => $payment_key
+        );
 
-       $postWallet = array(
+        $curl_wallet = curl_init();
+
+        curl_setopt_array($curl_wallet, array(
+          CURLOPT_URL => "https://accept.paymobsolutions.com/api/acceptance/payments/pay",
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => "",
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => "POST",
+          CURLOPT_POSTFIELDS => json_encode($postWallet),
+          CURLOPT_HTTPHEADER => array(
+            "Content-Type: application/json"
+          ),
+        ));
+        $wallet_response = curl_exec($curl_wallet);
+
+        // dd($wallet_response);
+        if(!curl_errno($curl_wallet)){ 
+         $wallet_data = json_decode($wallet_response, true);
+         // dd($wallet_data["data"]["bill_reference"]);
+        }else{
+          echo 'Curl error: ' . curl_error($curl_wallet); 
+        }
+        curl_close($curl_wallet);
+
+        return $wallet_data["data"]["bill_reference"];
+      } 
+    }
+
+    public function payWallet($payment_key,$identifier){
+      $postWallet = array(
         "source"=>[
-          "identifier" => "AGGREGATOR", 
-          "subtype" => "AGGREGATOR"
+          "identifier" => $identifier, 
+          "subtype" => "WALLET"
         ],
         "payment_token" => $payment_key
       );
@@ -488,18 +627,16 @@ class OrderController extends Controller
       ));
       $wallet_response = curl_exec($curl_wallet);
 
-      // dd($wallet_response);
+      // dd(json_decode($wallet_response));
       if(!curl_errno($curl_wallet)){ 
        $wallet_data = json_decode($wallet_response, true);
+       // dd($wallet_data["redirect_url"]);
       }else{
         echo 'Curl error: ' . curl_error($curl_wallet); 
       }
       curl_close($curl_wallet);
 
-      return [
-        "reference_number" => $wallet_response["data"]["bill_reference"],
-        "pending" => $wallet_response["pending"],
-      ];
+      return $wallet_data["redirect_url"];
     }
 
 

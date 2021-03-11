@@ -149,7 +149,7 @@
               <div class="row">
                 @foreach($userServices as $service)
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-box mb-4">
-                  <a href="{{url('create-service/'.$service->id.'/edit')}}"><i class="fa fa-edit"></i></a>
+                  <a class="edit_project" href="{{url('create-service/'.$service->id.'/edit')}}"><i class="fa fa-edit"></i></a>
                   <div class="card">
                     <span class="gig-image">
                       @if($service->service_img1 != '')
@@ -199,7 +199,11 @@
                       </div>
                     </div>
                     <div class="card-footer">
-                      <i aria-hidden="true" class="fa fa-heart"></i>
+                      @if($service->seller_id == auth()->user()->id)
+                      <i aria-hidden="true" class="fa @if(count($service->favorite) == 0) fa-heart-o @else fa-heart dil @endif favorite{{$service->id}}" title="You can favorite your own service"></i>
+                      @else
+                      <i aria-hidden="true" class="fa @if(count($service->favorite) == 0) fa-heart-o @else fa-heart dil @endif favorite{{$service->id}}" onclick="makeFavorite({{$service->id}})" style="cursor: pointer;"></i>
+                      @endif
                       <div class="price">
                         <a href="#">
                           {{ __('home.Starting At')}}

@@ -224,7 +224,7 @@
 									</div>
 								</div>
 								<div class="card-footer">
-									<i aria-hidden="true" class="fa fa-heart"></i>
+					        <i aria-hidden="true" class="fa @if(count($service->favorite) == 0) fa-heart-o @else fa-heart dil @endif favorite{{$service->id}}" onclick="makeFavorite({{$service->id}})" style="cursor: pointer;"></i>
 									<div class="price">
 										<a href="#">
 											Starting At

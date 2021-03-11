@@ -20,13 +20,18 @@
         <div class="right">
           <ul class="lists-group">
             <li>
-              <button>
-                <i class="fa fa-heart" aria-hidden="true"></i>
-                Save
-              </button>
+                @if($serviceData->seller_id == auth()->user()->id)
+                <button>
+                <i aria-hidden="true" class="fa @if(count($serviceData->favorite) == 0) fa-heart-o @else fa-heart dil @endif favorite{{$serviceData->id}}" title="You can favorite your own serviceData"></i>
+                Save</button>
+                @else
+                <button>
+                <i aria-hidden="true" class="fa @if(count($serviceData->favorite) == 0) fa-heart-o @else fa-heart dil @endif favorite{{$serviceData->id}}" onclick="makeFavorite({{$serviceData->id}})" style="cursor: pointer;"></i>
+                Save</button>
+                @endif
             </li>
             <li>
-              <span class="collect-count">138</span>
+              <span class="collect-count">{{count($serviceData->favorite)}}</span>
             </li>
             <li class="ml-2">
               <button>
