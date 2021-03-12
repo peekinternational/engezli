@@ -576,7 +576,7 @@ import moment from 'moment';
       },
 
       orderConversation: function(){
-          axios.get('api/getOrderConversation/'+this.order_id).then(responce => {
+          axios.get('../api/getOrderConversation/'+this.order_id).then(responce => {
             this.getConversation = responce.data;
             // for (var i = 0; i < this.getConversation.length; i++) {
             //   if (this.getConversation[i].message_type == 'delivery') {
@@ -630,7 +630,7 @@ import moment from 'moment';
       approveDelivery: function(conversation) {
         // console.log(conversation);
         var socket = socketio.connect('https://peekvideochat.com:22000/');
-        axios.post('api/approveDelivery',{'conversation':conversation}).then(responce => {
+        axios.post('../api/approveDelivery',{'conversation':conversation}).then(responce => {
           // console.log(responce.data);
           $('.delivery'+responce.data.id).remove();
           // this.getConversation = responce.data;
@@ -647,7 +647,7 @@ import moment from 'moment';
       rejectDelivery: function(conversation) {
         // console.log(conversation);
         var socket = socketio.connect('https://peekvideochat.com:22000/');
-        axios.post('api/rejectDelivery',{'conversation':conversation}).then(responce => {
+        axios.post('../api/rejectDelivery',{'conversation':conversation}).then(responce => {
           console.log("reject data", responce.data);
           $('.delivery'+responce.data.id).remove();
           this.data = responce.data.notification;
