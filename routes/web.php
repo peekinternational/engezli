@@ -128,6 +128,7 @@ Route::get('/proceed_order', [OrderController::class, 'proceed_order']);
 Route::post('/accept_cancellation', [OrderController::class, 'acceptCancellation']);
 Route::post('/reject_cancellation', [OrderController::class, 'rejectCancellation']);
 Route::match(['get','post'],'/create_order', [OrderController::class, 'CreateOrder']);
+Route::match(['get','post'],'/create_order_stripe', [OrderController::class, 'CreateOrderStripe']);
 Route::post('/save_requirement', [OrderController::class, 'SaveRequirement']);
 Route::match(['get','post'],'/order_conversation', [OrderController::class, 'SendOrderMessage']);
 Route::get('/manage-orders', [OrderController::class, 'manageOrders']);

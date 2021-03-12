@@ -9,11 +9,13 @@ import VueSocketio from 'vue-socket.io';
 import socketio from 'socket.io-client';
 
 window.Vue = require('vue').default;
-window.Vue.prototype.$socket = socketio.connect('https://peekvideochat.com:22000');
+// window.Vue.prototype.$socket = socketio.connect('https://peekvideochat.com:22000');
+window.Vue.prototype.$socket = socketio.connect('https://www.engezli.com/:49152');
 // window.Vue.use(VueSocketio,socketio('https://peekvideochat.com:22000'));
 Vue.use(new VueSocketio({
     debug: true,
-    connection: 'https://peekvideochat.com:22000',
+    // connection: 'https://peekvideochat.com:22000',
+    connection: 'https://www.engezli.com/:49152',
 }))
 
 /**

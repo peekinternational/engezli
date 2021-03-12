@@ -405,28 +405,12 @@
                               name="paymentOption"
                               id="stripe"
                               value="stripe"
-                              form="order-form"
-                            />
+                              form="order-form" data-toggle="modal" data-target="#paymentCardModal" />
                             <label
                               class="form-check-label"
-                              for="stripe"
-                            >
+                              for="stripe">
                               <img src="images/mastercard.svg" alt="" /> Stripe
                             </label>
-                          </div>
-                          <div class="form-check payment-input-container">
-                              <p class="single-form-row">
-                                <label for="card-element">
-                                  Credit or debit card
-                              </label>
-                              <input type="hidden" form="order-form" name="payment_methods" id="payment_methods" class="payment_methods" value="">
-                            <input id="card-holder-name" placeholder="Card Holder Name" type="text">
-                              <div id="card-element">
-                                  <!-- A Stripe Element will be inserted here. -->
-                              </div>
-                            </p>
-                              <!-- Used to display form errors. -->
-                              <div id="card-errors" role="alert"></div>
                           </div>
                         </div>
                       </div>
@@ -720,20 +704,44 @@
 </div>
 <!-- Button trigger modal -->
 <div class="modal fade" id="paymentCardModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
+  <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Paymob card</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Stripe Payment</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <div id="card_form">
+        <form class="" id="stripe_form" action="{{url('create_order_stripe')}}"  method="post">
+          {{csrf_field()}}
+          <input type="hidden" name="package_price" class="package_price" value="{{$package->price}}">
+          <input type="hidden" name="package_id" class="package_price" value="{{$package->id}}">
+          <input type="hidden" name="service_id" class="service_id" value="{{$package->services_id}}">
+          <input type="hidden" name="seller_id" class="seller_id" value="{{$package->serviceInfo->seller_id}}">
+          <input type="hidden" name="order_fee" class="total_price" value="{{$total_price}}">
+          <input type="hidden" name="order_duration" class="order_duration" value="{{$package->delivery_time}}">
+          <input type="hidden" name="service_fee" class="service_fee" value="5">
+          <input type="hidden" name="quantity" value="1" class="quantity-stripe" />
+          <div class="form-group">
+            <label for="card-element">
+              Credit or debit card
+            </label>
+            <input type="hidden" name="payment_methods" id="payment_methods" class="payment_methods" value="">
+            <input id="card-holder-name" class="form-control" placeholder="Card Holder Name" type="text">
 
-        </div>
+          </div>
+          <div class="form-group">
 
-      </form>
+          <div id="card-element">
+            <!-- A Stripe Element will be inserted here. -->
+          </div>
+          <div id="card-errors" role="alert"></div>
+          </div>
+          <button class="button-continue-payment btn btn-primary" id="card-button" type="submit">Confrim & Pay</button>
+        </form>
+
+      <!-- </form> -->
       </div>
       <!-- <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -753,6 +761,7 @@ $('.minus-btn').click(function () {
   var count = parseInt($input.val()) - 1;
   count = count < 1 ? 1 : count;
   $input.val(count);
+  $('.quantity-stripe').val(count);
   var new_price = $input.val()*price;
   var quantity_price = $input.val()*price;
   var extra = '';
@@ -781,6 +790,7 @@ $('.plus-btn').click(function () {
   var $input = $(this).parent().find('input');
   var price = "{{$package->price}}";
   $input.val(parseInt($input.val()) + 1);
+  $('.quantity-stripe').val(parseInt($('.quantity-stripe').val()) + 1);
   var new_price = $input.val()*price;
   var extra = '';
   $('.quantity-price').text('$'+new_price);
@@ -841,9 +851,9 @@ $(document).ready(function () {
   $('#order-form').on('submit', function(event){
     event.preventDefault();
     var stripe = $('#stripe').val();
-    alert(stripe);
-    $('#paymentCardModal').modal('show')
-    // $('.main-loader').css('display','flex');
+    // alert(stripe);
+    // $('#paymentCardModal').modal('show')
+    $('.main-loader').css('display','flex');
     $.ajax({
      url:"{{ url('create_order') }}",
      method:"POST",
@@ -934,7 +944,7 @@ $(document).ready(function () {
 </script>
 <script src="https://js.stripe.com/v3/"></script>
 <script>
-var stripe = Stripe("pk_test_rGeMWbI1evpEyGBYE3jgnnNR00LVWKNXyS");
+var stripe = Stripe("pk_test_51HA9gfGtetOlRlqTdCFvmVNMKRgtvCrQB5qmWRN2dXzRiRmPPvAGwRt63gP0EBwhIDO6hG1cRTHwhXwBXbgDeOKI00Z9THfEP2");
 console.log(stripe);
 // Create an instance of Elements.
 const elements = stripe.elements();
@@ -949,7 +959,7 @@ const cardButton = document.getElementById('card-button');
 //
 // });
 
-var form = document.getElementById('order-form');
+var form = document.getElementById('stripe_form');
 form.addEventListener('submit', async(event) => {
 event.preventDefault();
 const { paymentMethod, error } = await stripe.createPaymentMethod(
@@ -996,7 +1006,7 @@ stripe.createToken(cardElement).then(function(result) {
 // Submit the form with the token ID.
 function stripeTokenHandler(token) {
     // Insert the token ID into the form so it gets submitted to the server
-    var form = document.getElementById('order-form');
+    var form = document.getElementById('stripe_form');
     var hiddenInput = document.createElement('input');
     hiddenInput.setAttribute('type', 'hidden');
     hiddenInput.setAttribute('name', 'stripeToken');

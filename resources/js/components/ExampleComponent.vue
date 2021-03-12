@@ -408,7 +408,8 @@ import notificaiton from './NotificationComponent'
 
 
           // console.log('Component mounted.')
-          var socket = socketio('https://peekvideochat.com:22000');
+          // var socket = socketio('https://www.engezli.com:49152');
+          var socket = socketio('https://www.engezli.com:49152', { transports: ['websocket', 'polling', 'flashsocket'] });
           // var socket = socketio('http://192.168.100.17:3000');
           socket.on("birdsreceivemsg", function(data){
           console.log("socket data",data);
@@ -578,7 +579,9 @@ import notificaiton from './NotificationComponent'
             })
           },
           sendMessage: function() {
-          var socket = socketio.connect('https://peekvideochat.com:22000/');
+          // var socket = socketio.connect('https://www.engezli.com:49152/');
+          // var socket = socketio.connect('https://www.engezli.com:49152', { transports: ['websocket', 'polling', 'flashsocket'] });
+          var socket = socketio.connect('https://www.engezli.com:49152', { transports: ['websocket', 'polling', 'flashsocket'] });
 
           var config = {
             header: {

@@ -70,7 +70,8 @@ class OrderController extends Controller
       $order_fee = $request->input('order_fee');
       $service_fee = $request->input('service_fee');
       $type = $request->input('paymentOption');
-      $sub_total = $order_fee + $service_fee;
+      // $sub_total = $order_fee + $service_fee;
+      $sub_total = $order_fee;
       $total_amount = $sub_total * 100;
       $merchant_order_id = rand();
       $indentifier = auth()->user()->mobile_number;
@@ -97,7 +98,7 @@ class OrderController extends Controller
         $order_fee = $request->input('order_fee');
         $service_fee = $request->input('service_fee');
         $type = $request->input('paymentOption');
-        $sub_total = $order_fee + $service_fee;
+        $sub_total = $order_fee;
         $total_amount = $sub_total * 100;
         $merchant_order_id = rand();
         // dd($type);
@@ -108,7 +109,7 @@ class OrderController extends Controller
         }else{
           $integration_id = '197428';
         }
-       
+
         // dd($token);
         $auth_token = $this->getAuthToken();
         $insertPayment = AcceptPayment::create([
@@ -133,31 +134,11 @@ class OrderController extends Controller
         $order_data = $this->registerOrder($total_amount,$auth_token,$type,$paymentData->id);
         $payToken = $this->getPaymentKey($auth_token,$total_amount,$integration_id,$order_data);
         // dd($payToken);
-        if($type == 'stripe'){
-          $stripe = \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-          $userId=auth()->user()->id;
-          $user = User::find($userId);
-          $tokenId= $request->stripeToken;
-          $paymentMethodId= $request->payment_methods;
-          $total = $request->total * 100;
-          dd( $stripe);
-          dd($user_id);
-          if ($user->stripe_id == null) {
-            $stripeCustomer = $user->createAsStripeCustomer();
-          }
-
-          $stripeCharge = $user->charge($total,$paymentMethodId);
-          // dd($stripeCharge);
-          $user->card_brand = $stripeCharge->charges->data[0]->payment_method_details->card->brand;
-          $user->card_last_four = $stripeCharge->charges->data[0]->payment_method_details->card->last4;
-          $user->update();
-          $receipt = $stripeCharge->charges->data[0]->receipt_url;
-          $invoice =rand(0000,9999);
-        }
+        
         if($type == 'card'){
           $iframe = $this->payRequest($payToken,$type);
           // dd($iframe);
-          // echo $iframe; 
+          // echo $iframe;
           $data = array(
             'card' => $iframe
           );
@@ -165,7 +146,7 @@ class OrderController extends Controller
         }
         if($type == 'kiosk'){
           $iframe = $this->payRequest($payToken,$type);
-          
+
           $order->service_id  = $service_id;
           $order->seller_id = $seller_id;
           $order->buyer_id  = auth()->user()->id;
@@ -197,7 +178,7 @@ class OrderController extends Controller
         }
         if($type == 'wallet'){
           $response = $this->payWallet($payToken,$indentifier);
-          
+
           $order->service_id  = $service_id;
           $order->seller_id = $seller_id;
           $order->buyer_id  = auth()->user()->id;
@@ -226,7 +207,7 @@ class OrderController extends Controller
           return $data;
           // return $response;
         }
-        
+
       }else{
         $hmac = $request->input("hmac");
 
@@ -234,7 +215,7 @@ class OrderController extends Controller
             http_response_code(400);
             exit;
         }
-        
+
         $hmacSecret = "7FD0725C9B7DCFEACEB78D8CC1ECFDFC";
 
         // $idd = $request->input('id');
@@ -284,8 +265,8 @@ class OrderController extends Controller
         $order->service_fee = "5";
         $order->order_active  = 'no';
         $order->order_status  = 'pending';
-        $order->save();
         $order->date = date('d F, Y',strtotime($order->order_date));
+        $order->save();
 
         $request->session()->flash('service_id');
         $request->session()->flash('seller_id');
@@ -294,9 +275,9 @@ class OrderController extends Controller
         $request->session()->flash('order_fee');
         $request->session()->flash('service_fee');
         // echo $order;
-        return redirect('/requirements/'.$order->order_number);
+        return redirect('requirements/'.$order->order_number);
       }
-      
+
 
       // $hmac = $request->input("hmac");
 
@@ -304,7 +285,7 @@ class OrderController extends Controller
       //     http_response_code(400);
       //     exit;
       // }
-      
+
       // $hmacSecret = "7FD0725C9B7DCFEACEB78D8CC1ECFDFC";
 
       // $transaction = $request->all();
@@ -345,7 +326,7 @@ class OrderController extends Controller
 
       //  $postData4 = array(
       //   "source"=>[
-      //     "identifier" => auth()->user()->mobile_number, 
+      //     "identifier" => auth()->user()->mobile_number,
       //     "subtype" => "WALLET"
       //   ],
       //   "payment_token" => $payToken
@@ -390,6 +371,87 @@ class OrderController extends Controller
       // echo $order;
 
     }
+
+    public function CreateOrderStripe(Request $request)
+    {
+      // dd($request->all());
+      try {
+        $stripe = \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+        // dd($stripe);
+        $user = User::find(auth()->user()->id);
+        $tokenId= $request->stripeToken;
+        $paymentMethodId= $request->payment_methods;
+        $order_fee = $request->input('order_fee');
+        $service_fee = $request->input('service_fee');
+        // $sub_total = $order_fee;
+        // dd($sub_total,$order_fee,$service_fee);
+        $total = $order_fee * 100;
+        $total = (int) $total;
+        if ($user->stripe_id == null) {
+          $stripeCustomer = $user->createAsStripeCustomer();
+        }
+        $stripeCharge = $user->charge($total,$paymentMethodId);
+        // dd($stripeCharge);
+        $user->card_brand = $stripeCharge->charges->data[0]->payment_method_details->card->brand;
+        $user->card_last_four = $stripeCharge->charges->data[0]->payment_method_details->card->last4;
+        $user->update();
+        $accept_transaction_id = $stripeCharge->charges->data[0]->payment_method;
+        $receipt = $stripeCharge->charges->data[0]->receipt_url;
+
+        $order = new Order;
+        $order->order_number  = rand();
+        $service_id  = $request->input('service_id');
+        $package_id  = $request->input('package_id');
+        $seller_id = $request->input('seller_id');
+        $buyer_id  = auth()->user()->id;
+        $order_date  = date("Y-m-d");
+        $order_time  = Carbon::now();
+        $order_duration  = $request->input('order_duration');
+        $order_qty = $request->input('quantity');
+        $order->service_id  = $service_id;
+        $order->seller_id  = $seller_id;
+        $order->buyer_id  = $buyer_id;
+        $order->order_date  = $order_date;
+        $order->order_time  = $order_time;
+        $order->order_duration  = $order_duration;
+        $order->order_qty = $order_qty;
+        $order->order_fee = $order_fee;
+        $order->service_fee = $service_fee;
+        $order->order_active  = 'no';
+        $order->order_status  = 'pending';
+        $order->save();
+        $order->date = date('d F, Y',strtotime($order->order_date));
+        $type = 'Stripe';
+        $sub_total = $order_fee + $service_fee;
+        $total_amount = $sub_total * 100;
+
+
+
+        $transId = $request->input('id');
+
+
+          // dd($token);
+          $auth_token = $this->getAuthToken();
+          $insertPayment = AcceptPayment::create([
+            "seller_id" => $seller_id,
+            "buyer_id" => $buyer_id,
+            "service_id" => $service_id,
+            "package_id" => $package_id,
+            "accept_transaction_id" => $accept_transaction_id,
+            "status" => "pending",
+            "type" => $type
+          ]);
+
+          $payment_id = $insertPayment->id;
+          // dd($payment_id);
+          $paymentData = AcceptPayment::where("id", $payment_id)->first();
+
+
+          return redirect('requirements/'.$order->order_number);
+        } catch (\Exception $ex) {
+          return $ex->getMessage();
+        }
+      }
     // Payment Integration
     public function getAuthToken(){
       $postData1 = [
@@ -413,12 +475,12 @@ class OrderController extends Controller
       ));
 
       $response = curl_exec($curl);
-        if(!curl_errno($curl)){ 
+        if(!curl_errno($curl)){
            $result = json_decode($response, true);
 
           $token=$result['token'];
         }else{
-          echo 'Curl error: ' . curl_error($curl); 
+          echo 'Curl error: ' . curl_error($curl);
         }
       curl_close($curl);
       // dd($token);
@@ -457,10 +519,10 @@ class OrderController extends Controller
       ));
 
       $order_data = curl_exec($curl_order);
-      if(!curl_errno($curl_order)){ 
+      if(!curl_errno($curl_order)){
        $order_result = json_decode($order_data, true);
       }else{
-        echo 'Curl error: ' . curl_error($curl_order); 
+        echo 'Curl error: ' . curl_error($curl_order);
       }
       curl_close($curl_order);
       // dd($order_result['id']);
@@ -475,13 +537,13 @@ class OrderController extends Controller
           "expiration" => 3600,
           "order_id" => $order_data,
           "billing_data" => [
-              "apartment" => 'NA', 
-              "email" => auth()->user()->email, 
-              "floor" => 'NA', 
-              "first_name" => auth()->user()->first_name, 
-              "phone_number" => auth()->user()->mobile_number, 
-              "city" => 'NA', 
-              "country" => auth()->user()->country,  
+              "apartment" => 'NA',
+              "email" => auth()->user()->email,
+              "floor" => 'NA',
+              "first_name" => auth()->user()->first_name,
+              "phone_number" => auth()->user()->mobile_number,
+              "city" => 'NA',
+              "country" => auth()->user()->country,
               "state" => 'NA',
               "street" => "NA",
               "building" => "NA",
@@ -510,10 +572,10 @@ class OrderController extends Controller
       ));
 
       $payment_response = curl_exec($curl_payment);
-      if(!curl_errno($curl_payment)){ 
+      if(!curl_errno($curl_payment)){
        $payment_data = json_decode($payment_response, true);
       }else{
-        echo 'Curl error: ' . curl_error($curl_payment); 
+        echo 'Curl error: ' . curl_error($curl_payment);
       }
       curl_close($curl_payment);
        // dd($payment_data);
@@ -536,7 +598,7 @@ class OrderController extends Controller
     //   $total_amount = $sub_total * 100;
     //   $merchant_order_id = rand();
 
-        
+
     // }
 
     public function payRequest($payment_key,$type){
@@ -557,13 +619,13 @@ class OrderController extends Controller
       $iframeData = curl_exec($curl_card);
 
       curl_close($curl_card);
-      
+
       return $payment_key;
       }
       if($type == 'kiosk'){
         $postWallet = array(
           "source"=>[
-            "identifier" => "AGGREGATOR", 
+            "identifier" => "AGGREGATOR",
             "subtype" => "AGGREGATOR"
           ],
           "payment_token" => $payment_key
@@ -588,22 +650,22 @@ class OrderController extends Controller
         $wallet_response = curl_exec($curl_wallet);
 
         // dd($wallet_response);
-        if(!curl_errno($curl_wallet)){ 
+        if(!curl_errno($curl_wallet)){
          $wallet_data = json_decode($wallet_response, true);
          // dd($wallet_data["data"]["bill_reference"]);
         }else{
-          echo 'Curl error: ' . curl_error($curl_wallet); 
+          echo 'Curl error: ' . curl_error($curl_wallet);
         }
         curl_close($curl_wallet);
 
         return $wallet_data["data"]["bill_reference"];
-      } 
+      }
     }
 
     public function payWallet($payment_key,$identifier){
       $postWallet = array(
         "source"=>[
-          "identifier" => $identifier, 
+          "identifier" => $identifier,
           "subtype" => "WALLET"
         ],
         "payment_token" => $payment_key
@@ -628,11 +690,11 @@ class OrderController extends Controller
       $wallet_response = curl_exec($curl_wallet);
 
       // dd(json_decode($wallet_response));
-      if(!curl_errno($curl_wallet)){ 
+      if(!curl_errno($curl_wallet)){
        $wallet_data = json_decode($wallet_response, true);
        // dd($wallet_data["redirect_url"]);
       }else{
-        echo 'Curl error: ' . curl_error($curl_wallet); 
+        echo 'Curl error: ' . curl_error($curl_wallet);
       }
       curl_close($curl_wallet);
 
@@ -642,14 +704,14 @@ class OrderController extends Controller
 
     public function proceed_order(Request $request){
 
-      
+
       $hmac = $request->input("hmac");
 
       if(empty($hmac)){
           http_response_code(400);
           exit;
       }
-      
+
       $hmacSecret = "7FD0725C9B7DCFEACEB78D8CC1ECFDFC";
 
       // $idd = $request->input('id');
@@ -716,7 +778,7 @@ class OrderController extends Controller
       // $package = Packages::with('serviceInfo')->where('id',$paymentInfo->package_id)->first();
       // return view('frontend.order',compact('package'));
       // return redirect()->route('order');
-      
+
     }
     function checkHmac($hmac,$data,$hmacSecret){
       $keys = ["amount_cents", "created_at", "currency", "error_occured", "has_parent_transaction", "id", "integration_id", "is_3d_secure", "is_auth", "is_capture", "is_refunded", "is_standalone_payment", "is_voided", "order.id", "owner", "pending", "source_data_pan", "source_data_sub_type", "source_data_type", "success"];
@@ -740,7 +802,7 @@ class OrderController extends Controller
       return $localHmac === $hmac;
     }
     // End Payment Integration
-    
+
 
     public function SaveRequirement(Request $request)
     {
@@ -804,7 +866,7 @@ class OrderController extends Controller
       $order_id = $request->input('order_id');
 
       $order = Order::find($order_id);
-      
+
       $order->order_status = 'cancelled';
       $order->update();
       return $order->order_number;
@@ -817,7 +879,7 @@ class OrderController extends Controller
       $order_id = $request->input('order_id');
 
       $order = Order::find($order_id);
-      
+
       $order->order_status = 'started';
       $order->update();
       return $order->order_number;
@@ -978,7 +1040,7 @@ class OrderController extends Controller
         $receiver_id = $order->seller_id;
       }
       $conversation->receiver_id = $receiver_id;
-      
+
       $order->order_status = 'delivered';
       $order->update();
 
@@ -1009,7 +1071,7 @@ class OrderController extends Controller
       $conversation = OrderConversations::find($conversation_id);
       $conversation->status = 'approved';
       $conversation->update();
-      
+
       $order = Order::find($conversation->order_id);
       $order->order_status = 'waiting review';
       $order->update();

@@ -454,7 +454,8 @@ import moment from 'moment';
         // this.user_names =  this.userdata.username;
         this.orderConversation();
 
-        var socket = socketio('https://peekvideochat.com:22000');
+        // var socket = socketio('https://www.engezli.com:49152');
+        var socket = socketio('https://www.engezli.com:49152', { transports: ['websocket', 'polling', 'flashsocket'] });
         // var socket = socketio('http://192.168.100.17:3000');
         socket.on("birdsreceivemsg", function(data){
         console.log("socket data",data);
@@ -538,7 +539,8 @@ import moment from 'moment';
 
       },
       approveDelivery: function(conversation) {
-        var socket = socketio.connect('https://peekvideochat.com:22000/');
+        // var socket = socketio.connect('https://www.engezli.com:49152/');
+        var socket = socketio.connect('https://www.engezli.com:49152', { transports: ['websocket', 'polling', 'flashsocket'] });
         axios.post('http://localhost:8000/api/approveDelivery',{'conversation':conversation}).then(responce => {
           $('.delivery'+responce.data.id).remove();
           // this.getConversation = responce.data;
@@ -552,7 +554,8 @@ import moment from 'moment';
       },
 
       rejectDelivery: function(conversation) {
-        var socket = socketio.connect('https://peekvideochat.com:22000/');
+        // var socket = socketio.connect('https://www.engezli.com:49152/');
+        var socket = socketio.connect('https://www.engezli.com:49152', { transports: ['websocket', 'polling', 'flashsocket'] });
         axios.post('http://localhost:8000/api/rejectDelivery',{'conversation':conversation}).then(responce => {
           $('.delivery'+responce.data.id).remove();
           // this.getConversation = responce.data;
