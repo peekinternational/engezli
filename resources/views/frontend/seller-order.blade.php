@@ -94,6 +94,7 @@
                     $duratoin = $order->order_duration;
                     $requirements_date = '';
                     $delivery_date = '';
+                    $delivery_date2 = '';
                     if ($order->start_time != null) {
                       $delivery_date = date('M d, h:i A',strtotime('+ '.$duratoin,strtotime($order->start_time)));
                       $delivery_date2 = date('Y M d, h:i:s',strtotime('+ '.$duratoin,strtotime($order->start_time)));
@@ -241,7 +242,7 @@
                   </div>
                   @endif
                   </div>
-                  
+
     @if($order->order_status != 'cancellation requested' && $order->order_status != 'cancelled')
                   <div class="seller-reply-box text-capitalize message_area">
                     <div class="card">
