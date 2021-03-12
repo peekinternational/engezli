@@ -454,8 +454,7 @@ import moment from 'moment';
         // this.user_names =  this.userdata.username;
         this.orderConversation();
 
-        // var socket = socketio('https://www.engezli.com:49152');
-        var socket = socketio('https://www.engezli.com:49152', { transports: ['websocket', 'polling', 'flashsocket'] });
+        var socket = socketio('https://peekvideochat.com:22000');
         // var socket = socketio('http://192.168.100.17:3000');
         socket.on("birdsreceivemsg", function(data){
         console.log("socket data",data);
@@ -490,7 +489,7 @@ import moment from 'moment';
       },
 
       orderConversation: function(){
-          axios.get('http://localhost:8000/api/getOrderDelivery/'+this.order_id).then(responce => {
+          axios.get('api/getOrderDelivery/'+this.order_id).then(responce => {
             this.getConversation = responce.data;
             console.log("response data",responce.data.length);
             if (responce.data.length > 0) {
@@ -539,9 +538,8 @@ import moment from 'moment';
 
       },
       approveDelivery: function(conversation) {
-        // var socket = socketio.connect('https://www.engezli.com:49152/');
-        var socket = socketio.connect('https://www.engezli.com:49152', { transports: ['websocket', 'polling', 'flashsocket'] });
-        axios.post('http://localhost:8000/api/approveDelivery',{'conversation':conversation}).then(responce => {
+        var socket = socketio.connect('https://peekvideochat.com:22000/');
+        axios.post('api/approveDelivery',{'conversation':conversation}).then(responce => {
           $('.delivery'+responce.data.id).remove();
           // this.getConversation = responce.data;
           socket.emit('message', responce.data);
@@ -554,9 +552,8 @@ import moment from 'moment';
       },
 
       rejectDelivery: function(conversation) {
-        // var socket = socketio.connect('https://www.engezli.com:49152/');
-        var socket = socketio.connect('https://www.engezli.com:49152', { transports: ['websocket', 'polling', 'flashsocket'] });
-        axios.post('http://localhost:8000/api/rejectDelivery',{'conversation':conversation}).then(responce => {
+        var socket = socketio.connect('https://peekvideochat.com:22000/');
+        axios.post('api/rejectDelivery',{'conversation':conversation}).then(responce => {
           $('.delivery'+responce.data.id).remove();
           // this.getConversation = responce.data;
           socket.emit('message', responce.data);

@@ -408,8 +408,7 @@ import notificaiton from './NotificationComponent'
 
 
           // console.log('Component mounted.')
-          // var socket = socketio('https://www.engezli.com:49152');
-          var socket = socketio('https://www.engezli.com:49152', { transports: ['websocket', 'polling', 'flashsocket'] });
+          var socket = socketio('https://peekvideochat.com:22000');
           // var socket = socketio('http://192.168.100.17:3000');
           socket.on("birdsreceivemsg", function(data){
           console.log("socket data",data);
@@ -488,7 +487,7 @@ import notificaiton from './NotificationComponent'
               this.$socket.emit('alphamsgtyping', { selectFrienddata:this.friendId, UserId:this.user_id});
             },
           friendlistss: function(){
-            axios.get('http://localhost:8000/api/friendsList/'+this.user_id)
+            axios.get('api/friendsList/'+this.user_id)
             .then(responce => {
               this.friendList = responce.data;
               console.log(this.friendList);
@@ -554,7 +553,7 @@ import notificaiton from './NotificationComponent'
               // this.message_status=this.singleChatUser.message_status;
                   //console.log(this.friendImage);
             }
-            axios.post('http://localhost:8000/api/singleChat',{'sender_id':single.sender_id,'receiver_id':single.receiver_id}).then(responce => {
+            axios.post('api/singleChat',{'sender_id':single.sender_id,'receiver_id':single.receiver_id}).then(responce => {
               // console.log(responce.data);
               this.singleChate = responce.data;
               var checkimage = responce.data.filter((obj) => {
@@ -565,7 +564,7 @@ import notificaiton from './NotificationComponent'
               }else {
                 this.check_image = '0';
               }
-              axios.get('http://localhost:8000/api/friendData/'+this.friendId).then(responce => {
+              axios.get('api/friendData/'+this.friendId).then(responce => {
                 this.friendLanguage = responce.data.languages;
 
               }, function(err) {
@@ -579,9 +578,7 @@ import notificaiton from './NotificationComponent'
             })
           },
           sendMessage: function() {
-          // var socket = socketio.connect('https://www.engezli.com:49152/');
-          // var socket = socketio.connect('https://www.engezli.com:49152', { transports: ['websocket', 'polling', 'flashsocket'] });
-          var socket = socketio.connect('https://www.engezli.com:49152', { transports: ['websocket', 'polling', 'flashsocket'] });
+          var socket = socketio.connect('https://peekvideochat.com:22000/');
 
           var config = {
             header: {
@@ -606,17 +603,27 @@ import notificaiton from './NotificationComponent'
             if(meeting_file.length > 0){
                var message_type = 1;
                filename = meeting_file[0].name;
+               // console.log(meeting_file[0]['type']);
+            if(meeting_file[0]['type'] === 'image/jpeg' || meeting_file[0]['type']==='image/png' || meeting_file[0]['type']==='image/jpg'){
+              var message_type = '1';
+            }else {
+              var message_type = '2';
+
             }
+          }
             var profile_image = '';
             if (this.profile_image  != null) {
               profile_image = this.profile_image;
             }
 
+
             var obj ={
               message_sender: this.user_id,
               message_receiver: this.friendId,
               message_desc: this.message,
+              message_desc: this.message,
               message_file: filename,
+              message_type: message_type,
               sender_info: {profile_image:profile_image,first_name:this.first_name, last_name:this.last_name},
               // message_type: message_type,
               conversation_id: this.conversation_id,
@@ -628,7 +635,7 @@ import notificaiton from './NotificationComponent'
             // console.log(obj);
             // socket.emit('message', obj);
 
-                axios.post('http://localhost:8000/api/chat/send-message',meetingformDatas,config)
+                axios.post('api/chat/send-message',meetingformDatas,config)
                  .then(responce => {
                   this.singleChate.push(obj);
                   var height = 0;
@@ -681,6 +688,7 @@ import notificaiton from './NotificationComponent'
 
 
           },
+
         },
 
     }

@@ -2375,11 +2375,8 @@ __webpack_require__.r(__webpack_exports__);
     // this.last_name = this.userdata.last_name;
     // this.user_names =  this.userdata.username;
 
-    this.orderConversation(); // var socket = socketio('https://www.engezli.com:49152');
-
-    var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default()('https://www.engezli.com:49152', {
-      transports: ['websocket', 'polling', 'flashsocket']
-    }); // var socket = socketio('http://192.168.100.17:3000');
+    this.orderConversation();
+    var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default()('https://peekvideochat.com:22000'); // var socket = socketio('http://192.168.100.17:3000');
 
     socket.on("birdsreceivemsg", function (data) {
       console.log("socket data", data);
@@ -2415,7 +2412,7 @@ __webpack_require__.r(__webpack_exports__);
     orderConversation: function orderConversation() {
       var _this = this;
 
-      axios.get('http://localhost:8000/api/getOrderDelivery/' + this.order_id).then(function (responce) {
+      axios.get('api/getOrderDelivery/' + this.order_id).then(function (responce) {
         _this.getConversation = responce.data;
         console.log("response data", responce.data.length);
 
@@ -2472,11 +2469,8 @@ __webpack_require__.r(__webpack_exports__);
     approveDelivery: function approveDelivery(conversation) {
       var _this2 = this;
 
-      // var socket = socketio.connect('https://www.engezli.com:49152/');
-      var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('https://www.engezli.com:49152', {
-        transports: ['websocket', 'polling', 'flashsocket']
-      });
-      axios.post('http://localhost:8000/api/approveDelivery', {
+      var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('https://peekvideochat.com:22000/');
+      axios.post('api/approveDelivery', {
         'conversation': conversation
       }).then(function (responce) {
         $('.delivery' + responce.data.id).remove(); // this.getConversation = responce.data;
@@ -2489,11 +2483,8 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     rejectDelivery: function rejectDelivery(conversation) {
-      // var socket = socketio.connect('https://www.engezli.com:49152/');
-      var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('https://www.engezli.com:49152', {
-        transports: ['websocket', 'polling', 'flashsocket']
-      });
-      axios.post('http://localhost:8000/api/rejectDelivery', {
+      var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('https://peekvideochat.com:22000/');
+      axios.post('api/rejectDelivery', {
         'conversation': conversation
       }).then(function (responce) {
         $('.delivery' + responce.data.id).remove(); // this.getConversation = responce.data;
@@ -2527,6 +2518,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _NotificationComponent__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./NotificationComponent */ "./resources/js/components/NotificationComponent.vue");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2925,11 +2918,8 @@ __webpack_require__.r(__webpack_exports__);
     this.last_name = this.userdata.last_name;
     this.user_names = this.userdata.username;
     this.friendlistss(); // console.log('Component mounted.')
-    // var socket = socketio('https://www.engezli.com:49152');
 
-    var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default()('https://www.engezli.com:49152', {
-      transports: ['websocket', 'polling', 'flashsocket']
-    }); // var socket = socketio('http://192.168.100.17:3000');
+    var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default()('https://peekvideochat.com:22000'); // var socket = socketio('http://192.168.100.17:3000');
 
     socket.on("birdsreceivemsg", function (data) {
       console.log("socket data", data);
@@ -3019,7 +3009,7 @@ __webpack_require__.r(__webpack_exports__);
     friendlistss: function friendlistss() {
       var _this2 = this;
 
-      axios.get('http://localhost:8000/api/friendsList/' + this.user_id).then(function (responce) {
+      axios.get('api/friendsList/' + this.user_id).then(function (responce) {
         _this2.friendList = responce.data;
         console.log(_this2.friendList);
         var url = window.location.href;
@@ -3090,7 +3080,7 @@ __webpack_require__.r(__webpack_exports__);
         //console.log(this.friendImage);
       }
 
-      axios.post('http://localhost:8000/api/singleChat', {
+      axios.post('api/singleChat', {
         'sender_id': single.sender_id,
         'receiver_id': single.receiver_id
       }).then(function (responce) {
@@ -3106,7 +3096,7 @@ __webpack_require__.r(__webpack_exports__);
           _this3.check_image = '0';
         }
 
-        axios.get('http://localhost:8000/api/friendData/' + _this3.friendId).then(function (responce) {
+        axios.get('api/friendData/' + _this3.friendId).then(function (responce) {
           _this3.friendLanguage = responce.data.languages;
         }, function (err) {
           console.log('err', err);
@@ -3118,13 +3108,10 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     sendMessage: function sendMessage() {
-      var _this4 = this;
+      var _obj,
+          _this4 = this;
 
-      // var socket = socketio.connect('https://www.engezli.com:49152/');
-      // var socket = socketio.connect('https://www.engezli.com:49152', { transports: ['websocket', 'polling', 'flashsocket'] });
-      var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('https://www.engezli.com:49152', {
-        transports: ['websocket', 'polling', 'flashsocket']
-      });
+      var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('https://peekvideochat.com:22000/');
       var config = {
         header: {
           'Content-Type': 'multipart/form-data'
@@ -3146,7 +3133,13 @@ __webpack_require__.r(__webpack_exports__);
 
       if (meeting_file.length > 0) {
         var message_type = 1;
-        filename = meeting_file[0].name;
+        filename = meeting_file[0].name; // console.log(meeting_file[0]['type']);
+
+        if (meeting_file[0]['type'] === 'image/jpeg' || meeting_file[0]['type'] === 'image/png' || meeting_file[0]['type'] === 'image/jpg') {
+          var message_type = '1';
+        } else {
+          var message_type = '2';
+        }
       }
 
       var profile_image = '';
@@ -3155,26 +3148,20 @@ __webpack_require__.r(__webpack_exports__);
         profile_image = this.profile_image;
       }
 
-      var obj = {
+      var obj = (_obj = {
         message_sender: this.user_id,
         message_receiver: this.friendId,
-        message_desc: this.message,
-        message_file: filename,
-        sender_info: {
-          profile_image: profile_image,
-          first_name: this.first_name,
-          last_name: this.last_name
-        },
-        // message_type: message_type,
-        conversation_id: this.conversation_id,
-        // message_status: this.message_status,
-        created_at: time
-      }; //console.log(filename+'hghghgh');
+        message_desc: this.message
+      }, _defineProperty(_obj, "message_desc", this.message), _defineProperty(_obj, "message_file", filename), _defineProperty(_obj, "message_type", message_type), _defineProperty(_obj, "sender_info", {
+        profile_image: profile_image,
+        first_name: this.first_name,
+        last_name: this.last_name
+      }), _defineProperty(_obj, "conversation_id", this.conversation_id), _defineProperty(_obj, "created_at", time), _obj); //console.log(filename+'hghghgh');
       // meetingformDatas.append('meetingformDatas', obj);
       // console.log(obj);
       // socket.emit('message', obj);
 
-      axios.post('http://localhost:8000/api/chat/send-message', meetingformDatas, config).then(function (responce) {
+      axios.post('api/chat/send-message', meetingformDatas, config).then(function (responce) {
         _this4.singleChate.push(obj);
 
         var height = 0;
@@ -3341,11 +3328,8 @@ __webpack_require__.r(__webpack_exports__);
     this.first_name = this.userdata.first_name;
     this.last_name = this.userdata.last_name;
     this.user_names = this.userdata.username;
-    this.friendlistss(); // var socket = socketio('https://www.engezli.com:49152');
-
-    var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default()('https://www.engezli.com:49152', {
-      transports: ['websocket', 'polling', 'flashsocket']
-    }); // var socket = socketio('http://192.168.100.17:3000');
+    this.friendlistss();
+    var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default()('https://peekvideochat.com:22000'); // var socket = socketio('http://192.168.100.17:3000');
 
     socket.on("birdsreceivemsg", function (data) {
       console.log("socket_data", data.conversation_id);
@@ -3387,7 +3371,7 @@ __webpack_require__.r(__webpack_exports__);
     friendlistss: function friendlistss() {
       var _this = this;
 
-      axios.get('http://localhost:8000/api/friendsList/' + this.user_id).then(function (responce) {
+      axios.get('api/friendsList/' + this.user_id).then(function (responce) {
         _this.friendList = responce.data;
         console.log(_this.friendList);
         var url = window.location.href;
@@ -3966,11 +3950,8 @@ __webpack_require__.r(__webpack_exports__);
     // this.last_name = this.userdata.last_name;
     // this.user_names =  this.userdata.username;
 
-    this.orderConversation(); // var socket = socketio('https://www.engezli.com:49152');
-
-    var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default()('https://www.engezli.com:49152', {
-      transports: ['websocket', 'polling', 'flashsocket']
-    }); // var socket = socketio('http://192.168.100.17:3000');
+    this.orderConversation();
+    var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default()('https://peekvideochat.com:22000'); // var socket = socketio('http://192.168.100.17:3000');
 
     socket.on("birdsreceivemsg", function (data) {
       // console.log("socket data",data);
@@ -4013,7 +3994,7 @@ __webpack_require__.r(__webpack_exports__);
     orderConversation: function orderConversation() {
       var _this = this;
 
-      axios.get('http://localhost:8000/api/getOrderConversation/' + this.order_id).then(function (responce) {
+      axios.get('api/getOrderConversation/' + this.order_id).then(function (responce) {
         _this.getConversation = responce.data; // for (var i = 0; i < this.getConversation.length; i++) {
         //   if (this.getConversation[i].message_type == 'delivery') {
         //     this.delivery_number = ++this.delivery_number
@@ -4074,11 +4055,8 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       // console.log(conversation);
-      // var socket = socketio.connect('https://www.engezli.com:49152/');
-      var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('https://www.engezli.com:49152', {
-        transports: ['websocket', 'polling', 'flashsocket']
-      });
-      axios.post('http://localhost:8000/api/approveDelivery', {
+      var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('https://peekvideochat.com:22000/');
+      axios.post('api/approveDelivery', {
         'conversation': conversation
       }).then(function (responce) {
         // console.log(responce.data);
@@ -4095,11 +4073,8 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       // console.log(conversation);
-      // var socket = socketio.connect('https://www.engezli.com:49152/');
-      var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('https://www.engezli.com:49152', {
-        transports: ['websocket', 'polling', 'flashsocket']
-      });
-      axios.post('http://localhost:8000/api/rejectDelivery', {
+      var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('https://peekvideochat.com:22000/');
+      axios.post('api/rejectDelivery', {
         'conversation': conversation
       }).then(function (responce) {
         console.log("reject data", responce.data);
@@ -4254,11 +4229,8 @@ __webpack_require__.r(__webpack_exports__);
     this.first_name = this.userdata.first_name;
     this.last_name = this.userdata.last_name;
     this.user_names = this.userdata.username;
-    this.friendlistss(); // var socket = socketio('https://www.engezli.com:49152');
-
-    var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default()('https://www.engezli.com:49152', {
-      transports: ['websocket', 'polling', 'flashsocket']
-    }); // var socket = socketio('http://192.168.100.17:3000');
+    this.friendlistss();
+    var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default()('https://peekvideochat.com:22000'); // var socket = socketio('http://192.168.100.17:3000');
 
     socket.on("birdsreceivemsg", function (data) {
       data = data.notification;
@@ -4323,7 +4295,7 @@ __webpack_require__.r(__webpack_exports__);
     friendlistss: function friendlistss() {
       var _this = this;
 
-      axios.get('http://localhost:8000/api/notifications/' + this.user_id).then(function (responce) {
+      axios.get('api/notifications/' + this.user_id).then(function (responce) {
         _this.friendList = responce.data;
         console.log("notification", responce.data); // var group =  _.groupBy(this.friendList,'sender_id');
         // this.friendList = group;
@@ -4355,15 +4327,19 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
-window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js").default; // window.Vue.prototype.$socket = socketio.connect('https://peekvideochat.com:22000');
-
-window.Vue.prototype.$socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('https://www.engezli.com/:49152'); // window.Vue.use(VueSocketio,socketio('https://peekvideochat.com:22000'));
+window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js").default;
+window.Vue.prototype.$socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('https://peekvideochat.com:22000'); // window.Vue.use(VueSocketio,socketio('https://peekvideochat.com:22000'));
 
 Vue.use(new (vue_socket_io__WEBPACK_IMPORTED_MODULE_0___default())({
   debug: true,
-  // connection: 'https://peekvideochat.com:22000',
-  connection: 'https://www.engezli.com/:49152'
+  connection: 'https://peekvideochat.com:22000'
 }));
+window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js"); // window.axios.defaults.baseURL = 'http://localhost:8000/';
+
+window.axios.defaults.baseURL = 'https://www.engezli.com/';
+Vue.config.productionTip = false; // Vue.prototype.$hostname = 'http://localhost:8000/'
+
+Vue.prototype.$hostname = 'https://www.engezli.com/';
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
