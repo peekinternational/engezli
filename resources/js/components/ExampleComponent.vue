@@ -616,7 +616,7 @@ import notificaiton from './NotificationComponent'
               profile_image = this.profile_image;
             }
 
-
+//
             var obj ={
               message_sender: this.user_id,
               message_receiver: this.friendId,
