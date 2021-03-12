@@ -15,12 +15,12 @@ Vue.use(new VueSocketio({
     debug: true,
     connection: 'https://peekvideochat.com:22000',
 }))
-// window.axios = require('axios');
-// // window.axios.defaults.baseURL = 'http://localhost:8000/';
-// window.axios.defaults.baseURL = 'https://www.engezli.com/';
-// Vue.config.productionTip = false
-// // Vue.prototype.$hostname = 'http://localhost:8000/'
-// Vue.prototype.$hostname = 'https://www.engezli.com/'
+window.axios = require('axios');
+// window.axios.defaults.baseURL = 'http://localhost:8000/';
+window.axios.defaults.baseURL = 'https://www.engezli.com/';
+Vue.config.productionTip = false;
+// Vue.prototype.$hostname = 'http://localhost:8000/';
+Vue.prototype.$hostname = 'https://www.engezli.com/';
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
