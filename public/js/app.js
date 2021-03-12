@@ -4333,13 +4333,13 @@ window.Vue.prototype.$socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___def
 Vue.use(new (vue_socket_io__WEBPACK_IMPORTED_MODULE_0___default())({
   debug: true,
   connection: 'https://peekvideochat.com:22000'
-}));
-window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js"); // window.axios.defaults.baseURL = 'http://localhost:8000/';
+})); // window.axios = require('axios');
+// // window.axios.defaults.baseURL = 'http://localhost:8000/';
+// window.axios.defaults.baseURL = 'https://www.engezli.com/';
+// Vue.config.productionTip = false
+// // Vue.prototype.$hostname = 'http://localhost:8000/'
+// Vue.prototype.$hostname = 'https://www.engezli.com/'
 
-window.axios.defaults.baseURL = 'https://www.engezli.com/';
-Vue.config.productionTip = false; // Vue.prototype.$hostname = 'http://localhost:8000/'
-
-Vue.prototype.$hostname = 'https://www.engezli.com/';
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
