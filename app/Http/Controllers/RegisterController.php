@@ -21,7 +21,7 @@ class RegisterController extends Controller
      */
     public function index()
     {
-        
+
     }
 
     // Route
@@ -179,7 +179,7 @@ class RegisterController extends Controller
           'username'  => $request->get('username'),
           'password' => $request->get('password')
       );
-      
+
       if(!Auth::attempt($user_data)){
         $user_data2 = array(
             'email'  => $request->get('username'),
@@ -190,26 +190,33 @@ class RegisterController extends Controller
           return redirect('login');
         }
       }
+      $next = $request->input('next');
 
       if ( Auth::check() ) {
         $user_id = auth()->user()->id;
         $update_status = User::where('id', $user_id)->update(array('user_status' => 'online'));
-
-        // if ($next !=null) {
-        //   return redirect($next);
-        // }
-        // if ($request->session()->has('previous_url')) {
-        //   $url =$request->session()->get('previous_url');
-        //   session()->forget('previous_url');
-        //   return redirect($url);
-        // } else {
+        if ($next !=null) {
+          return redirect($next);
+        }
+        if ($request->session()->has('previous_url')) {
+          $url =$request->session()->get('previous_url');
+          session()->forget('previous_url');
+          return redirect($url);
+        } else {
         return redirect('profile');
       }
+    }
     }
 
     public function accountLogin(Request $request){
       if ( Auth::check() ) {
-        return redirect('profile');
+        if ($request->session()->has('previous_url')) {
+          $url =$request->session()->get('previous_url');
+          session()->forget('previous_url');
+          return redirect($url);
+        } else {
+          return redirect('profile');
+        }
       }
       return view('frontend.login');
     }
@@ -267,7 +274,7 @@ class RegisterController extends Controller
     public function showPasswordResetForm(Request $request, $email, $token)
     {
       // dd($email, $token);
-      
+
       $usersData = User::where('email', $email)->where('remember_token', $token)->first();
       // dd($usersData);
 
@@ -291,5 +298,5 @@ class RegisterController extends Controller
       $request->session()->flash('passwordSuccess', 'Password changed successfully');
       Auth::logout();
       return redirect('/login');
-    }   
+    }
 }

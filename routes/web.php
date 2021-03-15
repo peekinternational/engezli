@@ -118,7 +118,6 @@ Route::get('/requirements/{number}', [OrderController::class, 'GetRequirements']
 Route::get('/resolution-center/{number}', [OrderController::class, 'ResolutionCenter']);
 Route::post('/make-resolution-request', [OrderController::class, 'ResolutionRequest']);
 
-Route::get('/services/{url}', [ServiceController::class, 'index']);
 
 
 
@@ -145,6 +144,7 @@ Route::post('/request-help', [OrderController::class, 'RequestHelp']);
 Route::post('/deliver-work', [OrderController::class, 'DeliverWork']);
 
 });
+Route::get('/services/{url}', [ServiceController::class, 'index']);
 Route::get('/get_services', [ServiceController::class, 'get_services']);
 Route::get('/{username}/{url}', [ServiceController::class, 'service_detail'])->name('service-details');
 Route::get('/search', [ServiceController::class, 'search_service']);

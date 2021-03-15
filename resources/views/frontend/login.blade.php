@@ -3,6 +3,10 @@
 @section('styling')
 @endsection
 @section('content')
+<?php
+   $next = Request::input('next') != '' ? '?next='.Request::input('next') : '';
+   // dd($next);
+   ?>
 <!-- Login -->
 <div class="sing-in-and-up-container">
   <div class="outer-box left-side">
@@ -19,7 +23,7 @@
   </div>
   <div class="outer-box right-side">
     <div class="inner-box">
-      <form action="{{url('login')}}" method="post" class="form">
+      <form action="{{url('login'.$next)}}" method="post" class="form">
         <h4> {{ __('home.Welcome back')}}</h4>
         @if ($errors->any())
          <div class="alert alert-danger">

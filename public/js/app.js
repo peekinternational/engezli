@@ -4256,6 +4256,7 @@ __webpack_require__.r(__webpack_exports__);
               if (data.last_message.status == 'delivery') {
                 this.order_reject = false;
                 this.order_delivered = true;
+                $('.delivery-' + data.order_id).html("Your order is delivered");
               } else if (data.last_message.status == 'reject') {
                 this.order_delivered_seller = false;
                 this.order_delivered = false;
@@ -4335,12 +4336,12 @@ Vue.use(new (vue_socket_io__WEBPACK_IMPORTED_MODULE_0___default())({
   debug: true,
   connection: 'https://peekvideochat.com:22000'
 }));
-window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js"); // window.axios.defaults.baseURL = 'http://localhost:8000/';
+window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+window.axios.defaults.baseURL = 'http://localhost:8000/'; // window.axios.defaults.baseURL = 'https://www.engezli.com/';
 
-window.axios.defaults.baseURL = 'https://www.engezli.com/';
-Vue.config.productionTip = false; // Vue.prototype.$hostname = 'http://localhost:8000/';
-
-Vue.prototype.$hostname = 'https://www.engezli.com/'; //
+Vue.config.productionTip = false;
+Vue.prototype.$hostname = 'http://localhost:8000/'; // Vue.prototype.$hostname = 'https://www.engezli.com/';
+//
 
 /**
  * The following block of code may be used to automatically register your

@@ -3205,7 +3205,8 @@ nav.breadcrumb-container .breadcrumb a {
   color: #007bff;
 }
 
-.service-details .service-wrapper .outer-content .right .sticky .tab-content button {
+.service-details .service-wrapper .outer-content .right .sticky .tab-content button,
+.service-details .service-wrapper .outer-content .right .sticky .tab-content a {
   display: inline-block;
   padding: 12px 24px;
   border: 0;

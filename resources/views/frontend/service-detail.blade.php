@@ -20,10 +20,16 @@
         <div class="right">
           <ul class="lists-group">
             <li>
+                @if(auth()->user())
                 @if($serviceData->seller_id == auth()->user()->id)
                 <button>
                 <i aria-hidden="true" class="fa @if(count($serviceData->favorite) == 0) fa-heart-o @else fa-heart dil @endif favorite{{$serviceData->id}}" title="You can favorite your own serviceData"></i>
                 Save</button>
+                @else
+                <button>
+                <i aria-hidden="true" class="fa @if(count($serviceData->favorite) == 0) fa-heart-o @else fa-heart dil @endif favorite{{$serviceData->id}}" onclick="makeFavorite({{$serviceData->id}})" style="cursor: pointer;"></i>
+                Save</button>
+                @endif
                 @else
                 <button>
                 <i aria-hidden="true" class="fa @if(count($serviceData->favorite) == 0) fa-heart-o @else fa-heart dil @endif favorite{{$serviceData->id}}" onclick="makeFavorite({{$serviceData->id}})" style="cursor: pointer;"></i>
@@ -651,7 +657,7 @@
                       <b class="title">{{$packg->no_of_pages}} {{ __('home.Screens')}}</b
                       ><span class="price">${{$packg->price}}</span>
                     </h3>
-                    
+
                     <input type="hidden" name="service_id" value="{{$packg->services_id}}">
                     <input type="hidden" name="package_id" value="{{$packg->id}}">
                     <p>
@@ -684,7 +690,11 @@
                       </li>
                     </ul>
                   </article>
+                  @if(auth()->user())
                   <button type="submit">{{ __('home.Continue')}} (${{$packg->price}})</button>
+                  @else
+                  <a href="{{url('login?next='.$username.'/'.$slug)}}">{{ __('home.Continue')}} (${{$packg->price}})</a>
+                  @endif
                 </form>
                 </div>
                 @endforeach

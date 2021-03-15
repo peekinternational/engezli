@@ -134,7 +134,7 @@ class OrderController extends Controller
         $order_data = $this->registerOrder($total_amount,$auth_token,$type,$paymentData->id);
         $payToken = $this->getPaymentKey($auth_token,$total_amount,$integration_id,$order_data);
         // dd($payToken);
-        
+
         if($type == 'card'){
           $iframe = $this->payRequest($payToken,$type);
           // dd($iframe);

@@ -16,11 +16,11 @@ Vue.use(new VueSocketio({
     connection: 'https://peekvideochat.com:22000',
 }))
 window.axios = require('axios');
-// window.axios.defaults.baseURL = 'http://localhost:8000/';
-window.axios.defaults.baseURL = 'https://www.engezli.com/';
+window.axios.defaults.baseURL = 'http://localhost:8000/';
+// window.axios.defaults.baseURL = 'https://www.engezli.com/';
 Vue.config.productionTip = false;
-// Vue.prototype.$hostname = 'http://localhost:8000/';
-Vue.prototype.$hostname = 'https://www.engezli.com/';
+Vue.prototype.$hostname = 'http://localhost:8000/';
+// Vue.prototype.$hostname = 'https://www.engezli.com/';
 //
 /**
  * The following block of code may be used to automatically register your

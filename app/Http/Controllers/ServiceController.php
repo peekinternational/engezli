@@ -263,7 +263,7 @@ class ServiceController extends Controller
 
       // dd($count_stars);
 
-      return view('frontend.service-detail',compact('serviceData','productCat','productSubCat','user','rating_avg','count_stars'));
+      return view('frontend.service-detail',compact('serviceData','productCat','productSubCat','user','rating_avg','count_stars','username','slug'));
     }
 
 

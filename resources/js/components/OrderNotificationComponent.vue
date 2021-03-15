@@ -148,6 +148,7 @@ import moment from 'moment';
               if (data.last_message.status == 'delivery') {
                 this.order_reject = false;
                 this.order_delivered = true;
+                $('.delivery-'+data.order_id).html("Your order is delivered");
               }else if (data.last_message.status == 'reject') {
                 this.order_delivered_seller = false;
                 this.order_delivered = false;

@@ -209,8 +209,12 @@
                 </div>
               </div>
               <div class="card-footer">
+                @if(auth()->user())
                 @if($service->seller_id == auth()->user()->id)
                 <i aria-hidden="true" class="fa @if(count($service->favorite) == 0) fa-heart-o @else fa-heart dil @endif favorite{{$service->id}}" title="You can favorite your own service"></i>
+                @else
+                <i aria-hidden="true" class="fa @if(count($service->favorite) == 0) fa-heart-o @else fa-heart dil @endif favorite{{$service->id}}" onclick="makeFavorite({{$service->id}})" style="cursor: pointer;"></i>
+                @endif
                 @else
                 <i aria-hidden="true" class="fa @if(count($service->favorite) == 0) fa-heart-o @else fa-heart dil @endif favorite{{$service->id}}" onclick="makeFavorite({{$service->id}})" style="cursor: pointer;"></i>
                 @endif
@@ -230,7 +234,7 @@
           @endforeach
         </div>
         <div class="row hidden" id="category-services" >
-          
+
         </div>
         <nav class="pagination-container">
           {{$services->links()}}
@@ -311,7 +315,7 @@
       e.preventDefault();
 
       var delivery_time = $('#delivery_time').val();
-      
+
       $.ajax({
         url: "{{url('get_services')}}",
         type: 'get',
@@ -330,7 +334,7 @@
       e.preventDefault();
 
       var sort_by = $('#sort_by').val();
-      
+
       $.ajax({
         url: "{{url('get_services')}}",
         type: 'get',
@@ -346,7 +350,7 @@
     })
 
     $('#language_filter :checkbox').change(function(){
-      
+
       var language_id = $(this).val();
 
       $.ajax({
@@ -361,9 +365,9 @@
         }
       });
     })
-    
+
     $('#level_filter :checkbox').change(function(){
-      
+
       var level_id = $(this).val();
 
       $.ajax({
@@ -378,9 +382,9 @@
         }
       });
     })
-    
+
     $('#country_filter :checkbox').change(function(){
-      
+
       var country = $(this).val();
 
       $.ajax({
@@ -395,9 +399,9 @@
         }
       });
     })
-    
+
     $('#reset').change(function(){
-      
+
       var reset = $(this).val();
 
       $.ajax({

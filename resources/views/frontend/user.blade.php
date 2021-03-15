@@ -203,8 +203,12 @@
                   </div>
                 </div>
                 <div class="card-footer">
+                  @if(auth()->user())
                   @if($service->seller_id == auth()->user()->id)
                   <i aria-hidden="true" class="fa @if(count($service->favorite) == 0) fa-heart-o @else fa-heart dil @endif favorite{{$service->id}}" title="You can favorite your own service"></i>
+                  @else
+                  <i aria-hidden="true" class="fa @if(count($service->favorite) == 0) fa-heart-o @else fa-heart dil @endif favorite{{$service->id}}" onclick="makeFavorite({{$service->id}})" style="cursor: pointer;"></i>
+                  @endif
                   @else
                   <i aria-hidden="true" class="fa @if(count($service->favorite) == 0) fa-heart-o @else fa-heart dil @endif favorite{{$service->id}}" onclick="makeFavorite({{$service->id}})" style="cursor: pointer;"></i>
                   @endif
@@ -351,8 +355,13 @@
 @endsection
 @section('script')
 <script>
+var username = "{{$user->username}}";
   function addFriend(user_id) {
+    @if(auth()->user() == '')
+    window.location.href="{{url('/login?next=profile/')}}"+username;
+    @else
     var sender_id  = "{{auth()->user()->id}}";
+    @endif
     // alert(user_id+'/'+sender_id);
     $.ajax({
 		 type: 'POST',
