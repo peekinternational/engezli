@@ -77,12 +77,12 @@
         <!-- <h2> New Agreement Available. </h2> -->
       </center>
       <hr>
-      <p class='bg-gray'> Dear {{$user->first_name}} , </p>
-      <p class="bg-gray">Thank you for Registration.</p>
+      <p class='bg-gray'> Dear {{$seller->first_name}} , </p>
+      <p class="bg-gray">You have received new order from {{$buyer->first_name}} {{$buyer->last_name}}</p>
       <br>
       <center>
-        <a style="background-color: #007bff;" href="{{url('/verify-account/'.$user->username.'/'.$user->remember_token)}}" class='btn pt-2'>
-          Click To Verify Account
+        <a style="background-color: #007bff;" href="{{url('/order-details/'.$order->order_number)}}" class='btn pt-2'>
+          Click To View Order
         </a>
       </center>
       <br>

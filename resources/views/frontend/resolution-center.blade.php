@@ -248,7 +248,7 @@
               @if($order->serviceInfo->service_desc != null)
               <ul class="gig-list-group">
                 <li>
-                  <i class="fa fa-check"></i> {{$order->serviceInfo->service_desc}}.
+                  <i class="fa fa-check"></i> {!! $order->serviceInfo->service_desc !!}
                 </li>
               </ul>
               @endif

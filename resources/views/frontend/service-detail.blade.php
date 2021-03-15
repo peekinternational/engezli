@@ -341,7 +341,11 @@
                             {{csrf_field()}}
                             <input type="hidden" name="service_id" value="{{$serviceData->id}}">
                             <input type="hidden" name="package_id" value="{{$packg->id}}">
+                            @if(auth()->user())
                             <button type="submit" class="custom-btn">{{ __('home.Select')}}</button>
+                            @else
+                            <a href="{{url('login?next='.$username.'/'.$slug)}}" class="custom-btn">{{ __('home.Select')}}</button>
+                            @endif
                           </form>
 
                         </td>

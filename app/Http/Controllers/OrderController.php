@@ -113,6 +113,7 @@ class OrderController extends Controller
         // dd($token);
         $auth_token = $this->getAuthToken();
         $insertPayment = AcceptPayment::create([
+            "merchant_order_id" => $merchant_order_id,
             "seller_id" => $seller_id,
             "buyer_id" => $buyer_id,
             "service_id" => $service_id,
@@ -121,9 +122,9 @@ class OrderController extends Controller
             "type" => $type
         ]);
 
-        $payment_id = $insertPayment->id;
+        $payment_id = $insertPayment->merchant_order_id;
         // dd($payment_id);
-        $paymentData = AcceptPayment::where("id", $payment_id)->first();
+        $paymentData = AcceptPayment::where("merchant_order_id", $payment_id)->first();
 
         // if($type == "kiosk"){
         //     $_SESSION["payment_id"] = $payment_id;
@@ -131,7 +132,7 @@ class OrderController extends Controller
 
         // return $paymentData->id;
 
-        $order_data = $this->registerOrder($total_amount,$auth_token,$type,$paymentData->id);
+        $order_data = $this->registerOrder($total_amount,$auth_token,$type,$paymentData->merchant_order_id);
         $payToken = $this->getPaymentKey($auth_token,$total_amount,$integration_id,$order_data);
         // dd($payToken);
 
@@ -245,14 +246,14 @@ class OrderController extends Controller
         // dd($status);
         $acceptPayment = AcceptPayment::find($paymentId);
 
-        $updatePayment = AcceptPayment::where('id',$paymentId)->update([
+        $updatePayment = AcceptPayment::where('merchant_order_id',$paymentId)->update([
             "accept_transaction_id" => $tanxId,
             "status" => $status,
             "paid" => $status == "success",
             "paid_at" => $status == "success" ? Carbon::now() : null,
         ]);
         $orderData = AcceptPayment::where('accept_transaction_id',$transId)->first();
-        // dd($orderData);
+        // dd($transId,$orderData);
         // session(['u_session' => '25']);
         $order->service_id  = $orderData->service_id;
         $order->seller_id = $orderData->seller_id;
@@ -265,8 +266,8 @@ class OrderController extends Controller
         $order->service_fee = "5";
         $order->order_active  = 'no';
         $order->order_status  = 'pending';
-        $order->date = date('d F, Y',strtotime($order->order_date));
         $order->save();
+        $order->date = date('d F, Y',strtotime($order->order_date));
 
         $request->session()->flash('service_id');
         $request->session()->flash('seller_id');
@@ -277,6 +278,28 @@ class OrderController extends Controller
         // echo $order;
         return redirect('requirements/'.$order->order_number);
       }
+
+      $seller = User::find($order->seller_id);
+      $buyer = User::find($order->buyer_id);
+      $toemail =  $seller->email;
+      Mail::send('mail.seller-order-email',['seller' =>$seller, 'buyer'=>$buyer,'order'=>$order],
+      function ($message) use ($toemail)
+      {
+
+        $message->subject('Paidpro - New Order');
+        $message->from('peek.zeeshan@gmail.com', 'Engezli');
+        $message->to($toemail);
+      });
+
+      $toemail =  $buyer->email;
+      Mail::send('mail.buyer-order-email',['seller' =>$seller, 'buyer'=>$buyer,'order'=>$order],
+      function ($message) use ($toemail)
+      {
+
+        $message->subject('Paidpro - New Order');
+        $message->from('peek.zeeshan@gmail.com', 'Engezli');
+        $message->to($toemail);
+      });
 
 
       // $hmac = $request->input("hmac");
@@ -424,15 +447,13 @@ class OrderController extends Controller
         $type = 'Stripe';
         $sub_total = $order_fee + $service_fee;
         $total_amount = $sub_total * 100;
-
-
-
+        $order_id = $order->id;
         $transId = $request->input('id');
-
-
+        $merchant_order_id = rand();
           // dd($token);
           $auth_token = $this->getAuthToken();
           $insertPayment = AcceptPayment::create([
+            "merchant_order_id" => $merchant_order_id,
             "seller_id" => $seller_id,
             "buyer_id" => $buyer_id,
             "service_id" => $service_id,
@@ -442,9 +463,31 @@ class OrderController extends Controller
             "type" => $type
           ]);
 
-          $payment_id = $insertPayment->id;
+          $payment_id = $insertPayment->merchant_order_id;
           // dd($payment_id);
-          $paymentData = AcceptPayment::where("id", $payment_id)->first();
+          $paymentData = AcceptPayment::where("merchant_order_id", $payment_id)->first();
+
+          $seller = User::find($order->seller_id);
+          $buyer = User::find($order->buyer_id);
+          $toemail =  $seller->email;
+          Mail::send('mail.seller-order-email',['seller' =>$seller, 'buyer'=>$buyer,'order'=>$order],
+          function ($message) use ($toemail)
+          {
+
+            $message->subject('Paidpro - New Order');
+            $message->from('peek.zeeshan@gmail.com', 'Engezli');
+            $message->to($toemail);
+          });
+
+          $toemail =  $buyer->email;
+          Mail::send('mail.buyer-order-email',['seller' =>$seller, 'buyer'=>$buyer,'order'=>$order],
+          function ($message) use ($toemail)
+          {
+
+            $message->subject('Paidpro - New Order');
+            $message->from('peek.zeeshan@gmail.com', 'Engezli');
+            $message->to($toemail);
+          });
 
 
           return redirect('requirements/'.$order->order_number);
@@ -525,7 +568,7 @@ class OrderController extends Controller
         echo 'Curl error: ' . curl_error($curl_order);
       }
       curl_close($curl_order);
-      // dd($order_result['id']);
+      // dd($order_result);
       return $order_result['id'];
     }
 
@@ -741,13 +784,13 @@ class OrderController extends Controller
       // dd($status);
       $acceptPayment = AcceptPayment::find($paymentId);
 
-      $updatePayment = AcceptPayment::where('id',$paymentId)->update([
+      $updatePayment = AcceptPayment::where('merchant_order_id',$paymentId)->update([
           "accept_transaction_id" => $tanxId,
           "status" => $status,
           "paid" => $status == "success",
           "paid_at" => $status == "success" ? Carbon::now() : null,
       ]);
-      $paymentInfo = AcceptPayment::where('id',$paymentId)->first();
+      $paymentInfo = AcceptPayment::where('merchant_order_id',$paymentId)->first();
       // $service_id = $request->input('service_id');
       // $package_id = $request->input('package_id');
       $order = new Order;
