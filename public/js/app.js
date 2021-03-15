@@ -2412,7 +2412,7 @@ __webpack_require__.r(__webpack_exports__);
     orderConversation: function orderConversation() {
       var _this = this;
 
-      axios.get('api/getOrderDelivery/' + this.order_id).then(function (responce) {
+      axios.get('../api/getOrderDelivery/' + this.order_id).then(function (responce) {
         _this.getConversation = responce.data;
         console.log("response data", responce.data.length);
 
@@ -2470,7 +2470,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('https://peekvideochat.com:22000/');
-      axios.post('api/approveDelivery', {
+      axios.post('../api/approveDelivery', {
         'conversation': conversation
       }).then(function (responce) {
         $('.delivery' + responce.data.id).remove(); // this.getConversation = responce.data;
@@ -2484,7 +2484,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     rejectDelivery: function rejectDelivery(conversation) {
       var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('https://peekvideochat.com:22000/');
-      axios.post('api/rejectDelivery', {
+      axios.post('../api/rejectDelivery', {
         'conversation': conversation
       }).then(function (responce) {
         $('.delivery' + responce.data.id).remove(); // this.getConversation = responce.data;
@@ -3146,7 +3146,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       if (this.profile_image != null) {
         profile_image = this.profile_image;
-      }
+      } //
+
 
       var obj = (_obj = {
         message_sender: this.user_id,
@@ -3994,7 +3995,7 @@ __webpack_require__.r(__webpack_exports__);
     orderConversation: function orderConversation() {
       var _this = this;
 
-      axios.get('api/getOrderConversation/' + this.order_id).then(function (responce) {
+      axios.get('../api/getOrderConversation/' + this.order_id).then(function (responce) {
         _this.getConversation = responce.data; // for (var i = 0; i < this.getConversation.length; i++) {
         //   if (this.getConversation[i].message_type == 'delivery') {
         //     this.delivery_number = ++this.delivery_number
@@ -4056,7 +4057,7 @@ __webpack_require__.r(__webpack_exports__);
 
       // console.log(conversation);
       var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('https://peekvideochat.com:22000/');
-      axios.post('api/approveDelivery', {
+      axios.post('../api/approveDelivery', {
         'conversation': conversation
       }).then(function (responce) {
         // console.log(responce.data);
@@ -4074,7 +4075,7 @@ __webpack_require__.r(__webpack_exports__);
 
       // console.log(conversation);
       var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('https://peekvideochat.com:22000/');
-      axios.post('api/rejectDelivery', {
+      axios.post('../api/rejectDelivery', {
         'conversation': conversation
       }).then(function (responce) {
         console.log("reject data", responce.data);
@@ -4333,12 +4334,13 @@ window.Vue.prototype.$socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___def
 Vue.use(new (vue_socket_io__WEBPACK_IMPORTED_MODULE_0___default())({
   debug: true,
   connection: 'https://peekvideochat.com:22000'
-})); // window.axios = require('axios');
-// // window.axios.defaults.baseURL = 'http://localhost:8000/';
-// window.axios.defaults.baseURL = 'https://www.engezli.com/';
-// Vue.config.productionTip = false
-// // Vue.prototype.$hostname = 'http://localhost:8000/'
-// Vue.prototype.$hostname = 'https://www.engezli.com/'
+}));
+window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+window.axios.defaults.baseURL = 'http://localhost:8000/'; // window.axios.defaults.baseURL = 'https://www.engezli.com/';
+
+Vue.config.productionTip = false;
+Vue.prototype.$hostname = 'http://localhost:8000/'; // Vue.prototype.$hostname = 'https://www.engezli.com/';
+//
 
 /**
  * The following block of code may be used to automatically register your

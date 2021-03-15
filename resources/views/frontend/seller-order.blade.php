@@ -827,6 +827,8 @@ $('#reject_request').click(function(){
   });
 });
 
+var start_time = "{{$order->start_time}}";
+if (start_time) {
 function CountdownTracker(label, value){
 
   var el = document.createElement('span');
@@ -935,7 +937,7 @@ var deadline = new Date("<?= $delivery_date2; ?>");
 var deadline2 = new Date(Date.parse(new Date()) + 12 * 24 * 60 * 60 * 1000);
 var c = new Clock(deadline, function(){ /*alert('countdown complete') */ });
 document.getElementById('timer').appendChild(c.el);
-
+}
 // var clock = new Clock();
 // document.body.appendChild(clock.el);
 

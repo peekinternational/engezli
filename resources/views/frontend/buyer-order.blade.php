@@ -93,7 +93,7 @@
                       </div>
                     </div>
                   </div>
-                  @else
+                  @elseif($order->start_time !=null)
                   <div class="card">
                     @if($order->order_status == 'started' || $order->order_status == 'delivered')
                     <h4 class="text-center mt-4" id="countdown-heading">
@@ -106,7 +106,7 @@
                   </div>
                   @endif
 
-                  <div class="gig-extras card p-4 mb-4">
+                  {{--<div class="gig-extras card p-4 mb-4">
                     <div class="header">
                       <h5>{{ __('home.Have everything you need?')}}</h5>
                       <p class="mt-2">{{ __('home.enhance your order with Gig extras')}}</p>
@@ -180,7 +180,7 @@
                       <i class="fa fa-lock text-primary"></i>
                       <strong>SSL Secure payment.</strong> {{ __('home.you will not be changed yet')}}.
                     </p>
-                  </div>
+                  </div>--}}
 
                   <div class="activity-tab-container card">
                     <?php
@@ -362,7 +362,7 @@
                                     <span class="box second"
                                       ><i class="fa fa-circle"></i>
                                       {{ __('home.seller is')}}
-                                      <span>{{ __('home.online')}}</span></span
+                                      <span>{{__('home.'.$order->sellerInfo->user_status)}}</span></span
                                     >
                                   </p>
                                 </div>
@@ -827,8 +827,8 @@ function addFriend(user_id) {
  });
 }
 
-
-
+var start_time = "{{$order->start_time}}";
+if (start_time) {
 function CountdownTracker(label, value){
 
   var el = document.createElement('span');
@@ -937,6 +937,7 @@ var deadline = new Date("<?= $delivery_date2; ?>");
 var deadline2 = new Date(Date.parse(new Date()) + 12 * 24 * 60 * 60 * 1000);
 var c = new Clock(deadline, function(){ /* alert('countdown complete') */ });
 document.getElementById('timer').appendChild(c.el);
+}
 
 // var clock = new Clock();
 // document.body.appendChild(clock.el);
