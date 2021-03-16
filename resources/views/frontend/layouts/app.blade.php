@@ -47,10 +47,10 @@
     @if(Request::path() != 'login' && Request::path() != 'register' && Request::path() != 'forgot-password')
     @include('frontend.includes.footer1')
     @endif
-    <!-- Vue JavaScript -->
-    <script src="{{ asset('js/app.js') }}"></script>
     <!-- Bootstrap core JavaScript -->
     <script src="{{asset('js/cdn/jquery-3.4.1.min.js')}}"></script>
+    <!-- Vue JavaScript -->
+    <script src="{{ asset('js/app.js') }}"></script>
     <!-- <script src="{{asset('js/cdn/jquery-3.6.0.min.js')}}"></script> -->
     <script src="{{asset('js/cdn/popper.min.js')}}"></script>
     <!-- <script src="{{asset('js/cdn/bootstrap.min.js')}}"></script> -->
