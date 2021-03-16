@@ -192,12 +192,19 @@ class ServiceController extends Controller
             return view('frontend.ajax.category-service',compact('services','serviceCount'));
         }
         if($level_id != null){
-          $userData = User::wherelevel_id($level_id)->get();
-          foreach ($userData as $key => $user) {
-            $services = Services::where('seller_id',$user->id)->with('sellerInfo','packageInfo','favorite')->get();
-            $serviceCount = $services->count();
-            // dd($services);
-          }
+          $query = Services::query();
+          $query = $query->with('sellerInfo');
+          $query = $query->whereHas('sellerInfo', function($q) use($level_id) {
+            $q->where('level_id',$level_id);
+          });
+          $services = $query->get();
+          $serviceCount = $services->count();
+          // $userData = User::wherelevel_id($level_id)->get();
+          // foreach ($userData as $key => $user) {
+          //   $services = Services::where('seller_id',$user->id)->with('sellerInfo','packageInfo','favorite')->get();
+          //   $serviceCount = $services->count();
+          //   // dd($services);
+          // }
             return view('frontend.ajax.category-service',compact('services','serviceCount'));
         }
         if($country != null){
