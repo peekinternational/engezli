@@ -15,6 +15,11 @@ class AddMerchantIdToAcceptPayments extends Migration
     {
         Schema::table('accept_payments', function (Blueprint $table) {
             $table->integer('merchant_order_id')->nullable()->after('id');
+            $table->string('order_duration')->nullable()->after('paid_at');
+            $table->string('order_qty')->nullable()->after('order_duration');
+            $table->string('order_fee')->nullable()->after('order_qty');
+            $table->string('service_fee')->nullable()->after('order_fee');
+
         });
     }
 

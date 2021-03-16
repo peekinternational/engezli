@@ -77,12 +77,13 @@ class OrderController extends Controller
       $merchant_order_id = rand();
       $indentifier = auth()->user()->mobile_number;
 
-      $request->session()->put('order_duration', $order_duration);
-      $request->session()->put('order_qty', $order_qty);
-      $request->session()->put('order_fee', $order_fee);
-      $request->session()->put('service_fee', $service_fee);
-
-
+      // $request->session()->put('service_id', $service_id);
+      // $request->session()->put('package_id', $package_id);
+      // $request->session()->put('seller_id', $seller_id);
+      // $request->session()->put('order_duration', $order_duration);
+      // $request->session()->put('order_qty', $order_qty);
+      // $request->session()->put('order_fee', $order_fee);
+      // $request->session()->put('service_fee', $service_fee);
 
       $transId = $request->input('id');
       if($transId == ''){
@@ -162,6 +163,7 @@ class OrderController extends Controller
           $order->save();
           $order->date = date('d F, Y',strtotime($order->order_date));
 
+      
 
           $seller = User::find($order->seller_id);
           $buyer = User::find($order->buyer_id);
@@ -288,12 +290,6 @@ class OrderController extends Controller
         // dd($transId,$orderData);
         // session(['u_session' => '25']);
         // dd($order_duration,$order_qty,$order_fee,$service_fee);
-
-        $order_duration = $request->session()->get('order_duration');
-        $order_qty = $request->session()->get('order_qty');
-        $order_fee = $request->session()->get('order_fee');
-        $service_fee = $request->session()->get('service_fee');
-
         $order->service_id  = $orderData->service_id;
         $order->seller_id = $orderData->seller_id;
         $order->buyer_id  = auth()->user()->id;
@@ -307,11 +303,6 @@ class OrderController extends Controller
         $order->order_status  = 'pending';
         $order->save();
         $order->date = date('d F, Y',strtotime($order->order_date));
-
-        $request->session()->flash('order_duration');
-        $request->session()->flash('order_qty');
-        $request->session()->flash('order_fee');
-        $request->session()->flash('service_fee');
 
         $seller = User::find($order->seller_id);
         $buyer = User::find($order->buyer_id);
