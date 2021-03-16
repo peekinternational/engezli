@@ -168,6 +168,28 @@ class OrderController extends Controller
           $request->session()->flash('order_qty');
           $request->session()->flash('order_fee');
           $request->session()->flash('service_fee');
+
+          $seller = User::find($order->seller_id);
+          $buyer = User::find($order->buyer_id);
+          $toemail =  $seller->email;
+          Mail::send('mail.seller-order-email',['seller' =>$seller, 'buyer'=>$buyer,'order'=>$order],
+          function ($message) use ($toemail)
+          {
+
+            $message->subject('Paidpro - New Order');
+            $message->from('peek.zeeshan@gmail.com', 'Engezli');
+            $message->to($toemail);
+          });
+
+          $toemail =  $buyer->email;
+          Mail::send('mail.buyer-order-email',['seller' =>$seller, 'buyer'=>$buyer,'order'=>$order],
+          function ($message) use ($toemail)
+          {
+
+            $message->subject('Paidpro - New Order');
+            $message->from('peek.zeeshan@gmail.com', 'Engezli');
+            $message->to($toemail);
+          });
           // echo $order;
           // return $order;
           // dd($order);
@@ -200,6 +222,28 @@ class OrderController extends Controller
           $request->session()->flash('order_qty');
           $request->session()->flash('order_fee');
           $request->session()->flash('service_fee');
+
+          $seller = User::find($order->seller_id);
+          $buyer = User::find($order->buyer_id);
+          $toemail =  $seller->email;
+          Mail::send('mail.seller-order-email',['seller' =>$seller, 'buyer'=>$buyer,'order'=>$order],
+          function ($message) use ($toemail)
+          {
+
+            $message->subject('Paidpro - New Order');
+            $message->from('peek.zeeshan@gmail.com', 'Engezli');
+            $message->to($toemail);
+          });
+
+          $toemail =  $buyer->email;
+          Mail::send('mail.buyer-order-email',['seller' =>$seller, 'buyer'=>$buyer,'order'=>$order],
+          function ($message) use ($toemail)
+          {
+
+            $message->subject('Paidpro - New Order');
+            $message->from('peek.zeeshan@gmail.com', 'Engezli');
+            $message->to($toemail);
+          });
 
           $data = array(
             'wallet' => $response,
@@ -275,31 +319,33 @@ class OrderController extends Controller
         $request->session()->flash('order_qty');
         $request->session()->flash('order_fee');
         $request->session()->flash('service_fee');
+
+        $seller = User::find($order->seller_id);
+        $buyer = User::find($order->buyer_id);
+        $toemail =  $seller->email;
+        Mail::send('mail.seller-order-email',['seller' =>$seller, 'buyer'=>$buyer,'order'=>$order],
+        function ($message) use ($toemail)
+        {
+
+          $message->subject('Paidpro - New Order');
+          $message->from('peek.zeeshan@gmail.com', 'Engezli');
+          $message->to($toemail);
+        });
+
+        $toemail =  $buyer->email;
+        Mail::send('mail.buyer-order-email',['seller' =>$seller, 'buyer'=>$buyer,'order'=>$order],
+        function ($message) use ($toemail)
+        {
+
+          $message->subject('Paidpro - New Order');
+          $message->from('peek.zeeshan@gmail.com', 'Engezli');
+          $message->to($toemail);
+        });
+
         // echo $order;
         return redirect('requirements/'.$order->order_number);
       }
 
-      $seller = User::find($order->seller_id);
-      $buyer = User::find($order->buyer_id);
-      $toemail =  $seller->email;
-      Mail::send('mail.seller-order-email',['seller' =>$seller, 'buyer'=>$buyer,'order'=>$order],
-      function ($message) use ($toemail)
-      {
-
-        $message->subject('Paidpro - New Order');
-        $message->from('peek.zeeshan@gmail.com', 'Engezli');
-        $message->to($toemail);
-      });
-
-      $toemail =  $buyer->email;
-      Mail::send('mail.buyer-order-email',['seller' =>$seller, 'buyer'=>$buyer,'order'=>$order],
-      function ($message) use ($toemail)
-      {
-
-        $message->subject('Paidpro - New Order');
-        $message->from('peek.zeeshan@gmail.com', 'Engezli');
-        $message->to($toemail);
-      });
 
 
       // $hmac = $request->input("hmac");
