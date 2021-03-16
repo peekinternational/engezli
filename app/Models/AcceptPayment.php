@@ -19,6 +19,10 @@ class AcceptPayment extends Model
     	'type',
     	'paid',
     	'paid_at',
+    	'order_duration',
+    	'order_qty',
+    	'order_fee',
+    	'service_fee',
     ];
     public function sellerInfo()
     {
