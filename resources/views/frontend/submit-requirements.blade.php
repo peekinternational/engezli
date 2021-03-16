@@ -92,8 +92,10 @@
                         <textarea
                           class="form-control @if($req->mandatory_status == '1') required @endif"
                           name="desc-{{$req->id}}"
+                          onkeydown="countWords({{$key}})"
                           id="desc-{{$key}}"
                           rows="3"
+                          maxlength="2050"
                           placeholder="Write here..."></textarea>
                           @if($req->mandatory_status == '1')
                           <span class="asterisk text-danger"  style="display:none;">{{ __('home.Field Required')}}</span>
@@ -101,7 +103,7 @@
                         @endif
                         <p>
                           @if($req->response == 'free text')
-                          <span class="length">0/2050</span>
+                          <span class="length"><span class="descCount-{{$key}}">0</span>/2050</span>
                           @elseif($req->response == 'attachement')
                           <span class="form-field-file">
                             <label
@@ -326,5 +328,10 @@ $(document).ready(function () {
     })
  });
 });
+
+function countWords(id) {
+  var textarea = $('#desc-'+id).val();
+  $(".descCount-"+id).text(textarea.length);
+}
 </script>
 @endsection
