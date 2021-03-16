@@ -47,7 +47,7 @@
     @if(Request::path() != 'login' && Request::path() != 'register' && Request::path() != 'forgot-password')
     @include('frontend.includes.footer1')
     @endif
-
+//
     <!-- Bootstrap core JavaScript -->
     <script src="{{asset('js/cdn/jquery-3.4.1.min.js')}}"></script>
     <!-- Vue JavaScript -->
