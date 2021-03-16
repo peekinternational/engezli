@@ -62,7 +62,7 @@ $child_url = request()->segment(count(request()->segments(3)));
                         <div class="col-md-6">
                            <label class="custom-checkbox">{{$language->language_title}}
                            <span class="count"></span>
-                           <input type="checkbox" value="{{$language->id}}" id="language{{$language->id}}">
+                           <input type="checkbox" class="language-checkbox" value="{{$language->id}}" id="language{{$language->id}}">
                            <span class="checkmark"></span>
                            </label>
                         </div>
@@ -419,9 +419,8 @@ $child_url = request()->segment(count(request()->segments(3)));
       });
 
     })
-
-    $('#language_filter :checkbox').change(function(){
-
+var language_id = [];
+    $('.language-checkbox').change(function(){
       var language_id = $(this).val();
 
       $.ajax({
@@ -484,6 +483,7 @@ $child_url = request()->segment(count(request()->segments(3)));
           // console.log(data);
           $("#services").hide();
           $("#filter-services").html(data);
+          $("input:checkbox").prop("checked", false);
         }
       });
     })

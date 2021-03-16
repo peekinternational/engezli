@@ -16,7 +16,7 @@
 				<li class="top-level-link">
 					<a href="{{url('services/'.$category->cat_url)}}" class="nav-link">{{$category->cat_title}}</a>
 					@if(Engezli::check_child($category->id) == '1')
-					<ul class="menu-lists column-count-four">
+					<ul class="menu-lists">
 						@foreach(Engezli::get_subcategories($category->id) as $subcat)
 						<ul class="sub-menu-lists">
 							<li><a href="{{url('services/'.$subcat->cat_url)}}">{{$subcat->cat_title}}</a> </li>

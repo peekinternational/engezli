@@ -101,6 +101,7 @@ class ServiceController extends Controller
 
           return view('frontend.ajax.category-service',compact('services'));
         }
+        // dd($seller_country);
         if($seller_country != null){
           $country = auth()->user()->country;
           // dd($country);
@@ -173,13 +174,21 @@ class ServiceController extends Controller
             return view('frontend.ajax.category-service',compact('services','serviceCount'));
           }
         }
+        // dd($language_id);
         if($language_id != null){
-          $userData = User::wherelanguage_id($language_id)->get();
-          foreach ($userData as $key => $user) {
-            $services = Services::where('seller_id',$user->id)->with('sellerInfo','packageInfo','favorite')->get();
-            $serviceCount = $services->count();
-            // dd($services);
-          }
+          $query = Services::query();
+          $query = $query->with('sellerInfo');
+          $query = $query->whereHas('sellerInfo', function($q) use($language_id) {
+            $q->where('language_id', 'like', "%".$language_id."%");
+          });
+          $services = $query->get();
+          $serviceCount = $services->count();
+          // $userData = User::where('language_id', 'like', "%".$language_id."%")->get();
+          // foreach ($userData as $key => $user) {
+          //   $services = Services::where('seller_id',$user->id)->with('sellerInfo','packageInfo','favorite')->get();
+          //   $serviceCount = $services->count();
+          // }
+          // dd($services);
             return view('frontend.ajax.category-service',compact('services','serviceCount'));
         }
         if($level_id != null){
