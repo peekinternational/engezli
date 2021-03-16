@@ -241,6 +241,7 @@ return [
 	"duration" => "",
 	"you will not be changed yet" => "",
 	"You Placed The Order" => "",
+	"Buyer Placed The Order" => "",
 	"You Submitted The Requirements" => "",
 	"Your Order Started" => "",
 	"our Delivery Date Was Updated" => "",

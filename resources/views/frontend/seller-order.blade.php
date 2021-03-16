@@ -110,7 +110,7 @@
                         </div>
                         <div class="box-item">
                           <h6>
-                            {{ __('home.You Placed The Order')}}
+                            {{ __('home.Buyer Placed The Order')}}
                             <span class="time">{{$order_date}}</span>
                           </h6>
                         </div>

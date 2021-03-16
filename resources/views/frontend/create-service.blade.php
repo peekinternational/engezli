@@ -103,7 +103,7 @@
 											<div class="pane-box">
 												<h6>{{ __('home.gig Title')}}</h6>
 												<div class="inner-pane-box">
-													<textarea name="" id="service_title" class="form-control" rows="2"
+													<textarea name="" maxlength="80" id="service_title" class="form-control" rows="2"
 														placeholder="I will do something I'm really good at" name="service_title"></textarea>
 													<span class="service_title-error text-danger"  style="display: none;">title is required</span>
 													<div class="sub-box">
@@ -118,7 +118,7 @@
 											<div class="pane-box">
 												<h6>{{ __('home.seo Title')}}</h6>
 												<div class="inner-pane-box">
-													<input type="text" class="form-control" id="seo_title" name="seo_title" />
+													<input type="text" maxlength="50" class="form-control" id="seo_title" name="seo_title" />
 
 													<div class="sub-box">
 														<!-- <p class="text">Just perfect</p> -->
