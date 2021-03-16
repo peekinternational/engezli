@@ -57,6 +57,7 @@ class OrderController extends Controller
 
     public function CreateOrder(Request $request)
     {
+      // dd($request->all());
       $order = new Order;
       $order->order_number  = rand();
       $service_id  = $request->input('service_id');
@@ -304,10 +305,10 @@ class OrderController extends Controller
         $order->buyer_id  = auth()->user()->id;
         $order->order_date  = date("Y-m-d");
         $order->order_time  = Carbon::now();
-        $order->order_duration  = "3 days";
-        $order->order_qty = '1';
-        $order->order_fee = "20";
-        $order->service_fee = "5";
+        $order->order_duration  = $order_duration;
+        $order->order_qty = $order_qty;
+        $order->order_fee = $order_fee;
+        $order->service_fee = $service_fee;
         $order->order_active  = 'no';
         $order->order_status  = 'pending';
         $order->save();
