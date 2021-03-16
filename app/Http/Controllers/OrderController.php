@@ -119,6 +119,10 @@ class OrderController extends Controller
             "buyer_id" => $buyer_id,
             "service_id" => $service_id,
             "package_id" => $package_id,
+            "order_duration" => $order_duration,
+            "order_qty" => $order_qty,
+            "order_fee" => $order_fee,
+            "service_fee" => $service_fee,
             "status" => "pending",
             "type" => $type
         ]);
@@ -163,7 +167,7 @@ class OrderController extends Controller
           $order->save();
           $order->date = date('d F, Y',strtotime($order->order_date));
 
-      
+
 
           $seller = User::find($order->seller_id);
           $buyer = User::find($order->buyer_id);
@@ -295,10 +299,10 @@ class OrderController extends Controller
         $order->buyer_id  = auth()->user()->id;
         $order->order_date  = date("Y-m-d");
         $order->order_time  = Carbon::now();
-        $order->order_duration  = $order_duration;
-        $order->order_qty = $order_qty;
-        $order->order_fee = $order_fee;
-        $order->service_fee = $service_fee;
+        $order->order_duration  = $orderData->order_duration;
+        $order->order_qty = $orderData->order_qty;
+        $order->order_fee = $orderData->order_fee;
+        $order->service_fee = $orderData->service_fee;
         $order->order_active  = 'no';
         $order->order_status  = 'pending';
         $order->save();
