@@ -300,6 +300,7 @@ class OrderController extends Controller
         $orderData = AcceptPayment::where('accept_transaction_id',$transId)->first();
         // dd($transId,$orderData);
         // session(['u_session' => '25']);
+        // dd($order_duration,$order_qty,$order_fee,$service_fee);
         $order->service_id  = $orderData->service_id;
         $order->seller_id = $orderData->seller_id;
         $order->buyer_id  = auth()->user()->id;
