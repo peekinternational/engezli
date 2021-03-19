@@ -7203,7 +7203,8 @@ nav.breadcrumb-container .breadcrumb a {
   padding: 7px;
   display: none;
 }
-.projects .row .col-lg-3.col-box:hover .edit_project{
+.projects .row .col-lg-3.col-box:hover .edit_project,
+.recommended .row .col-md-4.col-box:hover .edit_project{
   display: block;
 }
 .edit_project:hover{

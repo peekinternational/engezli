@@ -191,12 +191,17 @@ class RegisterController extends Controller
         }
       }
       $next = $request->input('next');
-
+      $package_id = $request->input('package_id');
+      // dd($next,$package_id);
       if ( Auth::check() ) {
         $user_id = auth()->user()->id;
         $update_status = User::where('id', $user_id)->update(array('user_status' => 'online'));
         if ($next !=null) {
-          return redirect($next);
+          if ($package_id != null) {
+            return redirect($next)->with(['package_id'=>$package_id]);
+          }else {
+            return redirect($next);
+          }
         }
         if ($request->session()->has('previous_url')) {
           $url =$request->session()->get('previous_url');

@@ -79,6 +79,9 @@
       <hr>
       <p class='bg-gray'> Dear {{$buyer->first_name}} , </p>
       <p class="bg-gray">Your order placed successfully</p>
+      @if($receipt !='')
+      <p class="bg-gray">Click to <a href="{{$receipt}}">View Receipt</a></p>
+      @endif
       <br>
       <center>
         <a style="background-color: #007bff;" href="{{url('/order-details/'.$order->order_number)}}" class='btn pt-2'>

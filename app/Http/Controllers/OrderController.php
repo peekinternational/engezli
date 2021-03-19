@@ -44,6 +44,14 @@ class OrderController extends Controller
     {
       $service_id = $request->input('service_id');
       $package_id = $request->input('package_id');
+      if ($package_id == '') {
+        $package_id = Session::get('package_id');
+        if ($package_id != '') {
+          $request->session()->put('get_package_id',$package_id);
+        }else {
+          $package_id = $request->session()->get('get_package_id');
+        }
+      }
       $package = Packages::with('serviceInfo')->where('id',$package_id)->first();
       return view('frontend.order',compact('package'));
     }
@@ -181,8 +189,9 @@ class OrderController extends Controller
             $message->to($toemail);
           });
 
+          $receipt = '';
           $toemail =  $buyer->email;
-          Mail::send('mail.buyer-order-email',['seller' =>$seller, 'buyer'=>$buyer,'order'=>$order],
+          Mail::send('mail.buyer-order-email',['seller' =>$seller, 'buyer'=>$buyer,'order'=>$order,'receipt'=>$receipt],
           function ($message) use ($toemail)
           {
 
@@ -229,8 +238,9 @@ class OrderController extends Controller
             $message->to($toemail);
           });
 
+          $receipt = '';
           $toemail =  $buyer->email;
-          Mail::send('mail.buyer-order-email',['seller' =>$seller, 'buyer'=>$buyer,'order'=>$order],
+          Mail::send('mail.buyer-order-email',['seller' =>$seller, 'buyer'=>$buyer,'order'=>$order,'receipt'=>$receipt],
           function ($message) use ($toemail)
           {
 
@@ -320,8 +330,9 @@ class OrderController extends Controller
           $message->to($toemail);
         });
 
+        $receipt = '';
         $toemail =  $buyer->email;
-        Mail::send('mail.buyer-order-email',['seller' =>$seller, 'buyer'=>$buyer,'order'=>$order],
+        Mail::send('mail.buyer-order-email',['seller' =>$seller, 'buyer'=>$buyer,'order'=>$order,'receipt'=>$receipt],
         function ($message) use ($toemail)
         {
 
@@ -514,7 +525,7 @@ class OrderController extends Controller
           });
 
           $toemail =  $buyer->email;
-          Mail::send('mail.buyer-order-email',['seller' =>$seller, 'buyer'=>$buyer,'order'=>$order],
+          Mail::send('mail.buyer-order-email',['seller' =>$seller, 'buyer'=>$buyer,'order'=>$order,'receipt'=>$receipt],
           function ($message) use ($toemail)
           {
 

@@ -697,7 +697,7 @@
                   @if(auth()->user())
                   <button type="submit">{{ __('home.Continue')}} (${{$packg->price}})</button>
                   @else
-                  <a href="{{url('login?next='.$username.'/'.$slug)}}">{{ __('home.Continue')}} (${{$packg->price}})</a>
+                  <a href="{{url('login?next=order&&package_id='.$packg->id)}}">{{ __('home.Continue')}} (${{$packg->price}})</a>
                   @endif
                 </form>
                 </div>

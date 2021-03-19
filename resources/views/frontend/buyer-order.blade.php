@@ -191,7 +191,8 @@
                     $delivery_date2 = '';
                     if ($order->start_time != null) {
                       $delivery_date = date('M d, h:i A',strtotime('+ '.$duratoin,strtotime($order->start_time)));
-                      $delivery_date2 = date('Y M d, h:i:s',strtotime('+ '.$duratoin,strtotime($order->start_time)));
+                      $delivery_date2 = date('Y-m-d H:i:s',strtotime('+ '.$duratoin,strtotime($order->start_time)));
+                      // dd($order->start_time,$delivery_date2);
                       $requirements_date = date('M d, h:i A',strtotime($order->start_time));
                     }
                     $only_date = date('M d',strtotime($order->order_time));
@@ -935,6 +936,7 @@ function Clock(countdown,callback) {
 
 var deadline = new Date("<?= $delivery_date2; ?>");
 var deadline2 = new Date(Date.parse(new Date()) + 12 * 24 * 60 * 60 * 1000);
+console.log("deadline",deadline,deadline2);
 var c = new Clock(deadline, function(){ /* alert('countdown complete') */ });
 document.getElementById('timer').appendChild(c.el);
 }

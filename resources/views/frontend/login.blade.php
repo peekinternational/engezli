@@ -5,7 +5,8 @@
 @section('content')
 <?php
    $next = Request::input('next') != '' ? '?next='.Request::input('next') : '';
-   // dd($next);
+   $package_id = Request::input('package_id') != '' ? Request::input('package_id') : '';
+   // dd($next,$package_id);
    ?>
 <!-- Login -->
 <div class="sing-in-and-up-container">
@@ -39,7 +40,7 @@
           <a href="{{url('login/facebook')}}" class="facebook-btn btn"><i class="fa fa-facebook-f"></i> {{ __('home.facebook')}}</a>
           <a href="{{url('login/google')}}" class="google-btn btn"><img src="{{asset('images/google.svg')}}" alt=""> {{ __('home.google')}}</a>
         </div>
-
+        <input type="hidden" name="package_id" value="{{$package_id}}">
         <div class="or">
           <div class="text">{{ __('home.or')}}</div>
         </div>
