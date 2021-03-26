@@ -890,6 +890,7 @@ class OrderController extends Controller
     {
       // dd($request->all());
       $requirement_id = $request->input('requirement_id');
+      $user = auth()->user();
       $order_id = $request->input('order_id');
       if ($requirement_id !=null) {
         foreach ($requirement_id as $key => $req_id) {
@@ -903,9 +904,6 @@ class OrderController extends Controller
             $save_requirement = OrderRequirement::create($descData);
           }elseif ($attachment != null) {
             if($attachment != ''){
-              // $filename= $attachment->getClientOriginalName();
-              // $imagename= 'order-requirement-'.rand(000000,999999).'.'.$attachment->getClientOriginalExtension();
-              // $imagename= $filename;
               $extension= $attachment->getClientOriginalExtension();
               if ($extension == 'png' || $extension == 'jpg'|| $extension == 'jpeg') {
                 $attchData['type'] = '1';
@@ -925,7 +923,13 @@ class OrderController extends Controller
       }
       $order = Order::find($order_id);
       $order->order_status = 'started';
-      $order->start_time = Carbon::now();
+      if($user->country == 'Pakistan'){
+        $order->start_time = Carbon::now('Asia/Karachi');
+      }elseif ($user->country == 'Egypt') {
+        $order->start_time = Carbon::now('Africa/Cairo');
+      }else {
+        $order->start_time = Carbon::now();
+      }
       $order->update();
       return '1';
 

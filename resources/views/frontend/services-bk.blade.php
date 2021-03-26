@@ -17,6 +17,7 @@ $child_url = request()->segment(count(request()->segments(3)));
       <nav class="breadcrumb-container" aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/">Home</a></li>
+          <li class="breadcrumb-item"><a href="">Services</a></li>
           <li class="breadcrumb-item"><a href="" @if($child_url_id == '') style="color: #0099ff" @endif>{{$cat_name}}</a></li>
           @if($child_url_id != '')
           <li class="breadcrumb-item active" aria-current="page">
@@ -30,246 +31,100 @@ $child_url = request()->segment(count(request()->segments(3)));
     </div>
   </div>
 
-  <div class="search-filter-wrapper filter-options">
+  <div class="filter-options">
     <div class="container">
       <div class="outer-content">
         <div class="left">
-          <div class="dropdown category-dropdown">
-            <button
-              class="btn dropdown-toggle selected"
-              type="button"
-              id="dropdownMenuButton"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              <span>category</span>
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <ul class="category-list">
-                @foreach($all_categories as $category)
-                <li>
-                <a class="dropdown-item main-category" href="{{url('services/'.$category->cat_url)}}">
-                  {{$category->cat_title}}
-                  <!-- <span>(1)</span> -->
-                </a>
-                <ul>
-                  @foreach(Engezli::get_subcategories($category->id) as $subcat)
-                  <li><a class="dropdown-item" href="{{url('services/'.$subcat->cat_url)}}">
-                    {{$subcat->cat_title}}
-                    <!-- <span>(1)</span> -->
-                  </a></li>
-                  @endforeach
-                </ul>
-                </li>
-                @endforeach
-              </ul>
+          <div class="sellter-details-select dropdown-filters select-box">
+            <div class="dropdown">
+               <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               Seller Details
+               </button>
+               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <div class="options">
+                     <h5>Seller Level</h5>
+                     <div class="row" id="level_filter">
+                        @foreach($sellerLevels as $level)
+                        <div class="col-md-6">
+                           <label class="custom-checkbox">{{$level->level_title}}
+                           <span class="count"></span>
+                           <input type="checkbox" value="{{$level->id}}" id="level{{$level->id}}">
+                           <span class="checkmark"></span>
+                           </label>
+                        </div>
+                        @endforeach
+                     </div>
+                  </div>
+                  <div class="options">
+                     <h5>Seller Speaks</h5>
+                     <div class="row" id="language_filter">
+                        @foreach($languages as $language)
+                        <div class="col-md-6">
+                           <label class="custom-checkbox">{{$language->language_title}}
+                           <span class="count"></span>
+                           <input type="checkbox" class="language-checkbox" value="{{$language->id}}" id="language{{$language->id}}">
+                           <span class="checkmark"></span>
+                           </label>
+                        </div>
+                        @endforeach
+                     </div>
+                  </div>
+                  <div class="options">
+                     <h5>Seller Lives In</h5>
+                     <div class="row" id="country_filter">
+                      @foreach($sellerCountries as $country)
+                        <div class="col-md-6">
+                           <label class="custom-checkbox">{{$country->country}}
+                           <span class="count"></span>
+                           <input type="checkbox" name="seller_country" value="{{$country->country}}">
+                           <span class="checkmark"></span>
+                           </label>
+                        </div>
+                        @endforeach
+                     </div>
+                  </div>
+                  <div class="options">
+                     <!-- <h5>Seller Lives In</h5> -->
+                     <div class="row">
+                        <div class="col-md-6">
+                           <label class="custom-checkbox">Reset Filter
+                           <span class="count"></span>
+                           <input type="checkbox" value="reset" id="reset">
+                           <span class="checkmark"></span>
+                           </label>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!-- <select name="" class="select2" id="">
+              <option value="">seller details</option>
+              <option value="">option 1</option>
+              <option value="">option 2</option>
+              <option value="">option 3</option>
+              <option value="">option 4</option>
+              <option value="">option 5</option>
+            </select> -->
+          </div>
 
-            </div>
+          <div class="budget-select select-box">
+            <select name="budgets" class="select2" id="budget">
+              <option value="">budget</option>
+              <option value="5-50">$5-$50</option>
+              <option value="50-100">$50-$100</option>
+              <option value="100-1000">$100-$1000</option>
+              <option value="1000-2000">$1000-$2000</option>
+            </select>
           </div>
-          <div class="dropdown seller-details-dropdown">
-            <button
-              class="btn dropdown-toggle selected"
-              type="button"
-              id="dropdownMenuButton"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false">
-              <span>seller details</span>
-            </button>
-            <div
-              class="dropdown-menu menu-content"
-              aria-labelledby="dropdownMenuButton"
-            >
-              <div class="content-scroll border-bottom py-3 px-4">
-                <div class="more-filters">
-                  <h6>seller level</h6>
-                  <div class="checkbox-lists">
-                    <div class="form-check">
-                      <input
-                        type="checkbox"
-                        data-level="top rated seller"
-                        class="form-check-input seller-level"
-                        id="1"/>
-                      <label class="form-check-label" for="1"
-                        >top rated seller
-                        <!-- <span class="quantity">(1)</span> -->
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input
-                        type="checkbox"
-                        data-level="level one"
-                        class="form-check-input seller-level"
-                        id="2"
-                      />
-                      <label class="form-check-label" for="2"
-                        >level one
-                        <!-- <span class="quantity">(1)</span> -->
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input
-                        type="checkbox"
-                        data-level="level two"
-                        class="form-check-input seller-level"
-                        id="3"
-                      />
-                      <label class="form-check-label" for="3"
-                        >level two
-                        <!-- <span class="quantity">(1)</span> -->
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input
-                        type="checkbox"
-                        data-level="new seller"
-                        class="form-check-input seller-level"
-                        id="4"
-                      />
-                      <label class="form-check-label" for="4"
-                        >new seller
-                        <!-- <span class="quantity">(1)</span> -->
-                      </label>
-                    </div>
-                  </div>
-                  <!-- <span class="show-more-less text-primary">show more</span> -->
-                </div>
-              </div>
-              <div class="btn-row d-flex justify-content-between p-3">
-                <button class="btn btn-sm pl-0 text-muted clear_all">
-                  clear all
-                </button>
-                <button class="btn btn-sm btn-primary text-white">
-                  apply
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="dropdown budget-dropdown">
-            <button
-              class="btn dropdown-toggle"
-              type="button"
-              id="dropdownMenuButton"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              <span>budget</span>
-            </button>
-            <div
-              class="dropdown-menu menu-content"
-              aria-labelledby="dropdownMenuButton"
-            >
-              <div class="input-group border-bottom py-2 px-3">
-                <div class="form-group">
-                  <label for="">Min.</label>
-                  <div class="inner-box">
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="Any"
-                    />
-                    <span>$</span>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="">Max.</label>
-                  <div class="inner-box">
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="Any"
-                    />
-                    <span>$</span>
-                  </div>
-                </div>
-              </div>
-              <div class="btn-row d-flex justify-content-between p-3">
-                <button class="btn btn-sm pl-0 text-muted clear_all">
-                  clear all
-                </button>
-                <button class="btn btn-sm btn-primary text-white">
-                  apply
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="dropdown delivery-time-dropdown">
-            <button
-              class="btn dropdown-toggle"
-              type="button"
-              id="dropdownMenuButton"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              <span>delivery time</span>
-            </button>
-            <div
-              class="dropdown-menu menu-content"
-              aria-labelledby="dropdownMenuButton"
-            >
-              <div class="delivery-radio-lists border-bottom py-2 px-3">
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="exampleRadios"
-                    id="exampleRadios1"
-                    value="option1"
-                    checked
-                  />
-                  <label class="form-check-label" for="exampleRadios1">
-                    express 24H
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="exampleRadios"
-                    id="exampleRadios2"
-                    value="option2"
-                  />
-                  <label class="form-check-label" for="exampleRadios2">
-                    Up to 3 days
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="exampleRadios"
-                    id="exampleRadios3"
-                    value="option3"
-                  />
-                  <label class="form-check-label" for="exampleRadios3">
-                    Up to 7 days
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="exampleRadios"
-                    id="exampleRadios4"
-                    value="option3"
-                  />
-                  <label class="form-check-label" for="exampleRadios4">
-                    Anytime
-                  </label>
-                </div>
-              </div>
-              <div class="btn-row d-flex justify-content-between p-3">
-                <button class="btn btn-sm pl-0 text-muted clear_all">
-                  clear all
-                </button>
-                <button class="btn btn-sm btn-primary text-white">
-                  apply
-                </button>
-              </div>
-            </div>
+
+          <div class="delivery-time-select select-box">
+            <select name="delivery_time" class="select2" id="delivery_time">
+              <option value="">delivery time</option>
+              <option value="1 day">24 H</option>
+              <option value="3 day">Up to 3 days</option>
+              <option value="7 day">Up to 7 days</option>
+              <option value="all day">Anytime</option>
+            </select>
           </div>
         </div>
         <div class="right">
@@ -277,13 +132,12 @@ $child_url = request()->segment(count(request()->segments(3)));
             <input
               type="checkbox"
               class="custom-control-input"
-              id="customSwitch1"
+              id="pro_service"
               data="off"
-              checked
             />
             <label
               class="custom-control-label control-package"
-              for="customSwitch1"
+              for="pro_service"
             >
               Pro Services
             </label>
@@ -292,26 +146,32 @@ $child_url = request()->segment(count(request()->segments(3)));
             <input
               type="checkbox"
               class="custom-control-input"
-              id="customSwitch2"
+              id="local_seller"
               data="off"
-              checked
             />
             <label
               class="custom-control-label control-package"
-              for="customSwitch2"
+              for="local_seller"
             >
-              online Sellers
+              Local Sellers
+            </label>
+          </div>
+          <div class="custom-control custom-switch">
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              id="online_seller"
+              data="off"
+              value="online"
+            />
+            <label
+              class="custom-control-label control-package"
+              for="online_seller"
+            >
+              Online Sellers
             </label>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="filtered-tags">
-    <div class="container">
-      <div class="outer-content tags">
-        <!-- <a href="javascript:void(0);">check <span><i class="fa fa-times"></i></span></a> -->
       </div>
     </div>
   </div>
@@ -457,7 +317,6 @@ $child_url = request()->segment(count(request()->segments(3)));
 @endsection
 @section('script')
 <script>
-var seller_level = [];
   $(document).ready(function () {
     $.ajaxSetup({
         headers: {
@@ -611,10 +470,9 @@ var language_id = [];
       });
     })
 
-    $('.clear_all').on('click',function(){
+    $('#reset').change(function(){
 
-      var reset = "reset";
-      $('.tags').html("");
+      var reset = $(this).val();
 
       $.ajax({
         url: "{{url('get_services')}}",
@@ -626,52 +484,10 @@ var language_id = [];
           $("#services").hide();
           $("#filter-services").html(data);
           $("input:checkbox").prop("checked", false);
-          $("input").val("");
         }
       });
     })
-$('.seller-level').on('change',function () {
-  var level = $(this).data('level');
-  var id = $(this).attr("id");
-  if ($(this).is(':checked')) {
-    seller_level.push(level);
-    var temp = '<a href="javascript:void(0);" onClick="removeTag('+id+');" id="level-'+id+'">'+level+' <span><i class="fa fa-times"></i></span></a>';
-    $('.tags').append(temp);
 
-    $.ajax({
-      url: "{{url('get_services')}}",
-      type: 'get',
-      data: {'seller_level':seller_level},
-      cache: false,
-      success:function(data){
-        // console.log(data);
-        $("#services").hide();
-        $("#filter-services").html(data);
-      }
-    });
-  }else {
-    seller_level.splice(seller_level.indexOf(level), 1);
-    $('#level-'+id).remove();
-  }
-});
-
-});
-function removeTag(id) {
-  $('#level-'+id).remove();
-  var level = $("#"+id).data('level');
-  seller_level.splice(seller_level.indexOf(level), 1);
-  $("#"+id).prop("checked", false);
-  $.ajax({
-    url: "{{url('get_services')}}",
-    type: 'get',
-    data: {'seller_level':seller_level},
-    cache: false,
-    success:function(data){
-      // console.log(data);
-      $("#services").hide();
-      $("#filter-services").html(data);
-    }
   });
-}
 </script>
 @endsection

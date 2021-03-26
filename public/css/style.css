@@ -7228,3 +7228,11 @@ nav.breadcrumb-container .breadcrumb a {
   height: 200px;
   margin: 0 auto;
 }
+.category-list {
+  height: 230px;
+overflow-y: scroll;
+}
+.main-category {
+  background:#007bff;
+  color: white;
+}

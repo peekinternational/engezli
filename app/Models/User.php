@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Laravel\Cashier\Billable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Scout\Searchable;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, Billable;
+    use HasFactory, Notifiable, Billable, Searchable;
 
     /**
      * The attributes that are mass assignable.
@@ -56,6 +57,11 @@ class User extends Authenticatable
     public function userReviews()
     {
       return $this->hasMany(BuyerReviews::class, 'seller_id')->orderby('id','desc');
+    }
+    
+    public function searchableAs()
+    {
+        return 'users_index';
     }
 
     /**
