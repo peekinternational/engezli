@@ -5,12 +5,16 @@
 .myProgress {
   width: 100%;
   background-color: #ddd;
+  position: inherit !important;
 }
 
 .myBar {
   width: 1%;
   height: 10px;
   background-color: #007bff;
+}
+#image{
+  position: inherit !important;
 }
 </style>
 @endsection
