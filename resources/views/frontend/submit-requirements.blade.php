@@ -1,6 +1,18 @@
 @extends('frontend.layouts.app')
 @section('title', 'Order  ')
 @section('styling')
+<style>
+.myProgress {
+  width: 100%;
+  background-color: #ddd;
+}
+
+.myBar {
+  width: 1%;
+  height: 10px;
+  background-color: #007bff;
+}
+</style>
 @endsection
 @section('content')
 <!-- Contact Us -->
@@ -118,14 +130,18 @@
 
                             <input
                               type="file"
+                              onchange="move({{$key}});"
                               name="attachment-{{$req->id}}"
                               id="attachment-{{$key}}"
                               class="field-file @if($req->mandatory_status == '1') required @endif"/>
                               <span class="asterisk text-danger"  style="display:none;">{{ __('home.Field Required')}}</span>
                           </span>
+                          <div id="myProgress-{{$key}}" class="myProgress" style="display: none;">
+                            <div id="myBar-{{$key}}" class="myBar"></div>
+                          </div>
                           @endif
-
                         </p>
+                        <div id="image-{{$key}}"></div>
                       </div>
                       @endforeach
 
@@ -332,6 +348,32 @@ $(document).ready(function () {
 function countWords(id) {
   var textarea = $('#desc-'+id).val();
   $(".descCount-"+id).text(textarea.length);
+}
+</script>
+<script>
+var i = 0;
+function move(key) {
+  if (i == 0) {
+    i = 1;
+    $('#myProgress-'+key).show();
+    var elem = document.getElementById("myBar-"+key);
+    var input = document.getElementById('attachment-'+key);
+    var filename = input.files.item(0).name;
+    var output = document.getElementById('image-'+key);
+    var width = 1;
+    var id = setInterval(frame, 1);
+    function frame() {
+      if (width >= 100) {
+        $('#myProgress-'+key).hide();
+        clearInterval(id);
+        i = 0;
+        output.innerHTML = filename;
+      } else {
+        width++;
+        elem.style.width = width + "%";
+      }
+    }
+  }
 }
 </script>
 @endsection

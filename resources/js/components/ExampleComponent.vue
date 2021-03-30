@@ -216,6 +216,10 @@
 
               <div class="msg-footer align-items-center py-4 px-3">
                 <span v-show="typing" class="typing">{{ friendName }} is typing ...</span>
+                <div id="myProgress" class="myProgress" style="display:none;">
+                  <div id="myBar" class="myBar"></div>
+                </div>
+                <div id="image"></div>
                 <div class="d-flex w-100">
                   <div class="footer-box">
                     <span class="form-field-file">
@@ -229,6 +233,7 @@
 
                       <input
                         type="file"
+                        @change="move();"
                         name="cv-arquivo"
                         ref="msg_file"
                         id="cv-arquivo"
@@ -586,6 +591,7 @@ import notificaiton from './NotificationComponent'
             }
           }
         // console.log(this.friendId);
+        $('#image').text("");
           let meeting_file =  this.$refs.msg_file.files;
             var meetingformDatas = new FormData();
                 meetingformDatas.append('file',meeting_file[0]);
@@ -688,6 +694,31 @@ import notificaiton from './NotificationComponent'
 
 
           },
+          move: function () {
+            var i = 0;
+            $('#image').text("");
+            if (i == 0) {
+              i = 1;
+              $('#myProgress').show();
+              var elem = document.getElementById("myBar");
+              var input = document.getElementById('cv-arquivo');
+              var filename = input.files.item(0).name;
+              var output = document.getElementById('image');
+              var width = 1;
+              var id = setInterval(frame, 1);
+              function frame() {
+                if (width >= 100) {
+                  $('#myProgress').hide();
+                  clearInterval(id);
+                  i = 0;
+                  output.innerHTML = filename;
+                } else {
+                  width++;
+                  elem.style.width = width + "%";
+                }
+              }
+            }
+          },
 
         },
 
@@ -709,6 +740,23 @@ import notificaiton from './NotificationComponent'
   position: absolute;
   top:-1px;
   left: 50px;
+}
+.myProgress {
+  width: 100%;
+  background-color: #ddd;
+  position: absolute;
+  top: 5px;
+  width: 90%;
+}
+
+.myBar {
+  width: 1%;
+  height: 10px;
+  background-color: #007bff;
+}
+#image{
+  position: absolute;
+  top: 0px;
 }
     /* .msg-body .msg-text-box.right .panel {
       -webkit-box-orient: horizontal;

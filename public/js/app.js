@@ -2831,6 +2831,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -3118,6 +3123,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
       }; // console.log(this.friendId);
 
+      $('#image').text("");
       var meeting_file = this.$refs.msg_file.files;
       var meetingformDatas = new FormData();
       meetingformDatas.append('file', meeting_file[0]);
@@ -3212,6 +3218,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this4.message = "";
         _this4.$refs.msg_file.value = null;
       });
+    },
+    move: function move() {
+      var i = 0;
+      $('#image').text("");
+
+      if (i == 0) {
+        var frame = function frame() {
+          if (width >= 100) {
+            $('#myProgress').hide();
+            clearInterval(id);
+            i = 0;
+            output.innerHTML = filename;
+          } else {
+            width++;
+            elem.style.width = width + "%";
+          }
+        };
+
+        i = 1;
+        $('#myProgress').show();
+        var elem = document.getElementById("myBar");
+        var input = document.getElementById('cv-arquivo');
+        var filename = input.files.item(0).name;
+        var output = document.getElementById('image');
+        var width = 1;
+        var id = setInterval(frame, 1);
+      }
     }
   }
 });
@@ -11471,7 +11504,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.user-list-item {\n    cursor: pointer;\n}\n.img-thumbnail {\n    padding: .25rem;\n    background-color: #fff;\n    border: 1px solid #dee2e6;\n    border-radius: .25rem !important;\n    height: 100px !important;\n    width: 100px !important;\n}\n.typing {\n  position: absolute;\n  top:-1px;\n  left: 50px;\n}\n    /* .msg-body .msg-text-box.right .panel {\n      -webkit-box-orient: horizontal;\n      -webkit-box-direction: reverse;\n      -ms-flex-direction: row-reverse;\n      flex-direction: row-reverse;\n  }\n  .msg-body .msg-text-box.right .panel .box:first-child {\n    margin-left: 15px;\n}\n.msg-body .msg-text-box.right .panel .box {\n    max-width: 450px;\n}\n.msg-body .msg-text-box.right .panel .box:last-child {\n    background: #007bff;\n}\n.msg-body .msg-text-box.right .panel .box:last-child p, .msg-body .msg-text-box.right .panel .box:last-child h6 {\n    color: #ffffff;\n}\n.message-container .outer-content .main-area .msg-body .msg-text-box.right .box small {\n    color: #ffffff;\n} */\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.user-list-item {\n    cursor: pointer;\n}\n.img-thumbnail {\n    padding: .25rem;\n    background-color: #fff;\n    border: 1px solid #dee2e6;\n    border-radius: .25rem !important;\n    height: 100px !important;\n    width: 100px !important;\n}\n.typing {\n  position: absolute;\n  top:-1px;\n  left: 50px;\n}\n.myProgress {\n  width: 100%;\n  background-color: #ddd;\n  position: absolute;\n  top: 5px;\n  width: 90%;\n}\n.myBar {\n  width: 1%;\n  height: 10px;\n  background-color: #007bff;\n}\n#image{\n  position: absolute;\n  top: 0px;\n}\n    /* .msg-body .msg-text-box.right .panel {\n      -webkit-box-orient: horizontal;\n      -webkit-box-direction: reverse;\n      -ms-flex-direction: row-reverse;\n      flex-direction: row-reverse;\n  }\n  .msg-body .msg-text-box.right .panel .box:first-child {\n    margin-left: 15px;\n}\n.msg-body .msg-text-box.right .panel .box {\n    max-width: 450px;\n}\n.msg-body .msg-text-box.right .panel .box:last-child {\n    background: #007bff;\n}\n.msg-body .msg-text-box.right .panel .box:last-child p, .msg-body .msg-text-box.right .panel .box:last-child h6 {\n    color: #ffffff;\n}\n.message-container .outer-content .main-area .msg-body .msg-text-box.right .box small {\n    color: #ffffff;\n} */\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -79060,10 +79093,14 @@ var render = function() {
                           [_vm._v(_vm._s(_vm.friendName) + " is typing ...")]
                         ),
                         _vm._v(" "),
+                        _vm._m(1),
+                        _vm._v(" "),
+                        _c("div", { attrs: { id: "image" } }),
+                        _vm._v(" "),
                         _c("div", { staticClass: "d-flex w-100" }, [
                           _c("div", { staticClass: "footer-box" }, [
                             _c("span", { staticClass: "form-field-file" }, [
-                              _vm._m(1),
+                              _vm._m(2),
                               _vm._v(" "),
                               _c("input", {
                                 ref: "msg_file",
@@ -79072,6 +79109,11 @@ var render = function() {
                                   type: "file",
                                   name: "cv-arquivo",
                                   id: "cv-arquivo"
+                                },
+                                on: {
+                                  change: function($event) {
+                                    return _vm.move()
+                                  }
                                 }
                               })
                             ])
@@ -79179,9 +79221,9 @@ var render = function() {
                       "table",
                       { staticClass: "table" },
                       [
-                        _vm._m(2),
-                        _vm._v(" "),
                         _vm._m(3),
+                        _vm._v(" "),
+                        _vm._m(4),
                         _vm._v(" "),
                         _c("tr", [
                           _c("td", [_vm._v("from")]),
@@ -79262,6 +79304,20 @@ var staticRenderFns = [
     return _c("div", { staticClass: "heading px-3 py-3 border-bottom" }, [
       _c("h3", [_vm._v("Messages")])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "myProgress",
+        staticStyle: { display: "none" },
+        attrs: { id: "myProgress" }
+      },
+      [_c("div", { staticClass: "myBar", attrs: { id: "myBar" } })]
+    )
   },
   function() {
     var _vm = this

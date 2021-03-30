@@ -2,6 +2,23 @@
 @section('title', 'Order  ')
 @section('styling')
 <link rel="stylesheet" href="{{asset('frontend-assets/css/timer.css')}}">
+<style>
+.myProgress {
+  width: 100%;
+  background-color: #ddd;
+  position: inherit !important;
+
+}
+
+.myBar {
+  width: 1%;
+  height: 10px;
+  background-color: #007bff;
+}
+#image {
+  position: inherit !important;
+}
+</style>
 @endsection
 @section('content')
 <div class="admin">
@@ -404,9 +421,12 @@
                                   name="file"
                                   id="message_image"
                                   class="field-file"
-                                  onchange="javascript:updateList()" />
+                                  onchange="move();" />
                               </span>
-                              <div id="fileList"></div>
+                              <div id="myProgress" class="myProgress" style="display:none;">
+                                <div id="myBar" class="myBar"></div>
+                              </div>
+                              <div id="image"></div>
                               <button type="submit" class="btn text-primary pr-0">
                                 {{ __('home.Send')}}
                               </button>
@@ -952,6 +972,31 @@ updateList = function() {
         children += '<li>' + input.files.item(i).name + '</li>';
     }
     output.innerHTML = '<ul>'+children+'</ul>';
+}
+var i = 0;
+function move(key) {
+  $('#image').text("");
+  if (i == 0) {
+    i = 1;
+    $('#myProgress').show();
+    var elem = document.getElementById("myBar");
+    var input = document.getElementById('message_image');
+    var filename = input.files.item(0).name;
+    var output = document.getElementById('image');
+    var width = 1;
+    var id = setInterval(frame, 1);
+    function frame() {
+      if (width >= 100) {
+        $('#myProgress').hide();
+        clearInterval(id);
+        i = 0;
+        output.innerHTML = filename;
+      } else {
+        width++;
+        elem.style.width = width + "%";
+      }
+    }
+  }
 }
 </script>
 @endsection

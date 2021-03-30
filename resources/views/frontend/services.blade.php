@@ -5,7 +5,6 @@
 @section('content')
 <?php $child_url_id = Request::segment(3);
 $child_url = request()->segment(count(request()->segments(3)));
-
 ?>
 <!-- Category Slider -->
 @include('frontend.includes.category-slider')
@@ -88,7 +87,7 @@ $child_url = request()->segment(count(request()->segments(3)));
                     <div class="form-check">
                       <input
                         type="checkbox"
-                        data-level="top rated seller"
+                        data-level="Top Rated Seller"
                         class="form-check-input seller-level"
                         id="1"/>
                       <label class="form-check-label" for="1"
@@ -99,7 +98,7 @@ $child_url = request()->segment(count(request()->segments(3)));
                     <div class="form-check">
                       <input
                         type="checkbox"
-                        data-level="level one"
+                        data-level="Level One Seller"
                         class="form-check-input seller-level"
                         id="2"
                       />
@@ -111,7 +110,7 @@ $child_url = request()->segment(count(request()->segments(3)));
                     <div class="form-check">
                       <input
                         type="checkbox"
-                        data-level="level two"
+                        data-level="Level Two Seller"
                         class="form-check-input seller-level"
                         id="3"
                       />
@@ -123,7 +122,7 @@ $child_url = request()->segment(count(request()->segments(3)));
                     <div class="form-check">
                       <input
                         type="checkbox"
-                        data-level="new seller"
+                        data-level="New Seller"
                         class="form-check-input seller-level"
                         id="4"
                       />
@@ -165,22 +164,16 @@ $child_url = request()->segment(count(request()->segments(3)));
                 <div class="form-group">
                   <label for="">Min.</label>
                   <div class="inner-box">
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="Any"
-                    />
+                    <input id="min" type="number" name="min"
+                      class="form-control" placeholder="Any" />
                     <span>$</span>
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="">Max.</label>
                   <div class="inner-box">
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="Any"
-                    />
+                    <input id="max" type="number" name="max"
+                      class="form-control" placeholder="Any"/>
                     <span>$</span>
                   </div>
                 </div>
@@ -189,7 +182,7 @@ $child_url = request()->segment(count(request()->segments(3)));
                 <button class="btn btn-sm pl-0 text-muted clear_all">
                   clear all
                 </button>
-                <button class="btn btn-sm btn-primary text-white">
+                <button id="price_btn" class="btn btn-sm btn-primary text-white">
                   apply
                 </button>
               </div>
@@ -215,9 +208,9 @@ $child_url = request()->segment(count(request()->segments(3)));
                   <input
                     class="form-check-input"
                     type="radio"
-                    name="exampleRadios"
+                    name="delivery_time"
                     id="exampleRadios1"
-                    value="option1"
+                    value="1 day"
                     checked
                   />
                   <label class="form-check-label" for="exampleRadios1">
@@ -228,9 +221,9 @@ $child_url = request()->segment(count(request()->segments(3)));
                   <input
                     class="form-check-input"
                     type="radio"
-                    name="exampleRadios"
+                    name="delivery_time"
                     id="exampleRadios2"
-                    value="option2"
+                    value="3 day"
                   />
                   <label class="form-check-label" for="exampleRadios2">
                     Up to 3 days
@@ -240,9 +233,9 @@ $child_url = request()->segment(count(request()->segments(3)));
                   <input
                     class="form-check-input"
                     type="radio"
-                    name="exampleRadios"
+                    name="delivery_time"
                     id="exampleRadios3"
-                    value="option3"
+                    value="7 day"
                   />
                   <label class="form-check-label" for="exampleRadios3">
                     Up to 7 days
@@ -252,9 +245,9 @@ $child_url = request()->segment(count(request()->segments(3)));
                   <input
                     class="form-check-input"
                     type="radio"
-                    name="exampleRadios"
+                    name="delivery_time"
                     id="exampleRadios4"
-                    value="option3"
+                    value="all day"
                   />
                   <label class="form-check-label" for="exampleRadios4">
                     Anytime
@@ -277,29 +270,27 @@ $child_url = request()->segment(count(request()->segments(3)));
             <input
               type="checkbox"
               class="custom-control-input"
-              id="customSwitch1"
+              id="local_seller"
               data="off"
-              checked
+
             />
             <label
               class="custom-control-label control-package"
-              for="customSwitch1"
-            >
-              Pro Services
+              for="local_seller">
+              Local Sellers
             </label>
           </div>
           <div class="custom-control custom-switch">
             <input
               type="checkbox"
               class="custom-control-input"
-              id="customSwitch2"
+              id="online_seller"
               data="off"
-              checked
+
             />
             <label
               class="custom-control-label control-package"
-              for="customSwitch2"
-            >
+              for="online_seller">
               online Sellers
             </label>
           </div>
@@ -317,7 +308,7 @@ $child_url = request()->segment(count(request()->segments(3)));
   </div>
 
   <div class="service-lists-wrapper outer-content">
-    <div class="container">
+    <div class="container" id="services">
       <div class="result-and-sort">
         <div class="headers">
           <p class="result">{{$serviceCount}} services available</p>
@@ -342,7 +333,7 @@ $child_url = request()->segment(count(request()->segments(3)));
       </div>
 
       <div class="post-lists">
-        <div class="row" id="services">
+        <div class="row" id="">
           @foreach($services as $service)
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-box">
             <div class="card">
@@ -374,7 +365,7 @@ $child_url = request()->segment(count(request()->segments(3)));
 
                 <div class="seller-name">
                   <a href="{{url('profile/'.$service->sellerInfo->username)}}">{{$service->sellerInfo->first_name}} {{$service->sellerInfo->last_name}}</a>
-                  <p class="level">Level 1 Seller</p>
+                  <p class="level">{{$service->sellerInfo->level}}</p>
                 </div>
                 <a href="{{url('/'.$service->sellerInfo->username.'/'.$service->service_url)}}" class="gig-title">
                   {{$service->service_title}}
@@ -413,42 +404,12 @@ $child_url = request()->segment(count(request()->segments(3)));
             </div>
           </div>
           @endforeach
-
         </div>
-        <!-- <div class="row hidden" id="online_seller-service">
 
-        </div>
-        <div class="row hidden" id="local_seller-service">
-
-        </div> -->
         <div class="row hidden" id="filter-services">
-
         </div>
         <nav class="pagination-container">
           {{$services->links()}}
-          <!-- <ul class="pagination">
-            <li class="page-item disabled">
-              <a class="page-link" href="#" tabindex="-1">
-                <i class="fa fa-angle-left"></i>
-              </a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="#">1</a>
-            </li>
-            <li class="page-item active">
-              <a class="page-link" href="#"
-                >2 <span class="sr-only">(current)</span></a
-              >
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="#">3</a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="#"
-                ><i class="fa fa-angle-right"></i>
-              </a>
-            </li>
-          </ul> -->
         </nav>
       </div>
     </div>
@@ -458,6 +419,16 @@ $child_url = request()->segment(count(request()->segments(3)));
 @section('script')
 <script>
 var seller_level = [];
+var min = '';
+var max = '';
+var delivery_time = '';
+var seller_status = '';
+var local_seller = '';
+var sort_by = '';
+var child_url_id = "{{$child_url_id}}";
+var child_url = "{{$child_url}}";
+var cat_name = "{{$cat_name}}";
+
   $(document).ready(function () {
     $.ajaxSetup({
         headers: {
@@ -467,18 +438,21 @@ var seller_level = [];
     $('#online_seller').click(function(e){
       // e.preventDefault();
       if($('#online_seller').is(":checked")){
-        var seller_status ="on";
+        seller_status ="on";
       }else{
-        var seller_status = "off";
+        seller_status = "off";
       }
+      sort_by = '';
       $.ajax({
         url: "{{url('get_services')}}",
         type: 'get',
-        data:{seller_status:seller_status},
+        data: {seller_level:seller_level,min:min,max:max,
+              delivery_time:delivery_time,seller_status:seller_status,
+              local_seller:local_seller,child_url_id:child_url_id,
+              child_url:child_url,cat_name:cat_name,sort_by:sort_by},
         success:function(data){
-          console.log(data);
-          $("#services").hide();
-          $("#filter-services").html(data);
+          $("#services").html(data);
+          // $("#filter-services").html(data);
         }
       });
 
@@ -486,20 +460,23 @@ var seller_level = [];
     $('#local_seller').click(function(e){
       // e.preventDefault();
       if($('#local_seller').is(":checked")){
-        var local_seller ="on";
+         local_seller ="on";
       }else{
-        var local_seller = "off";
+         local_seller = "off";
       }
       // alert(local_seller);
       $.ajax({
         url: "{{url('get_services')}}",
         type: 'get',
-        data:{seller_country:local_seller},
+        data: {seller_level:seller_level,min:min,max:max,
+              delivery_time:delivery_time,seller_status:seller_status,
+              local_seller:local_seller,child_url_id:child_url_id,
+              child_url:child_url,cat_name:cat_name,sort_by:sort_by},
         success:function(data){
-          console.log(data);
-          $("#services").hide();
-          $("#online_seller-service").hide();
-          $("#filter-services").html(data);
+          // console.log(data);
+          $("#services").html(data);
+          // $("#online_seller-service").hide();
+          // $("#filter-services").html(data);
         }
       });
 
@@ -523,41 +500,43 @@ var seller_level = [];
 
     })
 
-    $('#delivery_time').change(function(e){
+    $('input[type=radio][name=delivery_time]').change(function(e){
       e.preventDefault();
-
-      var delivery_time = $('#delivery_time').val();
-
+      delivery_time = $(this).val();
       $.ajax({
         url: "{{url('get_services')}}",
         type: 'get',
-        data:{delivery_time:delivery_time},
+        data: {seller_level:seller_level,min:min,max:max,
+              delivery_time:delivery_time,seller_status:seller_status,
+              local_seller:local_seller,child_url_id:child_url_id,
+              child_url:child_url,cat_name:cat_name,sort_by:sort_by},
         cache : false,
         success:function(data){
           // console.log(data);
-          $("#services").hide();
-          $("#filter-services").html(data);
+          $("#services").html(data);
         }
       });
 
     })
 
-    $('#sort_by').change(function(e){
+    $(document).change('#sort_by',function(e){
       e.preventDefault();
-
-      var sort_by = $('#sort_by').val();
-
-      $.ajax({
-        url: "{{url('get_services')}}",
-        type: 'get',
-        data:{sort_by:sort_by},
-        cache : false,
-        success:function(data){
-          // console.log(data);
-          $("#services").hide();
-          $("#filter-services").html(data);
-        }
-      });
+      sort_by = $('#sort_by').val();
+      if (sort_by != undefined) {
+          $.ajax({
+            url: "{{url('get_services')}}",
+            type: 'get',
+            data: {seller_level:seller_level,min:min,max:max,
+                  delivery_time:delivery_time,seller_status:seller_status,
+                  local_seller:local_seller,child_url_id:child_url_id,
+                  child_url:child_url,cat_name:cat_name,sort_by:sort_by},
+            cache : false,
+            success:function(data){
+              // console.log(data);
+              $("#services").html(data);
+            }
+          });
+      }
 
     })
 var language_id = [];
@@ -611,20 +590,46 @@ var language_id = [];
       });
     })
 
-    $('.clear_all').on('click',function(){
+    $('#price_btn').on('click',function(){
 
+       min = $('#min').val();
+       max = $('#max').val();
+      console.log(min,max);
+      $.ajax({
+        url: "{{url('get_services')}}",
+        type: 'get',
+        data: {seller_level:seller_level,min:min,max:max,
+              delivery_time:delivery_time,seller_status:seller_status,
+              local_seller:local_seller,child_url_id:child_url_id,
+              child_url:child_url,cat_name:cat_name,sort_by:sort_by},
+        cache: false,
+        success:function(data){
+          $("#services").html(data);
+        }
+      });
+    })
+
+    $('.clear_all').on('click',function(){
+      seller_level = [];
+      min = '';
+      max = '';
+      delivery_time = '';
+      seller_status = '';
+      local_seller = '';
       var reset = "reset";
       $('.tags').html("");
 
       $.ajax({
         url: "{{url('get_services')}}",
         type: 'get',
-        data: {'reset':reset},
+        data: {seller_level:seller_level,min:min,max:max,
+              delivery_time:delivery_time,seller_status:seller_status,
+              local_seller:local_seller,child_url_id:child_url_id,
+              child_url:child_url,cat_name:cat_name,sort_by:sort_by,reset:reset},
         cache: false,
         success:function(data){
           // console.log(data);
-          $("#services").hide();
-          $("#filter-services").html(data);
+          $("#services").html(data);
           $("input:checkbox").prop("checked", false);
           $("input").val("");
         }
@@ -633,6 +638,7 @@ var language_id = [];
 $('.seller-level').on('change',function () {
   var level = $(this).data('level');
   var id = $(this).attr("id");
+
   if ($(this).is(':checked')) {
     seller_level.push(level);
     var temp = '<a href="javascript:void(0);" onClick="removeTag('+id+');" id="level-'+id+'">'+level+' <span><i class="fa fa-times"></i></span></a>';
@@ -641,12 +647,16 @@ $('.seller-level').on('change',function () {
     $.ajax({
       url: "{{url('get_services')}}",
       type: 'get',
-      data: {'seller_level':seller_level},
+      data: {seller_level:seller_level,min:min,max:max,
+            delivery_time:delivery_time,seller_status:seller_status,
+            local_seller:local_seller,child_url_id:child_url_id,
+            child_url:child_url,cat_name:cat_name,sort_by:sort_by},
       cache: false,
       success:function(data){
         // console.log(data);
-        $("#services").hide();
-        $("#filter-services").html(data);
+        $("#services").html(data);
+        // $("#services").hide();
+        // $("#filter-services").html(data);
       }
     });
   }else {
@@ -668,10 +678,33 @@ function removeTag(id) {
     cache: false,
     success:function(data){
       // console.log(data);
-      $("#services").hide();
-      $("#filter-services").html(data);
+      $("#services").html(data);
     }
   });
+}
+
+$('body').on('click', '.pagination-container a', function(e) {
+    e.preventDefault();
+   var page = $(this).attr('href').split('page=')[1];
+   getArticles(page)
+});
+ function getArticles(page) {
+     location.hash=page;
+     var token   = "{{ csrf_Token() }}";
+    $.ajax({
+        url: "{{url('get_services')}}?page="+page,
+        data: {seller_level:seller_level,min:min,max:max,
+              delivery_time:delivery_time,seller_status:seller_status,
+              local_seller:local_seller,child_url_id:child_url_id,
+              child_url:child_url,cat_name:cat_name,sort_by:sort_by,_token:token},
+    }).done(function (data) {
+      // console.log(data);
+        $('#services').html(data);
+        // $('#gifid').hide();
+
+    }).fail(function () {
+        alert('Articles could not be loaded.');
+    });
 }
 </script>
 @endsection

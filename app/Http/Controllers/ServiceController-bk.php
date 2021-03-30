@@ -87,46 +87,164 @@ class ServiceController extends Controller
         $child_url = $request->input('child_url');
         $cat_name = $request->input('cat_name');
 
-        $query = Services::query();
-        $query = $query->with('sellerInfo','packageInfo','favorite');
-        if($seller_level != null){
-          $query = $query->whereHas('sellerInfo', function($q) use($seller_level) {
-            $q->whereIn('level',$seller_level);
-          });
+
+        if($category_id != null){
+        // dd($category_id);
+          $services = Services::where('cat_id', $category_id)->with('sellerInfo','packageInfo','favorite')->paginate(50);
+          $serviceCount = $services->count();
+          return view('frontend.ajax.category-service',compact('services','serviceCount'));
         }
-        if($min != null && $max !=null){
+        if($seller_status != null){
+          if($seller_status == "on"){
+            $seller_status = "online";
+            $get_seller = User::whereuser_status($seller_status)->get();
+            // dd($get_seller);
+            foreach ($get_seller as $key => $seller) {
+              $services = Services::where('seller_id',$seller->id)->with('sellerInfo','packageInfo','favorite')->get();
+            }
+          }else{
+            $seller_status = "offline";
+            $services = Services::with('sellerInfo','packageInfo','favorite')->get();
+          }
+
+          return view('frontend.ajax.category-service',compact('services'));
+        }
+        // dd($seller_country);
+        if($seller_country != null){
+          $country = auth()->user()->country;
+          // dd($country);
+          if($seller_country == "on"){
+            $seller_country = $country;
+            $get_seller = User::wherecountry($seller_country)->get();
+            // dd($get_seller);
+            if($get_seller->count() == 0){
+              $services = Services::with('sellerInfo','packageInfo','favorite')->get();
+            }else{
+              foreach ($get_seller as $key => $seller) {
+                $services = Services::where('seller_id',$seller->id)->with('sellerInfo','packageInfo','favorite')->get();
+              }
+            }
+          }else{
+            $seller_country = "all";
+            $services = Services::with('sellerInfo','packageInfo','favorite')->get();
+          }
+
+          return view('frontend.ajax.category-service',compact('services'));
+        }
+
+        if($budget != null){
+          $data = explode("-", $budget);
+          // dd($price);
+          $min = $data[0];
+          $max = $data[1];
+          // dd($data);
+          $query = Services::query();
+          $query = $query->with('sellerInfo','packageInfo','favorite');
+
           $query = $query->whereHas('packageInfo', function($q) use($min,$max) {
             $q->whereBetween('price',[(int)$min, (int)$max]);
           });
+
+          $services = $query->paginate(16);;
+          // dd($services);
+          $serviceCount = $services->count();
+          return view('frontend.ajax.category-service',compact('services','serviceCount'));
+        }
+
+        if($min != null && $max !=null){
+          $query = Services::query();
+          $query = $query->with('sellerInfo','packageInfo','favorite');
+          $query = $query->whereHas('packageInfo', function($q) use($min,$max) {
+            $q->whereBetween('price',[(int)$min, (int)$max]);
+          });
+
+          $services = $query->paginate(16);;
+          // dd($services);
+          $serviceCount = $services->count();
+          return view('frontend.ajax.category-service',compact('services','serviceCount'));
         }
 
         if($delivery_time != null){
           // dd($delivery_time);
           if($delivery_time != 'all day'){
+            $query = Services::query();
+            $query = $query->with('sellerInfo','packageInfo','favorite');
+
             $query = $query->whereHas('packageInfo', function($q) use($delivery_time) {
               $q->where('delivery_time','<=',$delivery_time);
             });
+
+            $services = $query->paginate(16);
+            // dd($services);
+            $serviceCount = $services->count();
+          }else{
+            $services = Services::with('sellerInfo','packageInfo','favorite')->get();
+            $serviceCount = $services->count();
           }
+          return view('frontend.ajax.category-service',compact('services','serviceCount'));
         }
         if($sort_by != null){
           if($sort_by == 'newest'){
-            $services = $query->orderBy('id','DESC')->paginate(16);
+            $services = Services::with('sellerInfo','packageInfo','favorite')->orderBy('id','DESC')->get();
             $serviceCount = $services->count();
-            return view('frontend.ajax.category-service',compact('services','serviceCount','child_url_id','child_url','cat_name','sort_by'));
+            return view('frontend.ajax.category-service',compact('services','serviceCount'));
+          }
+          else{
+            $services = Services::with('sellerInfo','packageInfo','favorite')->get();
+            $serviceCount = $services->count();
+            return view('frontend.ajax.category-service',compact('services','serviceCount'));
           }
         }
-        if($seller_status != null){
-          if($seller_status == "on"){
-            $query = $query->whereHas('sellerInfo', function($q) {
-              $q->where('user_status','online');
-            });
-          }
+        // dd($language_id);
+        if($language_id != null){
+          $query = Services::query();
+          $query = $query->with('sellerInfo');
+          $query = $query->whereHas('sellerInfo', function($q) use($language_id) {
+            $q->where('language_id', 'like', "%".$language_id."%");
+          });
+          $services = $query->get();
+          $serviceCount = $services->count();
+          // $userData = User::where('language_id', 'like', "%".$language_id."%")->get();
+          // foreach ($userData as $key => $user) {
+          //   $services = Services::where('seller_id',$user->id)->with('sellerInfo','packageInfo','favorite')->get();
+          //   $serviceCount = $services->count();
+          // }
+          // dd($services);
+            return view('frontend.ajax.category-service',compact('services','serviceCount'));
         }
-        $services = $query->paginate(16);
-        $serviceCount = $services->count();
+        if($seller_level != null){
+          $query = Services::query();
+          $query = $query->with('sellerInfo');
+          $query = $query->whereHas('sellerInfo', function($q) use($seller_level) {
+            $q->whereIn('level',$seller_level);
+          });
+          $get_services = $query->get();
+          $services = $query->paginate(16);
+          $serviceCount = $services->count();
+          // dd($services);
+          // $userData = User::search($seller_level)->get();
+          // foreach ($userData as $key => $user) {
+          //   $services = Services::where('seller_id',$user->id)->with('sellerInfo','packageInfo','favorite')->get();
+          //   $serviceCount = $services->count();
+          //   // dd($services);
+          // }
+            return view('frontend.ajax.category-service',compact('services','serviceCount','child_url_id','child_url','cat_name'));
+        }
+        if($country != null){
+          // $userData = User::wherecountry($country)->get();
+          $userData = User::search($country)->get();
+          foreach ($userData as $key => $user) {
+            $services = Services::where('seller_id',$user->id)->with('sellerInfo','packageInfo','favorite')->get();
+            $serviceCount = $services->count();
+          }
+            return view('frontend.ajax.category-service',compact('services','serviceCount'));
+        }
+        if($reset != null){
+            $services = Services::with('sellerInfo','packageInfo')->get();
+            $serviceCount = $services->count();
 
-
-        return view('frontend.ajax.category-service',compact('services','serviceCount','child_url_id','child_url','cat_name','sort_by'));
+            return view('frontend.ajax.category-service',compact('services','serviceCount'));
+        }
     }
 
     public function service_detail(Request $request,$username, $slug){

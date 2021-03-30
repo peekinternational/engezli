@@ -131,6 +131,8 @@ class RegisterController extends Controller
         $user->remember_token = $request->input('_token');
         $user->password = Hash::make(trim($request->input('password')));
         $user->verification = '0';
+        $user->level_id = '1';
+        $user->level = 'New Seller';
         $user->user_status = 'online';
         $user->member_since = date("Y-m-d");
         // $slug = $this->createSlug($request->input('username'));
