@@ -3,6 +3,23 @@
 @section('styling')
 <!-- <script src="{{ asset('js/app.js') }}" defer></script> -->
 <link rel="stylesheet" href="{{asset('frontend-assets/css/timer.css')}}">
+<style>
+.myProgress {
+  width: 100%;
+  background-color: #ddd;
+  position: inherit !important;
+
+}
+
+.myBar {
+  width: 1%;
+  height: 10px;
+  background-color: #007bff;
+}
+#image {
+  position: inherit !important;
+}
+</style>
 @endsection
 @section('content')
 <div class="create-service order-request buyer-order order-seller">
@@ -306,11 +323,15 @@
                                 name="file"
                                 id="message_image"
                                 class="field-file"
-                                onchange="javascript:updateList()"/>
+                                onchange="move();"/>
                             </span>
                           </p>
                         </div>
-                        <div id="fileList"></div>
+                        <div id="myProgress" class="myProgress" style="display:none;">
+                          <div id="myBar" class="myBar"></div>
+                        </div>
+                        <div id="image"></div>
+                        <!-- <div id="fileList"></div> -->
 
                         <div class="d-block text-right mt-3">
                           <button type="submit" class="btn btn-primary">{{ __('home.Send')}}</button>
@@ -639,8 +660,7 @@
             <label
               for="work_file"
               aria-label="Attach file"
-              class="btn1 border py-1 px-2 rounded text-capitalize"
-            >
+              class="btn1 border py-1 px-2 rounded text-capitalize">
               <i class="fa fa-paperclip" aria-hidden="true"></i>
               <small>{{ __('home.upload work')}}</small>
             </label>
@@ -651,10 +671,14 @@
               id="work_file"
               multiple="multiple"
               class="field-file"
-            onchange="javascript:updateList2()" />
+            onchange="move2()" />
           </span>
-          <div id="fileList2"></div>
-          <p class="text-muted small mt-2">Max size 1GB</p>
+          <!-- <div id="fileList2"></div> -->
+          <div id="myProgress2" class="myProgress" style="display:none;">
+            <div id="myBar2" class="myBar"></div>
+          </div>
+          <div id="image2"></div>
+          <!-- <p class="text-muted small mt-2">Max size 1GB</p> -->
         </div>
         <div class="select-box mt-3">
           <select name="" id="" class="select2">
@@ -703,6 +727,7 @@ $(document).ready(function () {
 
   $('#message-form').on('submit', function(event){
     event.preventDefault();
+    $('#image').text("");
     // var image = $('#message_image')[0].files[0];
     var order_id = "{{$order->id}}"
     var formData = new FormData(this);
@@ -740,6 +765,7 @@ $(document).ready(function () {
 
   $('#delivery-form').on('submit', function(event){
     event.preventDefault();
+    $('#image2').text("");
     // var image = $('#message_image')[0].files[0];
     var order_id = "{{$order->id}}"
     var formData = new FormData(this);
@@ -959,6 +985,67 @@ updateList2 = function() {
         children += '<li>' + input.files.item(i).name + '</li>';
     }
     output.innerHTML = '<ul>'+children+'</ul>';
+}
+
+var i = 0;
+function move(key) {
+  $('#image').text("");
+  if (i == 0) {
+    i = 1;
+    $('#myProgress').show();
+    var elem = document.getElementById("myBar");
+    var input = document.getElementById('message_image');
+    var filename = input.files.item(0).name;
+    var output = document.getElementById('image');
+    var width = 1;
+    var id = setInterval(frame, 1);
+    function frame() {
+      if (width >= 100) {
+        $('#myProgress').hide();
+        clearInterval(id);
+        i = 0;
+        output.innerHTML = filename;
+      } else {
+        width++;
+        elem.style.width = width + "%";
+      }
+    }
+  }
+}
+
+var j = 0;
+function move2(key) {
+  $('#image2').text("");
+  if (j == 0) {
+    $('#myProgress2').show();
+    var elem = document.getElementById("myBar2");
+    var input = document.getElementById('work_file');
+    var output = document.getElementById('image2');
+    output.innerHTML = "";
+    var filename = "";
+    for (var k = 0; k < input.files.length; ++k) {
+        filename += '<li>' + input.files.item(k).name + '</li>';
+        j = 1;
+
+      }
+
+    // var filename = input.files.item(0).name;
+    var width = 1;
+    var id = setInterval(frame, 1);
+    function frame() {
+      if (width >= 100) {
+        $('#myProgress2').hide();
+        clearInterval(id);
+        j = 0;
+        output.innerHTML = '<ul>'+filename+'</ul>';
+      } else {
+        width++;
+        elem.style.width = width + "%";
+      }
+    }
+  }
+
+
 }
 
 </script>

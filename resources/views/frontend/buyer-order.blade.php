@@ -806,6 +806,7 @@ $(document).ready(function () {
 
   $('#message-form').on('submit', function(event){
     event.preventDefault();
+    $('#image').text("");
     // var image = $('#message_image')[0].files[0];
     var order_id = "{{$order->id}}"
     var formData = new FormData(this);

@@ -1128,6 +1128,13 @@ class OrderController extends Controller
       $conversation->receiver_id = $receiver_id;
 
       $order->order_status = 'delivered';
+      if(auth()->user()->country == 'Pakistan'){
+        $order->delivery_time = Carbon::now('Asia/Karachi');
+      }elseif (auth()->user()->country == 'Egypt') {
+        $order->delivery_time = Carbon::now('Africa/Cairo');
+      }else {
+        $order->delivery_time = Carbon::now();
+      }
       $order->update();
 
       Notifications::where('order_id',$conversation->order_id)->delete();
@@ -1182,6 +1189,7 @@ class OrderController extends Controller
 
       $order = Order::find($conversation->order_id);
       $order->order_status = 'started';
+      $order->delivery_time = null;
       $order->update();
 
       $getconversation = OrderConversations::with('userInfo','delivery')->where('id',$conversation_id)->first();

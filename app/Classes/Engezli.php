@@ -93,5 +93,9 @@ class Engezli {
 		// dd($delivery);
 		return $delivery;
 	}
+	public function getUserDetails($user_id){
+		$user = User::where('id',$user_id)->first();
+		return $user;
+	}
 }
 ?>

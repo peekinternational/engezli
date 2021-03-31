@@ -24,6 +24,7 @@ class Order extends Model
     	'order_active',
     	'complete_time',
     	'order_status',
+    	'delivery_time',
     ];
     public function serviceInfo()
     {
