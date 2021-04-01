@@ -466,7 +466,7 @@
                           <input type="hidden" name="seller_id" class="seller_id" value="{{$package->serviceInfo->seller_id}}">
                           <input type="hidden" name="order_fee" class="total_price" value="{{$total_price}}">
                           <input type="hidden" name="order_duration" class="order_duration" value="{{$package->delivery_time}}">
-                          <input type="hidden" name="service_fee" class="service_fee" value="5">
+                          <input type="hidden" name="service_fee" class="service_fee" value="{{Engezli::convertCurrency2('5')}}">
 
 
                         <button type="submit" id="#card-button" class="btn custom-btn btn-block"> {{ __('home.confirm & pay')}} </button>
@@ -722,7 +722,7 @@
           <input type="hidden" name="seller_id" class="seller_id" value="{{$package->serviceInfo->seller_id}}">
           <input type="hidden" name="order_fee" class="total_price" value="{{$total_price}}">
           <input type="hidden" name="order_duration" class="order_duration" value="{{$package->delivery_time}}">
-          <input type="hidden" name="service_fee" class="service_fee" value="5">
+          <input type="hidden" name="service_fee" class="service_fee" value="{{Engezli::convertCurrency2('5')}}">
           <input type="hidden" name="quantity" value="1" class="quantity-stripe" />
           <div class="form-group">
             <label for="card-element">
@@ -767,6 +767,8 @@ $('.minus-btn').click(function () {
   $('.quantity-stripe').val(count);
   var new_price = $input.val()*price;
   var quantity_price = $input.val()*price;
+  new_price = parseFloat(new_price.toFixed(2));
+  quantity_price = parseFloat(quantity_price.toFixed(2));
   var extra = '';
   if (currency == 'EGP') {
     $('.quantity-price').text('E£'+quantity_price);
@@ -804,6 +806,7 @@ $('.plus-btn').click(function () {
   $input.val(parseInt($input.val()) + 1);
   $('.quantity-stripe').val(parseInt($('.quantity-stripe').val()) + 1);
   var new_price = $input.val()*price;
+  new_price = parseFloat(new_price.toFixed(2));
   var extra = '';
   if (currency == 'EGP') {
     $('.quantity-price').text('E£'+new_price);
@@ -823,6 +826,7 @@ if (extra !='') {
 }
   console.log(new_price);
   var total_price = new_price+5;
+  total_price = parseFloat(total_price.toFixed(2));
   $('.package_price').val(new_price);
   $('.total_price').val(total_price);
   if (currency == 'EGP') {
@@ -848,6 +852,8 @@ $('.extra-input').on('change', function () {
     var subtotal = parseFloat(package_price)-parseFloat(extra);
     var total = subtotal+5;
   }
+  subtotal = parseFloat(subtotal.toFixed(2));
+  total = parseFloat(total.toFixed(2));
   $('.package_price').val(subtotal);
   $('.total_price').val(total);
   if (currency == 'EGP') {
