@@ -101,7 +101,7 @@
                               <i class="fa fa-plus"></i>
                             </button>
                           </span>
-                          <span class="price quantity-price"> ${{$package->price}} </span>
+                          <span class="price quantity-price">{{Engezli::convertCurrency($package->price)}} </span>
                         </div>
                       </div>
                     </div>
@@ -230,13 +230,13 @@
                       <div class="card-body">
                         <h5>{{ __('home.summary')}}</h5>
                         <?php
-                        $total_price = $package->price+5;
+                          $total_price = Engezli::convertCurrency2($package->price)+5;
                          ?>
 
                         <ul class="list-group">
                           <li>
                             <span>{{ __('home.subtotal')}}</span>
-                            <span class="package-price subtotal">${{$package->price}}</span>
+                            <span class="package-price subtotal">{{Engezli::convertCurrency($package->price)}}</span>
                           </li>
                           <li>
                             <span>{{ __('home.service fee')}}</span>
@@ -439,7 +439,7 @@
                         <ul class="list-group">
                           <li>
                             <span>{{ __('home.subtotal')}}</span>
-                            <span class="package-price subtotal">${{$package->price}}</span>
+                            <span class="package-price subtotal">{{Engezli::convertCurrency($package->price)}}</span>
                           </li>
                           <li>
                             <span>{{ __('home.service fee')}}</span>
@@ -459,7 +459,7 @@
                         </ul>
                         <form class="" action="" method="post" id="order-form">
                           {{csrf_field()}}
-                          <input type="hidden" name="package_price" class="package_price" value="{{$package->price}}">
+                          <input type="hidden" name="package_price" class="package_price" value="{{Engezli::convertCurrency2($package->price)}}">
                           <input type="hidden" name="package_id" class="package_price" value="{{$package->id}}">
                           <input type="hidden" name="service_id" class="service_id" value="{{$package->services_id}}">
                           <input type="hidden" name="seller_id" class="seller_id" value="{{$package->serviceInfo->seller_id}}">
@@ -757,7 +757,7 @@
 <script>
 $('.minus-btn').click(function () {
   var $input = $(this).parent().find('input');
-  var price = "{{$package->price}}";
+  var price = "{{Engezli::convertCurrency2($package->price)}}";
   var count = parseInt($input.val()) - 1;
   count = count < 1 ? 1 : count;
   $input.val(count);
@@ -788,7 +788,7 @@ if (extra !='') {
 });
 $('.plus-btn').click(function () {
   var $input = $(this).parent().find('input');
-  var price = "{{$package->price}}";
+  var price = "{{Engezli::convertCurrency2($package->price)}}";
   $input.val(parseInt($input.val()) + 1);
   $('.quantity-stripe').val(parseInt($('.quantity-stripe').val()) + 1);
   var new_price = $input.val()*price;

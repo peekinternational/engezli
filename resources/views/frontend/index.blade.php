@@ -230,7 +230,7 @@
 											Starting At
 											@foreach($service->packageInfo as $key => $packg)
 											@if($key == 0)
-												<span>${{$packg->price}} </span>
+												<span>{{Engezli::convertCurrency($packg->price)}} </span>
 											@endif
 											@endforeach
 										</a>

@@ -358,7 +358,7 @@
                 </li>
                 <li>
                   <span>amount</span>
-                  <span>${{$order->order_fee}}</span>
+                  <span>{{Engezli::convertCurrency($order->order_fee)}}</span>
                 </li>
               </ul>
             </div>

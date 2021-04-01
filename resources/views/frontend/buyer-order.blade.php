@@ -470,7 +470,7 @@
                         <p class="text-uppercase font-weight-bold mb-1">
                           {{ __('home.total price')}}
                         </p>
-                        <h4>${{$order->order_fee}}</h4>
+                        <h4>{{Engezli::convertCurrency($order->order_fee)}}</h4>
                       </div>
                     </div>
 
@@ -516,7 +516,8 @@
                           </tr>
                           <tr class="bg-white">
                             <?php
-                            $original_free = $order->order_fee-$order->service_fee;
+                            $original_free = Engezli::convertCurrency2($order->order_fee)-Engezli::convertCurrency2($order->service_fee);
+                            // dd($original_free);
                              ?>
                             <td>{{$order->serviceInfo->service_title}}</td>
                             <td>{{$order->order_qty}}</td>
@@ -533,7 +534,7 @@
                           </tr>
                           <tr>
                             <td colspan="3">{{ __('home.total')}}</td>
-                            <td>${{$order->order_fee}}</td>
+                            <td>{{Engezli::convertCurrency($order->order_fee)}}</td>
                           </tr>
                         </table>
                       </div>
@@ -701,7 +702,7 @@
                     <ul class="list-group">
                       <li>
                         <span>{{ __('home.total price')}}</span>
-                        <span>${{$order->order_fee}}</span>
+                        <span>{{Engezli::convertCurrency($order->order_fee)}}</span>
                       </li>
                       <li>
                         <span>{{ __('home.order number')}}</span>

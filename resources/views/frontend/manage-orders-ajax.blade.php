@@ -29,7 +29,7 @@
        ?>
       <td>{{$order_date}}</td>
       <td>{{$due_date}}</td>
-      <td>${{$order->order_fee}}</td>
+      <td>{{Engezli::convertCurrency($order->order_fee)}}</td>
       @if($order->order_status == 'completed')
       <td><span class="status complete">complete</span></td>
       @else

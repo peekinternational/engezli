@@ -286,7 +286,7 @@
                           </li>
                           <li>
                             <span><strong>{{ __('home.price')}}</strong></span>
-                            <span><strong class="order_price">${{$order->order_fee}}</strong></span>
+                            <span><strong class="order_price">{{Engezli::convertCurrency($order->order_fee)}}</strong></span>
                           </li>
                         </ul>
                       </div>

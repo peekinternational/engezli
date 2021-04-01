@@ -97,5 +97,92 @@ class Engezli {
 		$user = User::where('id',$user_id)->first();
 		return $user;
 	}
+
+	public function convertCurrency($amount){
+		$apikey = 'b0f04aa4d64da9f6b68c';
+		// session()->forget('currency');
+		$currency = session()->get('currency');
+		if ($currency != null) {
+			if ($currency == 'USD') {
+				$from_currency = 'EGP';
+				$to_currency = 'USD';
+			}elseif ($currency == 'EGP') {
+				$from_currency = 'USD';
+				$to_currency = 'EGP';
+			}
+		}else {
+			$currency = session()->put('currency','USD');
+			$from_currency = 'EGP';
+			$to_currency = 'USD';
+		}
+
+		if ($to_currency == "EGP") {
+			$from_Currency = urlencode($from_currency);
+			$to_Currency = urlencode($to_currency);
+			$query =  "{$from_Currency}_{$to_Currency}";
+			// change to the free URL if you're using the free version
+			// free version
+			$json = file_get_contents("https://free.currconv.com/api/v7/convert?q={$query}&compact=ultra&apiKey={$apikey}");
+			// paid version
+			// $json = file_get_contents("https://api.currconv.com/api/v7/convert?q={$query}&compact=ultra&apiKey={$apikey}");
+			$obj = json_decode($json, true);
+
+			$val = floatval($obj["$query"]);
+
+
+			$total = $val * $amount;
+			$total = number_format($total, 2, '.', '');
+			// return $amount = 'EGP '.$total;
+			return $amount = 'E£ '.$total;
+
+		}else {
+			return $amount = '$'.$amount;
+		}
+
+	}
+
+	public function convertCurrency2($amount){
+		$apikey = 'b0f04aa4d64da9f6b68c';
+		// session()->forget('currency');
+		$currency = session()->get('currency');
+		if ($currency != null) {
+			if ($currency == 'USD') {
+				$from_currency = 'EGP';
+				$to_currency = 'USD';
+			}elseif ($currency == 'EGP') {
+				$from_currency = 'USD';
+				$to_currency = 'EGP';
+			}
+		}else {
+			$currency = session()->put('currency','USD');
+			$from_currency = 'EGP';
+			$to_currency = 'USD';
+		}
+
+		if ($to_currency == "EGP") {
+			$from_Currency = urlencode($from_currency);
+			$to_Currency = urlencode($to_currency);
+			$query =  "{$from_Currency}_{$to_Currency}";
+			// change to the free URL if you're using the free version
+			// free version
+			$json = file_get_contents("https://free.currconv.com/api/v7/convert?q={$query}&compact=ultra&apiKey={$apikey}");
+			// paid version
+			// $json = file_get_contents("https://api.currconv.com/api/v7/convert?q={$query}&compact=ultra&apiKey={$apikey}");
+			$obj = json_decode($json, true);
+
+			$val = floatval($obj["$query"]);
+
+
+			$total = $val * $amount;
+			$total = number_format($total, 2, '.', '');
+			return $total;
+		}else {
+			return $amount;
+		}
+
+	}
+
+//uncomment to test
+//echo convertCurrency(10, 'USD', 'PHP');
 }
 ?>

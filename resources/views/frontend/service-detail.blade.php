@@ -235,7 +235,7 @@
                         <th>{{ __('home.Package')}}</th>
                         @foreach($serviceData->packageInfo as $key => $packg)
                         <td>
-                          <p class="price">${{$packg->price}}</p>
+                          <p class="price">{{Engezli::convertCurrency($packg->price)}}</p>
                           <b class="type">{{$packg->package_name}}</b>
                           <b class="title">{{$packg->no_of_pages}} Screens</b>
                         </td>
@@ -336,7 +336,7 @@
                         @foreach($serviceData->packageInfo as $key => $packg)
                         <td>
 
-                          <p class="price-label">${{$packg->price}}</p>
+                          <p class="price-label">{{Engezli::convertCurrency($packg->price)}}</p>
                           <form class="" action="{{url('order')}}" method="post">
                             {{csrf_field()}}
                             <input type="hidden" name="service_id" value="{{$serviceData->id}}">
@@ -658,8 +658,8 @@
                     {{csrf_field()}}
                   <div class="header">
                     <h3>
-                      <b class="title">{{$packg->no_of_pages}} {{ __('home.Screens')}}</b
-                      ><span class="price">${{$packg->price}}</span>
+                      <b class="title">{{$packg->no_of_pages}} {{ __('home.Screens')}}</b>
+                      <span class="price">{{Engezli::convertCurrency($packg->price)}}</span>
                     </h3>
 
                     <input type="hidden" name="service_id" value="{{$packg->services_id}}">
@@ -695,9 +695,9 @@
                     </ul>
                   </article>
                   @if(auth()->user())
-                  <button type="submit">{{ __('home.Continue')}} (${{$packg->price}})</button>
+                  <button type="submit">{{ __('home.Continue')}} ({{Engezli::convertCurrency($packg->price)}})</button>
                   @else
-                  <a href="{{url('login?next=order&&package_id='.$packg->id)}}">{{ __('home.Continue')}} (${{$packg->price}})</a>
+                  <a href="{{url('login?next=order&&package_id='.$packg->id)}}">{{ __('home.Continue')}} ({{Engezli::convertCurrency($packg->price)}})</a>
                   @endif
                 </form>
                 </div>

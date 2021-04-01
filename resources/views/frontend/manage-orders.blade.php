@@ -157,7 +157,7 @@
                      ?>
                     <td>{{$order_date}}</td>
                     <td>{{$due_date}}</td>
-                    <td>${{$order->order_fee}}</td>
+                    <td>{{Engezli::convertCurrency($order->order_fee)}}</td>
                     @if($order->order_status == 'completed')
                     <td><span class="status complete">completed</span></td>
                     @else
@@ -234,7 +234,7 @@
                      ?>
                     <td>{{$order_date}}</td>
                     <td>{{$due_date}}</td>
-                    <td>${{$order->order_fee}}</td>
+                    <td>{{Engezli::convertCurrency($order->order_fee)}}</td>
                     <td><span class="status incomplete">started</span></td>
                   </tr>
                   @endforeach
@@ -280,7 +280,7 @@
                      ?>
                     <td>{{$order_date}}</td>
                     <td>{{$due_date}}</td>
-                    <td>${{$order->order_fee}}</td>
+                    <td>{{Engezli::convertCurrency($order->order_fee)}}</td>
                     <td><span class="status incomplete">pending</span></td>
                   </tr>
                   @endforeach
@@ -326,7 +326,7 @@
                      ?>
                     <td>{{$order_date}}</td>
                     <td>{{$due_date}}</td>
-                    <td>${{$order->order_fee}}</td>
+                    <td>{{Engezli::convertCurrency($order->order_fee)}}</td>
                     <td><span class="status incomplete">started</span></td>
                   </tr>
                   @endforeach
@@ -372,7 +372,7 @@
                      ?>
                     <td>{{$order_date}}</td>
                     <td>{{$due_date}}</td>
-                    <td>${{$order->order_fee}}</td>
+                    <td>{{Engezli::convertCurrency($order->order_fee)}}</td>
                     <td><span class="status incomplete">Delivered</span></td>
                   </tr>
                   @endforeach
@@ -418,7 +418,7 @@
                      ?>
                     <td>{{$order_date}}</td>
                     <td>{{$due_date}}</td>
-                    <td>${{$order->order_fee}}</td>
+                    <td>{{Engezli::convertCurrency($order->order_fee)}}</td>
                     <td><span class="status complete">completed</span></td>
                   </tr>
                   @endforeach
@@ -464,7 +464,7 @@
                      ?>
                     <td>{{$order_date}}</td>
                     <td>{{$due_date}}</td>
-                    <td>${{$order->order_fee}}</td>
+                    <td>{{Engezli::convertCurrency($order->order_fee)}}</td>
                     @if($order->order_status == 'completed')
                     <td><span class="status complete">completed</span></td>
                     @else

@@ -25,6 +25,7 @@ use App\Http\Controllers\ChatController;
 Route::resource('/', HomeController::class);
 // Language Change
 Route::get('lang/change', [HomeController::class, 'change'])->name('changeLang');
+Route::get('currency/change', [HomeController::class, 'CurrencyChange'])->name('changeCurrency');
 
 Route::get('/about', function () {
     return view('frontend.about');

@@ -21,7 +21,7 @@
   </div>
   <div class="outer-box right-side">
     <div class="inner-box">
-      
+
       <form action="{{url('/register')}}" id="register-form" method="post" class="form">
         <h4>{{ __('home.Welcome back')}}</h4>
         @if ($errors->any())
@@ -231,7 +231,7 @@
                     </div>
                   </div>
                 </div>
-                
+
                 <button class="btn btn-success btn-block text-uppercase pb-2 pt-2" type="submit"> Agree & Join </button>
                 <div class="mb-2 mt-2">
                   <p class="text-center">By signing up you agree to our <a href="#">Terms and Conditions</a></p>
@@ -253,32 +253,39 @@
 <script src="{{asset('frontend-assets/js/intlTelInput.min.js')}}"></script>
 <!-- <script src="{{asset('frontend-assets/js/intlTelInput-jquery.min.js')}}"></script> -->
 <script>
-  var input = document.querySelector("#phone");
-  window.intlTelInput(input, {
-    // allowDropdown: false,
-    // autoHideDialCode: false,
-    // autoPlaceholder: "off",
-    // dropdownContainer: document.body,
-    // excludeCountries: ["us"],
-    // formatOnDisplay: false,
-    // geoIpLookup: function(callback) {
-    //   $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
-    //     var countryCode = (resp && resp.country) ? resp.country : "";
-    //     callback(countryCode);
-    //   });
-    // },
-    // hiddenInput: "full_number",
-    // initialCountry: "auto",
-    // localizedCountries: { 'de': 'Deutschland' },
-    // nationalMode: false,
-    // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
-    // placeholderNumberType: "MOBILE",
-    // preferredCountries: ['cn', 'jp'],
-    separateDialCode: true,
-    utilsScript: "js/utils.js",
-  });
+var phone_number = window.intlTelInput(document.querySelector("#phone"), {
+  separateDialCode: true,
+  hiddenInput: "full",
+  utilsScript: "frontend-assets/js/utils.js"
+});
+  // var input = document.querySelector("#phone");
+  // window.intlTelInput(input, {
+  //   // allowDropdown: false,
+  //   // autoHideDialCode: false,
+  //   // autoPlaceholder: "off",
+  //   // dropdownContainer: document.body,
+  //   // excludeCountries: ["us"],
+  //   // formatOnDisplay: false,
+  //   // geoIpLookup: function(callback) {
+  //   //   $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+  //   //     var countryCode = (resp && resp.country) ? resp.country : "";
+  //   //     callback(countryCode);
+  //   //   });
+  //   // },
+  //   // hiddenInput: "full_number",
+  //   // initialCountry: "auto",
+  //   // localizedCountries: { 'de': 'Deutschland' },
+  //   // nationalMode: false,
+  //   // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
+  //   // placeholderNumberType: "MOBILE",
+  //   // preferredCountries: ['cn', 'jp'],
+  //   separateDialCode: true,
+  //   utilsScript: "js/utils.js",
+  // });
 
   $('#submit-btn').click(function(){
+    var full_number = phone_number.getNumber(intlTelInputUtils.numberFormat.E164);
+    $("input[name='whatsappNumber'").val(full_number);
 
     if($('#first_name').val() == ""){
       $('#first_name').addClass('is-invalid');

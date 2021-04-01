@@ -122,4 +122,10 @@ class HomeController extends Controller
 
         return redirect()->back();
     }
+    // Currency Change
+    public function CurrencyChange(Request $request)
+    {
+        session()->put('currency', $request->currency);
+        return redirect()->back();
+    }
 }

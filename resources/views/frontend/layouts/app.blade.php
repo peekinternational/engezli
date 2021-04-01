@@ -116,6 +116,12 @@
               $('.message-dot').hide();
             });
 
+            $('#currency_type').on('change',function () {
+              var url2 = "{{ route('changeCurrency') }}";
+              var currency = $(this).val();
+              window.location.href = url2 + "?currency="+currency;
+            });
+
           // @if(auth()->user() != '')
           //   var user_id = "{{auth()->user()->id}}";
           //

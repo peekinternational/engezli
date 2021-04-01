@@ -69,6 +69,15 @@
 						<a class="dropdown-item arabic-format" data-info="ar" style="cursor:pointer;" >Arabic</a>
 					</div>
 				</li>
+				<?php
+					$currency = session()->get('currency');
+				 ?>
+				<li class="nav-item dropdown language ">
+					<select class="custom-select" id="currency_type" name="currency_type">
+						<option value="USD" {{$currency == 'USD' ? 'selected="selected"' : ''}}>USD</option>
+						<option value="EGP" {{$currency == 'EGP' ? 'selected="selected"' : ''}}>EGP</option>
+					</select>
+				</li>
 				@if(Auth::user() =='')
 				<li class="nav-item sign-in-btn">
 					<a class="nav-link" href="{{url('login')}}">{{ __('home.Sign in')}}</a>
