@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Countries;
 use App\Facade\Engezli;
 use Hash;
 use Session;
@@ -95,13 +96,13 @@ class RegisterController extends Controller
     }
 
     public function register(Request $request){
+
       if($request->isMethod('post')){
         $get_user = User::whereusername($request->input('username'))->first();
         if ($get_user !='') {
           $request->session()->flash('loginAlert',"Username Already Taken");
           return redirect('/login');
         }
-        // dd($request->all());
         $this->validate($request,[
           'first_name' => 'required|min:1|max:50',
           'last_name' => 'required|min:2|max:32',
@@ -127,7 +128,12 @@ class RegisterController extends Controller
         $user->first_name = $request->input('first_name');
         $user->last_name = $request->input('last_name');
         $user->email = $request->input('email');
-        $user->mobile_number = $request->input('mobile_number');
+        $full_number = str_replace('+','',$request->input('full'));
+        $country_code = str_replace($request->input('mobile_number'),'',$full_number);
+        $country = Countries::where('phonecode',$country_code)->orwhere('phonecode','+'.$country_code)->first()->name;
+        // dd($request->all(),$full_number,$country_code,$country);
+        $user->mobile_number = $full_number;
+        $user->country = $country;
         $user->remember_token = $request->input('_token');
         $user->password = Hash::make(trim($request->input('password')));
         $user->verification = '0';
@@ -141,6 +147,14 @@ class RegisterController extends Controller
         $user->id;
         $new_user = User::find($user->id);
         // dd($new_user);
+        $basic  = new \Nexmo\Client\Credentials\Basic('8f0251b2', 'ui0NVwlL1JGu3zqu');
+        $client = new \Nexmo\Client($basic);
+
+        $message = $client->message()->send([
+            'to' => $new_user->mobile_number,
+            'from' => 'Engezli',
+            'text' => 'Welcome to Engezli'
+        ]);
         $toemail =  $new_user->email;
         // dd($toemail);
         Mail::send('mail.user-registration-email',['user' =>$new_user],
@@ -306,4 +320,18 @@ class RegisterController extends Controller
       Auth::logout();
       return redirect('/login');
     }
+
+    public function sendSmsNotificaition()
+   {
+       $basic  = new \Nexmo\Client\Credentials\Basic('8f0251b2', 'ui0NVwlL1JGu3zqu');
+       $client = new \Nexmo\Client($basic);
+
+       $message = $client->message()->send([
+           'to' => '923369112332',
+           'from' => 'Engezli',
+           'text' => 'Welcome to Engezli'
+       ]);
+
+       dd('SMS message has been delivered.');
+   }
 }
