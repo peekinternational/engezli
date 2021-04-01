@@ -755,6 +755,8 @@
 @section('script')
 <!-- <script src="{{asset('js/cdn/bootstrap.min.js')}}"></script> -->
 <script>
+var currency = "{{Session::get('currency')}}";
+
 $('.minus-btn').click(function () {
   var $input = $(this).parent().find('input');
   var price = "{{Engezli::convertCurrency2($package->price)}}";
@@ -765,7 +767,11 @@ $('.minus-btn').click(function () {
   var new_price = $input.val()*price;
   var quantity_price = $input.val()*price;
   var extra = '';
-  $('.quantity-price').text('$'+quantity_price);
+  if (currency == 'EGP') {
+    $('.quantity-price').text('E£'+quantity_price);
+  }else {
+    $('.quantity-price').text('$'+quantity_price);
+  }
   $('input[name="extra"]:checked').each(function() {
     console.log(this.value);
     if (extra == '') {
@@ -781,8 +787,13 @@ if (extra !='') {
 
   $('.package_price').val(new_price);
   $('.total_price').val(total_price);
-  $('.package-price').text('$'+new_price);
-  $('.total-price').text('$'+total_price);
+  if (currency == 'EGP') {
+    $('.package-price').text('E£'+new_price);
+    $('.total-price').text('E£'+total_price);
+  }else {
+    $('.package-price').text('$'+new_price);
+    $('.total-price').text('$'+total_price);
+  }
   $input.change();
   return false;
 });
@@ -793,7 +804,11 @@ $('.plus-btn').click(function () {
   $('.quantity-stripe').val(parseInt($('.quantity-stripe').val()) + 1);
   var new_price = $input.val()*price;
   var extra = '';
-  $('.quantity-price').text('$'+new_price);
+  if (currency == 'EGP') {
+    $('.quantity-price').text('E£'+new_price);
+  }else {
+    $('.quantity-price').text('$'+new_price);
+  }
   $('input[name="extra"]:checked').each(function() {
     console.log(this.value);
     if (extra == '') {
@@ -807,10 +822,15 @@ if (extra !='') {
 }
   console.log(new_price);
   var total_price = new_price+5;
-  $('.package-price').text('$'+new_price);
   $('.package_price').val(new_price);
   $('.total_price').val(total_price);
-  $('.total-price').text('$'+total_price);
+  if (currency == 'EGP') {
+    $('.package-price').text('E£'+new_price);
+    $('.total-price').text('E£'+total_price);
+  }else {
+    $('.package-price').text('$'+new_price);
+    $('.total-price').text('$'+total_price);
+  }
   $input.change();
   return false;
 });
@@ -827,10 +847,15 @@ $('.extra-input').on('change', function () {
     var subtotal = parseFloat(package_price)-parseFloat(extra);
     var total = subtotal+5;
   }
-  $('.subtotal').text('$'+subtotal);
   $('.package_price').val(subtotal);
   $('.total_price').val(total);
-  $('.total-price').text('$'+total);
+  if (currency == 'EGP') {
+    $('.subtotal').text('E£'+subtotal);
+    $('.total-price').text('E£'+total);
+  }else {
+    $('.subtotal').text('$'+subtotal);
+    $('.total-price').text('$'+total);
+  }
 });
 
 $('#place_order').on('click',function () {
