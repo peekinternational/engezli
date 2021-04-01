@@ -453,6 +453,10 @@ class OrderController extends Controller
         $service_fee = $request->input('service_fee');
         // $sub_total = $order_fee;
         // dd($sub_total,$order_fee,$service_fee);
+        if ($request->session()->get('currency') == 'EGP') {
+          $order_fee = Engezli::convertCurrencyStripe($order_fee);
+          $service_fee = Engezli::convertCurrencyStripe($service_fee);
+        }
         $total = $order_fee * 100;
         $total = (int) $total;
         if ($user->stripe_id == null) {
