@@ -131,7 +131,7 @@ class Engezli {
 
 
 			$total = $val * $amount;
-			$total = number_format($total, 2, '.', '');
+			$total = number_format($total, 2, '.', ',');
 			// return $amount = 'EGP '.$total;
 			return $amount = 'E£ '.$total;
 
@@ -174,7 +174,7 @@ class Engezli {
 
 
 			$total = $val * $amount;
-			$total = number_format($total, 2, '.', '');
+			$total = number_format($total, 2, '.', ',');
 			return $total;
 		}else {
 			return $amount;

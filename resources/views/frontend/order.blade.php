@@ -230,6 +230,7 @@
                       <div class="card-body">
                         <h5>{{ __('home.summary')}}</h5>
                         <?php
+                          $currency = Session::get('currency');
                           $total_price = Engezli::convertCurrency2($package->price)+5;
                          ?>
 
@@ -250,7 +251,7 @@
                           </li>
                           <li>
                             <span><strong>{{ __('home.total')}}</strong></span>
-                            <span><strong class="total-price">${{$total_price}}</strong></span>
+                            <span><strong class="total-price">{{$currency == 'EGP' ? 'E£': '$'}}{{$total_price}}</strong></span>
                           </li>
                         </ul>
                         <a href="javascript:void(0);" class="btn custom-btn" id="place_order"> {{ __('home.place order')}} </a>
@@ -454,7 +455,7 @@
                           </li>
                           <li>
                             <span><strong>{{ __('home.total')}}</strong></span>
-                            <span><strong class="total-price">${{$total_price}}</strong></span>
+                            <span><strong class="total-price">{{$currency == 'EGP' ? 'E£': '$'}} {{$total_price}}</strong></span>
                           </li>
                         </ul>
                         <form class="" action="" method="post" id="order-form">
