@@ -162,7 +162,7 @@ class RegisterController extends Controller
         {
 
           $message->subject('Paidpro - Verify Account');
-          $message->from('peek.zeeshan@gmail.com', 'Engezli');
+          $message->from('support@engezli.com', 'Engezli');
           $message->to($toemail);
         });
 
@@ -279,7 +279,7 @@ class RegisterController extends Controller
           {
 
             $message->subject('paidpro.com - Forgot Password');
-            $message->from('peek.zeeshan@gmail.com', 'PaidPro');
+            $message->from('support@engezli.com', 'Engezli');
             $message->to($toemail);
           });
 

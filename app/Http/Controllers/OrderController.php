@@ -185,7 +185,7 @@ class OrderController extends Controller
           {
 
             $message->subject('Paidpro - New Order');
-            $message->from('peek.zeeshan@gmail.com', 'Engezli');
+            $message->from('support@engezli.com', 'Engezli');
             $message->to($toemail);
           });
 
@@ -196,7 +196,7 @@ class OrderController extends Controller
           {
 
             $message->subject('Paidpro - New Order');
-            $message->from('peek.zeeshan@gmail.com', 'Engezli');
+            $message->from('support@engezli.com', 'Engezli');
             $message->to($toemail);
           });
           // echo $order;
@@ -234,7 +234,7 @@ class OrderController extends Controller
           {
 
             $message->subject('Paidpro - New Order');
-            $message->from('peek.zeeshan@gmail.com', 'Engezli');
+            $message->from('support@engezli.com', 'Engezli');
             $message->to($toemail);
           });
 
@@ -245,7 +245,7 @@ class OrderController extends Controller
           {
 
             $message->subject('Paidpro - New Order');
-            $message->from('peek.zeeshan@gmail.com', 'Engezli');
+            $message->from('support@engezli.com', 'Engezli');
             $message->to($toemail);
           });
 
@@ -326,7 +326,7 @@ class OrderController extends Controller
         {
 
           $message->subject('Paidpro - New Order');
-          $message->from('peek.zeeshan@gmail.com', 'Engezli');
+          $message->from('support@engezli.com', 'Engezli');
           $message->to($toemail);
         });
 
@@ -337,7 +337,7 @@ class OrderController extends Controller
         {
 
           $message->subject('Paidpro - New Order');
-          $message->from('peek.zeeshan@gmail.com', 'Engezli');
+          $message->from('support@engezli.com', 'Engezli');
           $message->to($toemail);
         });
 
@@ -524,7 +524,7 @@ class OrderController extends Controller
           {
 
             $message->subject('Paidpro - New Order');
-            $message->from('peek.zeeshan@gmail.com', 'Engezli');
+            $message->from('support@engezli.com', 'Engezli');
             $message->to($toemail);
           });
 
@@ -534,7 +534,7 @@ class OrderController extends Controller
           {
 
             $message->subject('Paidpro - New Order');
-            $message->from('peek.zeeshan@gmail.com', 'Engezli');
+            $message->from('support@engezli.com', 'Engezli');
             $message->to($toemail);
           });
 

@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-// use Laravel\Scout\Searchable;
+use Laravel\Scout\Searchable;
 
 class Services extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
     protected $fillable = [
     	'seller_id',
@@ -69,8 +69,8 @@ class Services extends Model
             ]
         ];
     }
-    // public function searchableAs()
-    // {
-    //     return 'services_index';
-    // }
+    public function searchableAs()
+    {
+        return 'services_index';
+    }
 }

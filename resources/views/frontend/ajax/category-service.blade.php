@@ -12,7 +12,6 @@
           </h2>
       </div>
       <div class="sort">
-        <?php //dd($sort_by); ?>
         <p>Sort by</p>
         <select name="sort_by" id="sort_by" class="select2">
           <option value="best selling" {{$sort_by == 'best selling' ? 'selected="selected"' : ''}}>best selling</option>

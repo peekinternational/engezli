@@ -1048,6 +1048,8 @@ function stripeTokenHandler(token) {
     // Submit the form
     form.submit();
 }
+setTimeout(function(){ $('.main-loader').fadeOut(); }, 1000);
+
 </script>
 
 @endsection

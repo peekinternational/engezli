@@ -35,7 +35,7 @@
   </head>
   <body>
     <div class="main-loader">
-      <img src="{{asset('images/loader.gif')}}">
+      <img src="{{asset('frontend-assets/images/loader.gif')}}">
     </div>
     @if(Request::path() != 'login' && Request::path() != 'register' && Request::path() != 'forgot-password')
     <div id="app">
@@ -91,6 +91,7 @@
             // Change to arabic style
             $(".arabic-format").on("click", function (e) {
                 e.preventDefault();
+                $('.main-loader').show();
                 $("body").addClass("arabic").attr("dir", "rtl");
                 window.location.href = url + "?lang="+ $(this).data('info');
 
@@ -98,6 +99,7 @@
             // Change to noramal style
             $(".english-format").on("click", function (e) {
                 e.preventDefault();
+                $('.main-loader').show();
                 $("body").removeClass("arabic").removeAttr("dir", "rtl");
                 // console.log( $(this).data('info') );
                 window.location.href = url + "?lang="+ $(this).data('info');
@@ -168,6 +170,17 @@
           });
         }
         @endif
+
+
+        // $(window).load(function(){
+        //   // PAGE IS FULLY LOADED
+        //   // FADE OUT YOUR OVERLAYING DIV
+        //   $('.main-loader').fadeOut();
+        // });
+    </script>
+    <script type="text/javascript">
+    setTimeout(function(){ $('.main-loader').fadeOut(); }, 1000);
+
     </script>
 
     @yield('script')

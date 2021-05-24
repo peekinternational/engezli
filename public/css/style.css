@@ -7215,18 +7215,18 @@ nav.breadcrumb-container .breadcrumb a {
 }
 .main-loader{
   width: 99vw;
-  background: black;
-  opacity: 0.8;
+  background: #f1f2f3;
+  opacity: 1;
   height: 100%;
   position: absolute;
   z-index: 12;
   text-align: center;
-  display: none;
+  display: block;
   align-items: center;
 }
 .main-loader img{
   height: 200px;
-  margin: 0 auto;
+  margin: 10% auto;
 }
 .category-list {
   height: 230px;

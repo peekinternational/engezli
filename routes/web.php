@@ -146,7 +146,7 @@ Route::post('/deliver-work', [OrderController::class, 'DeliverWork']);
 
 });
 Route::get('/services/{url}', [ServiceController::class, 'index']);
-Route::get('/get_services', [ServiceController::class, 'get_services']);
+Route::match(['get','post'],'/get_services', [ServiceController::class, 'get_services']);
 Route::get('/{username}/{url}', [ServiceController::class, 'service_detail'])->name('service-details');
 Route::get('/search', [ServiceController::class, 'search_service']);
 Route::get('/services/{url}/{child_url}', [ServiceController::class, 'index']);

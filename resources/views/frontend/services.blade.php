@@ -464,7 +464,6 @@ var cat_name = "{{$cat_name}}";
       }else{
          local_seller = "off";
       }
-      // alert(local_seller);
       $.ajax({
         url: "{{url('get_services')}}",
         type: 'get',
@@ -482,23 +481,23 @@ var cat_name = "{{$cat_name}}";
 
     })
 
-    $('#budget').change(function(e){
-      e.preventDefault();
-
-      var budget = $('#budget').val();
-      $.ajax({
-        url: "{{url('get_services')}}",
-        type: 'get',
-        data:{budget:budget},
-        cache : false,
-        success:function(data){
-          // console.log(data);
-          $("#services").hide();
-          $("#filter-services").html(data);
-        }
-      });
-
-    })
+    // $('#budget').change(function(e){
+    //   e.preventDefault();
+    //
+    //   var budget = $('#budget').val();
+    //   $.ajax({
+    //     url: "{{url('get_services')}}",
+    //     type: 'get',
+    //     data:{budget:budget},
+    //     cache : false,
+    //     success:function(data){
+    //       // console.log(data);
+    //       $("#services").hide();
+    //       $("#filter-services").html(data);
+    //     }
+    //   });
+    //
+    // })
 
     $('input[type=radio][name=delivery_time]').change(function(e){
       e.preventDefault();
@@ -522,7 +521,8 @@ var cat_name = "{{$cat_name}}";
     $(document).change('#sort_by',function(e){
       e.preventDefault();
       sort_by = $('#sort_by').val();
-      if (sort_by != undefined) {
+      console.log(sort_by);
+      if (sort_by != undefined || sort_by !='') {
           $.ajax({
             url: "{{url('get_services')}}",
             type: 'get',
@@ -540,55 +540,55 @@ var cat_name = "{{$cat_name}}";
 
     })
 var language_id = [];
-    $('.language-checkbox').change(function(){
-      var language_id = $(this).val();
+    // $('.language-checkbox').change(function(){
+    //   var language_id = $(this).val();
+    //
+    //   $.ajax({
+    //     url: "{{url('get_services')}}",
+    //     type: 'get',
+    //     data: {'language_id':language_id},
+    //     cache: false,
+    //     success:function(data){
+    //       // console.log(data);
+    //       $("#services").hide();
+    //       $("#filter-services").html(data);
+    //     }
+    //   });
+    // })
 
-      $.ajax({
-        url: "{{url('get_services')}}",
-        type: 'get',
-        data: {'language_id':language_id},
-        cache: false,
-        success:function(data){
-          // console.log(data);
-          $("#services").hide();
-          $("#filter-services").html(data);
-        }
-      });
-    })
+    // $('#level_filter :checkbox').change(function(){
+    //
+    //   var level_id = $(this).val();
+    //
+    //   $.ajax({
+    //     url: "{{url('get_services')}}",
+    //     type: 'get',
+    //     data: {'level_id':level_id},
+    //     cache: false,
+    //     success:function(data){
+    //       // console.log(data);
+    //       $("#services").hide();
+    //       $("#filter-services").html(data);
+    //     }
+    //   });
+    // })
 
-    $('#level_filter :checkbox').change(function(){
-
-      var level_id = $(this).val();
-
-      $.ajax({
-        url: "{{url('get_services')}}",
-        type: 'get',
-        data: {'level_id':level_id},
-        cache: false,
-        success:function(data){
-          // console.log(data);
-          $("#services").hide();
-          $("#filter-services").html(data);
-        }
-      });
-    })
-
-    $('#country_filter :checkbox').change(function(){
-
-      var country = $(this).val();
-
-      $.ajax({
-        url: "{{url('get_services')}}",
-        type: 'get',
-        data: {'country':country},
-        cache: false,
-        success:function(data){
-          // console.log(data);
-          $("#services").hide();
-          $("#filter-services").html(data);
-        }
-      });
-    })
+    // $('#country_filter :checkbox').change(function(){
+    //
+    //   var country = $(this).val();
+    //
+    //   $.ajax({
+    //     url: "{{url('get_services')}}",
+    //     type: 'get',
+    //     data: {'country':country},
+    //     cache: false,
+    //     success:function(data){
+    //       // console.log(data);
+    //       $("#services").hide();
+    //       $("#filter-services").html(data);
+    //     }
+    //   });
+    // })
 
     $('#price_btn').on('click',function(){
 
@@ -643,7 +643,6 @@ $('.seller-level').on('change',function () {
     seller_level.push(level);
     var temp = '<a href="javascript:void(0);" onClick="removeTag('+id+');" id="level-'+id+'">'+level+' <span><i class="fa fa-times"></i></span></a>';
     $('.tags').append(temp);
-
     $.ajax({
       url: "{{url('get_services')}}",
       type: 'get',

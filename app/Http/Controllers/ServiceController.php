@@ -48,23 +48,28 @@ class ServiceController extends Controller
         $sellerLevels = SellerLevel::get();
         $sellerCountries = User::select('country')->where('country','!=', '')->distinct()->get();
         $all_categories = Categories::where('parent_id','0')->get();
-        // dd($all_categories);
         return \View::make('frontend.services')->with(compact('services','serviceCount','cat_name','languages','sellerLevels','sellerCountries','all_categories'));
     }
 
     public function search_service(Request $request){
+      $cat_url = '';
+      $child_url = '';
         if($request->has('service_title')){
-            $services = Services::where('service_title','like','%'.$request->service_title.'%')->paginate(15);
+            // $services = Services::where('service_title','like','%'.$request->service_title.'%')->paginate(15);
+            $services = Services::search($request->service_title)->paginate(15);
+            // dd($services);
             $serviceCount = $services->count();
+            $service_title = $request->get('service_title');
         }else{
             $services = Services::paginate(15);
             $serviceCount = $services->count();
+            $service_title = '';
         }
         $categories = Categories::where('parent_id', '==', 0)->get();
         $languages = Language::get();
         $sellerLevels = SellerLevel::get();
         $sellerCountries = User::select('country')->where('country','!=', '')->distinct()->get();
-        return view('frontend.search',compact('services','serviceCount','categories','languages','sellerLevels','sellerCountries'));
+        return view('frontend.search',compact('services','serviceCount','categories','languages','sellerLevels','sellerCountries','service_title'));
     }
 
     // Get Category Search Service
@@ -86,9 +91,15 @@ class ServiceController extends Controller
         $child_url_id = $request->input('child_url_id');
         $child_url = $request->input('child_url');
         $cat_name = $request->input('cat_name');
+        $service_title = $request->input('service_title');
 
         $query = Services::query();
         $query = $query->with('sellerInfo','packageInfo','favorite');
+        if ($service_title != null) {
+          $query = $query->whereHas('sellerInfo', function($q) use($service_title) {
+            $q->where('service_title','like','%'.$service_title.'%');
+          });
+        }
         if($seller_level != null){
           $query = $query->whereHas('sellerInfo', function($q) use($seller_level) {
             $q->whereIn('level',$seller_level);
