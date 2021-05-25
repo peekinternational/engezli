@@ -927,12 +927,16 @@ class OrderController extends Controller
       }
       $order = Order::find($order_id);
       $order->order_status = 'started';
-      if($user->country == 'Pakistan'){
-        $order->start_time = Carbon::now('Asia/Karachi');
-      }elseif ($user->country == 'Egypt') {
-        $order->start_time = Carbon::now('Africa/Cairo');
+      $ip = $request->ip();
+      // $ip = '115.186.190.23';
+      $ipInfo = file_get_contents('http://ip-api.com/json/' . $ip);
+      $ipInfo = json_decode($ipInfo);
+      if ($ipInfo->status == 'success') {
+        $timezone = $ipInfo->timezone;
+        date_default_timezone_set($timezone);
+        $order->start_time = Carbon::now($timezone);
       }else {
-        $order->start_time = Carbon::now();
+        $order->start_time = Carbon::now('Asia/Karachi');
       }
       $order->update();
       return '1';

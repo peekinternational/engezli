@@ -892,7 +892,6 @@ function CountdownTracker(label, value){
 
 function getTimeRemaining(endtime) {
   var t = Date.parse(endtime) - Date.parse(new Date());
-  // console.log(endtime, new Date(),t,'/new_time');
   return {
     'Total': t,
     'Days': Math.floor(t / (1000 * 60 * 60 * 24)),

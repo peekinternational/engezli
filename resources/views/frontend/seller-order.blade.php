@@ -114,7 +114,7 @@
                     $delivery_date2 = '';
                     if ($order->start_time != null) {
                       $delivery_date = date('M d, h:i A',strtotime('+ '.$duratoin,strtotime($order->start_time)));
-                      $delivery_date2 = date('Y M d, h:i:s',strtotime('+ '.$duratoin,strtotime($order->start_time)));
+                      $delivery_date2 = date('Y-m-d H:i:s',strtotime('+ '.$duratoin,strtotime($order->start_time)));
                       $requirements_date = date('M d, h:i A',strtotime($order->start_time));
                     }
                     $only_date = date('M d',strtotime($order->order_time));
@@ -894,7 +894,11 @@ function CountdownTracker(label, value){
 // Calculation adapted from https://www.sitepoint.com/build-javascript-countdown-timer-no-dependencies/
 
 function getTimeRemaining(endtime) {
+  var d = new Date();
+  // d.getTime(), 'Asia/Karachi'
   var t = Date.parse(endtime) - Date.parse(new Date());
+  // var t = Date.parse(endtime) - Date.parse(new Date().toLocaleString("en-US", {timeZone: "America/New_York"}));
+  // console.log(endtime, new Date(),t,'/new_time');
   return {
     'Total': t,
     'Days': Math.floor(t / (1000 * 60 * 60 * 24)),
@@ -961,7 +965,8 @@ function Clock(countdown,callback) {
 
 var deadline = new Date("<?= $delivery_date2; ?>");
 var deadline2 = new Date(Date.parse(new Date()) + 12 * 24 * 60 * 60 * 1000);
-var c = new Clock(deadline, function(){ /*alert('countdown complete') */ });
+console.log("deadline",deadline,deadline2);
+var c = new Clock(deadline, function(){ /* alert('countdown complete') */ });
 document.getElementById('timer').appendChild(c.el);
 }
 // var clock = new Clock();
