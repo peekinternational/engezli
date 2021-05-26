@@ -894,11 +894,9 @@ function CountdownTracker(label, value){
 // Calculation adapted from https://www.sitepoint.com/build-javascript-countdown-timer-no-dependencies/
 
 function getTimeRemaining(endtime) {
-  var d = new Date();
-  // d.getTime(), 'Asia/Karachi'
-  var t = Date.parse(endtime) - Date.parse(new Date());
-  // var t = Date.parse(endtime) - Date.parse(new Date().toLocaleString("en-US", {timeZone: "America/New_York"}));
-  // console.log(endtime, new Date(),t,'/new_time');
+  var timezone = "{{$order->time_zone}}";
+  // var t = Date.parse(endtime) - Date.parse(new Date());
+  var t = Date.parse(endtime) - Date.parse(new Date().toLocaleString("en-US", {timeZone: timezone}));
   return {
     'Total': t,
     'Days': Math.floor(t / (1000 * 60 * 60 * 24)),
@@ -963,7 +961,7 @@ function Clock(countdown,callback) {
   setTimeout(updateClock,500);
 }
 
-var deadline = new Date("<?= $delivery_date2; ?>");
+var deadline = new Date("<?= $order->end_time; ?>");
 var deadline2 = new Date(Date.parse(new Date()) + 12 * 24 * 60 * 60 * 1000);
 console.log("deadline",deadline,deadline2);
 var c = new Clock(deadline, function(){ /* alert('countdown complete') */ });

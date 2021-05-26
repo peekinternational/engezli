@@ -920,7 +920,7 @@ class OrderController extends Controller
               $attchData['image'] = $imagename;
               $attchData['order_id'] = $order_id;
               $attchData['requirement_id'] = $req_id;
-              $save_requirement = OrderRequirement::create($attchData);
+              // $save_requirement = OrderRequirement::create($attchData);
             }
           }
         }
@@ -935,8 +935,15 @@ class OrderController extends Controller
         $timezone = $ipInfo->timezone;
         date_default_timezone_set($timezone);
         $order->start_time = Carbon::now($timezone);
+        $order->time_zone = $timezone;
       }else {
         $order->start_time = Carbon::now('Asia/Karachi');
+        date_default_timezone_set('Asia/Karachi');
+        $order->time_zone = 'Asia/Karachi';
+        $date = date('Y-m-d H:i:s');
+        $end_time = date('Y-m-d H:i:s',strtotime('+ '.$order->order_duration,strtotime($order->start_time)));
+        $order->end_time = $end_time;
+        // dd($date,$end_date);
       }
       $order->update();
       return '1';

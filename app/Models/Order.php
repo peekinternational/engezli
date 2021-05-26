@@ -17,6 +17,8 @@ class Order extends Model
     	'order_date',
     	'order_time',
     	'start_time',
+    	'end_time',
+    	'time_zone',
     	'order_duration',
     	'order_qty',
     	'order_fee',
