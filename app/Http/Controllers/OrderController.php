@@ -936,6 +936,9 @@ class OrderController extends Controller
         date_default_timezone_set($timezone);
         $order->start_time = Carbon::now($timezone);
         $order->time_zone = $timezone;
+        $date = date('Y-m-d H:i:s');
+        $end_time = date('Y-m-d H:i:s',strtotime('+ '.$order->order_duration,strtotime($order->start_time)));
+        $order->end_time = $end_time;
       }else {
         $order->start_time = Carbon::now('Asia/Karachi');
         date_default_timezone_set('Asia/Karachi');
