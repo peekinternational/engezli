@@ -65,8 +65,8 @@
 					</a>
 
 					<div class="dropdown-menu" aria-labelled="navbarDropdown">
-						<a class="dropdown-item  english-format"  data-info="en" style="cursor:pointer;" >English</a>
-						<a class="dropdown-item arabic-format" data-info="ar" style="cursor:pointer;" >Arabic</a>
+						<a href="{{ url('locale/en') }}" class="dropdown-item"  data-info="en" style="cursor:pointer;" >English</a>
+						<a href="{{ url('locale/ar') }}" class="dropdown-item" data-info="ar" style="cursor:pointer;" >Arabic</a>
 					</div>
 				</li>
 				<?php

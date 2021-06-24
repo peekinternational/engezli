@@ -21,7 +21,12 @@ use App\Http\Controllers\ChatController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+$language ='ar';
+Route::get('/locale/{locale}', function ($locale) {
+    \Session::put('locale', $locale);
+    return redirect()->back();
+});
+// Route::group(['prefix' => {locale}], function () {
 Route::resource('/', HomeController::class);
 // Language Change
 Route::get('lang/change', [HomeController::class, 'change'])->name('changeLang');
@@ -152,3 +157,4 @@ Route::get('/search', [ServiceController::class, 'search_service']);
 Route::get('/services/{url}/{child_url}', [ServiceController::class, 'index']);
 Route::post('/favorite_service/', [ServiceController::class, 'favoriteService']);
 Route::get('send-sms-notification', [RegisterController::class, 'sendSmsNotificaition']);
+// });

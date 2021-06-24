@@ -29,9 +29,9 @@
      @yield('styling')
   </head>
   <body>
-    <div class="main-loader">
+    <!-- <div class="main-loader">
       <img src="{{asset('frontend-assets/images/loader.gif')}}">
-    </div>
+    </div> -->
     @if(Request::path() != 'login' && Request::path() != 'register' && Request::path() != 'forgot-password')
     @include('frontend.includes.navbar')
     @endif
@@ -65,24 +65,20 @@
             // Change to arabic style
             $(".arabic-format").on("click", function (e) {
                 e.preventDefault();
-                $('.main-loader').show();
+                // $('.main-loader').show();
                 $("body").addClass("arabic").attr("dir", "rtl");
                 alert(this.data('value'));
             });
             // Change to noramal style
             $(".english-format").on("click", function (e) {
                 e.preventDefault();
-                $('.main-loader').show();
+                // $('.main-loader').show();
                 $("body").removeClass("arabic").removeAttr("dir", "rtl");
             });
         });
 
-        setTimeout(function(){ $('.main-loader').fadeOut(); }, 1000);
-        // $(window).load(function(){
-        //   // PAGE IS FULLY LOADED
-        //   // FADE OUT YOUR OVERLAYING DIV
-        //   $('.main-loader').fadeOut();
-        // });
+        // setTimeout(function(){ $('.main-loader').fadeOut(); }, 1000);
+
     </script>
     @yield('script')
   </body>

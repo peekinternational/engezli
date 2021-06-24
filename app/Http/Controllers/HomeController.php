@@ -23,6 +23,11 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $lang = session()->get('locale');
+        if ($lang == null) {
+          $lang = 'ar';
+        }
+        
         $categories = Categories::where('parent_id', '==', 0)->get();
 
         $services = Services::with('sellerInfo','packageInfo','serviceRating','favorite')->get();

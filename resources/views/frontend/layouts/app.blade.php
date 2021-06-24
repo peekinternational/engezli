@@ -33,10 +33,12 @@
     <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
      @yield('styling')
   </head>
-  <body>
-    <div class="main-loader">
+  <?php $lang = session()->get('locale');
+    ?>
+  <body @if($lang == 'ar' || $lang == null) class="arabic" dir="rtl" @endif>
+    <!-- <div class="main-loader">
       <img src="{{asset('frontend-assets/images/loader.gif')}}">
-    </div>
+    </div> -->
     @if(Request::path() != 'login' && Request::path() != 'register' && Request::path() != 'forgot-password')
     <div id="app">
     @include('frontend.includes.header')
@@ -83,32 +85,33 @@
 
     // Query.noConflict();
     // $(".select2").select2();
-        var url = "{{ route('changeLang') }}";
-        $(document).ready(function () {
-            var url = "{{ route('changeLang') }}";
-            var session ="{{session()->get('locale') == 'ar'}}";
-            console.log(session);
-            // Change to arabic style
-            $(".arabic-format").on("click", function (e) {
-                e.preventDefault();
-                $('.main-loader').show();
-                $("body").addClass("arabic").attr("dir", "rtl");
-                window.location.href = url + "?lang="+ $(this).data('info');
-
-            });
-            // Change to noramal style
-            $(".english-format").on("click", function (e) {
-                e.preventDefault();
-                $('.main-loader').show();
-                $("body").removeClass("arabic").removeAttr("dir", "rtl");
-                // console.log( $(this).data('info') );
-                window.location.href = url + "?lang="+ $(this).data('info');
-            });
-            if(session == 1){
-                $("body").addClass("arabic").attr("dir", "rtl");
-            }else{
-                $("body").removeClass("arabic").removeAttr("dir", "rtl");
-            }
+        // var url = "{{ route('changeLang') }}";
+        // $(document).ready(function () {
+        //     var url = "{{ route('changeLang') }}";
+        //     // var session ="{{session()->get('locale') == 'ar'}}";
+        //     var session ="{{session()->get('locale')}}";
+        //     console.log(session);
+        //     // Change to arabic style
+        //     $(".arabic-format").on("click", function (e) {
+        //         e.preventDefault();
+        //         // $('.main-loader').show();
+        //         $("body").addClass("arabic").attr("dir", "rtl");
+        //         window.location.href = url + "?lang="+ $(this).data('info');
+        //
+        //     });
+        //     // Change to noramal style
+        //     $(".english-format").on("click", function (e) {
+        //         e.preventDefault();
+        //         // $('.main-loader').show();
+        //         $("body").removeClass("arabic").removeAttr("dir", "rtl");
+        //         // console.log( $(this).data('info') );
+        //         window.location.href = url + "?lang="+ $(this).data('info');
+        //     });
+        //     if(session == 'en'){
+        //       $("body").removeClass("arabic").removeAttr("dir", "rtl");
+        //     }else{
+        //       $("body").addClass("arabic").attr("dir", "rtl");
+        //     }
 
             $('.notification-anchor').on('click',function () {
               $('.notification-dot').hide();
@@ -172,14 +175,10 @@
         @endif
 
 
-        // $(window).load(function(){
-        //   // PAGE IS FULLY LOADED
-        //   // FADE OUT YOUR OVERLAYING DIV
-        //   $('.main-loader').fadeOut();
-        // });
+
     </script>
     <script type="text/javascript">
-    setTimeout(function(){ $('.main-loader').fadeOut(); }, 1000);
+    // setTimeout(function(){ $('.main-loader').fadeOut(); }, 1000);
 
     </script>
 
